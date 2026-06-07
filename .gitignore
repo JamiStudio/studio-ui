@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+build/
+.next/
+out/
+coverage/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# local tooling
+.turbo/
+.vercel/
+.wrangler/
+.DS_Store
+Thumbs.db
+
+# generated registry output
+public/r/
+registry/.generated/
