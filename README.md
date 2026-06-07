@@ -9,7 +9,9 @@ Current foundation:
 - Active roadmap: `docs/roadmaps/2026-06-07-studio-ui-registry-production-shape-plan.md`
 - Operating rules: `AGENTS.md`
 - Product shape: `docs/architecture/registry-product-shape.md`
+- Repository map: `docs/architecture/repository-map.md`
 - Account/env lanes: `docs/operations/account-and-env-lanes.md`
+- Readiness checklist: `docs/operations/readiness-checklist.md`
 - Changelog rules: `docs/operations/changelog.md`
 
 Run docs verification:

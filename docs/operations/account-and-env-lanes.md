@@ -28,10 +28,7 @@ Checked on 2026-06-07:
   `repo`, `workflow`, `read:org`, and `gist`.
 - GitHub remote: `https://github.com/JamiStudio/studio-ui-registry.git` exists and is
   public.
-- GitHub push status: `git push -u origin main` returned 403 on 2026-06-07:
-  `Permission to JamiStudio/studio-ui-registry.git denied to jamesnavinhill.` The local
-  repo is committed and ready to push once the active GitHub account has write access to
-  the `JamiStudio` repository or the remote is intentionally changed.
+- GitHub push status: `main` is pushed and tracking `origin/main`.
 - Vercel CLI: authenticated as `studio-jami`.
 - Node: `v24.16.0`.
 - pnpm: `10.33.2`.
@@ -40,8 +37,8 @@ Checked on 2026-06-07:
   automation token before package publishing.
 - Wrangler: installed globally at `C:\nvm4w\nodejs\wrangler.cmd`; `wrangler --version`
   reports `4.98.0`.
-- Wrangler auth: `wrangler whoami` reports not logged in. Run `wrangler login` when
-  Cloudflare access is needed.
+- Wrangler auth: logged in with an OAuth token for `james@jami.studio`.
+- Cloudflare account: `jami-studio`.
 
 ## Env Source References
 
@@ -86,7 +83,8 @@ host before publishing:
 
 ## Cloudflare Setup
 
-Cloudflare is not required for the initial local/static registry foundation. If needed:
+Cloudflare is not required for the initial local/static registry foundation. Current login
+can be checked with:
 
 ```powershell
 wrangler whoami
