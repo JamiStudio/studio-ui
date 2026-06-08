@@ -11,7 +11,7 @@ setup before specific workstreams begin. It is an operations map, not a product 
 ## Ready Now
 
 - Git repository initialized on `main`.
-- Remote configured: `https://github.com/JamiStudio/studio-ui-registry.git`.
+- Remote configured: `https://github.com/JamiStudio/ui-registry.git`.
 - `main` pushed and tracking `origin/main`.
 - GitHub CLI authenticated as `jamesnavinhill`.
 - Vercel CLI authenticated as `studio-jami`.

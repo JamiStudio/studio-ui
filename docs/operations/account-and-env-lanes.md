@@ -26,7 +26,7 @@ Checked on 2026-06-07:
 
 - GitHub CLI: authenticated to `github.com` as `jamesnavinhill`; token scopes include
   `repo`, `workflow`, `read:org`, and `gist`.
-- GitHub remote: `https://github.com/JamiStudio/studio-ui-registry.git` exists and is
+- GitHub remote: `https://github.com/JamiStudio/ui-registry.git` exists and is
   public.
 - GitHub push status: `main` is pushed and tracking `origin/main`.
 - Vercel CLI: authenticated as `studio-jami`.
