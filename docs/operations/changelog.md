@@ -47,3 +47,5 @@ explicitly consumes them.
 - Do not include secrets, account tokens, signed URLs, or private provider data.
 - Keep fragments short and factual.
 - Link to durable docs when a rule was promoted.
+- Include verification evidence when a fragment describes behavior, automation, release,
+  publishing, or registry output changes.

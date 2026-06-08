@@ -23,6 +23,7 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - `pnpm docs:check` exists and passes.
 - `.env.example` exists; `.env` and local secret variants are ignored.
 - Changelog fragment system exists under `.changes/`.
+- Local-first development workflow exists under `docs/operations/development-workflow.md`.
 - Active roadmap exists under `docs/roadmaps/`.
 - Durable product shape exists under `docs/architecture/`.
 - Account/env lane doc exists under `docs/operations/`.
@@ -71,8 +72,9 @@ npm whoami
 ## Automation Readiness
 
 - Local first: `pnpm verify` currently maps to `pnpm docs:check`.
-- GitHub Actions docs check should run the same foundation check on pull requests and pushes.
-- Do not rely on CI as the only gate. Agents should run local checks before pushing.
+- GitHub Actions docs check is manual fallback through `workflow_dispatch`.
+- Do not rely on CI as the only gate. Agents must run local checks before pushing.
+- Automatic push and pull-request checks can be enabled later when development slows or minutes are no longer constrained.
 - Linear/Notion/project-management sync is not configured in this repo yet.
 
 ## Current External Setup Gaps

@@ -12,6 +12,7 @@ const requiredFiles = [
   "docs/architecture/repository-map.md",
   "docs/operations/account-and-env-lanes.md",
   "docs/operations/changelog.md",
+  "docs/operations/development-workflow.md",
   "docs/operations/readiness-checklist.md",
   "docs/engineering/agents/goal.md",
   "docs/engineering/agents/orchestration-reliability.md",

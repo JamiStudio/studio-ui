@@ -14,8 +14,11 @@ before editing.
 4. **Source reports** (`docs/research/`) explain dated research and feasibility findings.
    The current foundation report is `docs/research/studio-ui-registry-feasibility-report.md`.
 5. **Foundation alignment** (`docs/architecture/foundation-alignment.md`) records the
-   sibling boundary with `C:\Users\james\dev\orgs\oss\jami-agent-harness`.
-6. **Active roadmap** (`docs/roadmaps/`) is a guide, not proof. Verify against live code.
+   sibling boundary with `C:\Users\james\dev\orgs\oss\registry\agent-harness`.
+6. **Development workflow** (`docs/operations/development-workflow.md`) owns local-first
+   verification, manual CI posture, source-registry expectations, changelog, diagramming,
+   and no-stub escalation rules.
+7. **Active roadmap** (`docs/roadmaps/`) is a guide, not proof. Verify against live code.
 
 Never treat a brainstorm, report, or dated plan as implemented behavior unless code and
 checks confirm it.
@@ -39,7 +42,7 @@ checks confirm it.
 
 ## Sibling boundary
 
-`studio-ui-registry` stays separate from `jami-agent-harness`. Keep them cohesive through
+`ui-registry` stays separate from `agent-harness`. Keep them cohesive through
 typed contracts and cross-links, not duplicated roadmaps or collapsed ownership.
 
 This repo owns tokens, UI primitives, registry items, resident rendering, workbench
@@ -100,6 +103,7 @@ package scaffold owns it.
 - Full gate: `pnpm verify`
 
 If a command cannot run because the surface does not exist yet, say that directly.
+GitHub Actions are manual fallback while minutes are limited. Do not push unverified work and expect CI to catch it.
 
 ## Docs and changelog
 

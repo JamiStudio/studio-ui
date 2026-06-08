@@ -2,7 +2,7 @@
 
 Working from: `docs/roadmaps/2026-06-07-studio-ui-registry-production-shape-plan.md`
 
-Sibling foundation context: `C:\Users\james\dev\orgs\oss\jami-agent-harness` and
+Sibling foundation context: `C:\Users\james\dev\orgs\oss\registry\agent-harness` and
 `docs/architecture/foundation-alignment.md`.
 
 ## Your Role: The Orchestrator
@@ -72,7 +72,7 @@ The target is the full Jami.Studio Studio UI Registry:
   explicit config options.
 - A runtime renderer that accepts structured UI payload data, validates props against
   resident allowlisted components, and degrades safely on unknown or invalid payloads.
-- A contract-first integration seam with `jami-agent-harness` where harness artifacts and
+- A contract-first integration seam with `agent-harness` where harness artifacts and
   actions can be rendered or configured here without transferring policy/tool/runtime
   ownership into this repo.
 
@@ -98,10 +98,14 @@ instruction for that dispatch only; do not mutate the base prompt into a one-off
   tool execution, memory writes, artifact provenance, and trace emission remain harness
   responsibilities.
 - `docs/engineering/standards/*` owns planning/report/docs style.
+- `docs/operations/development-workflow.md` owns local-first verification, manual CI posture,
+  source-registry expectations, changelog, diagramming, and no-stub escalation rules.
 - Future durable architecture/operations docs belong under `docs/architecture/` and
   `docs/operations/`; do not duplicate repo-wide style guides beneath them.
 - Verify drift-prone framework/provider/API/protocol/licensing facts against official
   sources before locking them in.
+- If a stream needs human account action or product direction, pause and record the exact
+  intervention. Do not stub, skip, weaken validation, or merge around the missing input.
 
 ## Account And Secret Lanes
 
@@ -212,7 +216,7 @@ Implementation standards:
 - Token source owns visual truth; generated outputs are mechanically derived.
 - shadcn is build-time registry distribution only, not runtime rendering.
 - Runtime UI payloads are data, not code; validate and degrade safely.
-- Preserve the sibling boundary with `jami-agent-harness`; integrate through typed
+- Preserve the sibling boundary with `agent-harness`; integrate through typed
   payload/action/artifact contracts only.
 - Do not introduce mocks, placeholders, broad compatibility shims, or hidden demo data.
 - Keep secrets out of tracked files and outputs (`.env` is gitignored; `.env.example` is

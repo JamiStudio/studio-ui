@@ -35,6 +35,10 @@ implementation surface. The live repo remains the source of truth.
   licensing, or provider-access claims.
 - Do not promote a package, registry, adapter, provider, protocol, or dependency
   version claim to stable without recorded evidence.
+- When implementation packages exist, keep docs, marketing, legal/support material, user
+  manuals, architecture diagrams, system maps, changelogs, and release notes generated from
+  accepted token sources, registry manifests, renderer schemas, suite manifests, fragments,
+  and evidence packets rather than copied by hand.
 
 ## Status Handling
 
