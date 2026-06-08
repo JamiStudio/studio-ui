@@ -1,15 +1,15 @@
-# Studio UI Registry Production Shape Implementation Plan
+# Studio UI Production Shape Implementation Plan
 
 Date: 2026-06-07
 Status: Active - repo foundation in progress
-Source reports: `docs/research/studio-ui-registry-feasibility-report.md`; crossflow adversarial review at `C:\Users\james\dev\orgs\oss\registry\docs\research\2026-06-08-harness-ui-plan-adversarial-review.md`
+Source reports: `docs/research/studio-ui-feasibility-report.md`; crossflow adversarial review at `C:\Users\james\dev\orgs\oss\registry\docs\research\2026-06-08-harness-ui-plan-adversarial-review.md`
 Owner: Jamie / Jami.Studio
-Surface: Jami.Studio UI registry, token system, workbench overlay, CLI, suite packs, and runtime renderer
-Sibling foundation: `C:\Users\james\dev\orgs\oss\registry\agent-harness`
+Surface: Jami.Studio Studio UI foundation: registry, token system, workbench overlay, CLI, suite packs, and runtime renderer
+Sibling foundation: `C:\Users\james\dev\orgs\oss\registry\jami-harness`
 
 ## Purpose
 
-Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible registry, DTCG-compatible token system, always-live workbench overlay, package/save/register flows, CLI install path, resident runtime renderer, and four installable suite lanes: solo/general workflow, business ops, mixed-media, and research/writing.
+Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible registry, DTCG-compatible token system, always-live workbench overlay, package/save/register flows, CLI install path, resident runtime renderer, and four installable suite lanes: solo/general workflow, business ops, mixed-media, and research/writing.
 
 ## Status Legend
 
@@ -20,11 +20,11 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 
 ## Source Findings
 
-- `docs/research/studio-ui-registry-feasibility-report.md` recommends the full registry system: owned shadcn registry, DTCG-compatible token source, workbench overlay, one `@jami-studio` namespace, and four suite lanes.
-- `docs/research/master/reports/B-agent-substrate/F09-ui-registry-and-render-seam.md` establishes the split between build-time shadcn registry distribution and runtime resident allowlisted rendering.
-- `docs/research/master/audits/12-agent-native/ui-registry-appearance.md` identifies the Builder.io / Agent-Native template gap: repeated template-local shadcn copies and no shared primitive registry.
+- `docs/research/studio-ui-feasibility-report.md` recommends the full Studio UI system: owned shadcn registry, DTCG-compatible token source, workbench overlay, one `@jami-studio` namespace, and four suite lanes.
+- The B-agent-substrate render-seam source report establishes the split between build-time shadcn registry distribution and runtime resident allowlisted rendering.
+- The Agent-Native appearance audit identifies the Builder.io / Agent-Native template gap: repeated template-local shadcn copies and no shared primitive registry.
 - `docs/research/master/audits/12-agent-native/deep-dives/shadcn-as-agent-registry.md` confirms shadcn registry, namespace, MCP, and token mechanisms as the right distribution base.
-- `docs/architecture/foundation-alignment.md` records the repo split: Studio UI Registry owns UI, token, renderer, registry, workbench, suite, and UI install surfaces; Jami Agent Harness owns governed agent execution, tools, policy, memory, artifacts, traces, and agent-facing runtime surfaces.
+- `docs/architecture/foundation-alignment.md` records the repo split: Studio UI owns UI, token, renderer, registry, workbench, suite, and UI install surfaces; Jami Harness owns governed agent execution, tools, policy, memory, artifacts, traces, and agent-facing runtime surfaces.
 - Crossflow adversarial review requires path-lock, current-source lock, shared compatibility fixtures,
   renderer negative tests, UI lifecycle commands, accessibility/visual gates, and early provenance checks
   before implementation expands from docs into product packages.
@@ -41,7 +41,7 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - The Jami factory theme family uses soft warm muted tones, warm backgrounds, `#C14D84` as the likely anchor accent, and rich blue-green support ranges instead of lime/yellow-green.
 - Suite lanes are `solo`, `business-ops`, `mixed-media`, and `research-writing`.
 - Builder.io / Agent-Native templates are a reference corpus to recompose, not untouched apps to redistribute.
-- Studio UI Registry and Jami Agent Harness remain separate sibling repos. Cohesion comes from shared typed contracts and cross-links, not from merging planning work into one repository.
+- Studio UI and Jami Harness remain separate sibling repos. Cohesion comes from shared typed contracts and cross-links, not from merging planning work into one repository.
 - `registry.jami.studio` is the static generated registry distribution endpoint. It is not the workbench, showcase app, or marketing site, and it does not require a Vercel project placeholder.
 
 ## Scope Boundaries
@@ -50,7 +50,7 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - shadcn is install/build distribution only. It does not render runtime UI payloads.
 - Runtime UI rendering uses resident allowlisted components and validated structured payloads.
 - Harness-originated UI is a typed payload/action/artifact reference lane. Harness does not provide arbitrary React, HTML, scripts, package imports, or unvalidated runtime UI.
-- Policy, approval, tool execution, memory writes, traces, and artifact provenance belong to Jami Agent Harness. UI Registry may display and configure surfaces for them, but it does not own those runtime decisions.
+- Policy, approval, tool execution, memory writes, traces, and artifact provenance belong to Jami Harness. Studio UI may display and configure surfaces for them, but it does not own those runtime decisions.
 - Third-party or generated iframe UI remains an untrusted lane.
 - The registry foundation must run locally and avoid paid runtime dependencies.
 - Hosted registry publishing targets static generated output first, preferably through Cloudflare static hosting under the existing `jami-studio` account.
@@ -81,13 +81,13 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 
 ## Sibling Foundation Boundary
 
-`ui-registry` and `agent-harness` are separate `@jami-studio/*`
+`studio-ui` and `jami-harness` are separate `@jami-studio/*`
 foundation repositories.
 
-Studio UI Registry owns tokens, UI primitives, registry packaging, suite composition,
+Studio UI owns tokens, UI primitives, registry packaging, suite composition,
 resident rendering, the always-live workbench, and UI install/config flows.
 
-Jami Agent Harness owns agent runs, tools, policy, approvals, memory, artifacts, traces,
+Jami Harness owns agent runs, tools, policy, approvals, memory, artifacts, traces,
 evidence, runtime state, and agent-facing CLI/SDK surfaces.
 
 Shared integration is contract-first:
@@ -119,8 +119,8 @@ shared contract docs when integration decisions change.
 These gates convert the crossflow adversarial review into execution criteria. They are part of the
 active plan, not optional research notes.
 
-- `path-lock`: active plans and boundary docs must point to `C:\Users\james\dev\orgs\oss\registry\ui-registry`
-  and `C:\Users\james\dev\orgs\oss\registry\agent-harness`, with package names kept distinct from repo
+- `path-lock`: active plans and boundary docs must point to `C:\Users\james\dev\orgs\oss\registry\studio-ui`
+  and `C:\Users\james\dev\orgs\oss\registry\jami-harness`, with package names kept distinct from repo
   folder names.
 - `source-lock`: shadcn, Tailwind, DTCG, Radix/Base UI, Agent-Native references, package publishing,
   static registry hosting, and lifted third-party source need current-source, license, and provenance
@@ -163,14 +163,14 @@ Primary areas:
 
 Implementation tasks:
 
-- [x] Refresh `AGENTS.md` for Studio UI Registry ownership and verification.
+- [x] Refresh `AGENTS.md` for Studio UI ownership and verification.
 - [x] Refresh `docs/engineering/agents/goal.md` for this project and active roadmap.
 - [x] Refresh orchestration reliability guidance with project-specific checkpoint fields while preserving the polling workflow.
 - [x] Add changelog fragment rules and `.changes/` scaffold.
 - [x] Add account/env lane documentation without copying secrets.
 - [x] Add minimal package/source-control scaffold.
 - [x] Add sibling foundation alignment doc and cross-repo boundary rules.
-- [x] Normalize active plan sibling path to the registry-root `agent-harness` checkout.
+- [x] Normalize active plan sibling path to the registry-root `jami-harness` checkout.
 - [ ] Confirm all active roadmap and boundary docs are path-locked to the actual sibling repos.
 
 Exit criteria:
@@ -393,7 +393,7 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Define payload schema for component, props, children, action refs, and vocabulary generation.
-- [ ] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `agent-harness` without importing harness runtime ownership into this repo.
+- [ ] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-harness` without importing harness runtime ownership into this repo.
 - [ ] Add per-component prop validation.
 - [ ] Add fallback rendering for unknown components and invalid props.
 - [ ] Add no-HTML/no-code injection guards.

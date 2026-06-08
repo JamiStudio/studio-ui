@@ -6,9 +6,9 @@ const root = process.cwd();
 const requiredFiles = [
   "AGENTS.md",
   "README.md",
-  "docs/research/studio-ui-registry-feasibility-report.md",
-  "docs/roadmaps/2026-06-07-studio-ui-registry-production-shape-plan.md",
-  "docs/architecture/registry-product-shape.md",
+  "docs/research/studio-ui-feasibility-report.md",
+  "docs/roadmaps/2026-06-07-studio-ui-production-shape-plan.md",
+  "docs/architecture/studio-ui-product-shape.md",
   "docs/architecture/repository-map.md",
   "docs/operations/account-and-env-lanes.md",
   "docs/operations/changelog.md",

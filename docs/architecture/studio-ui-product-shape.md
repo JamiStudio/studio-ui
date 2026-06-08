@@ -6,13 +6,13 @@ Last updated: 2026-06-07
 
 ## Purpose
 
-This document captures the durable product architecture for Studio UI Registry. The
+This document captures the durable product architecture for Studio UI. The
 active roadmap owns sequencing; this doc owns the stable shape that workstreams should
 preserve.
 
 ## Product Surface
 
-Studio UI Registry is:
+Studio UI is:
 
 - An owned shadcn-compatible `@jami-studio` registry.
 - A DTCG-compatible token source system.
@@ -25,19 +25,19 @@ Studio UI Registry is:
 
 ## Foundation Relationship
 
-Studio UI Registry is the UI/design-system sibling to Jami Agent Harness. The sibling
+Studio UI is the UI/design-system sibling to Jami Harness. The sibling
 boundary is maintained in `docs/architecture/foundation-alignment.md`.
 
-- Studio UI Registry owns tokenized UI, registry distribution, resident rendering,
+- Studio UI owns tokenized UI, registry distribution, resident rendering,
   workbench editing, suite composition, and UI install flows.
-- Jami Agent Harness owns agent runtime state, policy, approvals, tool execution, memory,
+- Jami Harness owns agent runtime state, policy, approvals, tool execution, memory,
   artifacts, traces, evidence, and agent-facing CLI/SDK surfaces.
 - Shared integration uses typed payload/action/artifact/theme/suite references. It does
   not allow arbitrary model-provided code or transfer runtime governance into UI packages.
 
 ## Registry Lifecycles
 
-Studio UI Registry keeps build-time distribution separate from runtime rendering.
+Studio UI keeps build-time distribution separate from runtime rendering.
 
 - Build-time: shadcn registry items install source into a consuming app.
 - Runtime: resident components render validated structured payloads.
@@ -47,7 +47,7 @@ shadcn registry items are install artifacts. They are not a request-path rendere
 not execute arbitrary payloads.
 
 Harness artifacts and action references may be displayed through the resident renderer
-only after validation against the UI Registry vocabulary. Tool side effects and approval
+only after validation against the Studio UI vocabulary. Tool side effects and approval
 decisions stay in the harness.
 
 ## Hosted Registry Endpoint
@@ -67,7 +67,7 @@ The endpoint serves machine-readable install artifacts such as:
 
 The first hosting target is Cloudflare static hosting under the existing `jami-studio`
 account. A separate Vercel project is not needed for this repo or for
-`jami-agent-harness` unless a real deployed app surface exists. `app.jami.studio` can be
+`jami-harness` unless a real deployed app surface exists. `app.jami.studio` can be
 created later for the showcase/community app and can consume these registry packages
 through normal package and registry boundaries.
 

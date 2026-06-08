@@ -1,6 +1,6 @@
 # Documentation Standards
 
-Durable docs should make Studio UI Registry easier to operate without becoming a second
+Durable docs should make Studio UI easier to operate without becoming a second
 implementation surface. The live repo remains the source of truth.
 
 ## Ownership

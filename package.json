@@ -1,8 +1,8 @@
 {
-  "name": "studio-ui-registry",
+  "name": "studio-ui",
   "private": true,
   "version": "0.0.0",
-  "description": "Jami.Studio primitive registry, token system, workbench overlay, CLI, renderer, and suite packs.",
+  "description": "Jami.Studio UI foundation: token system, primitive registry, workbench overlay, CLI, renderer, and suite packs.",
   "packageManager": "pnpm@10.33.2",
   "type": "module",
   "scripts": {

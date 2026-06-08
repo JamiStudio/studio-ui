@@ -8,8 +8,8 @@ Recent goal runs have stopped while the coordinator was waiting on subagents. Th
 
 Treat this as a tool-session reliability risk, not a product or repository blocker.
 
-For `studio-ui-registry`, the active roadmap is
-`docs/roadmaps/2026-06-07-studio-ui-registry-production-shape-plan.md`. Roadmap
+For `studio-ui`, the active roadmap is
+`docs/roadmaps/2026-06-07-studio-ui-production-shape-plan.md`. Roadmap
 checkpoints should name the workstream surface explicitly, such as tokens, registry,
 UI vocabulary, workbench overlay, renderer, CLI, suite packs, verification, or docs.
 
@@ -25,7 +25,7 @@ UI vocabulary, workbench overlay, renderer, CLI, suite packs, verification, or d
   - expected ownership boundary
   - dispatch timestamp
   - next coordinator action
-  - Studio UI Registry surface affected, if different from the workstream name
+  - Studio UI surface affected, if different from the workstream name
 - After every returned subagent result, update the same checkpoint with:
   - status
   - changed files

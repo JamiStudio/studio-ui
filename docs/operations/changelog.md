@@ -5,7 +5,7 @@ Last updated: 2026-06-07
 
 ## Purpose
 
-Studio UI Registry uses `.changes/` fragments as the source for production-meaningful
+Studio UI uses `.changes/` fragments as the source for production-meaningful
 change notes. Fragments keep workstream changes reviewable before a release note is
 compiled.
 

@@ -5,17 +5,17 @@ Last updated: 2026-06-07
 
 ## Purpose
 
-This checklist tracks what is ready for Studio UI Registry work and what still needs
+This checklist tracks what is ready for Studio UI work and what still needs
 setup before specific workstreams begin. It is an operations map, not a product roadmap.
 
 ## Ready Now
 
 - Git repository initialized on `main`.
-- Remote configured: `https://github.com/JamiStudio/ui-registry.git`.
+- Remote configured: `https://github.com/JamiStudio/studio-ui.git`.
 - `main` pushed and tracking `origin/main`.
 - GitHub CLI authenticated as `jamesnavinhill`.
 - Vercel CLI authenticated as `studio-jami`.
-- No Vercel project is needed for Studio UI Registry or Jami Agent Harness just because
+- No Vercel project is needed for Studio UI or Jami Harness just because
   the repos exist.
 - Wrangler installed globally and authenticated to Cloudflare account `jami-studio`.
 - Node `v24.16.0` and pnpm `10.33.2` available.
@@ -88,7 +88,7 @@ npm whoami
 - Runtime databases.
 - Cloudflare D1/KV/Queues resources.
 - Vercel project env vars.
-- Separate Vercel projects for `studio-ui-registry` or `jami-agent-harness` as repo-only
+- Separate Vercel projects for `studio-ui` or `jami-harness` as repo-only
   placeholders.
 - Package publishing tokens.
 - Private registry auth.

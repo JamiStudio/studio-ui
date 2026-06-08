@@ -1,8 +1,10 @@
-# AGENTS.md - Studio UI Registry operating rules
+# AGENTS.md - Studio UI operating rules
 
-Studio UI Registry is the Jami.Studio primitive registry, token system, workbench overlay,
+Studio UI is the Jami.Studio primitive registry, token system, workbench overlay,
 CLI install surface, runtime renderer, and installable suite-pack foundation. Read this
 before editing.
+
+Canonical repo identity: `studio-ui` at `https://github.com/JamiStudio/studio-ui.git`.
 
 ## Source of truth
 
@@ -12,9 +14,9 @@ before editing.
    lifecycles, token generation, workbench state, install flows, and runtime rendering.
 3. **Decision records** (`docs/decisions/`) record durable choices and their rationale.
 4. **Source reports** (`docs/research/`) explain dated research and feasibility findings.
-   The current foundation report is `docs/research/studio-ui-registry-feasibility-report.md`.
+   The current foundation report is `docs/research/studio-ui-feasibility-report.md`.
 5. **Foundation alignment** (`docs/architecture/foundation-alignment.md`) records the
-   sibling boundary with `C:\Users\james\dev\orgs\oss\registry\agent-harness`.
+   sibling boundary with `C:\Users\james\dev\orgs\oss\registry\jami-harness`.
 6. **Development workflow** (`docs/operations/development-workflow.md`) owns local-first
    verification, manual CI posture, source-registry expectations, changelog, diagramming,
    and no-stub escalation rules.
@@ -42,11 +44,11 @@ checks confirm it.
 
 ## Sibling boundary
 
-`ui-registry` stays separate from `agent-harness`. Keep them cohesive through
+`studio-ui` stays separate from `jami-harness`. Keep them cohesive through
 typed contracts and cross-links, not duplicated roadmaps or collapsed ownership.
 
 This repo owns tokens, UI primitives, registry items, resident rendering, workbench
-controls, suite packs, and UI install/config flows. Jami Agent Harness owns agent runs,
+controls, suite packs, and UI install/config flows. Jami Harness owns agent runs,
 tools, policy, approvals, memory, artifacts, traces, evidence, runtime state, and
 agent-facing CLI/SDK surfaces.
 

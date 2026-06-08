@@ -5,8 +5,8 @@ Last updated: 2026-06-07
 
 ## Purpose
 
-This doc records safe account, CLI, and env-source status for agents working on Studio UI
-Registry. It must never contain secret values.
+This doc records safe account, CLI, and env-source status for agents working on Studio UI.
+It must never contain secret values.
 
 ## Rules
 
@@ -26,11 +26,11 @@ Checked on 2026-06-07:
 
 - GitHub CLI: authenticated to `github.com` as `jamesnavinhill`; token scopes include
   `repo`, `workflow`, `read:org`, and `gist`.
-- GitHub remote: `https://github.com/JamiStudio/ui-registry.git` exists and is
+- GitHub remote: `https://github.com/JamiStudio/studio-ui.git` exists and is
   public.
 - GitHub push status: `main` is pushed and tracking `origin/main`.
 - Vercel CLI: authenticated as `studio-jami`.
-- Vercel projects: none are required for `studio-ui-registry` or `jami-agent-harness`
+- Vercel projects: none are required for `studio-ui` or `jami-harness`
   while they are package/source repos rather than deployed apps.
 - Node: `v24.16.0`.
 - pnpm: `10.33.2`.

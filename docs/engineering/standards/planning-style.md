@@ -86,7 +86,7 @@ and what moves into follow-up implementation.
 - Keep streams complete. A stream should include implementation, tests, docs/changelog when needed, and verification for the behavior it owns.
 - Include repo guidance where it matters: package/service split, port/adapter seams, the API/MCP contract boundary, SQL-first migration ownership, contract drift checks, fixture heartbeat verification, and test limits.
 - Name scope early: what uses metered cloud provider access, what uses explicit operator action, what stays local/free-tier, and how secrets stay in the host secret store and out of tracked files.
-- Studio UI Registry is a token/registry/UI/workbench/CLI monorepo. When a plan changes a persisted or generated contract (a token source schema, registry item schema, CLI config shape, runtime renderer payload, suite metadata contract, generated CSS/TS output, or publishing flow), record its shape and the verification that proves it from source.
+- Studio UI is a token/registry/UI/workbench/CLI monorepo. When a plan changes a persisted or generated contract (a token source schema, registry item schema, CLI config shape, runtime renderer payload, suite metadata contract, generated CSS/TS output, or publishing flow), record its shape and the verification that proves it from source.
 - Include changelog requirements when production-meaningful code, docs, scripts, package metadata, CI, security, or operations behavior changes.
 - End with final cleanup and publishing expectations so the plan naturally reaches committed, pushed work.
 

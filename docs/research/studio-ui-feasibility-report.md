@@ -1,8 +1,8 @@
-# Studio UI Registry Feasibility Report
+# Studio UI Feasibility Report
 
 Date: 2026-06-07
 Status: Authored for first planning pass
-Request: Determine whether `studio-ui-registry` can become the full Jami.Studio primitive registry, token system, theme workbench overlay, preset/save flow, and recomposed Builder.io / Agent-Native suite system, with current engineering docs and future roadmaps shaped around that end state.
+Request: Determine whether `studio-ui` can become the full Jami.Studio primitive registry, token system, theme workbench overlay, preset/save flow, and recomposed Builder.io / Agent-Native suite system, with current engineering docs and future roadmaps shaped around that end state.
 Source scope: Local docs and research in this repository, selected Yrka theme/workbench source paths, and official/current external sources checked on 2026-06-07.
 Owner: Jamie / Jami.Studio
 
@@ -21,11 +21,11 @@ The strongest foundation is:
 - A warm, soft, muted Jami factory theme family anchored around `#C14D84`, with rich blue-green ranges instead of lime/yellow-green ranges.
 - Four installable suite lanes: solo/general workflow, business ops, mixed-media, and research/writing.
 
-The current repo is documentation and research only. That is an advantage for this stage: no runtime code has to be unwound before the architecture is made explicit. The immediate next move is to refresh engineering docs for `studio-ui-registry`, then write the active roadmap from this feasibility report.
+The current repo is documentation and research only. That is an advantage for this stage: no runtime code has to be unwound before the architecture is made explicit. The immediate next move is to refresh engineering docs for `studio-ui`, then write the active roadmap from this feasibility report.
 
 ## Question Being Answered
 
-Can this project become the complete Jami.Studio Studio UI Registry: a downloadable and installable registry containing primitives, components, blocks, pages, tokenized themes, presets, and suite-specific template packages for solo/general workflows, business ops, mixed-media, and research/writing, while preserving an adaptable, provider-agnostic architecture and avoiding scattered configuration UI?
+Can this project become the complete Jami.Studio Studio UI foundation: a downloadable and installable registry containing primitives, components, blocks, pages, tokenized themes, presets, and suite-specific template packages for solo/general workflows, business ops, mixed-media, and research/writing, while preserving an adaptable, provider-agnostic architecture and avoiding scattered configuration UI?
 
 Answer: yes, if the project is treated as a registry plus design-system product, not as a template gallery. Templates are outputs. The root product is the token contract, registry package contract, authoring workbench, CLI/install flow, runtime render contract, and suite taxonomy.
 
@@ -41,8 +41,8 @@ Local files checked:
 - `docs/engineering/agents/goal.md`
 - `docs/research/Rebuild.md`
 - `docs/research/user-notes/goal.md`
-- `docs/research/master/reports/B-agent-substrate/F09-ui-registry-and-render-seam.md`
-- `docs/research/master/audits/12-agent-native/ui-registry-appearance.md`
+- B-agent-substrate render-seam source report under `docs/research/master/reports/B-agent-substrate/`
+- Agent-Native appearance audit under `docs/research/master/audits/12-agent-native/`
 - `docs/research/master/audits/12-agent-native/deep-dives/shadcn-as-agent-registry.md`
 - `docs/research/master/audits/12-agent-native/recommendation.md`
 - Yrka reference inventory under `C:\Users\james\projects\yrka\packages\design-tokens`, `C:\Users\james\projects\yrka\apps\web\lib\theme`, and `C:\Users\james\projects\yrka\apps\web\components\admin\dock`.
@@ -77,8 +77,8 @@ The documentation foundation is present but still carries Intercal-specific text
 
 The local research already supports the core direction:
 
-- `docs/research/master/reports/B-agent-substrate/F09-ui-registry-and-render-seam.md` commits the two-lifecycle registry split: build-time shadcn seed, runtime resident allowlist renderer.
-- `docs/research/master/audits/12-agent-native/ui-registry-appearance.md` identifies the Builder.io / Agent-Native gap: many template-local shadcn copies and no shared primitive registry.
+- The B-agent-substrate render-seam source report commits the two-lifecycle registry split: build-time shadcn seed, runtime resident allowlist renderer.
+- The Agent-Native appearance audit identifies the Builder.io / Agent-Native gap: many template-local shadcn copies and no shared primitive registry.
 - `docs/research/master/audits/12-agent-native/deep-dives/shadcn-as-agent-registry.md` maps shadcn registry, tokenization, MCP discovery, and the agent-facing SDUI manifest gap.
 - `docs/research/master/audits/12-agent-native/recommendation.md` recommends adopting Agent-Native seams while building the Jami shared primitive registry and tokenized accent system.
 
@@ -123,7 +123,7 @@ For this project, the industry-standard shape should be sharpened into an opinio
 
 Description: Keep the project as planning and research while implementation happens elsewhere.
 
-When it fits: Only if `studio-ui-registry` is meant to be a planning archive.
+When it fits: Only if `studio-ui` is meant to be a planning archive.
 
 Tradeoffs: Lowest immediate effort, but it fails the project goal. It would leave the registry, CLI, token engine, and suite packages without a canonical home.
 
@@ -240,7 +240,7 @@ Ownership:
 
 Docs:
 
-- Current Intercal-specific engineering docs need a scoped refresh to `studio-ui-registry`.
+- Current Intercal-specific engineering docs need a scoped refresh to `studio-ui`.
 - Durable docs should describe ownership and contracts, not dated task files.
 - Roadmaps should avoid launch-stage language and describe the final production shape with sequenced workstreams.
 
@@ -459,8 +459,8 @@ Local:
 - `docs/engineering/agents/goal.md`
 - `docs/research/Rebuild.md`
 - `docs/research/user-notes/goal.md`
-- `docs/research/master/reports/B-agent-substrate/F09-ui-registry-and-render-seam.md`
-- `docs/research/master/audits/12-agent-native/ui-registry-appearance.md`
+- B-agent-substrate render-seam source report under `docs/research/master/reports/B-agent-substrate/`
+- Agent-Native appearance audit under `docs/research/master/audits/12-agent-native/`
 - `docs/research/master/audits/12-agent-native/deep-dives/shadcn-as-agent-registry.md`
 - `docs/research/master/audits/12-agent-native/recommendation.md`
 - `C:\Users\james\projects\yrka\packages\design-tokens\src\business-theme-contract.ts`
