@@ -2,10 +2,10 @@
 
 Date: 2026-06-07
 Status: Active - repo foundation in progress
-Source reports: `docs/research/studio-ui-registry-feasibility-report.md`
+Source reports: `docs/research/studio-ui-registry-feasibility-report.md`; crossflow adversarial review at `C:\Users\james\dev\orgs\oss\registry\docs\research\2026-06-08-harness-ui-plan-adversarial-review.md`
 Owner: Jamie / Jami.Studio
 Surface: Jami.Studio UI registry, token system, workbench overlay, CLI, suite packs, and runtime renderer
-Sibling foundation: `C:\Users\james\dev\orgs\oss\jami-agent-harness`
+Sibling foundation: `C:\Users\james\dev\orgs\oss\registry\agent-harness`
 
 ## Purpose
 
@@ -25,6 +25,9 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - `docs/research/master/audits/12-agent-native/ui-registry-appearance.md` identifies the Builder.io / Agent-Native template gap: repeated template-local shadcn copies and no shared primitive registry.
 - `docs/research/master/audits/12-agent-native/deep-dives/shadcn-as-agent-registry.md` confirms shadcn registry, namespace, MCP, and token mechanisms as the right distribution base.
 - `docs/architecture/foundation-alignment.md` records the repo split: Studio UI Registry owns UI, token, renderer, registry, workbench, suite, and UI install surfaces; Jami Agent Harness owns governed agent execution, tools, policy, memory, artifacts, traces, and agent-facing runtime surfaces.
+- Crossflow adversarial review requires path-lock, current-source lock, shared compatibility fixtures,
+  renderer negative tests, UI lifecycle commands, accessibility/visual gates, and early provenance checks
+  before implementation expands from docs into product packages.
 - Yrka reference surfaces under `C:\Users\james\projects\yrka\packages\design-tokens`, `C:\Users\james\projects\yrka\apps\web\lib\theme`, and `C:\Users\james\projects\yrka\apps\web\components\admin\dock` are the preferred local influence for dense, always-live, orderly theme controls.
 - Current checkout has docs, research, package/source-control scaffold, and repo-readiness guidance. Product packages are not implemented yet.
 
@@ -78,7 +81,7 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 
 ## Sibling Foundation Boundary
 
-`studio-ui-registry` and `jami-agent-harness` are separate `@jami-studio/*`
+`ui-registry` and `agent-harness` are separate `@jami-studio/*`
 foundation repositories.
 
 Studio UI Registry owns tokens, UI primitives, registry packaging, suite composition,
@@ -110,6 +113,29 @@ shared contract docs when integration decisions change.
 - Workstream 7 CLI consumes registry and token package outputs.
 - Workstream 8 suite packs consume all preceding product contracts.
 - Workstream 9 verification and release consumes every shipped surface.
+
+## Adversarial Hardening Gates
+
+These gates convert the crossflow adversarial review into execution criteria. They are part of the
+active plan, not optional research notes.
+
+- `path-lock`: active plans and boundary docs must point to `C:\Users\james\dev\orgs\oss\registry\ui-registry`
+  and `C:\Users\james\dev\orgs\oss\registry\agent-harness`, with package names kept distinct from repo
+  folder names.
+- `source-lock`: shadcn, Tailwind, DTCG, Radix/Base UI, Agent-Native references, package publishing,
+  static registry hosting, and lifted third-party source need current-source, license, and provenance
+  evidence before implementation relies on them.
+- `compat-lock`: `uiPayload`, `artifactView`, `actionRef`, `themeRef`, `suiteRef`, unsupported component,
+  invalid payload, denied action, and renderer error fixtures must align with the harness.
+- `token-lock`: token fixtures must cover schema version, aliases, invalid references, deprecation,
+  composite tokens, dark/light parity, contrast, and generated output determinism.
+- `renderer-lock`: runtime rendering is data-only, resident, allowlisted, validated, and failing-closed.
+- `cli-lifecycle-lock`: CLI work must cover install, update, remove, migrate, doctor, pin/lock, rollback
+  guidance, conflict handling, and provenance inspection.
+- `a11y-visual-lock`: component, workbench, renderer, and suite work must prove keyboard, focus, ARIA,
+  contrast, reduced motion, responsive, long-content, and multi-theme behavior.
+- `supply-chain-lock`: source/license provenance, registry item hashes, SBOM policy, and publish/attestation
+  readiness start before suite and release expansion.
 
 ## Workstream 1: Repo Foundation And Docs Alignment
 
@@ -144,12 +170,15 @@ Implementation tasks:
 - [x] Add account/env lane documentation without copying secrets.
 - [x] Add minimal package/source-control scaffold.
 - [x] Add sibling foundation alignment doc and cross-repo boundary rules.
+- [x] Normalize active plan sibling path to the registry-root `agent-harness` checkout.
+- [ ] Confirm all active roadmap and boundary docs are path-locked to the actual sibling repos.
 
 Exit criteria:
 
 - [x] All Intercal-specific repo ownership references are removed from active operating docs.
 - [x] Agents can find the active roadmap, report, account/env lanes, and changelog rules.
 - [x] Git/package scaffolding exists and docs-only checks run.
+- [ ] No active plan or boundary doc points at legacy sibling paths outside the registry root.
 
 Suggested verification:
 
@@ -182,15 +211,18 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Define token source schema for color, semantic, chart, typography, spacing, radius, shadow, motion, density, shell, and component-state tokens.
+- [ ] Record the current DTCG source-lock, schema version, and migration posture before token schemas are treated as durable.
 - [ ] Add factory theme definitions for the warm Jami family anchored around `#C14D84`.
 - [ ] Add rich blue-green support ramps and explicitly exclude lime/yellow-green factory ranges.
 - [ ] Generate CSS variables, Tailwind `@theme` variables, TypeScript types, and shadcn `cssVars` payloads.
 - [ ] Add validation for token completeness, references, contrast, and dark/light parity.
+- [ ] Add fixtures for aliases, invalid references, deprecated tokens, composite tokens, contrast failures, and deterministic generated outputs.
 
 Exit criteria:
 
 - [ ] A factory token set can generate all runtime outputs reproducibly.
 - [ ] Token validation catches missing semantics and broken references.
+- [ ] Token source data carries schema version and migration metadata.
 
 Suggested verification:
 
@@ -223,6 +255,7 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Define registry item metadata for item type, suite, token requirements, dependencies, docs, version generation, and agent manifest.
+- [ ] Add lifecycle and provenance metadata for item id, version, suite membership, schema version, source hash, install paths, dependencies, compatibility ranges, and migration notes.
 - [ ] Generate valid `registry.json` and `registry-item.json` outputs.
 - [ ] Add item types for primitives, components, blocks, pages, themes, fonts, apps, and suites.
 - [ ] Add cache/revision naming policy.
@@ -232,6 +265,7 @@ Exit criteria:
 
 - [ ] Sample registry items validate against shadcn schema and Jami metadata rules.
 - [ ] `@jami-studio` item names are discoverable and deterministic.
+- [ ] Registry items are inspectable for provenance and future migration before CLI work consumes them.
 
 Suggested verification:
 
@@ -269,12 +303,15 @@ Implementation tasks:
 - [ ] Add tokenized primitive implementations.
 - [ ] Add composed components for agent panel, data display, forms, calendar shell, docs shell, media grid, source board, and command/action surfaces.
 - [ ] Add Storybook-like or workbench-compatible examples once the workbench scaffold exists.
-- [ ] Add accessibility and interaction checks for critical primitives.
+- [ ] Add accessibility, interaction, and visual regression checks for critical primitives.
+- [ ] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior.
+- [ ] Add source/license provenance review before lifted third-party source is redistributed.
 
 Exit criteria:
 
 - [ ] Primitive and component vocabulary is tokenized and registry-addressable.
 - [ ] Component-local hardcoded colors are rejected by tests or lint rules.
+- [ ] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
 
 Suggested verification:
 
@@ -315,12 +352,15 @@ Implementation tasks:
 - [ ] Preserve draft state across close/reopen.
 - [ ] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows.
 - [ ] Add inspector focus if it can be done without destabilizing the first overlay.
+- [ ] Gate workbench expansion on an early vertical slice: one token family, one primitive, one registry item, one CLI temp install, one renderer payload, one harness-compatible action/error fixture, and one screenshot/accessibility check.
+- [ ] Add workbench visual/a11y fixtures across light, dark, factory theme, and suite-theme states.
 
 Exit criteria:
 
 - [ ] Token changes update the real page immediately.
 - [ ] Save persists; close hides overlay without losing the draft; restore returns to factory.
 - [ ] No configuration controls are scattered across product pages.
+- [ ] Workbench controls do not outpace the proven registry -> CLI -> renderer -> harness compatibility loop.
 
 Suggested verification:
 
@@ -353,17 +393,20 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Define payload schema for component, props, children, action refs, and vocabulary generation.
-- [ ] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-agent-harness` without importing harness runtime ownership into this repo.
+- [ ] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `agent-harness` without importing harness runtime ownership into this repo.
 - [ ] Add per-component prop validation.
 - [ ] Add fallback rendering for unknown components and invalid props.
 - [ ] Add no-HTML/no-code injection guards.
 - [ ] Add handshake/version rules for vocabulary generation.
+- [ ] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, and unsupported renderer states.
+- [ ] Add denied-action fixtures that render the harness-owned policy decision without executing it.
 
 Exit criteria:
 
 - [ ] Valid payloads render resident components.
 - [ ] Invalid payloads never crash the app or execute code.
 - [ ] Harness-facing fixtures prove the renderer can consume typed references while leaving policy/tool execution to the harness.
+- [ ] Renderer compatibility fixtures pass against the shared harness contract set.
 
 Suggested verification:
 
@@ -393,14 +436,16 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Add CLI commands for init, add item, add suite, apply theme, list, inspect, and doctor.
+- [ ] Add CLI commands for init, add item, add suite, apply theme, list, inspect, doctor, update, remove, migrate, lock/pin, and provenance inspect.
 - [ ] Add configuration prompts for app title, suite, theme, registry URL, package manager, and optional defaults.
 - [ ] Add dry-run and diff behavior before writing files.
-- [ ] Add install smoke tests in temporary projects.
+- [ ] Add rollback/restore guidance and conflict handling for locally modified installed files.
+- [ ] Add install, update, remove, migrate, and provenance smoke tests in temporary projects.
 
 Exit criteria:
 
 - [ ] A clean project can install a sample theme, primitive, page, and suite.
+- [ ] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
 - [ ] CLI reports missing auth/tooling with exact next commands.
 
 Suggested verification:
@@ -444,11 +489,14 @@ Implementation tasks:
 - [ ] Build `research-writing` suite for sources, notes, citations, briefs, documents, outlines, and knowledge workflows.
 - [ ] Add suite install metadata and page/block/component dependency graphs.
 - [ ] Add showcase routing for the `solo` suite through the workbench/demo app.
+- [ ] Add suite-level accessibility, responsive, long-content, empty/error state, and visual smoke fixtures.
+- [ ] Add source/license provenance for any recomposed reference corpus material before redistribution.
 
 Exit criteria:
 
 - [ ] Each suite installs as a coherent full app shell.
 - [ ] Each suite also exposes pages, blocks, components, and primitives independently.
+- [ ] Each suite can be installed, updated, inspected for provenance, and visually/a11y smoked in a temp app.
 
 Suggested verification:
 
@@ -481,16 +529,18 @@ Primary areas:
 Implementation tasks:
 
 - [ ] Add `pnpm verify` covering lint, typecheck, tests, build, registry validation, and docs checks.
+- [ ] Add `pnpm verify` coverage for token schema fixtures, registry provenance, renderer unsafe payloads, CLI lifecycle smokes, and accessibility/visual checks once those surfaces exist.
 - [ ] Add release/changelog flow.
 - [ ] Add registry publishing runbook.
 - [ ] Add package publishing runbook after npm auth is confirmed.
-- [ ] Add source/license audit for lifted third-party source before redistribution.
+- [ ] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution.
 
 Exit criteria:
 
 - [ ] Full verification passes.
 - [ ] Registry publish path is documented and smoke-tested.
 - [ ] Changelog fragments and release notes are generated from the same source.
+- [ ] Public registry/package claims map to source, license, generated output, and verification evidence.
 
 Suggested verification:
 
@@ -499,6 +549,14 @@ Suggested verification:
 
 ## Final Verification And Closeout
 
+- Path-lock and source-lock evidence for sibling repos, DTCG, shadcn, Tailwind, component substrates,
+  package publishing, static registry hosting, and lifted source.
+- Shared harness/UI compatibility fixtures pass.
+- Token schema, alias, deprecation, invalid reference, contrast, and generated-output fixtures pass.
+- Renderer unsafe-payload and denied-action fixtures pass.
+- CLI install/update/remove/migrate/provenance smokes pass in temporary projects.
+- Accessibility and visual checks pass for primitives, workbench, renderer states, and suites once those
+  surfaces exist.
 - `pnpm docs:check`
 - `pnpm lint`
 - `pnpm typecheck`
@@ -523,18 +581,30 @@ Suggested verification:
 - Runtime renderer validates structured payloads and degrades safely.
 - Four suite lanes install and expose their lower-level parts.
 - Source/license and secret-handling rules are documented and enforced by checks.
+- Shared harness/UI seams are backed by machine-readable compatibility fixtures, including unsupported,
+  invalid, and denied states.
+- CLI supports ongoing ownership: install, update, remove, migrate, inspect provenance, and recover from
+  conflicts.
+- Accessibility, visual quality, token determinism, source/license provenance, registry hashes, and
+  release evidence are part of public readiness, not optional polish.
 
 ## Implementation Order
 
-1. Finish Workstream 1 repo foundation and docs alignment.
-2. Build Workstream 2 token contract.
-3. Build Workstream 3 registry contract.
-4. Build Workstream 4 primitive/component vocabulary.
-5. Build Workstream 5 workbench overlay.
-6. Build Workstream 6 runtime renderer.
-7. Build Workstream 7 CLI install/config flow.
-8. Build Workstream 8 suite packs and showcase app.
-9. Build Workstream 9 verification/release/publishing system.
+1. Finish Workstream 1 repo foundation, path-lock, and docs alignment.
+2. Refresh source-lock evidence for drift-prone standards, packages, publishing, and lifted source.
+3. Build Workstream 2 token contract with schema-version, migration, reference, contrast, and output fixtures.
+4. Build Workstream 3 registry contract with provenance and lifecycle metadata.
+5. Build the early vertical slice across token, registry item, primitive, CLI temp install, renderer payload,
+   harness action/error fixture, and evidence.
+6. Build Workstream 4 primitive/component vocabulary with accessibility, visual, state, and provenance gates.
+7. Build Workstream 6 runtime renderer with safe-payload, denied-action, unsupported-state, and harness
+   compatibility fixtures.
+8. Build Workstream 5 always-live workbench overlay after the vertical slice proves the install/render loop.
+9. Build Workstream 7 full CLI lifecycle: install, update, remove, migrate, doctor, pin/lock, conflict handling,
+   and provenance inspection.
+10. Build Workstream 8 suite packs and showcase app with install/update/a11y/visual/provenance smokes.
+11. Build Workstream 9 verification/release/publishing system with SBOM, registry hashes, provenance, and
+    attestation policy.
 
 ## Expansion Track
 
