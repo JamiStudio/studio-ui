@@ -23,6 +23,18 @@ Studio UI Registry is:
   registering themes and packages.
 - Four suite lanes: `solo`, `business-ops`, `mixed-media`, and `research-writing`.
 
+## Foundation Relationship
+
+Studio UI Registry is the UI/design-system sibling to Jami Agent Harness. The sibling
+boundary is maintained in `docs/architecture/foundation-alignment.md`.
+
+- Studio UI Registry owns tokenized UI, registry distribution, resident rendering,
+  workbench editing, suite composition, and UI install flows.
+- Jami Agent Harness owns agent runtime state, policy, approvals, tool execution, memory,
+  artifacts, traces, evidence, and agent-facing CLI/SDK surfaces.
+- Shared integration uses typed payload/action/artifact/theme/suite references. It does
+  not allow arbitrary model-provided code or transfer runtime governance into UI packages.
+
 ## Registry Lifecycles
 
 Studio UI Registry keeps build-time distribution separate from runtime rendering.
@@ -33,6 +45,10 @@ Studio UI Registry keeps build-time distribution separate from runtime rendering
 
 shadcn registry items are install artifacts. They are not a request-path renderer and do
 not execute arbitrary payloads.
+
+Harness artifacts and action references may be displayed through the resident renderer
+only after validation against the UI Registry vocabulary. Tool side effects and approval
+decisions stay in the harness.
 
 ## Token System
 

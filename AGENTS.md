@@ -13,7 +13,9 @@ before editing.
 3. **Decision records** (`docs/decisions/`) record durable choices and their rationale.
 4. **Source reports** (`docs/research/`) explain dated research and feasibility findings.
    The current foundation report is `docs/research/studio-ui-registry-feasibility-report.md`.
-5. **Active roadmap** (`docs/roadmaps/`) is a guide, not proof. Verify against live code.
+5. **Foundation alignment** (`docs/architecture/foundation-alignment.md`) records the
+   sibling boundary with `C:\Users\james\dev\orgs\oss\jami-agent-harness`.
+6. **Active roadmap** (`docs/roadmaps/`) is a guide, not proof. Verify against live code.
 
 Never treat a brainstorm, report, or dated plan as implemented behavior unless code and
 checks confirm it.
@@ -35,6 +37,20 @@ checks confirm it.
 - `docs/` - program docs, engineering standards, architecture, operations, decisions,
   active roadmaps, and research.
 
+## Sibling boundary
+
+`studio-ui-registry` stays separate from `jami-agent-harness`. Keep them cohesive through
+typed contracts and cross-links, not duplicated roadmaps or collapsed ownership.
+
+This repo owns tokens, UI primitives, registry items, resident rendering, workbench
+controls, suite packs, and UI install/config flows. Jami Agent Harness owns agent runs,
+tools, policy, approvals, memory, artifacts, traces, evidence, runtime state, and
+agent-facing CLI/SDK surfaces.
+
+When a UI payload, artifact view, action ref, theme ref, or suite ref contract changes,
+update `docs/architecture/foundation-alignment.md` and the matching harness doc. Do not
+move policy execution, tool invocation, memory writes, or trace ownership into this repo.
+
 ## Product rules
 
 - Build the full production target described by the active roadmap. Do not use launch-stage
@@ -43,6 +59,8 @@ checks confirm it.
   the request path.
 - Runtime UI payloads are data, never code. The renderer uses resident allowlisted
   components, Zod or equivalent schema validation, and graceful fallback.
+- Harness-originated UI arrives as typed payload/action/artifact references. Display and
+  configuration belong here; policy execution and tool side effects stay in the harness.
 - Token source owns visual truth. CSS and TypeScript outputs are generated or mechanically
   derived from the token model.
 - Theme editing is always live. Save persists; restore returns to factory state. Do not add

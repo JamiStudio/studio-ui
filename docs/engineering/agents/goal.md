@@ -2,6 +2,9 @@
 
 Working from: `docs/roadmaps/2026-06-07-studio-ui-registry-production-shape-plan.md`
 
+Sibling foundation context: `C:\Users\james\dev\orgs\oss\jami-agent-harness` and
+`docs/architecture/foundation-alignment.md`.
+
 ## Your Role: The Orchestrator
 
 You are the orchestration agent for `studio-ui-registry`. Coordinate execution of the
@@ -37,6 +40,16 @@ The repo's owned surfaces:
 - `docs/` - active roadmaps, engineering standards, architecture, operations,
   decisions, research, and orchestration logs.
 
+Sibling boundary:
+
+- Studio UI Registry owns tokens, primitives, registry packaging, resident rendering,
+  workbench controls, suite packs, and UI install/config flows.
+- Jami Agent Harness owns agent runs, tools, policy, approvals, memory, artifacts,
+  traces, evidence, runtime state, and agent-facing CLI/SDK surfaces.
+- Shared integration moves through typed `uiPayload`, `artifactView`, `actionRef`,
+  `themeRef`, and `suiteRef` contracts. Do not duplicate the harness roadmap or move
+  harness runtime ownership into this repo.
+
 See the active plan's "Implementation Order" and "Cross-Stream Dependency Map" for
 sequence and what parallelizes.
 
@@ -59,6 +72,9 @@ The target is the full Jami.Studio Studio UI Registry:
   explicit config options.
 - A runtime renderer that accepts structured UI payload data, validates props against
   resident allowlisted components, and degrades safely on unknown or invalid payloads.
+- A contract-first integration seam with `jami-agent-harness` where harness artifacts and
+  actions can be rendered or configured here without transferring policy/tool/runtime
+  ownership into this repo.
 
 Use subagents for all workstream audit/execution. Every workstream prompt must say
 `AUDIT/EXECUTE`, and every workstream must receive at least two fresh-context passes
@@ -78,6 +94,9 @@ instruction for that dispatch only; do not mutate the base prompt into a one-off
 - shadcn registry output is build-time distribution, not runtime rendering.
 - Runtime UI payloads are data, never code. The resident renderer owns validation and
   fallback behavior.
+- Harness-facing UI payloads and action refs are typed references. Policy decisions,
+  tool execution, memory writes, artifact provenance, and trace emission remain harness
+  responsibilities.
 - `docs/engineering/standards/*` owns planning/report/docs style.
 - Future durable architecture/operations docs belong under `docs/architecture/` and
   `docs/operations/`; do not duplicate repo-wide style guides beneath them.
@@ -183,6 +202,7 @@ Read the relevant repo guidance before editing:
 - `AGENTS.md`
 - `docs/roadmaps/2026-06-07-studio-ui-registry-production-shape-plan.md`
 - `docs/engineering/standards/*`
+- `docs/architecture/foundation-alignment.md`
 - Relevant `docs/architecture/*`, `docs/operations/*`, and `docs/decisions/*`
 - Any owning packages, registry source, tests, scripts, and docs for this workstream
 
@@ -192,6 +212,8 @@ Implementation standards:
 - Token source owns visual truth; generated outputs are mechanically derived.
 - shadcn is build-time registry distribution only, not runtime rendering.
 - Runtime UI payloads are data, not code; validate and degrade safely.
+- Preserve the sibling boundary with `jami-agent-harness`; integrate through typed
+  payload/action/artifact contracts only.
 - Do not introduce mocks, placeholders, broad compatibility shims, or hidden demo data.
 - Keep secrets out of tracked files and outputs (`.env` is gitignored; `.env.example` is
   the only tracked env file).

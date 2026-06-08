@@ -5,6 +5,7 @@ Status: Active - repo foundation in progress
 Source reports: `docs/research/studio-ui-registry-feasibility-report.md`
 Owner: Jamie / Jami.Studio
 Surface: Jami.Studio UI registry, token system, workbench overlay, CLI, suite packs, and runtime renderer
+Sibling foundation: `C:\Users\james\dev\orgs\oss\jami-agent-harness`
 
 ## Purpose
 
@@ -23,8 +24,9 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - `docs/research/master/reports/B-agent-substrate/F09-ui-registry-and-render-seam.md` establishes the split between build-time shadcn registry distribution and runtime resident allowlisted rendering.
 - `docs/research/master/audits/12-agent-native/ui-registry-appearance.md` identifies the Builder.io / Agent-Native template gap: repeated template-local shadcn copies and no shared primitive registry.
 - `docs/research/master/audits/12-agent-native/deep-dives/shadcn-as-agent-registry.md` confirms shadcn registry, namespace, MCP, and token mechanisms as the right distribution base.
+- `docs/architecture/foundation-alignment.md` records the repo split: Studio UI Registry owns UI, token, renderer, registry, workbench, suite, and UI install surfaces; Jami Agent Harness owns governed agent execution, tools, policy, memory, artifacts, traces, and agent-facing runtime surfaces.
 - Yrka reference surfaces under `C:\Users\james\projects\yrka\packages\design-tokens`, `C:\Users\james\projects\yrka\apps\web\lib\theme`, and `C:\Users\james\projects\yrka\apps\web\components\admin\dock` are the preferred local influence for dense, always-live, orderly theme controls.
-- Current checkout has docs and research only. There is no package scaffold or Git metadata at the time this plan was authored.
+- Current checkout has docs, research, package/source-control scaffold, and repo-readiness guidance. Product packages are not implemented yet.
 
 ## Locked Decisions
 
@@ -36,12 +38,15 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - The Jami factory theme family uses soft warm muted tones, warm backgrounds, `#C14D84` as the likely anchor accent, and rich blue-green support ranges instead of lime/yellow-green.
 - Suite lanes are `solo`, `business-ops`, `mixed-media`, and `research-writing`.
 - Builder.io / Agent-Native templates are a reference corpus to recompose, not untouched apps to redistribute.
+- Studio UI Registry and Jami Agent Harness remain separate sibling repos. Cohesion comes from shared typed contracts and cross-links, not from merging planning work into one repository.
 
 ## Scope Boundaries
 
 - No secrets in tracked files, docs, registry metadata, generated artifacts, fixtures, or logs.
 - shadcn is install/build distribution only. It does not render runtime UI payloads.
 - Runtime UI rendering uses resident allowlisted components and validated structured payloads.
+- Harness-originated UI is a typed payload/action/artifact reference lane. Harness does not provide arbitrary React, HTML, scripts, package imports, or unvalidated runtime UI.
+- Policy, approval, tool execution, memory writes, traces, and artifact provenance belong to Jami Agent Harness. UI Registry may display and configure surfaces for them, but it does not own those runtime decisions.
 - Third-party or generated iframe UI remains an untrusted lane.
 - The registry foundation must run locally and avoid paid runtime dependencies.
 - Registry items may include example env vars only when they are blank, development-safe, and documented as non-production placeholders.
@@ -55,6 +60,7 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - Keep durable architecture and operations docs under `docs/architecture/` and `docs/operations/`.
 - Verify drift-prone shadcn, Tailwind, DTCG, Agent-Native, package, provider, and licensing facts against official sources before locking them into durable docs or code.
 - Keep generated outputs mechanically reproducible. Source token JSON and registry source items own truth.
+- Preserve cross-repo alignment by linking sibling docs instead of duplicating full plans. When a shared contract changes, update `docs/architecture/foundation-alignment.md` here and the matching harness doc.
 
 ## Target Product Shape
 
@@ -68,6 +74,28 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - `docs/architecture/` owns durable contract explanations.
 - `docs/operations/` owns account, env, release, and registry publishing instructions.
 
+## Sibling Foundation Boundary
+
+`studio-ui-registry` and `jami-agent-harness` are separate `@jami-studio/*`
+foundation repositories.
+
+Studio UI Registry owns tokens, UI primitives, registry packaging, suite composition,
+resident rendering, the always-live workbench, and UI install/config flows.
+
+Jami Agent Harness owns agent runs, tools, policy, approvals, memory, artifacts, traces,
+evidence, runtime state, and agent-facing CLI/SDK surfaces.
+
+Shared integration is contract-first:
+
+- `uiPayload` for validated resident rendering.
+- `artifactView` for harness artifacts rendered through trusted UI components.
+- `actionRef` for policy-gated agent/tool actions exposed by UI slots.
+- `themeRef` for factory/custom theme references.
+- `suiteRef` for suite install graphs and optional harness capabilities.
+
+Do not duplicate the harness roadmap in this repo. Link to the sibling plan and update
+shared contract docs when integration decisions change.
+
 ## Cross-Stream Dependency Map
 
 - Workstream 1 feeds every other stream by making the repo safe and navigable.
@@ -76,6 +104,7 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - Workstream 4 UI primitives consume token outputs and feed renderer, suite packs, and workbench.
 - Workstream 5 workbench consumes tokens, registry metadata, and primitives.
 - Workstream 6 renderer consumes primitives and registry manifests.
+- Workstream 6 also defines the UI side of the shared harness payload/action/artifact seam.
 - Workstream 7 CLI consumes registry and token package outputs.
 - Workstream 8 suite packs consume all preceding product contracts.
 - Workstream 9 verification and release consumes every shipped surface.
@@ -112,6 +141,7 @@ Implementation tasks:
 - [x] Add changelog fragment rules and `.changes/` scaffold.
 - [x] Add account/env lane documentation without copying secrets.
 - [x] Add minimal package/source-control scaffold.
+- [x] Add sibling foundation alignment doc and cross-repo boundary rules.
 
 Exit criteria:
 
@@ -316,10 +346,12 @@ Primary areas:
 
 - `packages/renderer`
 - `docs/architecture/runtime-renderer.md`
+- `docs/architecture/foundation-alignment.md`
 
 Implementation tasks:
 
 - [ ] Define payload schema for component, props, children, action refs, and vocabulary generation.
+- [ ] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-agent-harness` without importing harness runtime ownership into this repo.
 - [ ] Add per-component prop validation.
 - [ ] Add fallback rendering for unknown components and invalid props.
 - [ ] Add no-HTML/no-code injection guards.
@@ -329,6 +361,7 @@ Exit criteria:
 
 - [ ] Valid payloads render resident components.
 - [ ] Invalid payloads never crash the app or execute code.
+- [ ] Harness-facing fixtures prove the renderer can consume typed references while leaving policy/tool execution to the harness.
 
 Suggested verification:
 
