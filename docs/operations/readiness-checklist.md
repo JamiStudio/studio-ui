@@ -15,6 +15,8 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - `main` pushed and tracking `origin/main`.
 - GitHub CLI authenticated as `jamesnavinhill`.
 - Vercel CLI authenticated as `studio-jami`.
+- No Vercel project is needed for Studio UI Registry or Jami Agent Harness just because
+  the repos exist.
 - Wrangler installed globally and authenticated to Cloudflare account `jami-studio`.
 - Node `v24.16.0` and pnpm `10.33.2` available.
 - Minimal pnpm workspace scaffold exists.
@@ -40,8 +42,10 @@ npm whoami
 
 ## Missing Before Hosted Registry Publishing
 
-- Choose first static registry host: Vercel static output, GitHub Pages, Cloudflare Pages,
-  or another static host.
+- Add `registry.jami.studio` as the static registry distribution endpoint.
+- Publish generated registry output to a static host. Preferred first target:
+  Cloudflare Pages or equivalent Cloudflare static hosting under the existing
+  `jami-studio` account.
 - Add registry publish runbook after `packages/registry` can generate output.
 - Add cache/revision policy to the registry lifecycle doc.
 - Add clean install smoke against the hosted registry URL.
@@ -49,7 +53,8 @@ npm whoami
 ## Missing Before App Deployment
 
 - No app exists yet under `apps/workbench`.
-- No Vercel project is linked in this repo yet.
+- No Vercel project is linked in this repo yet, and none is needed until an actual app
+  surface exists.
 - Add app deployment runbook after the workbench scaffold exists.
 - Add deployment env templates after runtime requirements exist.
 
@@ -74,7 +79,6 @@ npm whoami
 
 - npm publishing auth.
 - package scope/access confirmation for `@jami-studio`.
-- registry hosting target decision.
 - workbench deployment target decision after app scaffold.
 
 ## Not Needed Yet
@@ -82,6 +86,8 @@ npm whoami
 - Runtime databases.
 - Cloudflare D1/KV/Queues resources.
 - Vercel project env vars.
+- Separate Vercel projects for `studio-ui-registry` or `jami-agent-harness` as repo-only
+  placeholders.
 - Package publishing tokens.
 - Private registry auth.
 

@@ -39,6 +39,7 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - Suite lanes are `solo`, `business-ops`, `mixed-media`, and `research-writing`.
 - Builder.io / Agent-Native templates are a reference corpus to recompose, not untouched apps to redistribute.
 - Studio UI Registry and Jami Agent Harness remain separate sibling repos. Cohesion comes from shared typed contracts and cross-links, not from merging planning work into one repository.
+- `registry.jami.studio` is the static generated registry distribution endpoint. It is not the workbench, showcase app, or marketing site, and it does not require a Vercel project placeholder.
 
 ## Scope Boundaries
 
@@ -49,6 +50,7 @@ Build the full Jami.Studio Studio UI Registry: an owned shadcn-compatible regist
 - Policy, approval, tool execution, memory writes, traces, and artifact provenance belong to Jami Agent Harness. UI Registry may display and configure surfaces for them, but it does not own those runtime decisions.
 - Third-party or generated iframe UI remains an untrusted lane.
 - The registry foundation must run locally and avoid paid runtime dependencies.
+- Hosted registry publishing targets static generated output first, preferably through Cloudflare static hosting under the existing `jami-studio` account.
 - Registry items may include example env vars only when they are blank, development-safe, and documented as non-production placeholders.
 
 ## Repo Guidance

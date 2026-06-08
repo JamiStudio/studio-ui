@@ -50,6 +50,27 @@ Harness artifacts and action references may be displayed through the resident re
 only after validation against the UI Registry vocabulary. Tool side effects and approval
 decisions stay in the harness.
 
+## Hosted Registry Endpoint
+
+`registry.jami.studio` is the static distribution endpoint for generated registry output.
+It is not the workbench app, not the showcase app, and not a marketing site.
+
+The endpoint serves machine-readable install artifacts such as:
+
+- `/registry.json`
+- `/themes/<name>.json`
+- `/components/<name>.json`
+- `/blocks/<name>.json`
+- `/pages/<name>.json`
+- `/suites/<name>.json`
+- optional assets required by registry items
+
+The first hosting target is Cloudflare static hosting under the existing `jami-studio`
+account. A separate Vercel project is not needed for this repo or for
+`jami-agent-harness` unless a real deployed app surface exists. `app.jami.studio` can be
+created later for the showcase/community app and can consume these registry packages
+through normal package and registry boundaries.
+
 ## Token System
 
 Token source owns visual truth. Generated outputs are derived from the source token model:

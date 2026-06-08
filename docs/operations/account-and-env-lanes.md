@@ -30,6 +30,8 @@ Checked on 2026-06-07:
   public.
 - GitHub push status: `main` is pushed and tracking `origin/main`.
 - Vercel CLI: authenticated as `studio-jami`.
+- Vercel projects: none are required for `studio-ui-registry` or `jami-agent-harness`
+  while they are package/source repos rather than deployed apps.
 - Node: `v24.16.0`.
 - pnpm: `10.33.2`.
 - npm registry: `https://registry.npmjs.org/`.
@@ -74,10 +76,16 @@ npm whoami
 
 ## Registry Hosting Setup
 
-The first registry hosting shape is static JSON plus source packages. Confirm the target
-host before publishing:
+The first registry hosting shape is static JSON plus source packages served from
+`registry.jami.studio`.
 
-- GitHub Pages, Vercel static output, or another static host can serve registry JSON.
+- Preferred first target: Cloudflare Pages or equivalent Cloudflare static hosting under
+  the existing `jami-studio` account.
+- The hosted output comes from generated registry artifacts, not from a separate product
+  app. Example paths: `/registry.json`, `/themes/<name>.json`,
+  `/components/<name>.json`, `/suites/<name>.json`, and optional static assets.
+- Vercel should be reserved for actual app surfaces when useful, such as a future
+  `app.jami.studio` showcase/community app. It is not needed for repo-only placeholders.
 - Use cache headers and revisioned item URLs once publishing starts.
 - Private/authenticated registry lanes require a later operations doc and decision record.
 
