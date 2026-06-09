@@ -17,8 +17,8 @@ node apps/workbench/smoke/a11y-visual-smoke.mjs     # browser + a11y + visual sm
 
 ## What it shows
 
-- the `solo` lane as a live route over its generated manifest; the other three
-  lanes as honest descriptor-only states with pending surfaces labelled;
+- all four suite lanes as generated shell routes over their generated manifests,
+  with remaining React app surfaces labelled as pending;
 - the resident renderer output for the checked compatibility fixtures, including
   display-only action references and fail-closed invalid payloads;
 - the workbench presentation panels for harness refs with operational status

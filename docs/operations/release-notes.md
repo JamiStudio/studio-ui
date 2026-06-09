@@ -71,11 +71,13 @@ section is part of the notes, not an afterthought.
 
 - `apps/workbench`: a dependency-free static browser surface over the generated
   theme, registry/suite descriptors, resident renderer, and presentation seam. It
-  renders the `solo` lane live and the other lanes as honest descriptor-only states,
-  serializes renderer/presentation output as inert escaped HTML, and drives
-  `factory`/`light`/`dark` theme states from generated tokens. A `node --test` gate
-  is wired into `pnpm verify`; a separate headless Edge/Chrome smoke captures
-  per-theme/focus/responsive screenshots and a structural a11y + contrast report.
+  renders all four suite lanes as generated shell routes, serializes
+  renderer/presentation output as inert escaped HTML, drives `factory`/`light`/`dark`
+  theme states from generated tokens, and adds an always-live local overlay for
+  token edits, save/duplicate/restore, local register/export artifacts, and
+  close/reopen state. A `node --test` gate is wired into `pnpm verify`; a separate
+  headless Edge/Chrome smoke captures per-theme/focus/responsive screenshots and a
+  structural a11y + contrast report.
 
 ### Release and supply-chain readiness (this pass)
 
