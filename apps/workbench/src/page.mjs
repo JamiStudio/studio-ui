@@ -50,16 +50,14 @@ html[data-theme="dark"] {
   --ju-accent: var(--jami-semantic-dark-accent);
   --ju-ring: var(--jami-componentState-focusRing);
 }
-/* Factory adds an accent-tinted page wash distinct from plain light. */
-html[data-theme="factory"] body {
-  background-image: radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--ju-accent) 10%, transparent), transparent 60%);
-}
-
 :root {
   --ju-surface: color-mix(in srgb, var(--ju-fg) 4%, var(--ju-bg));
   --ju-surface-2: color-mix(in srgb, var(--ju-fg) 8%, var(--ju-bg));
   --ju-border: color-mix(in srgb, var(--ju-fg) 18%, var(--ju-bg));
   --ju-muted: color-mix(in srgb, var(--ju-fg) 52%, var(--ju-bg));
+  --ju-status-success: var(--jami-color-brand-teal);
+  --ju-status-warning: color-mix(in srgb, var(--ju-accent) 58%, var(--jami-color-brand-teal));
+  --ju-status-danger: var(--ju-accent);
   --ju-radius: var(--jami-radius-control, 8px);
   --ju-gap: var(--jami-spacing-control, 8px);
   --ju-motion: var(--jami-motion-fast, 120ms);
@@ -186,13 +184,13 @@ section.ju-section { margin: 36px 0; }
 
 /* Operational status colors are conveyed by text + a left bar, never color alone. */
 .ju-badge[data-status], .ju-flag[data-status] { border-left-width: 4px; }
-[data-status="ready"] { border-left-color: var(--jami-color-brand-teal); }
+[data-status="ready"] { border-left-color: var(--ju-status-success); }
 [data-status="empty"], [data-status="loading"] { border-left-color: var(--ju-muted); }
-[data-status="stale"] { border-left-color: #b58a2e; }
+[data-status="stale"] { border-left-color: var(--ju-status-warning); }
 [data-status="redacted"], [data-status="denied"] { border-left-color: var(--jami-color-brand-accent); }
-[data-status="error"], [data-status="missing-source"], [data-status="unsupported"] { border-left-color: #b3402f; }
-.ju-badge[data-state="renderable"] { border-left: 4px solid var(--jami-color-brand-teal); }
-.ju-badge[data-state="invalid"], .ju-badge[data-state="error"], .ju-badge[data-state="unsupported"] { border-left: 4px solid #b3402f; }
+[data-status="error"], [data-status="missing-source"], [data-status="unsupported"] { border-left-color: var(--ju-status-danger); }
+.ju-badge[data-state="renderable"] { border-left: 4px solid var(--ju-status-success); }
+.ju-badge[data-state="invalid"], .ju-badge[data-state="error"], .ju-badge[data-state="unsupported"] { border-left: 4px solid var(--ju-status-danger); }
 .ju-badge[data-state="denied"] { border-left: 4px solid var(--jami-color-brand-accent); }
 .ju-badge[data-state="display-only"] { border-left: 4px solid var(--ju-muted); }
 
@@ -225,8 +223,8 @@ section.ju-section { margin: 36px 0; }
   border: 1px solid var(--ju-border);
   font-size: 0.9rem;
 }
-.ju-notice[data-tone="warning"] { border-left: 4px solid #b58a2e; }
-.ju-notice[data-tone="danger"] { border-left: 4px solid #b3402f; }
+.ju-notice[data-tone="warning"] { border-left: 4px solid var(--ju-status-warning); }
+.ju-notice[data-tone="danger"] { border-left: 4px solid var(--ju-status-danger); }
 .ju-notice-code { display: inline-block; margin-left: 6px; font-family: ui-monospace, monospace; opacity: 0.8; }
 
 .ju-fixture-head, .ju-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
@@ -250,7 +248,7 @@ table.ju-tokens { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 table.ju-tokens th, table.ju-tokens td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--ju-border); vertical-align: middle; }
 .ju-swatch { width: 22px; height: 22px; border-radius: 4px; border: 1px solid var(--ju-border); display: inline-block; vertical-align: middle; }
 .ju-pass { color: var(--jami-color-brand-teal); font-weight: 600; }
-.ju-fail { color: #b3402f; font-weight: 600; }
+.ju-fail { color: var(--ju-status-danger); font-weight: 600; }
 
 footer.ju-footer { border-top: 1px solid var(--ju-border); margin-top: 40px; padding-top: 18px; color: var(--ju-muted); font-size: 0.85rem; }
 footer.ju-footer code { overflow-wrap: anywhere; }

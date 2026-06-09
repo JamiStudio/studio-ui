@@ -7,7 +7,7 @@
 // browser/screenshot pass lives in smoke/a11y-visual-smoke.mjs (run separately).
 
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 
@@ -18,6 +18,7 @@ import { build } from "../build.mjs";
 
 const data = loadShowcaseData();
 const page = buildPage(data, { theme: "factory" });
+const pageSource = readFileSync(new URL("../src/page.mjs", import.meta.url), "utf8");
 
 test("consumes real generated token values, not duplicated data", () => {
   // The warm factory anchor and teal focus ring come straight from jami.css.
@@ -25,6 +26,11 @@ test("consumes real generated token values, not duplicated data", () => {
   assert.ok(page.includes("#237C7A"), "focus-ring token hex present");
   assert.ok(page.includes("--jami-semantic-light-background"), "generated CSS var present");
   assert.ok(data.tokens.length >= 15, "parsed the generated token set");
+});
+
+test("showcase source stays tokenized and avoids decorative gradient backgrounds", () => {
+  assert.equal(/#[0-9a-fA-F]{3,8}/.test(pageSource), false, "no literal hex colors in workbench source");
+  assert.equal(/(?:radial|linear)-gradient/.test(pageSource), false, "no decorative gradient backgrounds");
 });
 
 test("consumes real registry + generated suite shell descriptors", () => {
