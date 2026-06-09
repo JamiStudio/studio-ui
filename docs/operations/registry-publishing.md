@@ -56,21 +56,24 @@ account actions are honest readiness states, not failures. The check is part of
 ```
 publish dry-run: ready-to-stage
   registry: @jami-studio/registry -> https://registry.jami.studio
-  items: 12 (12 publishable now, 0 source-pending)
-  publishable now: agent-panel, business-ops-suite, button, data-list, docs-source-panel, jami-theme, media-grid, mixed-media-suite, panel, research-writing-suite, solo-suite, text-field
+  items: 38 (38 publishable now, 0 source-pending)
   source-pending: (none)
   copied third-party source items: none
-  served files: 17
+  served files: 69
   secret-shaped content: none
 ```
+
+The 38 publishable items are: 1 theme, 3 primitives, 4 resident components, 4
+suite roots, 8 generated page descriptors, and 18 generated block descriptors.
 
 Read "publishable now" precisely: an item is listed when **its own served bytes are
 complete and hash-verified**. The `jami-theme` item ships the four generated token
 outputs as real, hashed content. The primitive and component vocabulary items ship
 the authored `packages/ui` vocabulary metadata and tokenized styles as real, hashed
-content. The four suite items ship a complete, hashed suite *manifest*. "Publishable
-now" does **not** assert that a suite's planned per-lane page/block/component surfaces
-exist — those are `plannedSurfaces`, pending later suite work.
+content. The four suite items ship complete, hashed suite manifests. The generated
+page and block items ship complete, hashed descriptor manifests derived from the
+authored suite shell sources. "Publishable now" still does **not** assert full
+React page/block implementations or hosted registry availability.
 
 ## Provenance And Hashes
 

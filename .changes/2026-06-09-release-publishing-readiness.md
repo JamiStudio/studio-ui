@@ -18,8 +18,9 @@ high-signal secret-shaped-content scan over every served byte (never echoing a
 match), confirms each item has a generated artifact and each suite a manifest,
 confirms a LICENSE file and per-item license exist, classifies items installable vs
 source-pending from real generated content, and lists the human/account actions it
-cannot perform. Current status: `ready-to-stage`, 12 items (12 publishable now,
-0 source-pending), secret-clean, no copied third-party source.
+cannot perform. Current status after the suite page/block registry item pass:
+`ready-to-stage`, 38 items (38 publishable now, 0 source-pending), 69 served
+files, secret-clean, no copied third-party source.
 
 Adds four operations docs: `registry-publishing.md` (static publishing runbook and
 readiness, with the dry-run status and pending host/DNS/source-lock actions),
