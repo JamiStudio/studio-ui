@@ -1,7 +1,7 @@
 # Studio UI Production Shape Implementation Plan
 
 Date: 2026-06-07
-Status: Active - repo foundation in progress
+Status: Active - crossflow foundation verified; full product acceptance still open
 Source reports: `docs/research/studio-ui-feasibility-report.md`; crossflow adversarial review at `C:\Users\james\dev\orgs\oss\registry\docs\research\2026-06-08-harness-ui-plan-adversarial-review.md`
 Owner: Jamie / Jami.Studio
 Surface: Jami.Studio Studio UI foundation: registry, token system, workbench overlay, CLI, suite packs, and runtime renderer
@@ -29,7 +29,10 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   renderer negative tests, UI lifecycle commands, accessibility/visual gates, and early provenance checks
   before implementation expands from docs into product packages.
 - Yrka reference surfaces under `C:\Users\james\projects\yrka\packages\design-tokens`, `C:\Users\james\projects\yrka\apps\web\lib\theme`, and `C:\Users\james\projects\yrka\apps\web\components\admin\dock` are the preferred local influence for dense, always-live, orderly theme controls.
-- Current checkout has docs, research, package/source-control scaffold, and repo-readiness guidance. Product packages are not implemented yet.
+- Current checkout has docs, research, package/source-control scaffold, repo-readiness guidance,
+  and first real product foundations under `packages/tokens`, `packages/registry`,
+  `packages/renderer`, `packages/cli`, and `apps/workbench`. Full product acceptance
+  remains open where the checklist still shows unchecked or partial items.
 - 2026-06-09 path-lock evidence confirms `studio-ui` and `jami-harness` are separate registry-root Git
   worktrees with canonical `JamiStudio` remotes; the sibling harness worktree had an unrelated dirty
   deletion during this Studio UI pass and was not edited here.
@@ -161,6 +164,16 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   registry or npm publish is claimed, npm auth and the static host remain pending human
   actions, and the workbench a11y/visual smoke was re-run (14/14 structural a11y, 4/4
   contrast, 5/5 screenshots on Microsoft Edge).
+- 2026-06-09 fresh Studio UI audit confirmed the root crossflow Stream 1-6 foundation
+  claims are proven for the surfaces that exist: `pnpm verify`, `pnpm docs:check`,
+  `pnpm contracts:check`, `pnpm registry:publish:check`, and
+  `pnpm --filter @jami-studio/workbench smoke` all exit 0; `.env` remains ignored.
+  This does not close the full roadmap acceptance criteria. Open product gaps remain:
+  concrete `packages/ui` primitives/components, per-component renderer prop schemas,
+  vocabulary-generation handshake/version rules, the interactive always-live workbench
+  editing overlay, full suite app shells and lower-level suite parts, hosted registry URL
+  install smoke, automated release-note generation, SBOM/attestation execution at publish
+  time, and npm/static-host publish actions.
 
 ## Locked Decisions
 

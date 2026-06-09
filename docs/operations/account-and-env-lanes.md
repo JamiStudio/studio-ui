@@ -1,7 +1,7 @@
 # Account And Env Lanes
 
 Status: Active setup reference
-Last updated: 2026-06-07
+Last updated: 2026-06-09
 
 ## Purpose
 
@@ -22,7 +22,7 @@ It must never contain secret values.
 
 ## Current CLI Status
 
-Checked on 2026-06-07:
+Checked on 2026-06-09:
 
 - GitHub CLI: authenticated to `github.com` as `jamesnavinhill`; token scopes include
   `repo`, `workflow`, `read:org`, and `gist`.
@@ -35,8 +35,8 @@ Checked on 2026-06-07:
 - Node: `v24.16.0`.
 - pnpm: `10.33.2`.
 - npm registry: `https://registry.npmjs.org/`.
-- npm auth: not authenticated for `npm whoami`; run `npm adduser` or configure an npm
-  automation token before package publishing.
+- npm auth: `npm whoami` returns `jamesnavinhill`. A scoped automation token and trusted
+  publish workflow are still required before package publishing.
 - Wrangler: installed globally at `C:\nvm4w\nodejs\wrangler.cmd`; `wrangler --version`
   reports `4.98.0`.
 - Wrangler auth: logged in with an OAuth token for `james@jami.studio`.
