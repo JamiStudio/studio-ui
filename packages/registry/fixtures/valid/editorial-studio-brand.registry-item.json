@@ -1,0 +1,53 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
+  "name": "@jami-studio/editorial-studio-brand",
+  "type": "theme",
+  "title": "Editorial Studio Brand Option",
+  "description": "Selectable branding and template direction descriptor for a calmer docs and research-writing suite presentation. It is not final brand canon.",
+  "suite": "research-writing",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "panel",
+    "docs-source-panel",
+    "text-field"
+  ],
+  "files": [
+    {
+      "path": "registry/branding/editorial-studio.brand-option.json",
+      "target": "studio-ui/branding/editorial-studio.brand-option.json",
+      "kind": "registry:theme"
+    }
+  ],
+  "lifecycle": {
+    "id": "theme.brand-option.editorial-studio",
+    "version": "0.0.0-contract.20260609",
+    "schemaVersion": "2026-06-09.registry-foundation",
+    "sourceHash": "sha256:0295a599d1c6e5f2779c0fbe3b93b5a20818d295a6c2fc6655e413a0e5f91278",
+    "migrationNotes": "Authored selectable brand/template descriptor. It expresses token deltas against the accepted token model and does not redistribute logo source or claim final brand canon."
+  },
+  "tokenRequirements": [
+    "semantic.light.accent",
+    "semantic.dark.accent",
+    "componentState.focusRing",
+    "radius.control",
+    "spacing.control",
+    "shell.dockWidth"
+  ],
+  "brandOption": {
+    "optionId": "editorial-studio",
+    "canonicalBrand": false,
+    "descriptor": "registry/branding/editorial-studio.brand-option.json"
+  },
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "reviewedAt": "2026-06-09",
+    "copiedSource": false
+  },
+  "compatibility": {
+    "shadcn": "4.x source-lock required before generated output",
+    "tailwind": "4.x source-lock required before generated output",
+    "react": ">=19"
+  }
+}

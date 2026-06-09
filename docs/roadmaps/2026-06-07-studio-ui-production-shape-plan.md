@@ -216,6 +216,15 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   export/close/reopen. Full React/Radix component implementations, hosted
   persisted editing, backend registry/package registration, independent page and
   block registry items, and full suite app shells remain open.
+- 2026-06-09 Workstream 5 branding/template option pass 1 added three authored
+  selectable default-kit directions (`studio-console`, `editorial-studio`, and
+  `command-grid`) through accepted Studio UI seams: `registry/branding/`
+  descriptors, generated registry theme items with embedded content hashes,
+  contract validation that keeps the logo seed material exploratory and
+  `canonicalBrand: false`, CLI temp-project install/provenance coverage, and a
+  workbench option gallery plus overlay selection controls. These options express
+  token deltas and suite-shell presentation choices; they do not make any final
+  brand canon claim or redistribute logo source.
 
 ## Locked Decisions
 

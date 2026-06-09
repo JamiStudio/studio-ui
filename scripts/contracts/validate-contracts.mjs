@@ -204,6 +204,41 @@ function validateRegistryFixture(path, shouldPass) {
     localFailures.push("missing compatibility ranges");
   }
   if (!Array.isArray(item.tokenRequirements)) localFailures.push("missing tokenRequirements array");
+  if (item.brandOption) {
+    const descriptorPath = item.brandOption.descriptor;
+    const descriptor = descriptorPath ? readJson(descriptorPath) : null;
+    if (item.type !== "theme") localFailures.push("brandOption registry entries must be theme items");
+    if (item.brandOption.canonicalBrand !== false) localFailures.push("brandOption must not claim final brand canon");
+    if (!descriptor) {
+      localFailures.push("brandOption must point at an authored descriptor");
+    } else {
+      if (descriptor.$schema !== "https://jami.studio/schemas/registry/brand-option.source.json") {
+        localFailures.push("brandOption descriptor has wrong schema URL");
+      }
+      if (descriptor.optionId !== item.brandOption.optionId) {
+        localFailures.push("brandOption optionId must match descriptor optionId");
+      }
+      if (descriptor.canonicalBrand !== false) {
+        localFailures.push("brandOption descriptor must not claim final brand canon");
+      }
+      if (descriptor.provenance?.copiedSource !== false) {
+        localFailures.push("brandOption descriptor must record copiedSource false");
+      }
+      if (!descriptor.seedMaterial?.usage?.includes("Exploratory")) {
+        localFailures.push("brandOption descriptor must keep branding seed material exploratory");
+      }
+      for (const token of item.tokenRequirements) {
+        if (!Object.hasOwn(descriptor.tokenDeltas ?? {}, token)) {
+          localFailures.push(`brandOption descriptor missing token delta ${token}`);
+        }
+      }
+      for (const control of ["accent", "focusRing", "radius", "spacing", "density", "motion", "dockWidth", "fontSize"]) {
+        if (descriptor.workbenchControls?.[control] === undefined) {
+          localFailures.push(`brandOption descriptor missing workbench control ${control}`);
+        }
+      }
+    }
+  }
 
   if (shouldPass && localFailures.length > 0) fail(path, localFailures.join("; "));
   if (!shouldPass && localFailures.length === 0) fail(path, "expected invalid registry fixture to fail");

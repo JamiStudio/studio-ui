@@ -59,6 +59,21 @@ function loadFixtureDir(relativeDir) {
 
 const SUITE_LANES = ["solo", "business-ops", "mixed-media", "research-writing"];
 
+function brandOptionFromItem(item) {
+  const descriptorFile = (item.files ?? []).find((file) => file.target?.includes("/branding/"));
+  if (!descriptorFile?.content) return null;
+  const descriptor = JSON.parse(descriptorFile.content);
+  return {
+    itemName: item.name,
+    title: item.title,
+    description: item.description,
+    version: item.meta?.lifecycle?.version ?? null,
+    sourceHash: item.meta?.lifecycle?.sourceHash ?? null,
+    dependencies: item.registryDependencies ?? [],
+    descriptor,
+  };
+}
+
 // Assemble everything the page needs from real generated/fixture sources.
 export function loadShowcaseData() {
   const tokenCss = readText("packages/tokens/generated/jami.css");
@@ -84,6 +99,12 @@ export function loadShowcaseData() {
     });
     return { lane, manifest, item, members };
   });
+
+  const brandOptions = registry.items
+    .filter((item) => item.meta?.brandOption)
+    .map(brandOptionFromItem)
+    .filter(Boolean)
+    .sort((a, b) => a.descriptor.optionId.localeCompare(b.descriptor.optionId));
 
   // Render the compatibility fixtures through the real resident renderer.
   const compatFixtures = [
@@ -113,6 +134,7 @@ export function loadShowcaseData() {
     tokens: parseTokenCss(tokenCss),
     registry,
     suites,
+    brandOptions,
     compatFixtures,
     presentationPanels,
   };

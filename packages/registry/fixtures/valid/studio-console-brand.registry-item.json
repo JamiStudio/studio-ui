@@ -1,0 +1,54 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
+  "name": "@jami-studio/studio-console-brand",
+  "type": "theme",
+  "title": "Studio Console Brand Option",
+  "description": "Selectable branding and template direction descriptor for a dense operational default kit presentation. It is not final brand canon.",
+  "suite": "business-ops",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "button",
+    "panel",
+    "data-list",
+    "agent-panel"
+  ],
+  "files": [
+    {
+      "path": "registry/branding/studio-console.brand-option.json",
+      "target": "studio-ui/branding/studio-console.brand-option.json",
+      "kind": "registry:theme"
+    }
+  ],
+  "lifecycle": {
+    "id": "theme.brand-option.studio-console",
+    "version": "0.0.0-contract.20260609",
+    "schemaVersion": "2026-06-09.registry-foundation",
+    "sourceHash": "sha256:8de67e6a13152b581b659b576ac4d67bfa0fccfeea7abf8dfff5740205eae145",
+    "migrationNotes": "Authored selectable brand/template descriptor. It expresses token deltas against the accepted token model and does not redistribute logo source or claim final brand canon."
+  },
+  "tokenRequirements": [
+    "semantic.light.accent",
+    "semantic.dark.accent",
+    "componentState.focusRing",
+    "radius.control",
+    "spacing.control",
+    "shell.dockWidth"
+  ],
+  "brandOption": {
+    "optionId": "studio-console",
+    "canonicalBrand": false,
+    "descriptor": "registry/branding/studio-console.brand-option.json"
+  },
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "reviewedAt": "2026-06-09",
+    "copiedSource": false
+  },
+  "compatibility": {
+    "shadcn": "4.x source-lock required before generated output",
+    "tailwind": "4.x source-lock required before generated output",
+    "react": ">=19"
+  }
+}

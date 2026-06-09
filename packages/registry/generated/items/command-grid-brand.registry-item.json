@@ -1,0 +1,60 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "command-grid-brand",
+  "type": "registry:theme",
+  "title": "Command Grid Brand Option",
+  "description": "Selectable branding and template direction descriptor for sharper mixed-media and operations suite shells. It is not final brand canon.",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "button",
+    "panel",
+    "data-list",
+    "media-grid"
+  ],
+  "files": [
+    {
+      "path": "registry/branding/command-grid.brand-option.json",
+      "target": "studio-ui/branding/command-grid.brand-option.json",
+      "type": "registry:theme",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/brand-option.source.json\",\n  \"schemaVersion\": \"2026-06-09.brand-option\",\n  \"optionId\": \"command-grid\",\n  \"title\": \"Command Grid\",\n  \"summary\": \"Sharper suite-shell direction for mixed-media and business operations: blue command accents, tighter radius, and registry-first install cards.\",\n  \"status\": \"selectable-option\",\n  \"canonicalBrand\": false,\n  \"defaultKitRole\": \"suite shell stress-test candidate\",\n  \"seedMaterial\": {\n    \"source\": \"registry-root exploratory branding intake\",\n    \"paths\": [\n      \"docs/branding/logo-red-bg.jpg\",\n      \"docs/branding/logo-gold-bg.png\"\n    ],\n    \"usage\": \"Exploratory cue reference only; no logo source or final mark is redistributed by this descriptor.\"\n  },\n  \"tokenDeltas\": {\n    \"semantic.light.accent\": \"#315C8E\",\n    \"semantic.dark.accent\": \"#9BB7E3\",\n    \"componentState.focusRing\": \"#A64B72\",\n    \"radius.control\": \"4px\",\n    \"spacing.control\": \"7px\",\n    \"shell.dockWidth\": \"280px\"\n  },\n  \"workbenchControls\": {\n    \"accent\": \"#315C8E\",\n    \"focusRing\": \"#A64B72\",\n    \"radius\": \"4\",\n    \"spacing\": \"7\",\n    \"density\": \"0.9\",\n    \"motion\": \"80\",\n    \"dockWidth\": \"280\",\n    \"fontSize\": \"15\"\n  },\n  \"presentation\": {\n    \"layout\": \"command-board shell with registry graph and media/status panes\",\n    \"chrome\": \"tight cards, tabular metadata, strong install/provenance affordances\",\n    \"markTreatment\": \"abstract glasses or bow-grid emblem for small package and app icons\",\n    \"bestFor\": [\n      \"mixed-media suite\",\n      \"business operations suite\",\n      \"registry item choice and install inspection\"\n    ],\n    \"risks\": [\n      \"can feel too cold unless paired with the soft character cue\",\n      \"requires careful contrast checks for blue accent on dark surfaces\"\n    ]\n  },\n  \"accessibilityEvidence\": {\n    \"contrastTargets\": [\n      \"foreground/background remains inherited from the factory semantic pairs\",\n      \"blue accent is intended for command states and selected registry rows\"\n    ],\n    \"states\": [\n      \"registry choices\",\n      \"media grids\",\n      \"error and denied states\",\n      \"narrow workbench viewport\"\n    ]\n  },\n  \"provenance\": {\n    \"source\": \"authored\",\n    \"license\": \"MIT\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:13226749a1c366e6453531170ae0908e0378454d904381780741e3649e535ac7"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/command-grid-brand",
+    "suite": "mixed-media",
+    "lifecycle": {
+      "id": "theme.brand-option.command-grid",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:9b152eca4ba8e0988bce723db1f930281a64eb0c1ea206c91df1b0e2a2513668",
+      "migrationNotes": "Authored selectable brand/template descriptor. It expresses token deltas against the accepted token model and does not redistribute logo source or claim final brand canon."
+    },
+    "tokenRequirements": [
+      "semantic.light.accent",
+      "semantic.dark.accent",
+      "componentState.focusRing",
+      "radius.control",
+      "spacing.control",
+      "shell.dockWidth"
+    ],
+    "provenance": {
+      "source": "authored",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "brandOption": {
+      "optionId": "command-grid",
+      "canonicalBrand": false,
+      "descriptor": "registry/branding/command-grid.brand-option.json"
+    },
+    "agentManifest": null
+  }
+}

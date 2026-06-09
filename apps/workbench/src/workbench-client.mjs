@@ -1,11 +1,12 @@
 import { ARTIFACT_VERSION, STORAGE_KEY, factoryDraft } from "./workbench-state.mjs";
 
-export function buildWorkbenchClientScript() {
+export function buildWorkbenchClientScript(brandOptionMap = {}) {
   return `
 (function () {
   var STORAGE_KEY = ${JSON.stringify(STORAGE_KEY)};
   var ARTIFACT_VERSION = ${JSON.stringify(ARTIFACT_VERSION)};
   var factoryDraft = ${JSON.stringify(factoryDraft)};
+  var brandOptions = ${JSON.stringify(brandOptionMap)};
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
   function normalizeDraft(input) {
     var draft = input && typeof input === 'object' ? input : {};
@@ -56,6 +57,16 @@ export function buildWorkbenchClientScript() {
     }
     if (event.type === 'select-theme') {
       return Object.assign({}, current, { draft: Object.assign({}, current.draft, { presetName: event.presetName, themeName: event.themeName || current.draft.themeName }), lastAction: 'edited' });
+    }
+    if (event.type === 'select-brand-option') {
+      return Object.assign({}, current, {
+        draft: Object.assign({}, current.draft, {
+          presetName: event.presetName,
+          themeName: event.themeName || current.draft.themeName,
+          controls: Object.assign({}, current.draft.controls, event.controls && typeof event.controls === 'object' ? event.controls : {})
+        }),
+        lastAction: 'selected-brand-option'
+      });
     }
     if (event.type === 'save') return Object.assign({}, current, { saved: normalizeDraft(current.draft), lastAction: 'saved-local' });
     if (event.type === 'duplicate') {
@@ -146,6 +157,18 @@ export function buildWorkbenchClientScript() {
     button.addEventListener('click', function () {
       var value = button.getAttribute('data-theme-value');
       dispatch({ type: 'select-theme', presetName: value, themeName: value === 'factory' ? 'Jami factory' : value.charAt(0).toUpperCase() + value.slice(1) });
+    });
+  });
+  document.querySelectorAll('[data-brand-option]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var optionId = button.getAttribute('data-brand-option');
+      var option = brandOptions[optionId] || {};
+      dispatch({
+        type: 'select-brand-option',
+        presetName: optionId,
+        themeName: option.title || optionId,
+        controls: option.workbenchControls || {}
+      });
     });
   });
   renderState();

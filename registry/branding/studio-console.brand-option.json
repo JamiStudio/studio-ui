@@ -1,0 +1,67 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/brand-option.source.json",
+  "schemaVersion": "2026-06-09.brand-option",
+  "optionId": "studio-console",
+  "title": "Studio Console",
+  "summary": "Dense workbench shell with character cues reduced to compact chrome, teal command affordances, and controlled warm-magenta emphasis.",
+  "status": "selectable-option",
+  "canonicalBrand": false,
+  "defaultKitRole": "operational default candidate",
+  "seedMaterial": {
+    "source": "registry-root exploratory branding intake",
+    "paths": [
+      "docs/branding/logo-white-bg.jpg",
+      "docs/branding/logo-pink-bg.jpg"
+    ],
+    "usage": "Exploratory cue reference only; no logo source or final mark is redistributed by this descriptor."
+  },
+  "tokenDeltas": {
+    "semantic.light.accent": "#2F6F73",
+    "semantic.dark.accent": "#76C6BE",
+    "componentState.focusRing": "#C14D84",
+    "radius.control": "6px",
+    "spacing.control": "8px",
+    "shell.dockWidth": "300px"
+  },
+  "workbenchControls": {
+    "accent": "#2F6F73",
+    "focusRing": "#C14D84",
+    "radius": "6",
+    "spacing": "8",
+    "density": "0.95",
+    "motion": "100",
+    "dockWidth": "300",
+    "fontSize": "15"
+  },
+  "presentation": {
+    "layout": "compact split registry and suite shell",
+    "chrome": "flat panels, small badges, strong table/list density",
+    "markTreatment": "tiny glasses/bow cue or monogram slot, not the detailed character image",
+    "bestFor": [
+      "default kit install preview",
+      "CLI and registry package cards",
+      "operator-heavy workbench sessions"
+    ],
+    "risks": [
+      "can become too utilitarian if the character cue is removed entirely",
+      "needs a production small mark before package badges use it"
+    ]
+  },
+  "accessibilityEvidence": {
+    "contrastTargets": [
+      "foreground/background remains inherited from the factory semantic pairs",
+      "accent is selected for AA non-text and large-control use against the warm light background"
+    ],
+    "states": [
+      "focus-visible",
+      "long content",
+      "dense navigation",
+      "dark mode"
+    ]
+  },
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "copiedSource": false
+  }
+}

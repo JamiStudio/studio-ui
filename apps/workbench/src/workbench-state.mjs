@@ -93,6 +93,20 @@ export function reduceWorkbenchState(state, event) {
         },
         lastAction: "edited",
       };
+    case "select-brand-option":
+      return {
+        ...current,
+        draft: {
+          ...current.draft,
+          presetName: event.presetName,
+          themeName: event.themeName ?? current.draft.themeName,
+          controls: {
+            ...current.draft.controls,
+            ...(event.controls && typeof event.controls === "object" ? event.controls : {}),
+          },
+        },
+        lastAction: "selected-brand-option",
+      };
     case "save":
       return {
         ...current,
@@ -147,4 +161,3 @@ export function parseWorkbenchState(raw) {
     return createInitialWorkbenchState();
   }
 }
-

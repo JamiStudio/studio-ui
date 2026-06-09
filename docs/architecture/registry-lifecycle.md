@@ -62,6 +62,12 @@ items are:
   metadata and tokenized style source.
 - `jami-theme` (`theme`) — installable: its files are the generated token
   outputs, so real install content and per-file hashes are embedded.
+- `studio-console-brand`, `editorial-studio-brand`, and `command-grid-brand`
+  (`theme`) — installable brand/template option descriptors under
+  `registry/branding/`. They express selectable token deltas and default-kit
+  presentation choices against the accepted token model. They are explicitly
+  exploratory, authored, and not final brand canon; no logo source is
+  redistributed.
 - `solo-suite`, `business-ops-suite`, `mixed-media-suite`,
   `research-writing-suite` (`suite`) — install-graph descriptors. Each declares
   its member items in `registryDependencies`, including the generated standalone

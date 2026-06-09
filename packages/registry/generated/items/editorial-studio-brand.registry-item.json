@@ -1,0 +1,59 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "editorial-studio-brand",
+  "type": "registry:theme",
+  "title": "Editorial Studio Brand Option",
+  "description": "Selectable branding and template direction descriptor for a calmer docs and research-writing suite presentation. It is not final brand canon.",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "panel",
+    "docs-source-panel",
+    "text-field"
+  ],
+  "files": [
+    {
+      "path": "registry/branding/editorial-studio.brand-option.json",
+      "target": "studio-ui/branding/editorial-studio.brand-option.json",
+      "type": "registry:theme",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/brand-option.source.json\",\n  \"schemaVersion\": \"2026-06-09.brand-option\",\n  \"optionId\": \"editorial-studio\",\n  \"title\": \"Editorial Studio\",\n  \"summary\": \"A restrained creator-workbench option with richer plum accent, quieter spacing, and wordmark-first presentation for docs and writing suites.\",\n  \"status\": \"selectable-option\",\n  \"canonicalBrand\": false,\n  \"defaultKitRole\": \"editorial suite candidate\",\n  \"seedMaterial\": {\n    \"source\": \"registry-root exploratory branding intake\",\n    \"paths\": [\n      \"docs/branding/logo-cream-bg.jpg\",\n      \"docs/branding/logo-peach-bg.jpg\"\n    ],\n    \"usage\": \"Exploratory cue reference only; no logo source or final mark is redistributed by this descriptor.\"\n  },\n  \"tokenDeltas\": {\n    \"semantic.light.accent\": \"#6F3D5F\",\n    \"semantic.dark.accent\": \"#D8A5C8\",\n    \"componentState.focusRing\": \"#237C7A\",\n    \"radius.control\": \"8px\",\n    \"spacing.control\": \"10px\",\n    \"shell.dockWidth\": \"340px\"\n  },\n  \"workbenchControls\": {\n    \"accent\": \"#6F3D5F\",\n    \"focusRing\": \"#237C7A\",\n    \"radius\": \"8\",\n    \"spacing\": \"10\",\n    \"density\": \"1.05\",\n    \"motion\": \"140\",\n    \"dockWidth\": \"340\",\n    \"fontSize\": \"16\"\n  },\n  \"presentation\": {\n    \"layout\": \"quiet document and source review shell\",\n    \"chrome\": \"measured panels, larger reading rows, strong citation/status scanning\",\n    \"markTreatment\": \"wordmark or serif title lockup with a simplified bow/glasses companion mark\",\n    \"bestFor\": [\n      \"research-writing suite\",\n      \"docs and source panels\",\n      \"brand book and documentation previews\"\n    ],\n    \"risks\": [\n      \"must avoid drifting into a cream-only editorial page\",\n      \"needs sharper app-chrome treatment for dense operations screens\"\n    ]\n  },\n  \"accessibilityEvidence\": {\n    \"contrastTargets\": [\n      \"foreground/background remains inherited from the factory semantic pairs\",\n      \"plum accent is intended for labelled controls, active tabs, and large UI emphasis\"\n    ],\n    \"states\": [\n      \"source citations\",\n      \"redacted panels\",\n      \"long reading content\",\n      \"light and dark modes\"\n    ]\n  },\n  \"provenance\": {\n    \"source\": \"authored\",\n    \"license\": \"MIT\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:2285f11f63aef7e498930dbd6f4f1e5eec3a782102c7810c857e5ab41c8877fc"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/editorial-studio-brand",
+    "suite": "research-writing",
+    "lifecycle": {
+      "id": "theme.brand-option.editorial-studio",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:0295a599d1c6e5f2779c0fbe3b93b5a20818d295a6c2fc6655e413a0e5f91278",
+      "migrationNotes": "Authored selectable brand/template descriptor. It expresses token deltas against the accepted token model and does not redistribute logo source or claim final brand canon."
+    },
+    "tokenRequirements": [
+      "semantic.light.accent",
+      "semantic.dark.accent",
+      "componentState.focusRing",
+      "radius.control",
+      "spacing.control",
+      "shell.dockWidth"
+    ],
+    "provenance": {
+      "source": "authored",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "brandOption": {
+      "optionId": "editorial-studio",
+      "canonicalBrand": false,
+      "descriptor": "registry/branding/editorial-studio.brand-option.json"
+    },
+    "agentManifest": null
+  }
+}

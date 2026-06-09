@@ -18,13 +18,14 @@ in this table with live evidence, it is not safe to make publicly.
 | Registry items validate against the Jami metadata contract | `packages/registry/fixtures/*` + schema gate | `pnpm contracts:check` |
 | Registry output is shadcn-shaped with embedded content + `sha256` hashes | `packages/registry/generated/registry.json` | `pnpm registry:publish:check` |
 | Suite pages and blocks are independently installable registry items | generated page/block item artifacts and CLI temp-project smoke | `pnpm --filter @jami-studio/cli test` |
+| Default-kit brand/template options are selectable and CLI-inspectable without claiming final brand canon | `registry/branding/*.brand-option.json`, generated `*-brand` registry items, workbench option cards, CLI temp-project smoke | `pnpm contracts:check`; `pnpm --filter @jami-studio/workbench test`; `pnpm --filter @jami-studio/cli test` |
 | Every embedded registry content hash recomputes exactly | publish dry-run hash re-verification | `pnpm registry:publish:check` |
 | No secret-shaped content in the served registry bundle | publish dry-run secret scan (`secret-shaped content: none`) | `pnpm registry:publish:check` |
 | No third-party source is redistributed | all items `copiedSource: false`; dry-run `copiedSourceItems: none` | `pnpm registry:publish:check` |
 | Items are MIT-licensed and the repo carries a matching LICENSE | root `LICENSE`; package `license` fields; item `meta.provenance.license` | `pnpm registry:publish:check` (fails if LICENSE missing) |
 | The renderer fails closed on unsafe/malformed payloads | renderer fixtures + `safe-payload.mjs` + unit tests | `pnpm --filter @jami-studio/renderer test` |
 | Renderer/seam emit inert, non-executable, secret-safe output | `render.test.mjs` / `presentation.test.mjs` | `pnpm --filter @jami-studio/renderer test` |
-| The CLI installs/updates/removes/migrates and verifies provenance | 15 temp-project smoke tests | `pnpm --filter @jami-studio/cli test` |
+| The CLI installs/updates/removes/migrates and verifies provenance | 18 temp-project smoke tests | `pnpm --filter @jami-studio/cli test` |
 | The CLI provenance command verifies content hashes | `cli provenance <name>` (`state: verified`) | `node packages/cli/bin/studio-ui.mjs provenance jami-theme --registry packages/registry/generated --json` |
 | The workbench renders the seams in a browser | static showcase + `node --test` gate | `pnpm --filter @jami-studio/workbench test` |
 | The workbench supports always-live local token edits and deterministic local artifacts | local overlay state reducer + `node --test` gate | `pnpm --filter @jami-studio/workbench test` |
@@ -34,8 +35,8 @@ in this table with live evidence, it is not safe to make publicly.
 ## Latest Evidence Snapshot (2026-06-09)
 
 - `pnpm verify` — pass (exit 0), all stages green, including `registry:publish:check`.
-- `pnpm registry:publish:check` — `ready-to-stage`; 38 items (38 publishable now,
-  0 source-pending); 69 served files; secret-shaped content: none; copied
+- `pnpm registry:publish:check` — `ready-to-stage`; 41 items (41 publishable now,
+  0 source-pending); 72 served files; secret-shaped content: none; copied
   third-party source: none.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
@@ -54,7 +55,8 @@ These must not be stated as fact publicly until evidence exists (see
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
 - Harness runtime behavior (owned by Jami Harness, only displayed here).
-- Any branding or visual-identity claim.
+- Any final branding or visual-identity canon claim. Selectable brand/template option descriptors exist,
+  but they are exploratory choices only.
 
 ## Cross-Links
 

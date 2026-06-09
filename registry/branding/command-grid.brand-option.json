@@ -1,0 +1,67 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/brand-option.source.json",
+  "schemaVersion": "2026-06-09.brand-option",
+  "optionId": "command-grid",
+  "title": "Command Grid",
+  "summary": "Sharper suite-shell direction for mixed-media and business operations: blue command accents, tighter radius, and registry-first install cards.",
+  "status": "selectable-option",
+  "canonicalBrand": false,
+  "defaultKitRole": "suite shell stress-test candidate",
+  "seedMaterial": {
+    "source": "registry-root exploratory branding intake",
+    "paths": [
+      "docs/branding/logo-red-bg.jpg",
+      "docs/branding/logo-gold-bg.png"
+    ],
+    "usage": "Exploratory cue reference only; no logo source or final mark is redistributed by this descriptor."
+  },
+  "tokenDeltas": {
+    "semantic.light.accent": "#315C8E",
+    "semantic.dark.accent": "#9BB7E3",
+    "componentState.focusRing": "#A64B72",
+    "radius.control": "4px",
+    "spacing.control": "7px",
+    "shell.dockWidth": "280px"
+  },
+  "workbenchControls": {
+    "accent": "#315C8E",
+    "focusRing": "#A64B72",
+    "radius": "4",
+    "spacing": "7",
+    "density": "0.9",
+    "motion": "80",
+    "dockWidth": "280",
+    "fontSize": "15"
+  },
+  "presentation": {
+    "layout": "command-board shell with registry graph and media/status panes",
+    "chrome": "tight cards, tabular metadata, strong install/provenance affordances",
+    "markTreatment": "abstract glasses or bow-grid emblem for small package and app icons",
+    "bestFor": [
+      "mixed-media suite",
+      "business operations suite",
+      "registry item choice and install inspection"
+    ],
+    "risks": [
+      "can feel too cold unless paired with the soft character cue",
+      "requires careful contrast checks for blue accent on dark surfaces"
+    ]
+  },
+  "accessibilityEvidence": {
+    "contrastTargets": [
+      "foreground/background remains inherited from the factory semantic pairs",
+      "blue accent is intended for command states and selected registry rows"
+    ],
+    "states": [
+      "registry choices",
+      "media grids",
+      "error and denied states",
+      "narrow workbench viewport"
+    ]
+  },
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "copiedSource": false
+  }
+}

@@ -300,6 +300,39 @@ section.ju-section { margin: 36px 0; }
 .ju-card-head h4 { margin: 0; font-size: 1rem; }
 .ju-card { margin: 0; }
 
+.ju-brand-card {
+  display: grid;
+  gap: 12px;
+}
+.ju-brand-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ju-swatch-row {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.ju-large-swatch {
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  display: grid;
+  min-height: 46px;
+  padding: 6px;
+}
+.ju-large-swatch span {
+  align-self: end;
+  background: color-mix(in srgb, var(--ju-bg) 86%, transparent);
+  border-radius: 4px;
+  color: var(--ju-fg);
+  font-size: 0.68rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  padding: 2px 4px;
+}
+
 .ju-suite[data-suite] { border-left: 4px solid var(--ju-accent); }
 .ju-suite-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; justify-content: flex-start; min-width: 0; }
 .ju-suite-head h3 { margin: 0; min-width: 0; overflow-wrap: anywhere; font-size: 1.1rem; }
@@ -470,6 +503,14 @@ function workbenchOverlay(data) {
   const suites = data.suites
     .map((suite) => `<li><code>${escapeHtml(suite.lane)}</code> ${escapeHtml(suite.manifest.shell?.title ?? suite.lane)}</li>`)
     .join("");
+  const brandOptions = data.brandOptions
+    .map(
+      (option) =>
+        `<button type="button" class="ju-theme-btn" data-brand-option="${escapeAttr(option.descriptor.optionId)}">${escapeHtml(
+          option.descriptor.title,
+        )}</button>`,
+    )
+    .join("");
   return `
 <button type="button" class="ju-tool-btn ju-open-workbench" data-wb-action="open">Workbench</button>
 <aside class="ju-workbench" aria-label="Always-live workbench overlay">
@@ -490,6 +531,7 @@ function workbenchOverlay(data) {
       <div class="ju-control"><span>Preset</span><div class="ju-chips">${THEMES.map(
         (name) => `<button type="button" class="ju-theme-btn" data-theme-value="${name}" aria-pressed="${name === "factory" ? "true" : "false"}">${escapeHtml(THEME_LABEL[name])}</button>`,
       ).join("")}</div></div>
+      <div class="ju-control"><span>Brand options</span><div class="ju-chips">${brandOptions}</div></div>
       <div class="ju-control"><span>Last action</span><code id="ju-wb-last-action">ready</code></div>
     </div></details>
     <details class="ju-dock-panel" open><summary>Color</summary><div class="ju-dock-body">${colorControls}</div></details>
@@ -523,11 +565,79 @@ function nav(suites) {
 <nav class="ju-nav" aria-label="Sections">
   <ul>
     ${suiteLinks}
+    <li><a href="#brand-options">Default kit options</a></li>
     <li><a href="#renderer">Resident renderer</a></li>
     <li><a href="#workbench">Workbench panels</a></li>
     <li><a href="#tokens">Theme tokens</a></li>
   </ul>
 </nav>`;
+}
+
+function brandOptionMap(brandOptions) {
+  return Object.fromEntries(
+    brandOptions.map((option) => [
+      option.descriptor.optionId,
+      {
+        title: option.descriptor.title,
+        workbenchControls: option.descriptor.workbenchControls,
+      },
+    ]),
+  );
+}
+
+function brandSwatch(tokenDeltas, tokenName) {
+  const value = tokenDeltas?.[tokenName];
+  if (!/^#[0-9a-fA-F]{6}$/.test(value ?? "")) return "";
+  return `<div class="ju-large-swatch" style="background:${escapeAttr(value)}"><span>${escapeHtml(tokenName.replace("semantic.", "").replace("componentState.", ""))}</span></div>`;
+}
+
+function brandOptionCard(option) {
+  const descriptor = option.descriptor;
+  const swatches = [
+    brandSwatch(descriptor.tokenDeltas, "semantic.light.accent"),
+    brandSwatch(descriptor.tokenDeltas, "semantic.dark.accent"),
+    brandSwatch(descriptor.tokenDeltas, "componentState.focusRing"),
+  ].join("");
+  const bestFor = (descriptor.presentation?.bestFor ?? [])
+    .map((item) => `<span class="ju-chip">${escapeHtml(item)}</span>`)
+    .join("");
+  const risks = (descriptor.presentation?.risks ?? []).map((risk) => `<li>${escapeHtml(risk)}</li>`).join("");
+  const tokenDeltas = Object.entries(descriptor.tokenDeltas ?? {})
+    .map(([name, value]) => `<li><code>${escapeHtml(name)}</code> -> <code>${escapeHtml(value)}</code></li>`)
+    .join("");
+  return `
+<article class="ju-card ju-brand-card">
+  <header class="ju-card-head">
+    <h4>${escapeHtml(descriptor.title)}</h4>
+    <span class="ju-badge" data-status="ready">selectable</span>
+  </header>
+  <p class="ju-muted">${escapeHtml(descriptor.summary)}</p>
+  <div class="ju-swatch-row" aria-label="${escapeAttr(descriptor.title)} token delta swatches">${swatches}</div>
+  <dl class="ju-kv-grid">
+    <div class="ju-kv"><dt>registry item</dt><dd><code>${escapeHtml(option.itemName)}</code></dd></div>
+    <div class="ju-kv"><dt>default kit role</dt><dd>${escapeHtml(descriptor.defaultKitRole)}</dd></div>
+    <div class="ju-kv"><dt>brand canon</dt><dd>${descriptor.canonicalBrand ? "final" : "not final canon"}</dd></div>
+    <div class="ju-kv"><dt>seed use</dt><dd>${escapeHtml(descriptor.seedMaterial?.usage ?? "")}</dd></div>
+  </dl>
+  <div class="ju-brand-actions">
+    <button type="button" class="ju-tool-btn" data-primary="true" data-brand-option="${escapeAttr(descriptor.optionId)}">Select</button>
+    <span class="ju-chip">CLI inspectable</span>
+  </div>
+  <details class="ju-reasons"><summary>Token deltas</summary><ul>${tokenDeltas}</ul></details>
+  <details class="ju-reasons"><summary>Best fit</summary><div class="ju-chips">${bestFor}</div></details>
+  <details class="ju-reasons"><summary>Open risks</summary><ul>${risks}</ul></details>
+</article>`;
+}
+
+function brandOptionsSection(brandOptions) {
+  return `
+<section class="ju-section" id="brand-options" aria-labelledby="ju-brand-options-h">
+  <h2 id="ju-brand-options-h">Default kit options</h2>
+  <p class="ju-lead">Selectable brand/template descriptors generated through registry theme items. They express token deltas and workbench presentation choices against the accepted token model; none claims final brand canon or redistributes the exploratory logo source.</p>
+  <div class="ju-grid">
+    ${brandOptions.map(brandOptionCard).join("")}
+  </div>
+</section>`;
 }
 
 function memberRow(member) {
@@ -723,6 +833,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
     nav(data.suites),
     `<main id="ju-main">`,
     suitesSection(data.suites),
+    brandOptionsSection(data.brandOptions),
     rendererSection(data.compatFixtures),
     workbenchSection(data.presentationPanels),
     tokensSection(data.tokens),
@@ -748,7 +859,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
 </head>
 <body>
 ${withFocus}
-<script>${buildWorkbenchClientScript()}</script>
+<script>${buildWorkbenchClientScript(brandOptionMap(data.brandOptions))}</script>
 </body>
 </html>
 `;

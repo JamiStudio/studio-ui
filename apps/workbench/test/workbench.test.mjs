@@ -37,6 +37,19 @@ test("consumes real generated token values, not duplicated data", () => {
   assert.ok(data.tokens.length >= 15, "parsed the generated token set");
 });
 
+test("loads selectable brand options from generated registry items", () => {
+  assert.equal(data.brandOptions.length, 3);
+  for (const id of ["command-grid", "editorial-studio", "studio-console"]) {
+    const option = data.brandOptions.find((entry) => entry.descriptor.optionId === id);
+    assert.ok(option, `${id} option loaded`);
+    assert.equal(option.descriptor.canonicalBrand, false, `${id} does not claim final canon`);
+    assert.equal(option.descriptor.provenance.copiedSource, false, `${id} is authored, not copied source`);
+    assert.ok(option.descriptor.seedMaterial.usage.includes("Exploratory"), `${id} keeps seed material exploratory`);
+    assert.ok(option.descriptor.tokenDeltas["semantic.light.accent"], `${id} has light accent delta`);
+    assert.ok(option.descriptor.workbenchControls.accent, `${id} has selectable workbench controls`);
+  }
+});
+
 test("showcase source stays tokenized and avoids decorative gradient backgrounds", () => {
   assert.equal(/#[0-9a-fA-F]{3,8}/.test(pageSource), false, "no literal hex colors in workbench source");
   assert.equal(/(?:radial|linear)-gradient/.test(pageSource), false, "no decorative gradient backgrounds");
@@ -95,6 +108,9 @@ test("always-live workbench overlay renders required status bar actions and pane
   assert.ok(page.includes('data-wb-control="accent"'), "color control is data-backed");
   assert.ok(page.includes('data-wb-control="radius"'), "layout control is data-backed");
   assert.ok(page.includes('id="ju-wb-export" readonly'), "export artifact is local/read-only");
+  for (const option of ["studio-console", "editorial-studio", "command-grid"]) {
+    assert.ok(page.includes(`data-brand-option="${option}"`), `${option} selectable in overlay/page`);
+  }
 });
 
 test("workbench state transitions are deterministic local draft/artifact flows", () => {
@@ -118,6 +134,15 @@ test("workbench state transitions are deterministic local draft/artifact flows",
   assert.equal(state.registeredArtifacts[0].backendPersistence, false);
   state = reduceWorkbenchState(state, { type: "export" });
   assert.equal(state.exportArtifact.localOnly, true);
+  state = reduceWorkbenchState(state, {
+    type: "select-brand-option",
+    presetName: "command-grid",
+    themeName: "Command Grid",
+    controls: { accent: "#315C8E", radius: "4" },
+  });
+  assert.equal(state.draft.presetName, "command-grid");
+  assert.equal(state.draft.controls.accent, "#315C8E");
+  assert.equal(state.lastAction, "selected-brand-option");
   state = reduceWorkbenchState(state, { type: "restore" });
   assert.deepEqual(state.draft, factoryDraft, "restore returns the draft to factory");
 });
@@ -172,6 +197,16 @@ test("accessible structure: skip link, landmarks, labelled groups, scoped header
   assert.ok(page.includes('role="group" aria-label="Theme"'), "labelled theme group");
   assert.ok(page.includes('scope="col"'), "table headers are scoped");
   assert.ok(page.includes('lang="en"'), "document language set");
+});
+
+test("brand option section presents default kit choices without final-brand claims", () => {
+  assert.ok(page.includes('id="brand-options"'), "default kit options section");
+  for (const title of ["Studio Console", "Editorial Studio", "Command Grid"]) {
+    assert.ok(page.includes(title), `${title} presented`);
+  }
+  assert.ok(page.includes("not final canon"), "canon status surfaced");
+  assert.ok(page.includes("CLI inspectable"), "registry/CLI choice surface signposted");
+  assert.equal(/brand canon<\/dt><dd>final<\/dd>/.test(page), false, "no option is presented as final canon");
 });
 
 test("responsive + reduced-motion affordances are present", () => {

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/brand-option.source.json",
+  "schemaVersion": "2026-06-09.brand-option",
+  "optionId": "editorial-studio",
+  "title": "Editorial Studio",
+  "summary": "A restrained creator-workbench option with richer plum accent, quieter spacing, and wordmark-first presentation for docs and writing suites.",
+  "status": "selectable-option",
+  "canonicalBrand": false,
+  "defaultKitRole": "editorial suite candidate",
+  "seedMaterial": {
+    "source": "registry-root exploratory branding intake",
+    "paths": [
+      "docs/branding/logo-cream-bg.jpg",
+      "docs/branding/logo-peach-bg.jpg"
+    ],
+    "usage": "Exploratory cue reference only; no logo source or final mark is redistributed by this descriptor."
+  },
+  "tokenDeltas": {
+    "semantic.light.accent": "#6F3D5F",
+    "semantic.dark.accent": "#D8A5C8",
+    "componentState.focusRing": "#237C7A",
+    "radius.control": "8px",
+    "spacing.control": "10px",
+    "shell.dockWidth": "340px"
+  },
+  "workbenchControls": {
+    "accent": "#6F3D5F",
+    "focusRing": "#237C7A",
+    "radius": "8",
+    "spacing": "10",
+    "density": "1.05",
+    "motion": "140",
+    "dockWidth": "340",
+    "fontSize": "16"
+  },
+  "presentation": {
+    "layout": "quiet document and source review shell",
+    "chrome": "measured panels, larger reading rows, strong citation/status scanning",
+    "markTreatment": "wordmark or serif title lockup with a simplified bow/glasses companion mark",
+    "bestFor": [
+      "research-writing suite",
+      "docs and source panels",
+      "brand book and documentation previews"
+    ],
+    "risks": [
+      "must avoid drifting into a cream-only editorial page",
+      "needs sharper app-chrome treatment for dense operations screens"
+    ]
+  },
+  "accessibilityEvidence": {
+    "contrastTargets": [
+      "foreground/background remains inherited from the factory semantic pairs",
+      "plum accent is intended for labelled controls, active tabs, and large UI emphasis"
+    ],
+    "states": [
+      "source citations",
+      "redacted panels",
+      "long reading content",
+      "light and dark modes"
+    ]
+  },
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "copiedSource": false
+  }
+}

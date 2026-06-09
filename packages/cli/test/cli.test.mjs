@@ -53,18 +53,21 @@ test("list returns the real generated registry items", () => {
   const r = call("list");
   assert.equal(r.code, 0);
   const names = r.result.data.items.map((i) => i.name);
-  assert.equal(names.length, 38);
+  assert.equal(names.length, 41);
   for (const name of [
     "agent-panel",
     "business-ops-dashboard-page",
     "business-ops-kpis-block",
     "button",
+    "command-grid-brand",
+    "editorial-studio-brand",
     "jami-theme",
     "mixed-media-library-page",
     "research-writing-sources-block",
     "solo-suite",
     "solo-today-page",
     "solo-agenda-block",
+    "studio-console-brand",
   ]) {
     assert.ok(names.includes(name), `${name} listed`);
   }
@@ -89,6 +92,25 @@ test("add installs real theme files and records provenance in the lock", () => {
   assert.equal(entry.provenance.license, "MIT");
   // config reflects the installed theme
   assert.equal(readJson("studio-ui.config.json").theme, "jami-theme");
+});
+
+test("add installs selectable brand option descriptors with no final-canon claim", () => {
+  call("init");
+  const r = call("add", "studio-console-brand");
+  assert.equal(r.code, 0);
+  assert.ok(r.result.data.graph.includes("jami-theme"), "brand option includes the factory theme dependency");
+  assert.ok(existsSync(join(dir, "studio-ui", "branding", "studio-console.brand-option.json")));
+
+  const descriptor = readJson(join("studio-ui", "branding", "studio-console.brand-option.json"));
+  assert.equal(descriptor.canonicalBrand, false);
+  assert.equal(descriptor.provenance.copiedSource, false);
+  assert.ok(descriptor.seedMaterial.usage.includes("Exploratory"));
+  assert.equal(descriptor.workbenchControls.radius, "6");
+
+  const provenance = call("provenance", "studio-console-brand");
+  assert.equal(provenance.code, 0);
+  assert.equal(provenance.result.data.provenance.source, "authored");
+  assert.ok(provenance.result.data.files.every((f) => f.state === "verified"));
 });
 
 test("dry-run plans without writing", () => {

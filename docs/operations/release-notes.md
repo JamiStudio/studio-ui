@@ -37,7 +37,9 @@ section is part of the notes, not an afterthought.
   hashes where source resolves on disk. Source items carry validated SHA-256 source
   hashes.
 - Items: `jami-theme` (installable — its files are the generated token outputs);
-  seven resident vocabulary items (`button`, `panel`, `text-field`, `data-list`,
+  three selectable brand/template option descriptors (`studio-console-brand`,
+  `editorial-studio-brand`, `command-grid-brand`) that are CLI-inspectable and
+  explicitly not final brand canon; seven resident vocabulary items (`button`, `panel`, `text-field`, `data-list`,
   `agent-panel`, `docs-source-panel`, `media-grid`) with authored metadata and
   tokenized styles embedded as real install content; four suite install-graph
   descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`); and
@@ -67,7 +69,7 @@ section is part of the notes, not an afterthought.
   `provenance`) over an inspectable `studio-ui.config.json`/`studio-ui.lock.json`,
   with hash-based non-destructive conflict handling, rollback guidance, and
   provenance verification. Remote registry fetch is an explicit unsupported state.
-  17 temp-project smoke tests run against the real generated registry, including
+  18 temp-project smoke tests run against the real generated registry, including
   standalone suite page/block install and provenance.
 
 ### Workbench showcase
@@ -76,8 +78,9 @@ section is part of the notes, not an afterthought.
   theme, registry/suite descriptors, resident renderer, and presentation seam. It
   renders all four suite lanes as generated shell routes, serializes
   renderer/presentation output as inert escaped HTML, drives `factory`/`light`/`dark`
-  theme states from generated tokens, and adds an always-live local overlay for
-  token edits, save/duplicate/restore, local register/export artifacts, and
+  theme states from generated tokens, presents selectable non-canon default-kit
+  brand/template options from generated registry items, and adds an always-live local overlay for
+  token edits, brand-option selection, save/duplicate/restore, local register/export artifacts, and
   close/reopen state. A `node --test` gate is wired into `pnpm verify`; a separate
   headless Edge/Chrome smoke captures per-theme/focus/responsive screenshots and a
   structural a11y + contrast report.
@@ -89,8 +92,8 @@ section is part of the notes, not an afterthought.
 - `pnpm registry:publish:check` static publish dry-run added and wired into
   `pnpm verify`: it re-verifies every embedded content hash, scans served bytes for
   secret-shaped content, classifies installable vs source-pending items, and reports
-  human/account actions. Current status: `ready-to-stage`, 38 publishable generated
-  items, 0 source-pending, 69 served files, secret-clean, no copied third-party source.
+  human/account actions. Current status: `ready-to-stage`, 41 publishable generated
+  items, 0 source-pending, 72 served files, secret-clean, no copied third-party source.
 - Registry publishing runbook, release/supply-chain policy (SBOM, provenance,
   hashes, attestation), and a public-claims evidence map added under
   `docs/operations/`.
@@ -115,6 +118,9 @@ engine; runs succeed on Node 22 with a non-fatal pnpm unsupported-engine warning
   package registration, and no full suite app shells. Per-lane suite page/block
   descriptors are generated and installable, but full React page/block
   implementations are not built.
+- No final brand canon. The brand/template options are selectable registry
+  descriptors for comparison only; the exploratory logo seed files remain outside
+  production token, registry, and package branding canon.
 - No harness runtime in this repo: agent execution, policy, tools, memory, and
   traces are owned by Jami Harness and only displayed here.
 - No branding canon: current logo material is exploratory only; branding work is

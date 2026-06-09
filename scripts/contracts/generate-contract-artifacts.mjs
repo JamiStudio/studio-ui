@@ -176,6 +176,7 @@ function registryOutputItem(item) {
       provenance: item.provenance,
       compatibility: item.compatibility,
       ...(item.plannedSurfaces ? { plannedSurfaces: item.plannedSurfaces } : {}),
+      ...(item.brandOption ? { brandOption: item.brandOption } : {}),
       agentManifest: item.agentManifest ?? null,
     },
   };

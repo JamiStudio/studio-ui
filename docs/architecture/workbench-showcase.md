@@ -36,6 +36,10 @@ no harness runtime, hosted persistence, or backend package registration.
     generated suite manifests, resolve each member to real registry metadata,
     and display the authored app shell, route map, pages, blocks, component
     parts, install graph, and long-content/empty/error states;
+  - selectable default-kit brand/template options (`studio-console`,
+    `editorial-studio`, `command-grid`) from generated registry theme items and
+    authored descriptors under `registry/branding/`, including token deltas,
+    workbench control values, fit/risk notes, and explicit non-canon status;
   - the resident renderer's output for the checked compatibility fixtures — a
     valid payload renders a real resident component, action references render
     display-only (`executable: false`), denied actions render as denied, and
@@ -49,7 +53,9 @@ no harness runtime, hosted persistence, or backend package registration.
     foreground/background pairs.
 - Theme states and overlay controls are token-driven. The page maps an active
   theme (`factory`, `light`, `dark`) to the generated semantic tokens, then the
-  overlay updates CSS variables immediately for the live page.
+  overlay updates CSS variables immediately for the live page. Brand-option
+  selection applies descriptor-owned workbench control deltas locally; it does
+  not mutate the factory token source or declare a final visual identity.
 - The always-live overlay is first-party static-app code, not a renderer payload.
   It exposes a compact status bar with target, theme/preset, dirty/storage state,
   Save, Duplicate, Restore, Register, Export, and Close. Its docked panels cover
@@ -72,6 +78,7 @@ checked fixture corpus. Nothing is hand-authored into the page:
 - `packages/registry/generated/registry.json`
 - `packages/registry/generated/suites/<lane>.suite.json`
 - `registry/suites/<lane>/suite-shell.json` through generated suite manifests
+- `registry/branding/*.brand-option.json` through generated registry theme items
 - `packages/renderer/fixtures/compatibility/*`
 - `packages/renderer/fixtures/presentation/*`
 
@@ -93,8 +100,8 @@ checked fixture corpus. Nothing is hand-authored into the page:
   the browser's local state.
 - **Honest states.** Authored suite shell descriptors are labelled as generated
   shell routes, registry member installability is read from generated content,
-  and the page still states that full React suite app implementations are
-  pending.
+  brand options are labelled as selectable but not final canon, and the page
+  still states that full React suite app implementations are pending.
 
 ## Build And Verify
 

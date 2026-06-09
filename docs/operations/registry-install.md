@@ -7,7 +7,7 @@ Last updated: 2026-06-09
 
 `@jami-studio/cli` (`packages/cli`) is the install/config surface for the Studio
 UI registry. It installs and maintains registry distribution artifacts — themes,
-primitives, and suite descriptors — in a target project, with an inspectable
+brand/template option descriptors, primitives, and suite descriptors — in a target project, with an inspectable
 config and lockfile, hash-based conflict detection, and provenance verification.
 
 The CLI is dependency-free (Node built-ins only) and consumes the real generated
@@ -27,7 +27,8 @@ workaround, never a silent empty registry.
 Installable vs source-pending:
 
 - An item whose files all carry content (for example `jami-theme`, whose files
-  are the generated token outputs, or `button`, whose authored vocabulary/style
+  are the generated token outputs; `studio-console-brand`, whose file is an
+  authored brand-option descriptor; or `button`, whose authored vocabulary/style
   files are embedded) is `installable`: the CLI writes real bytes and records
   each file's content hash.
 - An item whose files carry no content yet is `source-pending`: the CLI records
@@ -54,7 +55,7 @@ No hidden state is written.
 | --- | --- |
 | `init` | Write `studio-ui.config.json` (`--title`, `--suite`, `--theme`, `--package-manager`, `--registry`, `--force`). Refuses to overwrite without `--force`. |
 | `list` | List registry items with type, version, suite, and source state. |
-| `inspect <name>` | Show lifecycle, provenance, compatibility, token requirements, install files, the resolved dependency graph, and any planned (pending) surfaces. |
+| `inspect <name>` | Show lifecycle, provenance, compatibility, token requirements, install files, the resolved dependency graph, brand-option metadata when present, and any planned (pending) surfaces. |
 | `add <name>` | Resolve the item's `registryDependencies` graph and install it. `--dry-run` plans without writing; `--force` overwrites conflicts. |
 | `remove <name>` | Delete an installed item's files and lock entry. Refuses to delete locally modified files without `--force`. |
 | `update [name]` | Compare lock entries to the registry and reinstall outdated items. `--dry-run` plans; `--force` overrides pins and conflicts. |
@@ -86,18 +87,18 @@ without an explicit `--force`.
 ## Verification
 
 - `pnpm --filter @jami-studio/cli test` runs deterministic temp-project smoke
-  tests under the OS temp dir covering init, list, install, suite-graph install
-  with authored primitive source, standalone suite page/block install and
-  provenance, dry-run, conflict refusal and forced overwrite, doctor drift
-  detection, remove, update of outdated entries, pin/update interaction, migrate
-  report/apply, provenance verification, remote-registry unsupported state, and
-  unknown-item failure.
+  tests under the OS temp dir covering init, list, install, brand-option
+  descriptor install and provenance, suite-graph install with authored primitive
+  source, standalone suite page/block install and provenance, dry-run, conflict
+  refusal and forced overwrite, doctor drift detection, remove, update of
+  outdated entries, pin/update interaction, migrate report/apply, provenance
+  verification, remote-registry unsupported state, and unknown-item failure.
 - The CLI test is part of `pnpm verify`.
 
 ## Not Yet Claimed
 
 The CLI installs UI distribution artifacts only. It does not fetch a remote
 registry, run a package manager, scaffold an app shell, render a browser
-surface, or execute harness actions. Suite items install their theme, suite
+surface, decide a final brand identity, or execute harness actions. Suite items install their theme, suite
 descriptor, and generated page/block descriptors. These are installable
 manifests, not full React page or block implementations.
