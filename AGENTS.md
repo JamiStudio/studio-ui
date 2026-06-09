@@ -1,5 +1,7 @@
 # AGENTS.md - Studio UI operating rules
 
+Today is June 2026. Do not rely on outdated training knowledge. There have been significant security, patterns, and best-practice updates that must be adopted. ALWAYS use official UP-TO-DATE sources.
+
 Studio UI is the Jami.Studio primitive registry, token system, workbench overlay,
 CLI install surface, runtime renderer, and installable suite-pack foundation. Read this
 before editing.
