@@ -6,6 +6,7 @@
   "expectedRendererState": "renderable",
   "payload": {
     "schemaVersion": "2026-06-09",
+    "vocabularyHandshakeVersion": "2026-06-09.vocabulary-handshake",
     "payloadId": "uip_save_theme",
     "componentRef": {
       "namespace": "@jami-studio/ui",

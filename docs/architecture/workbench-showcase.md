@@ -13,8 +13,10 @@ to end:
 - the generated Jami factory theme (`packages/tokens/generated/jami.css`),
 - the generated registry items and suite descriptors
   (`packages/registry/generated/`),
-- the resident renderer (`packages/renderer/src/render.mjs`), and
-- the workbench presentation seam (`packages/renderer/src/presentation.mjs`).
+- the resident renderer (`packages/renderer/src/render.mjs`),
+- the workbench presentation seam (`packages/renderer/src/presentation.mjs`), and
+- the resident vocabulary handshake, prop schemas, and descriptor-only
+  React-style primitive descriptors (`packages/ui/src`).
 
 It is the smallest real surface that lets the registry → renderer → presentation
 loop be inspected visually, edited through generated-token controls, and produce
@@ -45,6 +47,9 @@ no harness runtime, hosted persistence, or backend package registration.
     display-only (`executable: false`), denied actions render as denied, and
     unknown/unsafe/malformed payloads fail closed to the renderer-owned inert
     fallback;
+  - the vocabulary handshake and per-component prop schemas loaded from
+    `packages/ui`, including descriptor-only primitive metadata and the
+    invalid/unsupported state rules the renderer enforces;
   - the workbench presentation seam's descriptors for harness refs (artifact
     views, evidence packets, run-event traces, memory records, context packs,
     action refs) with their operational status badges (ready, redacted, stale,
@@ -79,6 +84,8 @@ checked fixture corpus. Nothing is hand-authored into the page:
 - `packages/registry/generated/suites/<lane>.suite.json`
 - `registry/suites/<lane>/suite-shell.json` through generated suite manifests
 - `registry/branding/*.brand-option.json` through generated registry theme items
+- `packages/ui/src/vocabulary.mjs`
+- `packages/ui/src/primitive-descriptors.mjs`
 - `packages/renderer/fixtures/compatibility/*`
 - `packages/renderer/fixtures/presentation/*`
 
@@ -118,7 +125,9 @@ checked fixture corpus. Nothing is hand-authored into the page:
   responsive and reduced-motion affordances, long-content wrapping,
   redacted-content gating, always-live overlay controls/panels, local draft state
   transitions, and that the displayed WCAG contrast ratios recompute correctly
-  and meet their targets.
+  and meet their targets. It also asserts that the vocabulary handshake,
+  prop-schema version, descriptor-only status, and a bad-prop fixture rejection
+  are visible in the generated page.
 
 ## Browser, Visual, And Accessibility Evidence
 

@@ -6,6 +6,7 @@
   "expectedRendererState": "unsupported",
   "payload": {
     "schemaVersion": "2026-06-09",
+    "vocabularyHandshakeVersion": "2026-06-09.vocabulary-handshake",
     "payloadId": "uip_unknown_chart",
     "componentRef": {
       "namespace": "@jami-studio/ui",

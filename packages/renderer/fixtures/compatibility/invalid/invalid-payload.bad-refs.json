@@ -6,6 +6,7 @@
   "expectedRendererState": "invalid",
   "payload": {
     "schemaVersion": "2026-06-09",
+    "vocabularyHandshakeVersion": "2026-06-09.vocabulary-handshake",
     "payloadId": "payload.bad.refs",
     "componentRef": {
       "namespace": "@jami-studio/ui",

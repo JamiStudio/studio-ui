@@ -68,6 +68,17 @@ test("consumes real registry + generated suite shell descriptors", () => {
   }
 });
 
+test("exposes source-owned vocabulary handshake and prop schemas", () => {
+  assert.equal(data.vocabularyHandshake.schemaVersion, "2026-06-09.vocabulary-handshake");
+  assert.ok(data.vocabularyHandshake.payloadSchemaVersions.includes("2026-06-09"));
+  assert.equal(data.componentVocabulary.length, 7);
+  assert.equal(Object.keys(data.primitiveDescriptors).length, 7);
+  assert.ok(page.includes('id="vocabulary"'), "vocabulary evidence section rendered");
+  assert.ok(page.includes("2026-06-09.ui-props"), "prop schema version surfaced");
+  assert.ok(page.includes("descriptor-only"), "descriptor status surfaced honestly");
+  assert.ok(page.includes("unsupported prop href for button"), "bad prop fixture reason is visible");
+});
+
 test("all four lanes render generated suite shell routes without claiming React runtime", () => {
   for (const lane of ["solo", "business-ops", "mixed-media", "research-writing"]) {
     assert.ok(page.includes(`id="suite-${lane}"`), `${lane} section present`);
@@ -159,6 +170,7 @@ test("renders the resident renderer fixtures, including fail-closed states", () 
   // A denied action is shown as denied, display-only.
   assert.ok(page.includes("Denied by harness policy"));
   assert.ok(page.includes(">Denied<") || page.includes("Denied"), "denied state surfaced");
+  assert.ok(page.includes("unsupported vocabularyHandshakeVersion"), "stale vocabulary handshake rejection surfaced");
 });
 
 test("renders workbench presentation panels with operational statuses", () => {

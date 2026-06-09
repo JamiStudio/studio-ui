@@ -5,6 +5,15 @@ import { generateAllArtifacts, registrySourceHash } from "./generate-contract-ar
 // unsafe-payload scan, secret-key set). The contract check imports them so the
 // fixture gate and the runtime renderer can never enforce different rules.
 import { allowedComponents, scanUnsafePayload } from "../../packages/renderer/src/safe-payload.mjs";
+import {
+  UI_PAYLOAD_SCHEMA_VERSION,
+  UI_PROP_SCHEMA_VERSION,
+  UI_VOCABULARY_HANDSHAKE_VERSION,
+  UI_VOCABULARY_SCHEMA_VERSION,
+  componentVocabulary,
+  validateComponentProps,
+  vocabularyHandshake,
+} from "../../packages/ui/src/index.mjs";
 // The workbench presentation seam is exercised by the contract gate so the
 // presentation fixtures cannot drift from the seam that consumes them.
 import { presentWorkbenchPanel } from "../../packages/renderer/src/presentation.mjs";
@@ -284,7 +293,12 @@ function validateHarnessUiPayload(payload, localFailures, { allowUnsupported = f
     localFailures.push("missing payload");
     return;
   }
-  if (payload.schemaVersion !== "2026-06-09") localFailures.push("payload schemaVersion must be 2026-06-09");
+  if (payload.schemaVersion !== UI_PAYLOAD_SCHEMA_VERSION) {
+    localFailures.push(`payload schemaVersion must be ${UI_PAYLOAD_SCHEMA_VERSION}`);
+  }
+  if (payload.vocabularyHandshakeVersion !== vocabularyHandshake.schemaVersion) {
+    localFailures.push(`payload vocabularyHandshakeVersion must be ${vocabularyHandshake.schemaVersion}`);
+  }
   if (!/^uip_[a-z0-9][a-z0-9_-]*$/.test(payload.payloadId ?? "")) localFailures.push("payloadId must use uip_ prefix");
   const component = payload.componentRef;
   if (component?.namespace !== "@jami-studio/ui") localFailures.push("componentRef namespace must be @jami-studio/ui");
@@ -312,6 +326,38 @@ function validateHarnessUiPayload(payload, localFailures, { allowUnsupported = f
   }
   scanUnsafePayload(payload.props, localFailures);
   scanUnsafePayload(payload.children, localFailures);
+  if (allowedComponents.has(component?.name)) {
+    localFailures.push(...validateComponentProps(component.name, payload.props ?? {}));
+  }
+}
+
+function validateUiVocabulary() {
+  const localFailures = [];
+  if (vocabularyHandshake.schemaVersion !== UI_VOCABULARY_HANDSHAKE_VERSION) {
+    localFailures.push("vocabulary handshake version export drifted");
+  }
+  if (!vocabularyHandshake.payloadSchemaVersions.includes(UI_PAYLOAD_SCHEMA_VERSION)) {
+    localFailures.push("vocabulary handshake must accept the renderer payload schema version");
+  }
+  if (vocabularyHandshake.vocabularyVersion !== UI_VOCABULARY_SCHEMA_VERSION) {
+    localFailures.push("vocabulary handshake must reference the current vocabulary version");
+  }
+  if (vocabularyHandshake.propSchemaVersion !== UI_PROP_SCHEMA_VERSION) {
+    localFailures.push("vocabulary handshake must reference the current prop schema version");
+  }
+  for (const definition of componentVocabulary) {
+    const schema = definition.propSchema;
+    if (schema.schemaVersion !== UI_PROP_SCHEMA_VERSION) {
+      localFailures.push(`${definition.name} prop schema version drift`);
+    }
+    if (schema.additionalProperties !== false) {
+      localFailures.push(`${definition.name} prop schema must reject additional properties`);
+    }
+    if (!schema.properties || Object.keys(schema.properties).length === 0) {
+      localFailures.push(`${definition.name} prop schema must declare properties`);
+    }
+  }
+  if (localFailures.length > 0) fail("packages/ui/src/vocabulary.mjs", localFailures.join("; "));
 }
 
 function validateRendererFixture(path, shouldPass) {
@@ -529,6 +575,7 @@ for (const path of listJson("packages/renderer/fixtures/compatibility/valid")) v
 for (const path of listJson("packages/renderer/fixtures/compatibility/invalid")) validateRendererFixture(path, false);
 for (const path of listJson("packages/renderer/fixtures/presentation")) validatePresentationFixture(path);
 
+validateUiVocabulary();
 for (const failure of generateAllArtifacts({ check: true })) failures.push(failure);
 validateGeneratedRegistry();
 

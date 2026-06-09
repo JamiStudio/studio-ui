@@ -448,7 +448,8 @@ footer.ju-footer code { overflow-wrap: anywhere; }
   .ju-kv { grid-template-columns: 1fr; }
   .ju-card, .ju-fixture, .ju-panel, .ju-suite { padding: 12px; }
   .ju-badge, .ju-chip, .ju-flag { max-width: 100%; white-space: normal; }
-  nav.ju-nav a { display: inline-block; max-width: 100%; white-space: normal; }
+  nav.ju-nav ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  nav.ju-nav a { display: block; max-width: 100%; text-align: center; white-space: normal; width: 100%; }
   .ju-statusbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ju-tool-btn { min-width: 0; width: 100%; }
   .ju-dock { grid-auto-columns: minmax(220px, 84vw); }
@@ -566,6 +567,7 @@ function nav(suites) {
   <ul>
     ${suiteLinks}
     <li><a href="#brand-options">Default kit options</a></li>
+    <li><a href="#vocabulary">Vocabulary schema</a></li>
     <li><a href="#renderer">Resident renderer</a></li>
     <li><a href="#workbench">Workbench panels</a></li>
     <li><a href="#tokens">Theme tokens</a></li>
@@ -751,6 +753,51 @@ function rendererSection(compatFixtures) {
 </section>`;
 }
 
+function propSummary(schema) {
+  return Object.entries(schema.properties ?? {})
+    .map(([name, rule]) => {
+      const type = rule.enum ? rule.enum.join(" | ") : rule.type;
+      return `<span class="ju-chip"><code>${escapeHtml(name)}</code> ${escapeHtml(type)}</span>`;
+    })
+    .join("");
+}
+
+function vocabularyEvidenceSection(data) {
+  const rows = data.componentVocabulary
+    .map((definition) => {
+      const descriptor = data.primitiveDescriptors[definition.name];
+      return `
+<article class="ju-card">
+  <header class="ju-card-head">
+    <h4>${escapeHtml(definition.name)}</h4>
+    <span class="ju-badge" data-status="ready">${escapeHtml(definition.kind)}</span>
+    <span class="ju-chip">${escapeHtml(descriptor?.implementationStatus ?? "missing descriptor")}</span>
+  </header>
+  <dl class="ju-kv-grid">
+    <div class="ju-kv"><dt>registry item</dt><dd><code>${escapeHtml(definition.registryItem)}</code></dd></div>
+    <div class="ju-kv"><dt>prop schema</dt><dd><code>${escapeHtml(definition.propSchema.schemaVersion)}</code></dd></div>
+    <div class="ju-kv"><dt>element</dt><dd><code>${escapeHtml(descriptor?.element ?? "")}</code></dd></div>
+    <div class="ju-kv"><dt>a11y role</dt><dd><code>${escapeHtml(definition.aria.role)}</code></dd></div>
+  </dl>
+  <div class="ju-chips" aria-label="${escapeAttr(definition.name)} prop schema">${propSummary(definition.propSchema)}</div>
+</article>`;
+    })
+    .join("");
+  return `
+<section class="ju-section" id="vocabulary" aria-labelledby="ju-vocabulary-h">
+  <h2 id="ju-vocabulary-h">Vocabulary schema</h2>
+  <p class="ju-lead">Resident component prop schemas and React-style descriptors loaded from <code>packages/ui</code>. The renderer uses this handshake to reject stale vocabulary versions and unsupported props before it emits an inert render tree.</p>
+  <dl class="ju-kv-grid ju-card">
+    <div class="ju-kv"><dt>handshake</dt><dd><code>${escapeHtml(data.vocabularyHandshake.schemaVersion)}</code></dd></div>
+    <div class="ju-kv"><dt>payload schemas</dt><dd>${data.vocabularyHandshake.payloadSchemaVersions.map((version) => `<code>${escapeHtml(version)}</code>`).join(" ")}</dd></div>
+    <div class="ju-kv"><dt>prop schema</dt><dd><code>${escapeHtml(data.vocabularyHandshake.propSchemaVersion)}</code></dd></div>
+    <div class="ju-kv"><dt>invalid props</dt><dd><code>${escapeHtml(data.vocabularyHandshake.generation.invalidPropState)}</code></dd></div>
+    <div class="ju-kv"><dt>unsupported components</dt><dd><code>${escapeHtml(data.vocabularyHandshake.generation.unsupportedComponentState)}</code></dd></div>
+  </dl>
+  <div class="ju-grid" style="margin-top:16px">${rows}</div>
+</section>`;
+}
+
 function workbenchSection(panels) {
   return `
 <section class="ju-section" id="workbench" aria-labelledby="ju-workbench-h">
@@ -834,6 +881,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
     `<main id="ju-main">`,
     suitesSection(data.suites),
     brandOptionsSection(data.brandOptions),
+    vocabularyEvidenceSection(data),
     rendererSection(data.compatFixtures),
     workbenchSection(data.presentationPanels),
     tokensSection(data.tokens),

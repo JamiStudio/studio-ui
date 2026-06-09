@@ -6,8 +6,12 @@ import { fileURLToPath } from "node:url";
 import {
   componentVocabulary,
   getComponentDefinition,
+  getPrimitiveDescriptor,
+  primitiveDescriptors,
   registryAddressableNames,
   stateFixtureMatrix,
+  validateComponentProps,
+  vocabularyHandshake,
 } from "../src/index.mjs";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
@@ -57,7 +61,46 @@ test("each component carries the shared accessibility and state fixture matrix",
     }
     assert.ok(definition.aria.role, `${definition.name} carries an ARIA role`);
     assert.ok(definition.aria.labelSource, `${definition.name} declares a label source`);
-    assert.ok(Object.keys(definition.propSchema).length > 0, `${definition.name} declares prop schema metadata`);
+    assert.equal(definition.propSchema.schemaVersion, vocabularyHandshake.propSchemaVersion);
+    assert.equal(definition.propSchema.additionalProperties, false);
+    assert.ok(Object.keys(definition.propSchema.properties).length > 0, `${definition.name} declares prop schema metadata`);
+  }
+});
+
+test("component prop schemas validate allowed props and reject unsafe shape drift", () => {
+  assert.deepEqual(validateComponentProps("button", { variant: "primary", actionRef: "act_save" }), []);
+  assert.deepEqual(validateComponentProps("text-field", { label: "Search", invalid: false }), []);
+  assert.deepEqual(validateComponentProps("button", { href: "/not-supported" }), [
+    "unsupported prop href for button",
+  ]);
+  assert.deepEqual(validateComponentProps("button", { variant: "loud" }), [
+    "prop variant must be one of primary, secondary, ghost, danger",
+  ]);
+  assert.deepEqual(validateComponentProps("text-field", { invalid: "yes" }), [
+    "missing required prop label",
+    "prop invalid must be boolean",
+  ]);
+});
+
+test("vocabulary handshake pins renderer payload and prop schema versions", () => {
+  assert.equal(vocabularyHandshake.componentNamespace, "@jami-studio/ui");
+  assert.equal(vocabularyHandshake.componentVersion, "0.0.0");
+  assert.ok(vocabularyHandshake.payloadSchemaVersions.includes("2026-06-09"));
+  assert.equal(vocabularyHandshake.propSchemaVersion, "2026-06-09.ui-props");
+  assert.equal(vocabularyHandshake.generation.unsupportedComponentState, "unsupported");
+  assert.equal(vocabularyHandshake.generation.invalidPropState, "invalid");
+  assert.equal(vocabularyHandshake.generation.copiedSource, false);
+});
+
+test("react-style primitive descriptors are source-backed and descriptor-only", () => {
+  assert.deepEqual(Object.keys(primitiveDescriptors), requiredNames);
+  for (const name of requiredNames) {
+    const descriptor = getPrimitiveDescriptor(name);
+    assert.ok(descriptor, `${name} descriptor exists`);
+    assert.equal(descriptor.implementationStatus, "descriptor-only");
+    assert.equal(descriptor.vocabularyHandshake, vocabularyHandshake.schemaVersion);
+    assert.equal(descriptor.provenance.copiedSource, false);
+    assert.equal(descriptor.propSchema, getComponentDefinition(name).propSchema);
   }
 });
 

@@ -1,26 +1,27 @@
 {
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
-  "fixtureId": "uiPayload.invalid.javascript-url",
+  "fixtureId": "uiPayload.invalid.bad-prop-type",
   "kind": "invalidPayload",
   "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
   "expectedRendererState": "invalid",
   "payload": {
     "schemaVersion": "2026-06-09",
     "vocabularyHandshakeVersion": "2026-06-09.vocabulary-handshake",
-    "payloadId": "uip_invalid_javascript_url",
+    "payloadId": "uip_bad_prop_type",
     "componentRef": {
       "namespace": "@jami-studio/ui",
-      "name": "button",
+      "name": "text-field",
       "version": "0.0.0",
       "allowlisted": true
     },
     "props": {
-      "label": "Open",
-      "href": "javascript:fetch('/steal')"
+      "label": "Search",
+      "invalid": "yes"
     },
+    "children": [],
     "fallback": {
       "mode": "invalid_payload",
-      "message": "javascript: URLs are not accepted in renderer payloads."
+      "message": "Resident prop schemas reject wrong prop types."
     }
   }
 }

@@ -89,6 +89,11 @@ ship an app surface.
   gate (`pnpm contracts:check`) and the runtime renderer enforce one identical
   allowlist and one identical unsafe-payload scan rather than two copies that could
   drift.
+- `packages/ui/src/vocabulary.mjs` owns the resident vocabulary handshake and
+  per-component prop schemas. The renderer imports those schemas directly:
+  payloads must declare `2026-06-09.vocabulary-handshake`, resident props must
+  match the component's schema, and stale handshakes or invalid props fail closed
+  to `invalid`.
 - `render.mjs` exposes `renderFixture` plus per-kind functions (`renderUiPayload`,
   `renderActionRef`, `renderArtifactView`, `renderThemeRef`, `renderSuiteRef`,
   `renderRendererError`). Each returns `{ state, node, reasons }` where `node` is an
@@ -99,6 +104,9 @@ Renderer behavior:
 
 - A valid `uiPayload` whose component is allowlisted renders to an `element` node
   using the resident component name, with sanitized props and text-only children.
+- Unsupported props, wrong prop types, invalid enum values, stale vocabulary
+  handshake versions, or missing required props fail closed to the renderer-owned
+  invalid fallback before output is emitted.
 - Action references render display-only. The renderer drops any `execution` block on
   the input (including a forged `execution.canExecute: true`) and always emits a
   non-executable `{ executable: false }` reference. A denied action renders the

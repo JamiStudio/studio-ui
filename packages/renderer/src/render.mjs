@@ -20,8 +20,13 @@ import {
   isUnsafePropKey,
   scanUnsafePayload,
 } from "./safe-payload.mjs";
+import {
+  UI_PAYLOAD_SCHEMA_VERSION,
+  vocabularyHandshake,
+  validateComponentProps,
+} from "../../ui/src/index.mjs";
 
-const PAYLOAD_SCHEMA_VERSION = "2026-06-09";
+const PAYLOAD_SCHEMA_VERSION = UI_PAYLOAD_SCHEMA_VERSION;
 
 const PAYLOAD_ID_PATTERN = /^uip_[a-z0-9][a-z0-9_-]*$/;
 const ACTION_ID_PATTERN = /^act_[a-z0-9][a-z0-9_-]*$/;
@@ -81,6 +86,9 @@ function uiPayloadIssues(payload) {
   if (payload.schemaVersion !== PAYLOAD_SCHEMA_VERSION) {
     issues.push("unsupported payload schemaVersion");
   }
+  if (payload.vocabularyHandshakeVersion !== vocabularyHandshake.schemaVersion) {
+    issues.push("unsupported vocabularyHandshakeVersion");
+  }
   if (!PAYLOAD_ID_PATTERN.test(payload.payloadId ?? "")) {
     issues.push("payloadId must use uip_ prefix");
   }
@@ -108,6 +116,9 @@ function uiPayloadIssues(payload) {
   }
   scanUnsafePayload(payload.props, issues);
   scanUnsafePayload(payload.children, issues);
+  if (componentNameAllowed(component?.name) && issues.length === 0) {
+    issues.push(...validateComponentProps(component.name, payload.props ?? {}));
+  }
   return issues;
 }
 

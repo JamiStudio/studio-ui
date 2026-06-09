@@ -22,6 +22,11 @@ import {
   renderFixture,
   presentWorkbenchPanel,
 } from "../../../packages/renderer/src/index.mjs";
+import {
+  componentVocabulary,
+  primitiveDescriptors,
+  vocabularyHandshake,
+} from "../../../packages/ui/src/index.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const repoRoot = join(here, "..", "..", "..");
@@ -135,7 +140,10 @@ export function loadShowcaseData() {
     registry,
     suites,
     brandOptions,
+    componentVocabulary,
     compatFixtures,
     presentationPanels,
+    primitiveDescriptors,
+    vocabularyHandshake,
   };
 }

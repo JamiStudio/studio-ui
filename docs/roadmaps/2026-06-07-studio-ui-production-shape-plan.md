@@ -170,11 +170,10 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `pnpm contracts:check`, `pnpm registry:publish:check`, and
   `pnpm --filter @jami-studio/workbench smoke` all exit 0; `.env` remains ignored.
   This does not close the full roadmap acceptance criteria. Open product gaps remain:
-  full Radix/React `packages/ui` primitive implementations, per-component renderer prop
-  schemas, vocabulary-generation handshake/version rules, hosted/persisted workbench
-  editing and backend registration, full suite app shells/full React page-block implementations, hosted
-  registry URL install smoke, automated release-note generation, SBOM/attestation execution
-  at publish time, and npm/static-host publish actions.
+  full Radix/React `packages/ui` primitive implementations, hosted/persisted workbench
+  editing and backend registration, full suite app shells/full React page-block implementations,
+  hosted registry URL install smoke, automated release-note generation, SBOM/attestation
+  execution at publish time, and npm/static-host publish actions.
 - 2026-06-09 Workstream 4 pass 1 added a real but narrow `packages/ui` vocabulary
   foundation: authored dependency-light metadata and tokenized CSS for `button`, `panel`,
   `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and `media-grid`;
@@ -225,6 +224,17 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   workbench option gallery plus overlay selection controls. These options express
   token deltas and suite-shell presentation choices; they do not make any final
   brand canon claim or redistribute logo source.
+- 2026-06-09 post-audit implementation pass 1 promoted the resident vocabulary
+  metadata into enforced source-owned schemas. `packages/ui` now exports
+  per-component prop schemas, a `2026-06-09.vocabulary-handshake`, and
+  descriptor-only React-style primitive metadata; `packages/renderer` imports
+  those schemas so stale handshakes, unsupported props, wrong prop types, and
+  invalid enum values fail closed to `invalid` while unsupported component names
+  still degrade to `unsupported`. The contract fixture corpus adds negative
+  fixtures for bad props, bad prop types, and stale vocabulary handshakes, and
+  the workbench displays the handshake/prop-schema evidence from `packages/ui`.
+  This still does not claim Radix wrappers, rendered React primitives, hosted
+  registry, hosted persistence, or full suite React applications.
 
 ## Locked Decisions
 
@@ -514,7 +524,8 @@ Implementation tasks:
 - [~] Define primitive inventory and import boundaries. (`packages/ui` now exposes the
   first source-owned resident vocabulary metadata and package exports for `button`,
   `panel`, `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
-  `media-grid`; full Radix/React implementation boundaries remain pending.)
+  `media-grid`, plus descriptor-only React-style primitive metadata; full
+  Radix/React implementation boundaries remain pending.)
 - [~] Add tokenized primitive implementations. (Initial authored CSS uses generated
   `--jami-*` variables for the resident vocabulary; full component implementations are
   pending.)
@@ -526,6 +537,9 @@ Implementation tasks:
   (`packages/ui/test/ui.test.mjs` checks ARIA/state metadata and tokenized CSS; browser
   visual regression for the primitives remains pending.)
 - [~] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior. (The state matrix is recorded and tested in vocabulary metadata; per-component browser fixtures remain pending.)
+- [x] Add per-component prop schemas for the resident vocabulary. (`packages/ui`
+  exports structured prop schemas and tests for valid, unsupported, wrong-type,
+  and invalid-enum props; `packages/renderer` consumes those schemas.)
 - [x] Add source/license provenance review before lifted third-party source is redistributed.
   (No third-party source was lifted in this pass; every new registry item records authored
   MIT provenance and `copiedSource: false`.)
@@ -533,7 +547,8 @@ Implementation tasks:
 Exit criteria:
 
 - [~] Primitive and component vocabulary is tokenized and registry-addressable. (Initial
-  metadata/styles and registry items exist; full React/Radix primitives remain pending.)
+  metadata/styles, descriptor-only primitive metadata, and registry items exist;
+  full React/Radix primitives remain pending.)
 - [x] Component-local hardcoded colors are rejected by tests or lint rules.
 - [~] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
   (Metadata and CSS guards exist; browser visual/a11y evidence per primitive remains pending.)
@@ -619,14 +634,16 @@ Implementation tasks:
 
 - [~] Define payload schema for component, props, children, action refs, and vocabulary generation.
 - [~] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-harness` without importing harness runtime ownership into this repo.
-- [~] Add per-component prop validation. The resident render core validates payload shape,
-  reference id patterns, namespace, and the allowlist, and sanitizes props; per-component
-  prop schemas remain pending.
+- [x] Add per-component prop validation. The resident render core validates payload shape,
+  reference id patterns, namespace, allowlist, vocabulary handshake version, and
+  source-owned component prop schemas before emitting output.
 - [x] Add fallback rendering for unknown components and invalid props. The resident renderer
   degrades unknown components to `unsupported` and unsafe/malformed payloads to `invalid` with
   renderer-owned fallback copy.
 - [x] Add no-HTML/no-code injection guards (HTML strings, `javascript:` URLs, event-handler props, `dangerouslySetInnerHTML`, serialized React-element markers, package imports, inline secrets, and foreign component namespaces) enforced by `pnpm contracts:check` and by the resident renderer, which share one `safe-payload.mjs` guard.
-- [ ] Add handshake/version rules for vocabulary generation.
+- [x] Add handshake/version rules for vocabulary generation. (`packages/ui` exports
+  `2026-06-09.vocabulary-handshake`, and valid payload fixtures must declare it;
+  stale-handshake fixtures fail closed to `invalid`.)
 - [x] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, malformed harness reference ids, and unsupported renderer states.
 - [~] Add denied-action fixtures that display the harness-owned policy decision without carrying executable UI state, plus a non-executable `pending_approval` action-display fixture.
 

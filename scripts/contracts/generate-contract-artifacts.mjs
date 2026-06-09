@@ -157,6 +157,21 @@ function registryOutputFile(file) {
   return out;
 }
 
+function registryOutputFiles(item) {
+  const files = [...item.files];
+  if (["primitive", "component"].includes(item.type)) {
+    const hasDescriptor = files.some((file) => file.path === "packages/ui/src/primitive-descriptors.mjs");
+    if (!hasDescriptor) {
+      files.push({
+        path: "packages/ui/src/primitive-descriptors.mjs",
+        target: "components/ui/jami-primitive-descriptors.mjs",
+        kind: "registry:ui",
+      });
+    }
+  }
+  return files.map(registryOutputFile);
+}
+
 function registryOutputItem(item) {
   const registryDependencies =
     item.type === "suite" ? suiteRegistryDependencies(item) : item.registryDependencies ?? [];
@@ -167,7 +182,7 @@ function registryOutputItem(item) {
     description: item.description,
     dependencies: item.dependencies,
     registryDependencies,
-    files: item.files.map(registryOutputFile),
+    files: registryOutputFiles(item),
     meta: {
       packageName: item.name,
       suite: item.suite ?? null,

@@ -1,3 +1,24 @@
+export const UI_VOCABULARY_SCHEMA_VERSION = "2026-06-09.ui-vocabulary";
+export const UI_PROP_SCHEMA_VERSION = "2026-06-09.ui-props";
+export const UI_VOCABULARY_HANDSHAKE_VERSION = "2026-06-09.vocabulary-handshake";
+export const UI_PAYLOAD_SCHEMA_VERSION = "2026-06-09";
+
+export const vocabularyHandshake = Object.freeze({
+  schemaVersion: UI_VOCABULARY_HANDSHAKE_VERSION,
+  payloadSchemaVersions: Object.freeze([UI_PAYLOAD_SCHEMA_VERSION]),
+  componentNamespace: "@jami-studio/ui",
+  componentVersion: "0.0.0",
+  propSchemaVersion: UI_PROP_SCHEMA_VERSION,
+  vocabularyVersion: UI_VOCABULARY_SCHEMA_VERSION,
+  generation: Object.freeze({
+    source: "registry-addressable-resident-vocabulary",
+    unsupportedComponentState: "unsupported",
+    invalidPropState: "invalid",
+    actions: "display-only actionRefs; execution stays in Jami Harness",
+    copiedSource: false,
+  }),
+});
+
 const baseStates = [
   "keyboard",
   "focus-visible",
@@ -15,7 +36,7 @@ const baseStates = [
 
 function defineComponent(definition) {
   return Object.freeze({
-    schemaVersion: "2026-06-09.ui-vocabulary",
+    schemaVersion: UI_VOCABULARY_SCHEMA_VERSION,
     namespace: "@jami-studio/ui",
     provenance: {
       source: "authored",
@@ -26,9 +47,42 @@ function defineComponent(definition) {
     ...definition,
     tokens: Object.freeze(definition.tokens),
     states: Object.freeze(definition.states),
-    propSchema: Object.freeze(definition.propSchema),
+    propSchema: deepFreeze({
+      schemaVersion: UI_PROP_SCHEMA_VERSION,
+      additionalProperties: false,
+      required: [],
+      ...definition.propSchema,
+    }),
   });
 }
+
+function deepFreeze(value) {
+  if (value && typeof value === "object") {
+    Object.freeze(value);
+    for (const item of Object.values(value)) deepFreeze(item);
+  }
+  return value;
+}
+
+function stringProp({ enumValues, pattern, nullable = false } = {}) {
+  return {
+    type: "string",
+    ...(enumValues ? { enum: enumValues } : {}),
+    ...(pattern ? { pattern } : {}),
+    ...(nullable ? { nullable: true } : {}),
+  };
+}
+
+function booleanProp() {
+  return { type: "boolean" };
+}
+
+function arrayProp({ itemType = "object", pattern } = {}) {
+  return { type: "array", items: { type: itemType, ...(pattern ? { pattern } : {}) } };
+}
+
+const actionRefProp = arrayProp({ itemType: "string", pattern: "^act_[a-z0-9][a-z0-9_-]*$" });
+const artifactViewRefProp = arrayProp({ itemType: "string", pattern: "^artv_[a-z0-9][a-z0-9_-]*$" });
 
 export const componentVocabulary = Object.freeze([
   defineComponent({
@@ -54,12 +108,15 @@ export const componentVocabulary = Object.freeze([
       busyAttribute: "aria-busy",
     },
     propSchema: {
-      label: "string",
-      variant: ["primary", "secondary", "ghost", "danger"],
-      size: ["compact", "regular"],
-      disabled: "boolean",
-      loading: "boolean",
-      actionRef: "act_* reference only",
+      properties: {
+        label: stringProp(),
+        ariaLabel: stringProp(),
+        variant: stringProp({ enumValues: ["primary", "secondary", "ghost", "danger"] }),
+        size: stringProp({ enumValues: ["compact", "regular"] }),
+        disabled: booleanProp(),
+        loading: booleanProp(),
+        actionRef: stringProp({ pattern: "^act_[a-z0-9][a-z0-9_-]*$" }),
+      },
     },
   }),
   defineComponent({
@@ -83,10 +140,13 @@ export const componentVocabulary = Object.freeze([
       emptyState: "aria-live=polite",
     },
     propSchema: {
-      title: "string",
-      tone: ["neutral", "accent", "danger"],
-      empty: "boolean",
-      error: "string",
+      properties: {
+        title: stringProp(),
+        ariaLabel: stringProp(),
+        tone: stringProp({ enumValues: ["neutral", "accent", "danger"] }),
+        empty: booleanProp(),
+        error: stringProp(),
+      },
     },
   }),
   defineComponent({
@@ -111,12 +171,16 @@ export const componentVocabulary = Object.freeze([
       describedBy: "helperText | errorText",
     },
     propSchema: {
-      label: "string",
-      value: "string",
-      placeholder: "string",
-      disabled: "boolean",
-      invalid: "boolean",
-      errorText: "string",
+      required: ["label"],
+      properties: {
+        label: stringProp(),
+        value: stringProp(),
+        placeholder: stringProp(),
+        disabled: booleanProp(),
+        invalid: booleanProp(),
+        errorText: stringProp(),
+        helperText: stringProp(),
+      },
     },
   }),
   defineComponent({
@@ -140,12 +204,15 @@ export const componentVocabulary = Object.freeze([
       emptyState: "status",
     },
     propSchema: {
-      title: "string",
-      columns: "array",
-      rows: "array",
-      empty: "boolean",
-      loading: "boolean",
-      error: "string",
+      properties: {
+        title: stringProp(),
+        ariaLabel: stringProp(),
+        columns: arrayProp(),
+        rows: arrayProp(),
+        empty: booleanProp(),
+        loading: booleanProp(),
+        error: stringProp(),
+      },
     },
   }),
   defineComponent({
@@ -168,10 +235,13 @@ export const componentVocabulary = Object.freeze([
       liveRegion: "polite",
     },
     propSchema: {
-      agentName: "string",
-      status: ["idle", "running", "needs_attention", "denied", "error"],
-      actionRefs: "act_* reference array",
-      artifactViewRefs: "artv_* reference array",
+      properties: {
+        title: stringProp(),
+        agentName: stringProp(),
+        status: stringProp({ enumValues: ["idle", "running", "needs_attention", "denied", "error"] }),
+        actionRefs: actionRefProp,
+        artifactViewRefs: artifactViewRefProp,
+      },
     },
   }),
   defineComponent({
@@ -195,11 +265,14 @@ export const componentVocabulary = Object.freeze([
       redactionState: "aria-describedby",
     },
     propSchema: {
-      title: "string",
-      sources: "array",
-      selectedSourceId: "string",
-      redacted: "boolean",
-      empty: "boolean",
+      properties: {
+        title: stringProp(),
+        ariaLabel: stringProp(),
+        sources: arrayProp(),
+        selectedSourceId: stringProp(),
+        redacted: booleanProp(),
+        empty: booleanProp(),
+      },
     },
   }),
   defineComponent({
@@ -224,12 +297,15 @@ export const componentVocabulary = Object.freeze([
       itemRole: "listitem",
     },
     propSchema: {
-      title: "string",
-      items: "array",
-      selectedItemId: "string",
-      loading: "boolean",
-      empty: "boolean",
-      error: "string",
+      properties: {
+        title: stringProp(),
+        ariaLabel: stringProp(),
+        items: arrayProp(),
+        selectedItemId: stringProp(),
+        loading: booleanProp(),
+        empty: booleanProp(),
+        error: stringProp(),
+      },
     },
   }),
 ]);
@@ -244,4 +320,55 @@ export const stateFixtureMatrix = Object.freeze(
 
 export function getComponentDefinition(name) {
   return byName.get(name) ?? null;
+}
+
+function valueType(value) {
+  if (Array.isArray(value)) return "array";
+  if (value === null) return "null";
+  return typeof value;
+}
+
+function validateValue(propName, value, rule, issues) {
+  const actual = valueType(value);
+  if (value === null && rule.nullable) return;
+  if (actual !== rule.type) {
+    issues.push(`prop ${propName} must be ${rule.type}`);
+    return;
+  }
+  if (rule.enum && !rule.enum.includes(value)) {
+    issues.push(`prop ${propName} must be one of ${rule.enum.join(", ")}`);
+  }
+  if (rule.pattern && typeof value === "string" && !new RegExp(rule.pattern).test(value)) {
+    issues.push(`prop ${propName} does not match ${rule.pattern}`);
+  }
+  if (rule.type === "array" && rule.items) {
+    for (const [index, item] of value.entries()) {
+      validateValue(`${propName}[${index}]`, item, rule.items, issues);
+    }
+  }
+}
+
+export function validateComponentProps(componentName, props) {
+  const definition = getComponentDefinition(componentName);
+  if (!definition) return [`component ${componentName} has no prop schema`];
+  if (props === undefined) return [];
+  if (!props || typeof props !== "object" || Array.isArray(props)) {
+    return [`props for ${componentName} must be an object`];
+  }
+  const schema = definition.propSchema;
+  const issues = [];
+  const properties = schema.properties ?? {};
+  for (const required of schema.required ?? []) {
+    if (!Object.hasOwn(props, required)) issues.push(`missing required prop ${required}`);
+  }
+  if (schema.additionalProperties === false) {
+    for (const key of Object.keys(props)) {
+      if (!Object.hasOwn(properties, key)) issues.push(`unsupported prop ${key} for ${componentName}`);
+    }
+  }
+  for (const [key, value] of Object.entries(props)) {
+    const rule = properties[key];
+    if (rule) validateValue(key, value, rule, issues);
+  }
+  return issues;
 }
