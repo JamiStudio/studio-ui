@@ -1,16 +1,16 @@
 {
   "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
-  "name": "@jami-studio/button",
-  "type": "primitive",
-  "title": "Button",
-  "description": "Authored tokenized resident button/action-surface primitive.",
-  "suite": "solo",
+  "name": "@jami-studio/docs-source-panel",
+  "type": "component",
+  "title": "Docs Source Panel",
+  "description": "Authored resident document/source/citation panel with redaction states.",
+  "suite": "research-writing",
   "lifecycle": {
-    "id": "primitive.button",
+    "id": "component.docs-source-panel",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
-    "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
+    "sourceHash": "sha256:e18f5796e7bd70eef554db1ae63683fd9c04a515dd33a248402dbe64c52c474b",
+    "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
   },
   "provenance": {
     "source": "authored",
@@ -26,20 +26,23 @@
   "tokenRequirements": [
     "semantic.light.background",
     "semantic.light.foreground",
-    "semantic.light.accent",
-    "componentState.focusRing"
+    "semantic.dark.background",
+    "semantic.dark.foreground",
+    "componentState.focusRing",
+    "spacing.control",
+    "radius.control"
   ],
-  "dependencies": ["@jami-studio/ui"],
+  "dependencies": ["@jami-studio/ui", "@jami-studio/panel"],
   "files": [
-    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:ui" },
+    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:component" },
     { "path": "packages/ui/src/styles.css", "target": "components/ui/jami-ui.css", "kind": "registry:style" }
   ],
   "docs": {
     "architecture": "docs/architecture/registry-lifecycle.md"
   },
   "agentManifest": {
-    "renderableComponent": "button",
-    "actionSlots": ["onPress"],
+    "renderableComponent": "docs-source-panel",
+    "actionSlots": ["openSource", "citeSource"],
     "policyOwner": "jami-harness"
   }
 }

@@ -1,16 +1,16 @@
 {
   "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
-  "name": "@jami-studio/button",
-  "type": "primitive",
-  "title": "Button",
-  "description": "Authored tokenized resident button/action-surface primitive.",
-  "suite": "solo",
+  "name": "@jami-studio/media-grid",
+  "type": "component",
+  "title": "Media Grid",
+  "description": "Authored resident media/artifact grid with responsive states.",
+  "suite": "mixed-media",
   "lifecycle": {
-    "id": "primitive.button",
+    "id": "component.media-grid",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
-    "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
+    "sourceHash": "sha256:ee79586dfaa00c95c0499fe521592cb534b7d7b91e5031fc7357f9c98e4c97d1",
+    "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
   },
   "provenance": {
     "source": "authored",
@@ -26,20 +26,24 @@
   "tokenRequirements": [
     "semantic.light.background",
     "semantic.light.foreground",
-    "semantic.light.accent",
-    "componentState.focusRing"
+    "semantic.dark.background",
+    "semantic.dark.foreground",
+    "componentState.focusRing",
+    "spacing.control",
+    "radius.control",
+    "motion.fast"
   ],
-  "dependencies": ["@jami-studio/ui"],
+  "dependencies": ["@jami-studio/ui", "@jami-studio/panel"],
   "files": [
-    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:ui" },
+    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:component" },
     { "path": "packages/ui/src/styles.css", "target": "components/ui/jami-ui.css", "kind": "registry:style" }
   ],
   "docs": {
     "architecture": "docs/architecture/registry-lifecycle.md"
   },
   "agentManifest": {
-    "renderableComponent": "button",
-    "actionSlots": ["onPress"],
+    "renderableComponent": "media-grid",
+    "actionSlots": ["openItem", "reviewItem"],
     "policyOwner": "jami-harness"
   }
 }

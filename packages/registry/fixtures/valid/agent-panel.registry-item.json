@@ -1,16 +1,16 @@
 {
   "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
-  "name": "@jami-studio/button",
-  "type": "primitive",
-  "title": "Button",
-  "description": "Authored tokenized resident button/action-surface primitive.",
+  "name": "@jami-studio/agent-panel",
+  "type": "component",
+  "title": "Agent Panel",
+  "description": "Authored resident agent status and policy-state panel.",
   "suite": "solo",
   "lifecycle": {
-    "id": "primitive.button",
+    "id": "component.agent-panel",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
-    "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
+    "sourceHash": "sha256:af55ed9c37aee3cb57d759a5ac7fe2e7daac9db85451d626a715f61cf59eb636",
+    "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
   },
   "provenance": {
     "source": "authored",
@@ -27,19 +27,21 @@
     "semantic.light.background",
     "semantic.light.foreground",
     "semantic.light.accent",
-    "componentState.focusRing"
+    "componentState.focusRing",
+    "spacing.control",
+    "radius.control"
   ],
-  "dependencies": ["@jami-studio/ui"],
+  "dependencies": ["@jami-studio/ui", "@jami-studio/button", "@jami-studio/panel"],
   "files": [
-    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:ui" },
+    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:component" },
     { "path": "packages/ui/src/styles.css", "target": "components/ui/jami-ui.css", "kind": "registry:style" }
   ],
   "docs": {
     "architecture": "docs/architecture/registry-lifecycle.md"
   },
   "agentManifest": {
-    "renderableComponent": "button",
-    "actionSlots": ["onPress"],
+    "renderableComponent": "agent-panel",
+    "actionSlots": ["primaryAction", "secondaryAction"],
     "policyOwner": "jami-harness"
   }
 }

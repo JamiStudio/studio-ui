@@ -1,15 +1,15 @@
 {
   "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
-  "name": "@jami-studio/button",
+  "name": "@jami-studio/panel",
   "type": "primitive",
-  "title": "Button",
-  "description": "Authored tokenized resident button/action-surface primitive.",
+  "title": "Panel",
+  "description": "Authored tokenized resident panel/card surface primitive.",
   "suite": "solo",
   "lifecycle": {
-    "id": "primitive.button",
+    "id": "primitive.panel",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
+    "sourceHash": "sha256:d5b2c26626c1273251974dad6374ea7bdb7ee88c0010222f6bc5ad36ea35f1bd",
     "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
   },
   "provenance": {
@@ -26,8 +26,11 @@
   "tokenRequirements": [
     "semantic.light.background",
     "semantic.light.foreground",
-    "semantic.light.accent",
-    "componentState.focusRing"
+    "semantic.dark.background",
+    "semantic.dark.foreground",
+    "componentState.focusRing",
+    "radius.control",
+    "shadow.overlay"
   ],
   "dependencies": ["@jami-studio/ui"],
   "files": [
@@ -38,8 +41,8 @@
     "architecture": "docs/architecture/registry-lifecycle.md"
   },
   "agentManifest": {
-    "renderableComponent": "button",
-    "actionSlots": ["onPress"],
+    "renderableComponent": "panel",
+    "actionSlots": [],
     "policyOwner": "jami-harness"
   }
 }

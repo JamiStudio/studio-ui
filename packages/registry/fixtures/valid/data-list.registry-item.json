@@ -1,16 +1,16 @@
 {
   "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
-  "name": "@jami-studio/button",
-  "type": "primitive",
-  "title": "Button",
-  "description": "Authored tokenized resident button/action-surface primitive.",
+  "name": "@jami-studio/data-list",
+  "type": "component",
+  "title": "Data List",
+  "description": "Authored resident data table/list component for dense records.",
   "suite": "solo",
   "lifecycle": {
-    "id": "primitive.button",
+    "id": "component.data-list",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
-    "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
+    "sourceHash": "sha256:299f2113c4371856b04e46b17df85d675ce2581062bbeb53352149d62ffe26f2",
+    "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
   },
   "provenance": {
     "source": "authored",
@@ -26,20 +26,23 @@
   "tokenRequirements": [
     "semantic.light.background",
     "semantic.light.foreground",
-    "semantic.light.accent",
-    "componentState.focusRing"
+    "semantic.dark.background",
+    "semantic.dark.foreground",
+    "componentState.focusRing",
+    "spacing.control",
+    "radius.control"
   ],
-  "dependencies": ["@jami-studio/ui"],
+  "dependencies": ["@jami-studio/ui", "@jami-studio/panel"],
   "files": [
-    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:ui" },
+    { "path": "packages/ui/src/vocabulary.mjs", "target": "components/ui/jami-vocabulary.mjs", "kind": "registry:component" },
     { "path": "packages/ui/src/styles.css", "target": "components/ui/jami-ui.css", "kind": "registry:style" }
   ],
   "docs": {
     "architecture": "docs/architecture/registry-lifecycle.md"
   },
   "agentManifest": {
-    "renderableComponent": "button",
-    "actionSlots": ["onPress"],
+    "renderableComponent": "data-list",
+    "actionSlots": ["rowAction"],
     "policyOwner": "jami-harness"
   }
 }

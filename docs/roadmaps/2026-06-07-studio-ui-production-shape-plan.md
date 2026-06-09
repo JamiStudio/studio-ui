@@ -169,11 +169,20 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `pnpm contracts:check`, `pnpm registry:publish:check`, and
   `pnpm --filter @jami-studio/workbench smoke` all exit 0; `.env` remains ignored.
   This does not close the full roadmap acceptance criteria. Open product gaps remain:
-  concrete `packages/ui` primitives/components, per-component renderer prop schemas,
-  vocabulary-generation handshake/version rules, the interactive always-live workbench
-  editing overlay, full suite app shells and lower-level suite parts, hosted registry URL
-  install smoke, automated release-note generation, SBOM/attestation execution at publish
-  time, and npm/static-host publish actions.
+  full Radix/React `packages/ui` primitive implementations, per-component renderer prop
+  schemas, vocabulary-generation handshake/version rules, the interactive always-live
+  workbench editing overlay, full suite app shells and lower-level suite parts, hosted
+  registry URL install smoke, automated release-note generation, SBOM/attestation execution
+  at publish time, and npm/static-host publish actions.
+- 2026-06-09 Workstream 4 pass 1 added a real but narrow `packages/ui` vocabulary
+  foundation: authored dependency-light metadata and tokenized CSS for `button`, `panel`,
+  `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and `media-grid`;
+  registry items with authored MIT provenance and generated install content/hashes; a
+  renderer allowlist expansion for those resident names; and `packages/ui/test/ui.test.mjs`
+  coverage for importable inventory, token references, source provenance, state/a11y
+  metadata, and hardcoded component color rejection. This still does not claim full
+  Radix wrappers, React components, Storybook, visual regression, calendar/source-board
+  shells, or full suite app shells.
 
 ## Locked Decisions
 
@@ -460,19 +469,32 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Define primitive inventory and import boundaries.
-- [ ] Add tokenized primitive implementations.
-- [ ] Add composed components for agent panel, data display, forms, calendar shell, docs shell, media grid, source board, and command/action surfaces.
+- [~] Define primitive inventory and import boundaries. (`packages/ui` now exposes the
+  first source-owned resident vocabulary metadata and package exports for `button`,
+  `panel`, `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
+  `media-grid`; full Radix/React implementation boundaries remain pending.)
+- [~] Add tokenized primitive implementations. (Initial authored CSS uses generated
+  `--jami-*` variables for the resident vocabulary; full component implementations are
+  pending.)
+- [~] Add composed components for agent panel, data display, forms, calendar shell, docs shell, media grid, source board, and command/action surfaces. (`agent-panel`, `data-list`,
+  `text-field`, `docs-source-panel`, `media-grid`, and `button` metadata/styles exist;
+  calendar shell and source-board composition remain pending.)
 - [ ] Add Storybook-like or workbench-compatible examples once the workbench scaffold exists.
-- [ ] Add accessibility, interaction, and visual regression checks for critical primitives.
-- [ ] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior.
-- [ ] Add source/license provenance review before lifted third-party source is redistributed.
+- [~] Add accessibility, interaction, and visual regression checks for critical primitives.
+  (`packages/ui/test/ui.test.mjs` checks ARIA/state metadata and tokenized CSS; browser
+  visual regression for the primitives remains pending.)
+- [~] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior. (The state matrix is recorded and tested in vocabulary metadata; per-component browser fixtures remain pending.)
+- [x] Add source/license provenance review before lifted third-party source is redistributed.
+  (No third-party source was lifted in this pass; every new registry item records authored
+  MIT provenance and `copiedSource: false`.)
 
 Exit criteria:
 
-- [ ] Primitive and component vocabulary is tokenized and registry-addressable.
-- [ ] Component-local hardcoded colors are rejected by tests or lint rules.
-- [ ] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
+- [~] Primitive and component vocabulary is tokenized and registry-addressable. (Initial
+  metadata/styles and registry items exist; full React/Radix primitives remain pending.)
+- [x] Component-local hardcoded colors are rejected by tests or lint rules.
+- [~] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
+  (Metadata and CSS guards exist; browser visual/a11y evidence per primitive remains pending.)
 
 Suggested verification:
 

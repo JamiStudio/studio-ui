@@ -9,14 +9,19 @@
 
 // The resident vocabulary is deliberately small. A payload whose component is
 // outside this set fails closed to an unsupported display state rather than
-// rendering. Names are the kebab-case form of the resident component vocabulary
-// (`ActionSlot`, `ArtifactCard`, `Button`, `InlineNotice`, `Text`).
+// rendering. Names are the kebab-case form of the resident component vocabulary.
 export const allowedComponents = new Set([
   "action-slot",
+  "agent-panel",
   "artifact-card",
   "button",
+  "data-list",
+  "docs-source-panel",
   "inline-notice",
+  "media-grid",
+  "panel",
   "text",
+  "text-field",
 ]);
 
 // Credentials never travel inline in a renderer payload. The harness exposes

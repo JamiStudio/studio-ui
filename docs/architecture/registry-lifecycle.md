@@ -12,7 +12,7 @@ registry artifacts from the validated source fixture.
 ## Contract Source
 
 - Schema: `packages/registry/schemas/registry-item.schema.json`
-- Valid fixture: `packages/registry/fixtures/valid/button.registry-item.json`
+- Valid fixtures: `packages/registry/fixtures/valid/*.registry-item.json`
 - Negative fixtures: `packages/registry/fixtures/invalid/`
 - Generated artifacts: `packages/registry/generated/`
 - Generate command: `pnpm contracts:generate`
@@ -32,8 +32,8 @@ Every registry item must carry:
 - dependencies or an explicit empty dependency list.
 - optional suite membership using the locked suite lanes.
 
-The sample `@jami-studio/button` item also includes a UI-side `agentManifest`
-with a renderable component and action slot declaration. Policy execution remains
+The vocabulary items also include UI-side `agentManifest` metadata with
+renderable component names and action slot declarations. Policy execution remains
 harness-owned.
 
 ## Validation Behavior
@@ -51,8 +51,13 @@ The generator reads every `*.registry-item.json` under
 `packages/registry/fixtures/valid` (sorted for determinism). The current source
 items are:
 
-- `button` (`primitive`) — source-pending: its `.tsx` source lands in the
-  primitive/component workstream, so no install content is generated.
+- `button`, `panel`, `text-field` (`primitive`) — installable resident
+  vocabulary items. Their source files resolve to `packages/ui/src/vocabulary.mjs`
+  and `packages/ui/src/styles.css`, so real install content and per-file hashes
+  are embedded.
+- `data-list`, `agent-panel`, `docs-source-panel`, `media-grid` (`component`) —
+  installable resident component vocabulary items backed by the same authored
+  metadata and tokenized style source.
 - `jami-theme` (`theme`) — installable: its files are the generated token
   outputs, so real install content and per-file hashes are embedded.
 - `solo-suite`, `business-ops-suite`, `mixed-media-suite`,
@@ -78,8 +83,9 @@ install path consumes these embedded contents and hashes directly (see
 
 ## Not Yet Claimed
 
-This pass does not publish official hosted registry files or generate
-cache/revision names. The CLI install path is exercised by temp-project smoke
-tests against the local generated registry, not a hosted endpoint. Later registry
-implementation must validate generated output against the current official shadcn
-schema before public publishing and preserve the Jami metadata contract here.
+This pass does not publish official hosted registry files, generate cache/revision
+names, or ship full React/Radix implementations for every vocabulary item. The CLI
+install path is exercised by temp-project smoke tests against the local generated
+registry, not a hosted endpoint. Later registry implementation must validate
+generated output against the current official shadcn schema before public publishing
+and preserve the Jami metadata contract here.

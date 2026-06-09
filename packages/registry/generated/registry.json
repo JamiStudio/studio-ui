@@ -4,6 +4,72 @@
   "homepage": "https://registry.jami.studio",
   "items": [
     {
+      "name": "agent-panel",
+      "type": "registry:component",
+      "title": "Agent Panel",
+      "description": "Authored resident agent status and policy-state panel.",
+      "dependencies": [
+        "@jami-studio/ui",
+        "@jami-studio/button",
+        "@jami-studio/panel"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/vocabulary.mjs",
+          "target": "components/ui/jami-vocabulary.mjs",
+          "type": "registry:component",
+          "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
+          "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
+        },
+        {
+          "path": "packages/ui/src/styles.css",
+          "target": "components/ui/jami-ui.css",
+          "type": "registry:style",
+          "content": "/* Authored Studio UI resident vocabulary styles. Token variables are generated by packages/tokens. */\n.jami-ui {\n  color: var(--jami-semantic-light-foreground);\n  background: var(--jami-semantic-light-background);\n  font: var(--jami-typography-body);\n}\n\n.jami-button {\n  align-items: center;\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  display: inline-flex;\n  gap: var(--jami-spacing-control);\n  justify-content: center;\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control) calc(var(--jami-spacing-control) * 1.5);\n  transition-duration: var(--jami-motion-fast);\n  transition-property: background-color, border-color, box-shadow, color;\n}\n\n.jami-button[data-variant=\"primary\"] {\n  background: var(--jami-semantic-light-accent);\n  color: var(--jami-semantic-dark-foreground);\n}\n\n.jami-button:focus-visible,\n.jami-panel:focus-visible,\n.jami-field input:focus-visible,\n.jami-data-list:focus-visible,\n.jami-agent-panel:focus-visible,\n.jami-docs-source-panel:focus-visible,\n.jami-media-grid:focus-visible {\n  outline: 2px solid var(--jami-componentState-focusRing);\n  outline-offset: 2px;\n}\n\n.jami-button[disabled],\n.jami-field input[disabled],\n[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.58;\n}\n\n.jami-panel,\n.jami-data-list,\n.jami-agent-panel,\n.jami-docs-source-panel,\n.jami-media-grid {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 14%, transparent);\n  border-radius: var(--jami-radius-control);\n  box-shadow: var(--jami-shadow-overlay);\n  color: var(--jami-semantic-light-foreground);\n  min-width: 0;\n  overflow-wrap: anywhere;\n  padding: calc(var(--jami-spacing-control) * 2);\n}\n\n.jami-field {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-field input {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  color: var(--jami-semantic-light-foreground);\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control);\n}\n\n.jami-field [aria-invalid=\"true\"] {\n  border-color: var(--jami-semantic-light-accent);\n}\n\n.jami-data-list {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-media-grid {\n  display: grid;\n  gap: var(--jami-spacing-control);\n  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .jami-button {\n    transition-duration: 0ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .jami-ui {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n\n  .jami-panel,\n  .jami-data-list,\n  .jami-agent-panel,\n  .jami-docs-source-panel,\n  .jami-media-grid,\n  .jami-field input {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n}\n",
+          "hash": "sha256:f79698049a6f91e2fa4c45dd3028bbda5e00c3d1b1c018e1ff5cac3fade20cbe"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/agent-panel",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "component.agent-panel",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:af55ed9c37aee3cb57d759a5ac7fe2e7daac9db85451d626a715f61cf59eb636",
+          "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
+        },
+        "tokenRequirements": [
+          "semantic.light.background",
+          "semantic.light.foreground",
+          "semantic.light.accent",
+          "componentState.focusRing",
+          "spacing.control",
+          "radius.control"
+        ],
+        "provenance": {
+          "source": "authored",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "shadcn-compatible install content; no shadcn package dependency",
+          "tailwind": "token CSS variables; no Tailwind package dependency",
+          "react": ">=19"
+        },
+        "agentManifest": {
+          "renderableComponent": "agent-panel",
+          "actionSlots": [
+            "primaryAction",
+            "secondaryAction"
+          ],
+          "policyOwner": "jami-harness"
+        }
+      }
+    },
+    {
       "name": "business-ops-suite",
       "type": "registry:suite",
       "title": "Business Ops Suite",
@@ -59,14 +125,25 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Tokenized Radix-first shadcn-compatible button primitive contract fixture.",
-      "dependencies": [],
+      "description": "Authored tokenized resident button/action-surface primitive.",
+      "dependencies": [
+        "@jami-studio/ui"
+      ],
       "registryDependencies": [],
       "files": [
         {
-          "path": "components/ui/button.tsx",
-          "target": "components/ui/button.tsx",
-          "type": "registry:ui"
+          "path": "packages/ui/src/vocabulary.mjs",
+          "target": "components/ui/jami-vocabulary.mjs",
+          "type": "registry:ui",
+          "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
+          "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
+        },
+        {
+          "path": "packages/ui/src/styles.css",
+          "target": "components/ui/jami-ui.css",
+          "type": "registry:style",
+          "content": "/* Authored Studio UI resident vocabulary styles. Token variables are generated by packages/tokens. */\n.jami-ui {\n  color: var(--jami-semantic-light-foreground);\n  background: var(--jami-semantic-light-background);\n  font: var(--jami-typography-body);\n}\n\n.jami-button {\n  align-items: center;\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  display: inline-flex;\n  gap: var(--jami-spacing-control);\n  justify-content: center;\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control) calc(var(--jami-spacing-control) * 1.5);\n  transition-duration: var(--jami-motion-fast);\n  transition-property: background-color, border-color, box-shadow, color;\n}\n\n.jami-button[data-variant=\"primary\"] {\n  background: var(--jami-semantic-light-accent);\n  color: var(--jami-semantic-dark-foreground);\n}\n\n.jami-button:focus-visible,\n.jami-panel:focus-visible,\n.jami-field input:focus-visible,\n.jami-data-list:focus-visible,\n.jami-agent-panel:focus-visible,\n.jami-docs-source-panel:focus-visible,\n.jami-media-grid:focus-visible {\n  outline: 2px solid var(--jami-componentState-focusRing);\n  outline-offset: 2px;\n}\n\n.jami-button[disabled],\n.jami-field input[disabled],\n[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.58;\n}\n\n.jami-panel,\n.jami-data-list,\n.jami-agent-panel,\n.jami-docs-source-panel,\n.jami-media-grid {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 14%, transparent);\n  border-radius: var(--jami-radius-control);\n  box-shadow: var(--jami-shadow-overlay);\n  color: var(--jami-semantic-light-foreground);\n  min-width: 0;\n  overflow-wrap: anywhere;\n  padding: calc(var(--jami-spacing-control) * 2);\n}\n\n.jami-field {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-field input {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  color: var(--jami-semantic-light-foreground);\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control);\n}\n\n.jami-field [aria-invalid=\"true\"] {\n  border-color: var(--jami-semantic-light-accent);\n}\n\n.jami-data-list {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-media-grid {\n  display: grid;\n  gap: var(--jami-spacing-control);\n  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .jami-button {\n    transition-duration: 0ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .jami-ui {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n\n  .jami-panel,\n  .jami-data-list,\n  .jami-agent-panel,\n  .jami-docs-source-panel,\n  .jami-media-grid,\n  .jami-field input {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n}\n",
+          "hash": "sha256:f79698049a6f91e2fa4c45dd3028bbda5e00c3d1b1c018e1ff5cac3fade20cbe"
         }
       ],
       "meta": {
@@ -76,8 +153,8 @@
           "id": "primitive.button",
           "version": "0.0.0-contract.20260609",
           "schemaVersion": "2026-06-09.registry-foundation",
-          "sourceHash": "sha256:c154b7cbcc9275a3f92eed34162ace1cfe544e9ab52322680e96ae623af379ea",
-          "migrationNotes": "Initial fixture; no installed API migration exists yet."
+          "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
+          "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
         },
         "tokenRequirements": [
           "semantic.light.background",
@@ -92,14 +169,145 @@
           "copiedSource": false
         },
         "compatibility": {
-          "shadcn": "4.x source-lock required before generated output",
-          "tailwind": "4.x source-lock required before generated output",
+          "shadcn": "shadcn-compatible install content; no shadcn package dependency",
+          "tailwind": "token CSS variables; no Tailwind package dependency",
           "react": ">=19"
         },
         "agentManifest": {
-          "renderableComponent": "Button",
+          "renderableComponent": "button",
           "actionSlots": [
             "onPress"
+          ],
+          "policyOwner": "jami-harness"
+        }
+      }
+    },
+    {
+      "name": "data-list",
+      "type": "registry:component",
+      "title": "Data List",
+      "description": "Authored resident data table/list component for dense records.",
+      "dependencies": [
+        "@jami-studio/ui",
+        "@jami-studio/panel"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/vocabulary.mjs",
+          "target": "components/ui/jami-vocabulary.mjs",
+          "type": "registry:component",
+          "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
+          "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
+        },
+        {
+          "path": "packages/ui/src/styles.css",
+          "target": "components/ui/jami-ui.css",
+          "type": "registry:style",
+          "content": "/* Authored Studio UI resident vocabulary styles. Token variables are generated by packages/tokens. */\n.jami-ui {\n  color: var(--jami-semantic-light-foreground);\n  background: var(--jami-semantic-light-background);\n  font: var(--jami-typography-body);\n}\n\n.jami-button {\n  align-items: center;\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  display: inline-flex;\n  gap: var(--jami-spacing-control);\n  justify-content: center;\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control) calc(var(--jami-spacing-control) * 1.5);\n  transition-duration: var(--jami-motion-fast);\n  transition-property: background-color, border-color, box-shadow, color;\n}\n\n.jami-button[data-variant=\"primary\"] {\n  background: var(--jami-semantic-light-accent);\n  color: var(--jami-semantic-dark-foreground);\n}\n\n.jami-button:focus-visible,\n.jami-panel:focus-visible,\n.jami-field input:focus-visible,\n.jami-data-list:focus-visible,\n.jami-agent-panel:focus-visible,\n.jami-docs-source-panel:focus-visible,\n.jami-media-grid:focus-visible {\n  outline: 2px solid var(--jami-componentState-focusRing);\n  outline-offset: 2px;\n}\n\n.jami-button[disabled],\n.jami-field input[disabled],\n[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.58;\n}\n\n.jami-panel,\n.jami-data-list,\n.jami-agent-panel,\n.jami-docs-source-panel,\n.jami-media-grid {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 14%, transparent);\n  border-radius: var(--jami-radius-control);\n  box-shadow: var(--jami-shadow-overlay);\n  color: var(--jami-semantic-light-foreground);\n  min-width: 0;\n  overflow-wrap: anywhere;\n  padding: calc(var(--jami-spacing-control) * 2);\n}\n\n.jami-field {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-field input {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  color: var(--jami-semantic-light-foreground);\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control);\n}\n\n.jami-field [aria-invalid=\"true\"] {\n  border-color: var(--jami-semantic-light-accent);\n}\n\n.jami-data-list {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-media-grid {\n  display: grid;\n  gap: var(--jami-spacing-control);\n  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .jami-button {\n    transition-duration: 0ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .jami-ui {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n\n  .jami-panel,\n  .jami-data-list,\n  .jami-agent-panel,\n  .jami-docs-source-panel,\n  .jami-media-grid,\n  .jami-field input {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n}\n",
+          "hash": "sha256:f79698049a6f91e2fa4c45dd3028bbda5e00c3d1b1c018e1ff5cac3fade20cbe"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/data-list",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "component.data-list",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:299f2113c4371856b04e46b17df85d675ce2581062bbeb53352149d62ffe26f2",
+          "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
+        },
+        "tokenRequirements": [
+          "semantic.light.background",
+          "semantic.light.foreground",
+          "semantic.dark.background",
+          "semantic.dark.foreground",
+          "componentState.focusRing",
+          "spacing.control",
+          "radius.control"
+        ],
+        "provenance": {
+          "source": "authored",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "shadcn-compatible install content; no shadcn package dependency",
+          "tailwind": "token CSS variables; no Tailwind package dependency",
+          "react": ">=19"
+        },
+        "agentManifest": {
+          "renderableComponent": "data-list",
+          "actionSlots": [
+            "rowAction"
+          ],
+          "policyOwner": "jami-harness"
+        }
+      }
+    },
+    {
+      "name": "docs-source-panel",
+      "type": "registry:component",
+      "title": "Docs Source Panel",
+      "description": "Authored resident document/source/citation panel with redaction states.",
+      "dependencies": [
+        "@jami-studio/ui",
+        "@jami-studio/panel"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/vocabulary.mjs",
+          "target": "components/ui/jami-vocabulary.mjs",
+          "type": "registry:component",
+          "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
+          "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
+        },
+        {
+          "path": "packages/ui/src/styles.css",
+          "target": "components/ui/jami-ui.css",
+          "type": "registry:style",
+          "content": "/* Authored Studio UI resident vocabulary styles. Token variables are generated by packages/tokens. */\n.jami-ui {\n  color: var(--jami-semantic-light-foreground);\n  background: var(--jami-semantic-light-background);\n  font: var(--jami-typography-body);\n}\n\n.jami-button {\n  align-items: center;\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  display: inline-flex;\n  gap: var(--jami-spacing-control);\n  justify-content: center;\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control) calc(var(--jami-spacing-control) * 1.5);\n  transition-duration: var(--jami-motion-fast);\n  transition-property: background-color, border-color, box-shadow, color;\n}\n\n.jami-button[data-variant=\"primary\"] {\n  background: var(--jami-semantic-light-accent);\n  color: var(--jami-semantic-dark-foreground);\n}\n\n.jami-button:focus-visible,\n.jami-panel:focus-visible,\n.jami-field input:focus-visible,\n.jami-data-list:focus-visible,\n.jami-agent-panel:focus-visible,\n.jami-docs-source-panel:focus-visible,\n.jami-media-grid:focus-visible {\n  outline: 2px solid var(--jami-componentState-focusRing);\n  outline-offset: 2px;\n}\n\n.jami-button[disabled],\n.jami-field input[disabled],\n[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.58;\n}\n\n.jami-panel,\n.jami-data-list,\n.jami-agent-panel,\n.jami-docs-source-panel,\n.jami-media-grid {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 14%, transparent);\n  border-radius: var(--jami-radius-control);\n  box-shadow: var(--jami-shadow-overlay);\n  color: var(--jami-semantic-light-foreground);\n  min-width: 0;\n  overflow-wrap: anywhere;\n  padding: calc(var(--jami-spacing-control) * 2);\n}\n\n.jami-field {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-field input {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  color: var(--jami-semantic-light-foreground);\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control);\n}\n\n.jami-field [aria-invalid=\"true\"] {\n  border-color: var(--jami-semantic-light-accent);\n}\n\n.jami-data-list {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-media-grid {\n  display: grid;\n  gap: var(--jami-spacing-control);\n  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .jami-button {\n    transition-duration: 0ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .jami-ui {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n\n  .jami-panel,\n  .jami-data-list,\n  .jami-agent-panel,\n  .jami-docs-source-panel,\n  .jami-media-grid,\n  .jami-field input {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n}\n",
+          "hash": "sha256:f79698049a6f91e2fa4c45dd3028bbda5e00c3d1b1c018e1ff5cac3fade20cbe"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/docs-source-panel",
+        "suite": "research-writing",
+        "lifecycle": {
+          "id": "component.docs-source-panel",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:e18f5796e7bd70eef554db1ae63683fd9c04a515dd33a248402dbe64c52c474b",
+          "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
+        },
+        "tokenRequirements": [
+          "semantic.light.background",
+          "semantic.light.foreground",
+          "semantic.dark.background",
+          "semantic.dark.foreground",
+          "componentState.focusRing",
+          "spacing.control",
+          "radius.control"
+        ],
+        "provenance": {
+          "source": "authored",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "shadcn-compatible install content; no shadcn package dependency",
+          "tailwind": "token CSS variables; no Tailwind package dependency",
+          "react": ">=19"
+        },
+        "agentManifest": {
+          "renderableComponent": "docs-source-panel",
+          "actionSlots": [
+            "openSource",
+            "citeSource"
           ],
           "policyOwner": "jami-harness"
         }
@@ -175,6 +383,73 @@
       }
     },
     {
+      "name": "media-grid",
+      "type": "registry:component",
+      "title": "Media Grid",
+      "description": "Authored resident media/artifact grid with responsive states.",
+      "dependencies": [
+        "@jami-studio/ui",
+        "@jami-studio/panel"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/vocabulary.mjs",
+          "target": "components/ui/jami-vocabulary.mjs",
+          "type": "registry:component",
+          "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
+          "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
+        },
+        {
+          "path": "packages/ui/src/styles.css",
+          "target": "components/ui/jami-ui.css",
+          "type": "registry:style",
+          "content": "/* Authored Studio UI resident vocabulary styles. Token variables are generated by packages/tokens. */\n.jami-ui {\n  color: var(--jami-semantic-light-foreground);\n  background: var(--jami-semantic-light-background);\n  font: var(--jami-typography-body);\n}\n\n.jami-button {\n  align-items: center;\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  display: inline-flex;\n  gap: var(--jami-spacing-control);\n  justify-content: center;\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control) calc(var(--jami-spacing-control) * 1.5);\n  transition-duration: var(--jami-motion-fast);\n  transition-property: background-color, border-color, box-shadow, color;\n}\n\n.jami-button[data-variant=\"primary\"] {\n  background: var(--jami-semantic-light-accent);\n  color: var(--jami-semantic-dark-foreground);\n}\n\n.jami-button:focus-visible,\n.jami-panel:focus-visible,\n.jami-field input:focus-visible,\n.jami-data-list:focus-visible,\n.jami-agent-panel:focus-visible,\n.jami-docs-source-panel:focus-visible,\n.jami-media-grid:focus-visible {\n  outline: 2px solid var(--jami-componentState-focusRing);\n  outline-offset: 2px;\n}\n\n.jami-button[disabled],\n.jami-field input[disabled],\n[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.58;\n}\n\n.jami-panel,\n.jami-data-list,\n.jami-agent-panel,\n.jami-docs-source-panel,\n.jami-media-grid {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 14%, transparent);\n  border-radius: var(--jami-radius-control);\n  box-shadow: var(--jami-shadow-overlay);\n  color: var(--jami-semantic-light-foreground);\n  min-width: 0;\n  overflow-wrap: anywhere;\n  padding: calc(var(--jami-spacing-control) * 2);\n}\n\n.jami-field {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-field input {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  color: var(--jami-semantic-light-foreground);\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control);\n}\n\n.jami-field [aria-invalid=\"true\"] {\n  border-color: var(--jami-semantic-light-accent);\n}\n\n.jami-data-list {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-media-grid {\n  display: grid;\n  gap: var(--jami-spacing-control);\n  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .jami-button {\n    transition-duration: 0ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .jami-ui {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n\n  .jami-panel,\n  .jami-data-list,\n  .jami-agent-panel,\n  .jami-docs-source-panel,\n  .jami-media-grid,\n  .jami-field input {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n}\n",
+          "hash": "sha256:f79698049a6f91e2fa4c45dd3028bbda5e00c3d1b1c018e1ff5cac3fade20cbe"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/media-grid",
+        "suite": "mixed-media",
+        "lifecycle": {
+          "id": "component.media-grid",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:ee79586dfaa00c95c0499fe521592cb534b7d7b91e5031fc7357f9c98e4c97d1",
+          "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
+        },
+        "tokenRequirements": [
+          "semantic.light.background",
+          "semantic.light.foreground",
+          "semantic.dark.background",
+          "semantic.dark.foreground",
+          "componentState.focusRing",
+          "spacing.control",
+          "radius.control",
+          "motion.fast"
+        ],
+        "provenance": {
+          "source": "authored",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "shadcn-compatible install content; no shadcn package dependency",
+          "tailwind": "token CSS variables; no Tailwind package dependency",
+          "react": ">=19"
+        },
+        "agentManifest": {
+          "renderableComponent": "media-grid",
+          "actionSlots": [
+            "openItem",
+            "reviewItem"
+          ],
+          "policyOwner": "jami-harness"
+        }
+      }
+    },
+    {
       "name": "mixed-media-suite",
       "type": "registry:suite",
       "title": "Mixed Media Suite",
@@ -225,6 +500,68 @@
           "library"
         ],
         "agentManifest": null
+      }
+    },
+    {
+      "name": "panel",
+      "type": "registry:ui",
+      "title": "Panel",
+      "description": "Authored tokenized resident panel/card surface primitive.",
+      "dependencies": [
+        "@jami-studio/ui"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/vocabulary.mjs",
+          "target": "components/ui/jami-vocabulary.mjs",
+          "type": "registry:ui",
+          "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
+          "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
+        },
+        {
+          "path": "packages/ui/src/styles.css",
+          "target": "components/ui/jami-ui.css",
+          "type": "registry:style",
+          "content": "/* Authored Studio UI resident vocabulary styles. Token variables are generated by packages/tokens. */\n.jami-ui {\n  color: var(--jami-semantic-light-foreground);\n  background: var(--jami-semantic-light-background);\n  font: var(--jami-typography-body);\n}\n\n.jami-button {\n  align-items: center;\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  display: inline-flex;\n  gap: var(--jami-spacing-control);\n  justify-content: center;\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control) calc(var(--jami-spacing-control) * 1.5);\n  transition-duration: var(--jami-motion-fast);\n  transition-property: background-color, border-color, box-shadow, color;\n}\n\n.jami-button[data-variant=\"primary\"] {\n  background: var(--jami-semantic-light-accent);\n  color: var(--jami-semantic-dark-foreground);\n}\n\n.jami-button:focus-visible,\n.jami-panel:focus-visible,\n.jami-field input:focus-visible,\n.jami-data-list:focus-visible,\n.jami-agent-panel:focus-visible,\n.jami-docs-source-panel:focus-visible,\n.jami-media-grid:focus-visible {\n  outline: 2px solid var(--jami-componentState-focusRing);\n  outline-offset: 2px;\n}\n\n.jami-button[disabled],\n.jami-field input[disabled],\n[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.58;\n}\n\n.jami-panel,\n.jami-data-list,\n.jami-agent-panel,\n.jami-docs-source-panel,\n.jami-media-grid {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 14%, transparent);\n  border-radius: var(--jami-radius-control);\n  box-shadow: var(--jami-shadow-overlay);\n  color: var(--jami-semantic-light-foreground);\n  min-width: 0;\n  overflow-wrap: anywhere;\n  padding: calc(var(--jami-spacing-control) * 2);\n}\n\n.jami-field {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-field input {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  color: var(--jami-semantic-light-foreground);\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control);\n}\n\n.jami-field [aria-invalid=\"true\"] {\n  border-color: var(--jami-semantic-light-accent);\n}\n\n.jami-data-list {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-media-grid {\n  display: grid;\n  gap: var(--jami-spacing-control);\n  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .jami-button {\n    transition-duration: 0ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .jami-ui {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n\n  .jami-panel,\n  .jami-data-list,\n  .jami-agent-panel,\n  .jami-docs-source-panel,\n  .jami-media-grid,\n  .jami-field input {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n}\n",
+          "hash": "sha256:f79698049a6f91e2fa4c45dd3028bbda5e00c3d1b1c018e1ff5cac3fade20cbe"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/panel",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "primitive.panel",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:d5b2c26626c1273251974dad6374ea7bdb7ee88c0010222f6bc5ad36ea35f1bd",
+          "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
+        },
+        "tokenRequirements": [
+          "semantic.light.background",
+          "semantic.light.foreground",
+          "semantic.dark.background",
+          "semantic.dark.foreground",
+          "componentState.focusRing",
+          "radius.control",
+          "shadow.overlay"
+        ],
+        "provenance": {
+          "source": "authored",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "shadcn-compatible install content; no shadcn package dependency",
+          "tailwind": "token CSS variables; no Tailwind package dependency",
+          "react": ">=19"
+        },
+        "agentManifest": {
+          "renderableComponent": "panel",
+          "actionSlots": [],
+          "policyOwner": "jami-harness"
+        }
       }
     },
     {
@@ -332,6 +669,67 @@
           "admin"
         ],
         "agentManifest": null
+      }
+    },
+    {
+      "name": "text-field",
+      "type": "registry:ui",
+      "title": "Text Field",
+      "description": "Authored tokenized resident form text field primitive.",
+      "dependencies": [
+        "@jami-studio/ui"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/vocabulary.mjs",
+          "target": "components/ui/jami-vocabulary.mjs",
+          "type": "registry:ui",
+          "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
+          "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
+        },
+        {
+          "path": "packages/ui/src/styles.css",
+          "target": "components/ui/jami-ui.css",
+          "type": "registry:style",
+          "content": "/* Authored Studio UI resident vocabulary styles. Token variables are generated by packages/tokens. */\n.jami-ui {\n  color: var(--jami-semantic-light-foreground);\n  background: var(--jami-semantic-light-background);\n  font: var(--jami-typography-body);\n}\n\n.jami-button {\n  align-items: center;\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  display: inline-flex;\n  gap: var(--jami-spacing-control);\n  justify-content: center;\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control) calc(var(--jami-spacing-control) * 1.5);\n  transition-duration: var(--jami-motion-fast);\n  transition-property: background-color, border-color, box-shadow, color;\n}\n\n.jami-button[data-variant=\"primary\"] {\n  background: var(--jami-semantic-light-accent);\n  color: var(--jami-semantic-dark-foreground);\n}\n\n.jami-button:focus-visible,\n.jami-panel:focus-visible,\n.jami-field input:focus-visible,\n.jami-data-list:focus-visible,\n.jami-agent-panel:focus-visible,\n.jami-docs-source-panel:focus-visible,\n.jami-media-grid:focus-visible {\n  outline: 2px solid var(--jami-componentState-focusRing);\n  outline-offset: 2px;\n}\n\n.jami-button[disabled],\n.jami-field input[disabled],\n[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.58;\n}\n\n.jami-panel,\n.jami-data-list,\n.jami-agent-panel,\n.jami-docs-source-panel,\n.jami-media-grid {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 14%, transparent);\n  border-radius: var(--jami-radius-control);\n  box-shadow: var(--jami-shadow-overlay);\n  color: var(--jami-semantic-light-foreground);\n  min-width: 0;\n  overflow-wrap: anywhere;\n  padding: calc(var(--jami-spacing-control) * 2);\n}\n\n.jami-field {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-field input {\n  background: var(--jami-semantic-light-background);\n  border: 1px solid color-mix(in srgb, var(--jami-semantic-light-foreground) 18%, transparent);\n  border-radius: var(--jami-radius-control);\n  color: var(--jami-semantic-light-foreground);\n  min-height: calc(var(--jami-spacing-control) * 5);\n  padding: var(--jami-spacing-control);\n}\n\n.jami-field [aria-invalid=\"true\"] {\n  border-color: var(--jami-semantic-light-accent);\n}\n\n.jami-data-list {\n  display: grid;\n  gap: var(--jami-spacing-control);\n}\n\n.jami-media-grid {\n  display: grid;\n  gap: var(--jami-spacing-control);\n  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .jami-button {\n    transition-duration: 0ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .jami-ui {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n\n  .jami-panel,\n  .jami-data-list,\n  .jami-agent-panel,\n  .jami-docs-source-panel,\n  .jami-media-grid,\n  .jami-field input {\n    color: var(--jami-semantic-dark-foreground);\n    background: var(--jami-semantic-dark-background);\n  }\n}\n",
+          "hash": "sha256:f79698049a6f91e2fa4c45dd3028bbda5e00c3d1b1c018e1ff5cac3fade20cbe"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/text-field",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "primitive.text-field",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:13e28790f229c9189fde55b8f310a7575edcf2e2b0dd36294890ffcd6cb24f2b",
+          "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
+        },
+        "tokenRequirements": [
+          "semantic.light.background",
+          "semantic.light.foreground",
+          "semantic.light.accent",
+          "componentState.focusRing",
+          "spacing.control",
+          "radius.control"
+        ],
+        "provenance": {
+          "source": "authored",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "shadcn-compatible install content; no shadcn package dependency",
+          "tailwind": "token CSS variables; no Tailwind package dependency",
+          "react": ">=19"
+        },
+        "agentManifest": {
+          "renderableComponent": "text-field",
+          "actionSlots": [],
+          "policyOwner": "jami-harness"
+        }
       }
     }
   ]

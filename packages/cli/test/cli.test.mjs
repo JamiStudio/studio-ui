@@ -56,12 +56,18 @@ test("list returns the real generated registry items", () => {
   assert.deepEqual(
     names,
     [
+      "agent-panel",
       "business-ops-suite",
       "button",
+      "data-list",
+      "docs-source-panel",
       "jami-theme",
+      "media-grid",
       "mixed-media-suite",
+      "panel",
       "research-writing-suite",
       "solo-suite",
+      "text-field",
     ],
   );
 });
@@ -96,7 +102,7 @@ test("dry-run plans without writing", () => {
   assert.ok(!existsSync(join(dir, "studio-ui.lock.json")), "no lock written on dry run");
 });
 
-test("add resolves a suite graph and records source-pending members honestly", () => {
+test("add resolves a suite graph and installs authored primitive source", () => {
   call("init");
   const r = call("add", "solo-suite");
   assert.equal(r.code, 0);
@@ -104,8 +110,8 @@ test("add resolves a suite graph and records source-pending members honestly", (
 
   const lock = readJson("studio-ui.lock.json");
   const button = lock.items.find((i) => i.name === "button");
-  assert.equal(button.sourceState, "source-pending");
-  assert.equal(button.files.length, 0, "no fabricated files for pending source");
+  assert.equal(button.sourceState, "installable");
+  assert.ok(button.files.length > 0, "authored primitive files are installable");
   // the suite manifest and theme files are real
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo.suite.json")));
   assert.ok(existsSync(join(dir, "studio-ui", "jami.css")));
@@ -206,7 +212,7 @@ test("migrate reports and applies a schema-version migration", () => {
   );
 });
 
-test("provenance verifies installable content and marks pending source", () => {
+test("provenance verifies installable theme and primitive content", () => {
   call("init");
   call("add", "jami-theme");
   const theme = call("provenance", "jami-theme");
@@ -215,7 +221,7 @@ test("provenance verifies installable content and marks pending source", () => {
 
   const button = call("provenance", "button");
   assert.equal(button.code, 0);
-  assert.ok(button.result.data.files.every((f) => f.state === "source-pending"));
+  assert.ok(button.result.data.files.every((f) => f.state === "verified"));
 });
 
 test("remote registry is reported as unsupported, never silently empty", () => {

@@ -34,10 +34,13 @@ The fixture set covers:
   harness reference IDs.
 - renderer error state.
 
-The allowed resident vocabulary for this foundation check is deliberately small:
-`ActionSlot`, `ArtifactCard`, `Button`, `InlineNotice`, and `Text`. A payload whose
-`componentRef.namespace` is not `@jami-studio/ui`, or whose `name` is outside that
-allowlist, fails closed rather than rendering.
+The allowed resident vocabulary for this foundation check is deliberately small
+and source-owned. Internal display components are `action-slot`, `artifact-card`,
+`inline-notice`, and `text`; authored UI vocabulary items are `button`, `panel`,
+`text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and `media-grid`
+from `packages/ui` (documented in `docs/architecture/component-vocabulary.md`).
+A payload whose `componentRef.namespace` is not `@jami-studio/ui`, or whose `name`
+is outside that allowlist, fails closed rather than rendering.
 
 ## Validation Behavior
 

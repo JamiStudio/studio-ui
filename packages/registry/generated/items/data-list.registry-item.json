@@ -1,18 +1,19 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "button",
-  "type": "registry:ui",
-  "title": "Button",
-  "description": "Authored tokenized resident button/action-surface primitive.",
+  "name": "data-list",
+  "type": "registry:component",
+  "title": "Data List",
+  "description": "Authored resident data table/list component for dense records.",
   "dependencies": [
-    "@jami-studio/ui"
+    "@jami-studio/ui",
+    "@jami-studio/panel"
   ],
   "registryDependencies": [],
   "files": [
     {
       "path": "packages/ui/src/vocabulary.mjs",
       "target": "components/ui/jami-vocabulary.mjs",
-      "type": "registry:ui",
+      "type": "registry:component",
       "content": "const baseStates = [\n  \"keyboard\",\n  \"focus-visible\",\n  \"aria\",\n  \"contrast\",\n  \"reduced-motion\",\n  \"responsive\",\n  \"disabled\",\n  \"loading\",\n  \"invalid\",\n  \"empty\",\n  \"error\",\n  \"long-content\",\n];\n\nfunction defineComponent(definition) {\n  return Object.freeze({\n    schemaVersion: \"2026-06-09.ui-vocabulary\",\n    namespace: \"@jami-studio/ui\",\n    provenance: {\n      source: \"authored\",\n      license: \"MIT\",\n      reviewedAt: \"2026-06-09\",\n      copiedSource: false,\n    },\n    ...definition,\n    tokens: Object.freeze(definition.tokens),\n    states: Object.freeze(definition.states),\n    propSchema: Object.freeze(definition.propSchema),\n  });\n}\n\nexport const componentVocabulary = Object.freeze([\n  defineComponent({\n    name: \"button\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/button\",\n    description: \"Tokenized action surface for command slots and form actions.\",\n    tokens: [\n      \"semantic.light.accent\",\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"button\",\n      labelSource: \"label | ariaLabel\",\n      disabledAttribute: \"disabled\",\n      busyAttribute: \"aria-busy\",\n    },\n    propSchema: {\n      label: \"string\",\n      variant: [\"primary\", \"secondary\", \"ghost\", \"danger\"],\n      size: [\"compact\", \"regular\"],\n      disabled: \"boolean\",\n      loading: \"boolean\",\n      actionRef: \"act_* reference only\",\n    },\n  }),\n  defineComponent({\n    name: \"panel\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/panel\",\n    description: \"Low-radius tokenized surface for cards, docks, and grouped content.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"radius.control\",\n      \"shadow.overlay\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"region\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"aria-live=polite\",\n    },\n    propSchema: {\n      title: \"string\",\n      tone: [\"neutral\", \"accent\", \"danger\"],\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"text-field\",\n    kind: \"primitive\",\n    registryItem: \"@jami-studio/text-field\",\n    description: \"Labelled input field with invalid, disabled, loading, and helper states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"textbox\",\n      labelSource: \"label\",\n      invalidAttribute: \"aria-invalid\",\n      describedBy: \"helperText | errorText\",\n    },\n    propSchema: {\n      label: \"string\",\n      value: \"string\",\n      placeholder: \"string\",\n      disabled: \"boolean\",\n      invalid: \"boolean\",\n      errorText: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"data-list\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/data-list\",\n    description: \"Responsive table/list display for dense operational records.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"table | list\",\n      labelSource: \"title | ariaLabel\",\n      emptyState: \"status\",\n    },\n    propSchema: {\n      title: \"string\",\n      columns: \"array\",\n      rows: \"array\",\n      empty: \"boolean\",\n      loading: \"boolean\",\n      error: \"string\",\n    },\n  }),\n  defineComponent({\n    name: \"agent-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/agent-panel\",\n    description: \"Display-only agent status, pending approval, denied action, and error panel.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.light.accent\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"status\",\n      labelSource: \"title | agentName\",\n      liveRegion: \"polite\",\n    },\n    propSchema: {\n      agentName: \"string\",\n      status: [\"idle\", \"running\", \"needs_attention\", \"denied\", \"error\"],\n      actionRefs: \"act_* reference array\",\n      artifactViewRefs: \"artv_* reference array\",\n    },\n  }),\n  defineComponent({\n    name: \"docs-source-panel\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/docs-source-panel\",\n    description: \"Source, citation, and document reference panel with redaction-aware states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"complementary\",\n      labelSource: \"title | ariaLabel\",\n      redactionState: \"aria-describedby\",\n    },\n    propSchema: {\n      title: \"string\",\n      sources: \"array\",\n      selectedSourceId: \"string\",\n      redacted: \"boolean\",\n      empty: \"boolean\",\n    },\n  }),\n  defineComponent({\n    name: \"media-grid\",\n    kind: \"component\",\n    registryItem: \"@jami-studio/media-grid\",\n    description: \"Responsive media and artifact gallery with empty/error/loading states.\",\n    tokens: [\n      \"semantic.light.background\",\n      \"semantic.light.foreground\",\n      \"semantic.dark.background\",\n      \"semantic.dark.foreground\",\n      \"componentState.focusRing\",\n      \"spacing.control\",\n      \"radius.control\",\n      \"motion.fast\",\n    ],\n    states: baseStates,\n    aria: {\n      role: \"list\",\n      labelSource: \"title | ariaLabel\",\n      itemRole: \"listitem\",\n    },\n    propSchema: {\n      title: \"string\",\n      items: \"array\",\n      selectedItemId: \"string\",\n      loading: \"boolean\",\n      empty: \"boolean\",\n      error: \"string\",\n    },\n  }),\n]);\n\nconst byName = new Map(componentVocabulary.map((definition) => [definition.name, definition]));\n\nexport const registryAddressableNames = Object.freeze([...byName.keys()]);\n\nexport const stateFixtureMatrix = Object.freeze(\n  Object.fromEntries(componentVocabulary.map((definition) => [definition.name, definition.states])),\n);\n\nexport function getComponentDefinition(name) {\n  return byName.get(name) ?? null;\n}\n",
       "hash": "sha256:104ed228119aec41ecb79390679d00ed114e0171304a4b858a51ce8d583cf859"
     },
@@ -25,20 +26,23 @@
     }
   ],
   "meta": {
-    "packageName": "@jami-studio/button",
+    "packageName": "@jami-studio/data-list",
     "suite": "solo",
     "lifecycle": {
-      "id": "primitive.button",
+      "id": "component.data-list",
       "version": "0.0.0-contract.20260609",
       "schemaVersion": "2026-06-09.registry-foundation",
-      "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
-      "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
+      "sourceHash": "sha256:299f2113c4371856b04e46b17df85d675ce2581062bbeb53352149d62ffe26f2",
+      "migrationNotes": "Initial authored resident component; no installed API migration exists yet."
     },
     "tokenRequirements": [
       "semantic.light.background",
       "semantic.light.foreground",
-      "semantic.light.accent",
-      "componentState.focusRing"
+      "semantic.dark.background",
+      "semantic.dark.foreground",
+      "componentState.focusRing",
+      "spacing.control",
+      "radius.control"
     ],
     "provenance": {
       "source": "authored",
@@ -52,9 +56,9 @@
       "react": ">=19"
     },
     "agentManifest": {
-      "renderableComponent": "button",
+      "renderableComponent": "data-list",
       "actionSlots": [
-        "onPress"
+        "rowAction"
       ],
       "policyOwner": "jami-harness"
     }

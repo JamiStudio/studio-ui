@@ -12,7 +12,7 @@
     "contracts:check": "node scripts/contracts/validate-contracts.mjs",
     "docs:check": "node scripts/docs/check-docs.mjs",
     "registry:publish:check": "node scripts/release/publish-dry-run.mjs",
-    "verify": "node scripts/docs/check-docs.mjs && node scripts/contracts/validate-contracts.mjs && node scripts/contracts/generate-contract-artifacts.mjs --check && node scripts/release/publish-dry-run.mjs && node --test packages/renderer/test/render.test.mjs packages/renderer/test/presentation.test.mjs && node --test packages/cli/test/cli.test.mjs && node --test apps/workbench/test/workbench.test.mjs"
+    "verify": "node scripts/docs/check-docs.mjs && node scripts/contracts/validate-contracts.mjs && node scripts/contracts/generate-contract-artifacts.mjs --check && node scripts/release/publish-dry-run.mjs && node --test packages/ui/test/ui.test.mjs && node --test packages/renderer/test/render.test.mjs packages/renderer/test/presentation.test.mjs && node --test packages/cli/test/cli.test.mjs && node --test apps/workbench/test/workbench.test.mjs"
   },
   "engines": {
     "node": ">=24.0.0",

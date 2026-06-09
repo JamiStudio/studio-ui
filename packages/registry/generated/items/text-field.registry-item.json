@@ -1,9 +1,9 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "button",
+  "name": "text-field",
   "type": "registry:ui",
-  "title": "Button",
-  "description": "Authored tokenized resident button/action-surface primitive.",
+  "title": "Text Field",
+  "description": "Authored tokenized resident form text field primitive.",
   "dependencies": [
     "@jami-studio/ui"
   ],
@@ -25,20 +25,22 @@
     }
   ],
   "meta": {
-    "packageName": "@jami-studio/button",
+    "packageName": "@jami-studio/text-field",
     "suite": "solo",
     "lifecycle": {
-      "id": "primitive.button",
+      "id": "primitive.text-field",
       "version": "0.0.0-contract.20260609",
       "schemaVersion": "2026-06-09.registry-foundation",
-      "sourceHash": "sha256:1db5f34441ae7c5763bd7f5c4e002a0ef530af0a95f82800b17b23100766461d",
+      "sourceHash": "sha256:13e28790f229c9189fde55b8f310a7575edcf2e2b0dd36294890ffcd6cb24f2b",
       "migrationNotes": "Initial authored resident primitive; no installed API migration exists yet."
     },
     "tokenRequirements": [
       "semantic.light.background",
       "semantic.light.foreground",
       "semantic.light.accent",
-      "componentState.focusRing"
+      "componentState.focusRing",
+      "spacing.control",
+      "radius.control"
     ],
     "provenance": {
       "source": "authored",
@@ -52,10 +54,8 @@
       "react": ">=19"
     },
     "agentManifest": {
-      "renderableComponent": "button",
-      "actionSlots": [
-        "onPress"
-      ],
+      "renderableComponent": "text-field",
+      "actionSlots": [],
       "policyOwner": "jami-harness"
     }
   }
