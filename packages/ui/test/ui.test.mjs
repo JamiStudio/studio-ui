@@ -222,10 +222,12 @@ test("primitive component factories keep caller children inert", () => {
   };
   const circular = {};
   circular.self = circular;
+  const circularChildren = ["Nested child"];
+  circularChildren.push(circularChildren);
 
   const spec = renderPrimitiveSpec("panel", {
     title: "Evidence",
-    children: [unsafeChild, circular],
+    children: [unsafeChild, circular, circularChildren],
   });
   assert.equal(spec.state, "renderable");
   assert.deepEqual(collectExecutable(spec.node), [], "raw spec does not expose executable child props");
@@ -238,10 +240,16 @@ test("primitive component factories keep caller children inert", () => {
     spec.node.children.includes("[unserializable value]"),
     "unserializable child data is represented by an inert marker",
   );
+  assert.ok(spec.node.children.includes("Nested child"), "nested child arrays are flattened as display data");
+  assert.equal(
+    spec.node.children.filter((child) => child === "[unserializable value]").length,
+    2,
+    "cyclic child arrays are represented by an inert marker",
+  );
 
   const createElement = (type, props, ...children) => ({ type, props, children });
   const components = createJamiPrimitiveComponents(createElement);
-  const panel = components.Panel({ title: "Evidence", children: [unsafeChild] });
+  const panel = components.Panel({ title: "Evidence", children: [unsafeChild, circularChildren] });
   assert.deepEqual(collectExecutable(panel), [], "adapter output does not expose executable child props");
   assert.equal(
     panel.children.some((child) => child && typeof child === "object" && child.type === "script"),

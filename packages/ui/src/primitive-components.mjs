@@ -65,9 +65,24 @@ function safeChild(value) {
   return displayValue(value);
 }
 
+function collectSafeChildren(value, out, seen) {
+  if (Array.isArray(value)) {
+    if (seen.has(value)) {
+      out.push("[unserializable value]");
+      return out;
+    }
+    seen.add(value);
+    for (const item of value) collectSafeChildren(item, out, seen);
+    seen.delete(value);
+    return out;
+  }
+  const child = safeChild(value);
+  if (child !== null) out.push(child);
+  return out;
+}
+
 function safeChildren(value) {
-  const values = Array.isArray(value) ? value.flat(Infinity) : [value];
-  return values.map(safeChild).filter((child) => child !== null);
+  return collectSafeChildren(value, [], new Set());
 }
 
 function childrenOrLabel(props, fallback) {
