@@ -1,0 +1,126 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-app-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "implementationStatus": "renderable-primitive-factory-app",
+  "source": "registry/suites/business-ops/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "appShell": {
+    "id": "app.business-ops.shell",
+    "layout": "ops-dashboard",
+    "navigation": [
+      {
+        "label": "Dashboard",
+        "route": "/business-ops/dashboard"
+      },
+      {
+        "label": "Staff",
+        "route": "/business-ops/staff"
+      },
+      {
+        "label": "Scheduling",
+        "route": "/business-ops/scheduling"
+      },
+      {
+        "label": "Compliance",
+        "route": "/business-ops/compliance"
+      }
+    ]
+  },
+  "routes": [
+    {
+      "path": "/business-ops/dashboard",
+      "page": "page.business-ops.dashboard",
+      "title": "Operations dashboard",
+      "blocks": [
+        "block.business-ops.kpis",
+        "block.business-ops.exceptions",
+        "block.business-ops.agent-review"
+      ]
+    },
+    {
+      "path": "/business-ops/staff",
+      "page": "page.business-ops.staff",
+      "title": "Staff and training",
+      "blocks": [
+        "block.business-ops.staff-table",
+        "block.business-ops.training-form"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.business-ops.dashboard",
+      "title": "Operations dashboard",
+      "routeCount": 1,
+      "implementationFile": "studio-ui/suites/business-ops/pages/business-ops-dashboard-page.page.implementation.json"
+    },
+    {
+      "id": "page.business-ops.staff",
+      "title": "Staff and training",
+      "routeCount": 1,
+      "implementationFile": "studio-ui/suites/business-ops/pages/business-ops-staff-page.page.implementation.json"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.business-ops.kpis",
+      "title": "Operational KPIs",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-kpis-block.block.implementation.json"
+    },
+    {
+      "id": "block.business-ops.exceptions",
+      "title": "Schedule exceptions",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-exceptions-block.block.implementation.json"
+    },
+    {
+      "id": "block.business-ops.agent-review",
+      "title": "Review queue",
+      "component": "agent-panel",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-agent-review-block.block.implementation.json"
+    },
+    {
+      "id": "block.business-ops.staff-table",
+      "title": "Staff records",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-staff-table-block.block.implementation.json"
+    },
+    {
+      "id": "block.business-ops.training-form",
+      "title": "Training form",
+      "component": "text-field",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-training-form-block.block.implementation.json"
+    }
+  ],
+  "evidence": {
+    "renderedPageCount": 2,
+    "renderedBlockCount": 5,
+    "routeCount": 2,
+    "navigationCount": 4,
+    "responsive": true,
+    "reducedMotion": true,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

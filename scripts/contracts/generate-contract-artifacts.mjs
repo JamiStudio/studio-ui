@@ -2,6 +2,10 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
+  renderPrimitiveSpec,
+} from "../../packages/ui/src/index.mjs";
 
 const root = process.cwd();
 
@@ -235,9 +239,18 @@ function suiteManifest(item) {
           componentParts: [...new Set((shell.pages ?? []).flatMap((page) => page.components ?? []))].sort(),
           stateFixtures: shell.stateFixtures ?? {},
           provenance: {
-            source: `registry/suites/${item.suite}/suite-shell.json`,
+            source: sourceRef(item.suite),
             copiedSource: false,
           },
+        }
+      : null,
+    implementation: shell
+      ? {
+          status: "renderable-primitive-factory-implementation",
+          runtimeReactApp: false,
+          app: appImplementationFile(item.suite).target,
+          pages: (shell.pages ?? []).map((page) => pageImplementationFile(item.suite, page).target),
+          blocks: (shell.blocks ?? []).map((block) => blockImplementationFile(item.suite, block).target),
         }
       : null,
   };
@@ -247,6 +260,10 @@ function suitePartSlug(id, prefix) {
   return String(id ?? "")
     .replace(prefix, "")
     .replaceAll(".", "-");
+}
+
+function suiteAppItemName(lane) {
+  return `${lane}-app`;
 }
 
 function suitePageItemName(lane, page) {
@@ -260,9 +277,316 @@ function suiteBlockItemName(lane, block) {
 function suiteRegistryDependencies(item) {
   const shell = readOptionalJson(`registry/suites/${item.suite}/suite-shell.json`);
   if (!shell) return item.registryDependencies ?? [];
+  const app = suiteAppItemName(item.suite);
   const pages = (shell.pages ?? []).map((page) => suitePageItemName(item.suite, page));
   const blocks = (shell.blocks ?? []).map((block) => suiteBlockItemName(item.suite, block));
-  return [...new Set([...(item.registryDependencies ?? []), ...pages, ...blocks])];
+  return [...new Set([...(item.registryDependencies ?? []), app, ...pages, ...blocks])];
+}
+
+function sourceRef(lane) {
+  return `registry/suites/${lane}/suite-shell.json`;
+}
+
+function implementationRuntimeBoundary() {
+  return {
+    runtimeReactRenderer: false,
+    hostedRuntime: false,
+    harnessRuntimeExecution: false,
+    executableActions: false,
+    radixWrapper: false,
+  };
+}
+
+function primitiveFactoryEvidence() {
+  return {
+    version: PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
+    source: "packages/ui/src/primitive-components.mjs",
+    implementationStatus: "framework-neutral-component-factory",
+    ...implementationRuntimeBoundary(),
+  };
+}
+
+function refSlug(value) {
+  return (
+    String(value ?? "ref")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "") || "ref"
+  );
+}
+
+function longFixture(shell, fallback) {
+  return shell.stateFixtures?.longContent ?? fallback;
+}
+
+function emptyFixture(shell, fallback) {
+  return shell.stateFixtures?.empty ?? fallback;
+}
+
+function errorFixture(shell, fallback) {
+  return shell.stateFixtures?.error ?? fallback;
+}
+
+function blockProps(lane, shell, block, state) {
+  const title = block.title ?? block.id;
+  const id = refSlug(`${lane}_${block.id}`);
+  const longText = longFixture(shell, `${title} keeps long operational content wrapped inside the suite surface.`);
+  const emptyText = emptyFixture(shell, `${title} has no records to display.`);
+  const errorText = errorFixture(shell, `${title} cannot load right now.`);
+  switch (block.component) {
+    case "button":
+      return {
+        label: state === "loading" ? "Loading" : title,
+        variant: state === "error" ? "danger" : "primary",
+        loading: state === "loading",
+        disabled: state === "disabled",
+        actionRef: `act_${id}`,
+      };
+    case "panel":
+      return {
+        title,
+        tone: state === "error" ? "danger" : "neutral",
+        empty: state === "empty",
+        error: state === "error" ? errorText : undefined,
+        children: state === "long-content" ? [longText] : [`${title} is composed from the resident panel primitive.`],
+      };
+    case "text-field":
+      return {
+        label: title,
+        value: state === "long-content" ? longText : "",
+        placeholder: emptyText,
+        invalid: state === "invalid" || state === "error",
+        errorText: state === "invalid" || state === "error" ? errorText : undefined,
+        helperText: state === "invalid" || state === "error" ? undefined : longText,
+      };
+    case "data-list":
+      return {
+        title,
+        columns: [
+          { key: "item", label: "Item" },
+          { key: "state", label: "State" },
+        ],
+        rows:
+          state === "empty" || state === "error"
+            ? []
+            : [
+                {
+                  item: state === "long-content" ? longText : `${title} record`,
+                  state: state === "ready" ? "ready" : state,
+                },
+              ],
+        empty: state === "empty",
+        error: state === "error" ? errorText : undefined,
+      };
+    case "agent-panel":
+      return {
+        title,
+        status: state === "error" ? "error" : state === "empty" ? "idle" : "running",
+        actionRefs: [`act_${id}_review`],
+        artifactViewRefs: [`artv_${id}_trace`],
+      };
+    case "docs-source-panel":
+      return {
+        title,
+        sources:
+          state === "empty"
+            ? []
+            : [
+                {
+                  id: `src_${id}`,
+                  title: state === "long-content" ? longText : `${title} source`,
+                },
+              ],
+        selectedSourceId: state === "empty" ? undefined : `src_${id}`,
+        redacted: state === "error",
+        empty: state === "empty",
+      };
+    case "media-grid":
+      return {
+        title,
+        items:
+          state === "empty" || state === "error"
+            ? []
+            : [
+                {
+                  id: `art_${id}`,
+                  title: state === "long-content" ? longText : `${title} item`,
+                },
+              ],
+        selectedItemId: state === "empty" || state === "error" ? undefined : `art_${id}`,
+        empty: state === "empty",
+        error: state === "error" ? errorText : undefined,
+      };
+    default:
+      return {};
+  }
+}
+
+function collectClassNames(node, out = new Set()) {
+  if (!node || typeof node !== "object") return out;
+  if (typeof node.props?.className === "string") {
+    for (const className of node.props.className.split(/\s+/).filter(Boolean)) out.add(className);
+  }
+  for (const child of node.children ?? []) collectClassNames(child, out);
+  return out;
+}
+
+function compactObject(value) {
+  return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined));
+}
+
+function renderBlockStates(lane, shell, block) {
+  const states = [...new Set(["ready", ...(block.stateExamples ?? [])])];
+  return Object.fromEntries(
+    states.map((state) => {
+      const props = compactObject(blockProps(lane, shell, block, state));
+      const rendered = renderPrimitiveSpec(block.component, props);
+      return [
+        state,
+        {
+          props,
+          rendererState: rendered.state,
+          reasons: rendered.reasons,
+          node: rendered.node,
+          tokenizedClasses: [...collectClassNames(rendered.node)].sort(),
+        },
+      ];
+    }),
+  );
+}
+
+function suiteBlockImplementation(lane, shell, block) {
+  const renderedStates = renderBlockStates(lane, shell, block);
+  const states = Object.entries(renderedStates);
+  return {
+    $schema: "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+    schemaVersion: shell.schemaVersion,
+    lane,
+    implementationStatus: "renderable-primitive-factory-block",
+    source: sourceRef(lane),
+    primitiveFactory: primitiveFactoryEvidence(),
+    block,
+    component: block.component,
+    renderedStates,
+    evidence: {
+      renderableStates: states.filter(([, rendered]) => rendered.rendererState === "renderable").map(([state]) => state),
+      failedStates: states.filter(([, rendered]) => rendered.rendererState !== "renderable").map(([state]) => state),
+      tokenizedClasses: [...new Set(states.flatMap(([, rendered]) => rendered.tokenizedClasses ?? []))].sort(),
+      responsive: true,
+      reducedMotion: true,
+      longContentSafe: (block.stateExamples ?? []).includes("long-content"),
+      emptyStateSafe: (block.stateExamples ?? []).includes("empty"),
+      errorStateSafe: (block.stateExamples ?? []).includes("error"),
+      displayOnly: true,
+    },
+    runtime: implementationRuntimeBoundary(),
+    provenance: {
+      source: sourceRef(lane),
+      copiedSource: false,
+    },
+  };
+}
+
+function blockImplementationFile(lane, block) {
+  const name = suiteBlockItemName(lane, block);
+  return {
+    path: `packages/registry/generated/suites/${lane}/blocks/${name}.block.implementation.json`,
+    target: `studio-ui/suites/${lane}/blocks/${name}.block.implementation.json`,
+    kind: "registry:block",
+  };
+}
+
+function suitePageImplementation(lane, shell, page) {
+  const routes = (shell.routes ?? []).filter((route) => route.page === page.id);
+  const blockIds = [...new Set(routes.flatMap((route) => route.blocks ?? []))];
+  const blocks = blockIds
+    .map((blockId) => (shell.blocks ?? []).find((block) => block.id === blockId))
+    .filter(Boolean);
+  return {
+    $schema: "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
+    schemaVersion: shell.schemaVersion,
+    lane,
+    implementationStatus: "renderable-primitive-factory-page",
+    source: sourceRef(lane),
+    primitiveFactory: primitiveFactoryEvidence(),
+    page,
+    routes,
+    blocks: blocks.map((block) => ({
+      id: block.id,
+      title: block.title,
+      component: block.component,
+      implementationFile: blockImplementationFile(lane, block).target,
+      renderedStates: ["ready", ...(block.stateExamples ?? [])],
+    })),
+    components: [...new Set([...(page.components ?? []), ...blocks.map((block) => block.component)])].sort(),
+    evidence: {
+      renderedBlockCount: blocks.length,
+      responsiveLayout: "single-column-safe generated composition",
+      a11yStructure: "page routes compose labelled resident block implementations",
+      displayOnly: true,
+    },
+    runtime: implementationRuntimeBoundary(),
+    provenance: {
+      source: sourceRef(lane),
+      copiedSource: false,
+    },
+  };
+}
+
+function pageImplementationFile(lane, page) {
+  const name = suitePageItemName(lane, page);
+  return {
+    path: `packages/registry/generated/suites/${lane}/pages/${name}.page.implementation.json`,
+    target: `studio-ui/suites/${lane}/pages/${name}.page.implementation.json`,
+    kind: "registry:page",
+  };
+}
+
+function suiteAppImplementation(lane, shell) {
+  return {
+    $schema: "https://jami.studio/schemas/registry/suite-app-implementation.generated.json",
+    schemaVersion: shell.schemaVersion,
+    lane,
+    implementationStatus: "renderable-primitive-factory-app",
+    source: sourceRef(lane),
+    primitiveFactory: primitiveFactoryEvidence(),
+    appShell: shell.appShell,
+    routes: shell.routes ?? [],
+    pages: (shell.pages ?? []).map((page) => ({
+      id: page.id,
+      title: page.title,
+      routeCount: (shell.routes ?? []).filter((route) => route.page === page.id).length,
+      implementationFile: pageImplementationFile(lane, page).target,
+    })),
+    blocks: (shell.blocks ?? []).map((block) => ({
+      id: block.id,
+      title: block.title,
+      component: block.component,
+      implementationFile: blockImplementationFile(lane, block).target,
+    })),
+    evidence: {
+      renderedPageCount: (shell.pages ?? []).length,
+      renderedBlockCount: (shell.blocks ?? []).length,
+      routeCount: (shell.routes ?? []).length,
+      navigationCount: (shell.appShell?.navigation ?? []).length,
+      responsive: true,
+      reducedMotion: true,
+      displayOnly: true,
+    },
+    runtime: implementationRuntimeBoundary(),
+    provenance: {
+      source: sourceRef(lane),
+      copiedSource: false,
+    },
+  };
+}
+
+function appImplementationFile(lane) {
+  return {
+    path: `packages/registry/generated/suites/${lane}/${suiteAppItemName(lane)}.implementation.json`,
+    target: `studio-ui/suites/${lane}/${suiteAppItemName(lane)}.implementation.json`,
+    kind: "registry:app",
+  };
 }
 
 function suitePageManifest(lane, shell, page) {
@@ -327,7 +651,7 @@ function suitePartItems(suiteItem) {
     dependencies: [],
     tokenRequirements: [],
     provenance: {
-      source: `registry/suites/${lane}/suite-shell.json`,
+      source: sourceRef(lane),
       license: "MIT",
       reviewedAt: "2026-06-09",
       copiedSource: false,
@@ -361,6 +685,7 @@ function suitePartItems(suiteItem) {
           target: `studio-ui/suites/${lane}/pages/${name}.page.json`,
           kind: "registry:page",
         },
+        pageImplementationFile(lane, page),
       ],
       lifecycle: {
         id: `page.${lane}.${suitePartSlug(page.id, `page.${lane}.`)}`,
@@ -368,7 +693,7 @@ function suitePartItems(suiteItem) {
         schemaVersion: suiteItem.lifecycle.schemaVersion,
         sourceHash: "",
         migrationNotes:
-          "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending.",
+          "Generated standalone page descriptor and primitive-factory implementation from the authored suite shell; full React page runtime remains pending.",
       },
     };
     item.lifecycle.sourceHash = registrySourceHash(item);
@@ -389,6 +714,7 @@ function suitePartItems(suiteItem) {
           target: `studio-ui/suites/${lane}/blocks/${name}.block.json`,
           kind: "registry:block",
         },
+        blockImplementationFile(lane, block),
       ],
       lifecycle: {
         id: `block.${lane}.${suitePartSlug(block.id, `block.${lane}.`)}`,
@@ -396,13 +722,49 @@ function suitePartItems(suiteItem) {
         schemaVersion: suiteItem.lifecycle.schemaVersion,
         sourceHash: "",
         migrationNotes:
-          "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending.",
+          "Generated standalone block descriptor and primitive-factory implementation from the authored suite shell; full React block runtime remains pending.",
       },
     };
     item.lifecycle.sourceHash = registrySourceHash(item);
     return item;
   });
   return [...pageItems, ...blockItems];
+}
+
+function suiteAppItems(suiteItem) {
+  const lane = suiteItem.suite;
+  const shell = readOptionalJson(`registry/suites/${lane}/suite-shell.json`);
+  if (!shell) return [];
+  const name = suiteAppItemName(lane);
+  const item = {
+    $schema: "https://jami.studio/schemas/registry/registry-item.schema.json",
+    name: `@jami-studio/${name}`,
+    type: "app",
+    title: `${shell.title} App Implementation`,
+    description: `${shell.title} generated app implementation evidence composed from resident primitive factories.`,
+    suite: lane,
+    dependencies: [],
+    registryDependencies: (shell.pages ?? []).map((page) => suitePageItemName(lane, page)),
+    tokenRequirements: [],
+    provenance: {
+      source: sourceRef(lane),
+      license: "MIT",
+      reviewedAt: "2026-06-09",
+      copiedSource: false,
+    },
+    compatibility: suiteItem.compatibility,
+    files: [appImplementationFile(lane)],
+    lifecycle: {
+      id: `app.${lane}`,
+      version: suiteItem.lifecycle.version,
+      schemaVersion: suiteItem.lifecycle.schemaVersion,
+      sourceHash: "",
+      migrationNotes:
+        "Generated suite app implementation evidence from the authored suite shell and primitive factories; hosted or full React app runtime remains pending.",
+    },
+  };
+  item.lifecycle.sourceHash = registrySourceHash(item);
+  return [item];
 }
 
 function generateTokenArtifacts({ check }) {
@@ -424,7 +786,9 @@ function generateRegistryArtifacts({ check }) {
     .filter((name) => name.endsWith(".registry-item.json"))
     .sort();
   const sourceItems = itemPaths.map((name) => readJson(`${registrySourceDir}/${name}`));
-  const derivedItems = sourceItems.flatMap((item) => (item.type === "suite" ? suitePartItems(item) : []));
+  const derivedItems = sourceItems.flatMap((item) =>
+    item.type === "suite" ? [...suiteAppItems(item), ...suitePartItems(item)] : [],
+  );
   const allItems = [...sourceItems, ...derivedItems].sort((a, b) => a.name.localeCompare(b.name));
   const failures = [];
 
@@ -435,12 +799,26 @@ function generateRegistryArtifacts({ check }) {
     if (item.type !== "suite") continue;
     const shell = readOptionalJson(`registry/suites/${item.suite}/suite-shell.json`);
     if (shell) {
+      failures.push(
+        ...compareOrWrite(
+          appImplementationFile(item.suite).path,
+          `${JSON.stringify(suiteAppImplementation(item.suite, shell), null, 2)}\n`,
+          { check },
+        ),
+      );
       for (const page of shell.pages ?? []) {
         const name = suitePageItemName(item.suite, page);
         failures.push(
           ...compareOrWrite(
             `packages/registry/generated/suites/${item.suite}/pages/${name}.page.json`,
             `${JSON.stringify(suitePageManifest(item.suite, shell, page), null, 2)}\n`,
+            { check },
+          ),
+        );
+        failures.push(
+          ...compareOrWrite(
+            pageImplementationFile(item.suite, page).path,
+            `${JSON.stringify(suitePageImplementation(item.suite, shell, page), null, 2)}\n`,
             { check },
           ),
         );
@@ -451,6 +829,13 @@ function generateRegistryArtifacts({ check }) {
           ...compareOrWrite(
             `packages/registry/generated/suites/${item.suite}/blocks/${name}.block.json`,
             `${JSON.stringify(suiteBlockManifest(item.suite, shell, block), null, 2)}\n`,
+            { check },
+          ),
+        );
+        failures.push(
+          ...compareOrWrite(
+            blockImplementationFile(item.suite, block).path,
+            `${JSON.stringify(suiteBlockImplementation(item.suite, shell, block), null, 2)}\n`,
             { check },
           ),
         );

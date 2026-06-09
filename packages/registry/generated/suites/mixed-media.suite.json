@@ -10,6 +10,7 @@
     "data-list",
     "agent-panel",
     "media-grid",
+    "mixed-media-app",
     "mixed-media-library-page",
     "mixed-media-pipeline-page",
     "mixed-media-assets-block",
@@ -26,6 +27,7 @@
       "data-list",
       "agent-panel",
       "media-grid",
+      "mixed-media-app",
       "mixed-media-library-page",
       "mixed-media-pipeline-page",
       "mixed-media-assets-block",
@@ -164,5 +166,20 @@
       "source": "registry/suites/mixed-media/suite-shell.json",
       "copiedSource": false
     }
+  },
+  "implementation": {
+    "status": "renderable-primitive-factory-implementation",
+    "runtimeReactApp": false,
+    "app": "studio-ui/suites/mixed-media/mixed-media-app.implementation.json",
+    "pages": [
+      "studio-ui/suites/mixed-media/pages/mixed-media-library-page.page.implementation.json",
+      "studio-ui/suites/mixed-media/pages/mixed-media-pipeline-page.page.implementation.json"
+    ],
+    "blocks": [
+      "studio-ui/suites/mixed-media/blocks/mixed-media-assets-block.block.implementation.json",
+      "studio-ui/suites/mixed-media/blocks/mixed-media-metadata-block.block.implementation.json",
+      "studio-ui/suites/mixed-media/blocks/mixed-media-pipeline-block.block.implementation.json",
+      "studio-ui/suites/mixed-media/blocks/mixed-media-review-agent-block.block.implementation.json"
+    ]
   }
 }

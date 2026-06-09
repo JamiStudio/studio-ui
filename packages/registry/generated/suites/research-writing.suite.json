@@ -11,6 +11,7 @@
     "data-list",
     "agent-panel",
     "docs-source-panel",
+    "research-writing-app",
     "research-writing-sources-page",
     "research-writing-brief-page",
     "research-writing-sources-block",
@@ -28,6 +29,7 @@
       "data-list",
       "agent-panel",
       "docs-source-panel",
+      "research-writing-app",
       "research-writing-sources-page",
       "research-writing-brief-page",
       "research-writing-sources-block",
@@ -165,5 +167,20 @@
       "source": "registry/suites/research-writing/suite-shell.json",
       "copiedSource": false
     }
+  },
+  "implementation": {
+    "status": "renderable-primitive-factory-implementation",
+    "runtimeReactApp": false,
+    "app": "studio-ui/suites/research-writing/research-writing-app.implementation.json",
+    "pages": [
+      "studio-ui/suites/research-writing/pages/research-writing-sources-page.page.implementation.json",
+      "studio-ui/suites/research-writing/pages/research-writing-brief-page.page.implementation.json"
+    ],
+    "blocks": [
+      "studio-ui/suites/research-writing/blocks/research-writing-sources-block.block.implementation.json",
+      "studio-ui/suites/research-writing/blocks/research-writing-citations-block.block.implementation.json",
+      "studio-ui/suites/research-writing/blocks/research-writing-outline-block.block.implementation.json",
+      "studio-ui/suites/research-writing/blocks/research-writing-agent-review-block.block.implementation.json"
+    ]
   }
 }

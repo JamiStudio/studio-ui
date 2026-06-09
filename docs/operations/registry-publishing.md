@@ -56,16 +56,16 @@ account actions are honest readiness states, not failures. The check is part of
 ```
 publish dry-run: ready-to-stage
   registry: @jami-studio/registry -> https://registry.jami.studio
-  items: 41 (41 publishable now, 0 source-pending)
+  items: 45 (45 publishable now, 0 source-pending)
   source-pending: (none)
   copied third-party source items: none
-  served files: 72
+  served files: 106
   secret-shaped content: none
 ```
 
-The 41 publishable items are: 1 factory theme, 3 selectable brand/template option
+The 45 publishable items are: 1 factory theme, 3 selectable brand/template option
 descriptors, 3 primitives, 4 resident components, 4 suite roots, 8 generated page
-descriptors, and 18 generated block descriptors.
+items, 18 generated block items, and 4 generated app implementation items.
 
 Read "publishable now" precisely: an item is listed when **its own served bytes are
 complete and hash-verified**. The `jami-theme` item ships the four generated token
@@ -75,10 +75,11 @@ not final brand canon, and they do not redistribute logo source. The primitive a
 component vocabulary items ship the authored `packages/ui` vocabulary metadata and
 descriptor metadata, framework-neutral component factories with inert child-slot
 handling, and tokenized styles as real, hashed content. The four suite items ship complete, hashed
-suite manifests. The generated page and block items ship complete, hashed descriptor
-manifests derived from the authored suite shell sources. "Publishable now" still does
-**not** assert Radix wrappers, a runtime React renderer, full React page/block
-implementations, final visual identity, or hosted registry availability.
+suite manifests. The generated app/page/block items ship complete, hashed implementation
+and descriptor manifests derived from the authored suite shell sources and
+`packages/ui/src/primitive-components.mjs`. "Publishable now" still does **not** assert
+Radix wrappers, a runtime React renderer, hosted/full React suite runtime, final visual
+identity, or hosted registry availability.
 
 ## Provenance And Hashes
 

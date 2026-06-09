@@ -1,0 +1,119 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-app-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "research-writing",
+  "implementationStatus": "renderable-primitive-factory-app",
+  "source": "registry/suites/research-writing/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "appShell": {
+    "id": "app.research-writing.shell",
+    "layout": "document-workbench",
+    "navigation": [
+      {
+        "label": "Sources",
+        "route": "/research-writing/sources"
+      },
+      {
+        "label": "Notes",
+        "route": "/research-writing/notes"
+      },
+      {
+        "label": "Brief",
+        "route": "/research-writing/brief"
+      },
+      {
+        "label": "Outline",
+        "route": "/research-writing/outline"
+      }
+    ]
+  },
+  "routes": [
+    {
+      "path": "/research-writing/sources",
+      "page": "page.research-writing.sources",
+      "title": "Sources and citations",
+      "blocks": [
+        "block.research-writing.sources",
+        "block.research-writing.citations"
+      ]
+    },
+    {
+      "path": "/research-writing/brief",
+      "page": "page.research-writing.brief",
+      "title": "Brief drafting",
+      "blocks": [
+        "block.research-writing.outline",
+        "block.research-writing.agent-review"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.research-writing.sources",
+      "title": "Sources and citations",
+      "routeCount": 1,
+      "implementationFile": "studio-ui/suites/research-writing/pages/research-writing-sources-page.page.implementation.json"
+    },
+    {
+      "id": "page.research-writing.brief",
+      "title": "Brief drafting",
+      "routeCount": 1,
+      "implementationFile": "studio-ui/suites/research-writing/pages/research-writing-brief-page.page.implementation.json"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.research-writing.sources",
+      "title": "Sources",
+      "component": "docs-source-panel",
+      "implementationFile": "studio-ui/suites/research-writing/blocks/research-writing-sources-block.block.implementation.json"
+    },
+    {
+      "id": "block.research-writing.citations",
+      "title": "Citations",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/research-writing/blocks/research-writing-citations-block.block.implementation.json"
+    },
+    {
+      "id": "block.research-writing.outline",
+      "title": "Outline",
+      "component": "text-field",
+      "implementationFile": "studio-ui/suites/research-writing/blocks/research-writing-outline-block.block.implementation.json"
+    },
+    {
+      "id": "block.research-writing.agent-review",
+      "title": "Writing review",
+      "component": "agent-panel",
+      "implementationFile": "studio-ui/suites/research-writing/blocks/research-writing-agent-review-block.block.implementation.json"
+    }
+  ],
+  "evidence": {
+    "renderedPageCount": 2,
+    "renderedBlockCount": 4,
+    "routeCount": 2,
+    "navigationCount": 4,
+    "responsive": true,
+    "reducedMotion": true,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/research-writing/suite-shell.json",
+    "copiedSource": false
+  }
+}

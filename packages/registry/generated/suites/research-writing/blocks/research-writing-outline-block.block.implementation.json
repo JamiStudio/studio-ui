@@ -1,0 +1,166 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "research-writing",
+  "implementationStatus": "renderable-primitive-factory-block",
+  "source": "registry/suites/research-writing/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "block": {
+    "id": "block.research-writing.outline",
+    "title": "Outline",
+    "component": "text-field",
+    "stateExamples": [
+      "invalid"
+    ]
+  },
+  "component": "text-field",
+  "renderedStates": {
+    "ready": {
+      "props": {
+        "label": "Outline",
+        "value": "",
+        "placeholder": "No citations selected is displayed as an empty table/list state.",
+        "invalid": false,
+        "helperText": "Long source names, citation strings, and outline sections wrap inside the writing shell."
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "label",
+        "props": {
+          "className": "jami-field",
+          "htmlFor": "jami-field-outline"
+        },
+        "children": [
+          {
+            "type": "span",
+            "props": {
+              "className": "jami-field-label"
+            },
+            "children": [
+              "Outline"
+            ]
+          },
+          {
+            "type": "input",
+            "props": {
+              "id": "jami-field-outline",
+              "name": "jami-field-outline",
+              "type": "text",
+              "defaultValue": "",
+              "placeholder": "No citations selected is displayed as an empty table/list state.",
+              "aria-describedby": "jami-field-outline-help"
+            },
+            "children": []
+          },
+          {
+            "type": "span",
+            "props": {
+              "id": "jami-field-outline-help"
+            },
+            "children": [
+              "Long source names, citation strings, and outline sections wrap inside the writing shell."
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-field",
+        "jami-field-label"
+      ]
+    },
+    "invalid": {
+      "props": {
+        "label": "Outline",
+        "value": "",
+        "placeholder": "No citations selected is displayed as an empty table/list state.",
+        "invalid": true,
+        "errorText": "Review-agent errors are presented as inert status without executing actions."
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "label",
+        "props": {
+          "className": "jami-field",
+          "htmlFor": "jami-field-outline"
+        },
+        "children": [
+          {
+            "type": "span",
+            "props": {
+              "className": "jami-field-label"
+            },
+            "children": [
+              "Outline"
+            ]
+          },
+          {
+            "type": "input",
+            "props": {
+              "id": "jami-field-outline",
+              "name": "jami-field-outline",
+              "type": "text",
+              "defaultValue": "",
+              "placeholder": "No citations selected is displayed as an empty table/list state.",
+              "aria-invalid": "true",
+              "aria-describedby": "jami-field-outline-help"
+            },
+            "children": []
+          },
+          {
+            "type": "span",
+            "props": {
+              "id": "jami-field-outline-help",
+              "role": "alert"
+            },
+            "children": [
+              "Review-agent errors are presented as inert status without executing actions."
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-field",
+        "jami-field-label"
+      ]
+    }
+  },
+  "evidence": {
+    "renderableStates": [
+      "ready",
+      "invalid"
+    ],
+    "failedStates": [],
+    "tokenizedClasses": [
+      "jami-field",
+      "jami-field-label"
+    ],
+    "responsive": true,
+    "reducedMotion": true,
+    "longContentSafe": false,
+    "emptyStateSafe": false,
+    "errorStateSafe": false,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/research-writing/suite-shell.json",
+    "copiedSource": false
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "research-writing-app",
+  "type": "registry:app",
+  "title": "Research / Writing App Implementation",
+  "description": "Research / Writing generated app implementation evidence composed from resident primitive factories.",
+  "dependencies": [],
+  "registryDependencies": [
+    "research-writing-sources-page",
+    "research-writing-brief-page"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/research-writing/research-writing-app.implementation.json",
+      "target": "studio-ui/suites/research-writing/research-writing-app.implementation.json",
+      "type": "registry:app",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-app-implementation.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"implementationStatus\": \"renderable-primitive-factory-app\",\n  \"source\": \"registry/suites/research-writing/suite-shell.json\",\n  \"primitiveFactory\": {\n    \"version\": \"2026-06-09.framework-neutral-component-factory\",\n    \"source\": \"packages/ui/src/primitive-components.mjs\",\n    \"implementationStatus\": \"framework-neutral-component-factory\",\n    \"runtimeReactRenderer\": false,\n    \"hostedRuntime\": false,\n    \"harnessRuntimeExecution\": false,\n    \"executableActions\": false,\n    \"radixWrapper\": false\n  },\n  \"appShell\": {\n    \"id\": \"app.research-writing.shell\",\n    \"layout\": \"document-workbench\",\n    \"navigation\": [\n      {\n        \"label\": \"Sources\",\n        \"route\": \"/research-writing/sources\"\n      },\n      {\n        \"label\": \"Notes\",\n        \"route\": \"/research-writing/notes\"\n      },\n      {\n        \"label\": \"Brief\",\n        \"route\": \"/research-writing/brief\"\n      },\n      {\n        \"label\": \"Outline\",\n        \"route\": \"/research-writing/outline\"\n      }\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/sources\",\n      \"page\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\",\n      \"blocks\": [\n        \"block.research-writing.sources\",\n        \"block.research-writing.citations\"\n      ]\n    },\n    {\n      \"path\": \"/research-writing/brief\",\n      \"page\": \"page.research-writing.brief\",\n      \"title\": \"Brief drafting\",\n      \"blocks\": [\n        \"block.research-writing.outline\",\n        \"block.research-writing.agent-review\"\n      ]\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\",\n      \"routeCount\": 1,\n      \"implementationFile\": \"studio-ui/suites/research-writing/pages/research-writing-sources-page.page.implementation.json\"\n    },\n    {\n      \"id\": \"page.research-writing.brief\",\n      \"title\": \"Brief drafting\",\n      \"routeCount\": 1,\n      \"implementationFile\": \"studio-ui/suites/research-writing/pages/research-writing-brief-page.page.implementation.json\"\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.research-writing.sources\",\n      \"title\": \"Sources\",\n      \"component\": \"docs-source-panel\",\n      \"implementationFile\": \"studio-ui/suites/research-writing/blocks/research-writing-sources-block.block.implementation.json\"\n    },\n    {\n      \"id\": \"block.research-writing.citations\",\n      \"title\": \"Citations\",\n      \"component\": \"data-list\",\n      \"implementationFile\": \"studio-ui/suites/research-writing/blocks/research-writing-citations-block.block.implementation.json\"\n    },\n    {\n      \"id\": \"block.research-writing.outline\",\n      \"title\": \"Outline\",\n      \"component\": \"text-field\",\n      \"implementationFile\": \"studio-ui/suites/research-writing/blocks/research-writing-outline-block.block.implementation.json\"\n    },\n    {\n      \"id\": \"block.research-writing.agent-review\",\n      \"title\": \"Writing review\",\n      \"component\": \"agent-panel\",\n      \"implementationFile\": \"studio-ui/suites/research-writing/blocks/research-writing-agent-review-block.block.implementation.json\"\n    }\n  ],\n  \"evidence\": {\n    \"renderedPageCount\": 2,\n    \"renderedBlockCount\": 4,\n    \"routeCount\": 2,\n    \"navigationCount\": 4,\n    \"responsive\": true,\n    \"reducedMotion\": true,\n    \"displayOnly\": true\n  },\n  \"runtime\": {\n    \"runtimeReactRenderer\": false,\n    \"hostedRuntime\": false,\n    \"harnessRuntimeExecution\": false,\n    \"executableActions\": false,\n    \"radixWrapper\": false\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:15d180d38ffdc65f2547fcd617a4288f9757117c7eb42e4c82cb141ff245e632"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/research-writing-app",
+    "suite": "research-writing",
+    "lifecycle": {
+      "id": "app.research-writing",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:884a7963f60a2a6427431d675a704455c678832f1c368effa832bbabcf298086",
+      "migrationNotes": "Generated suite app implementation evidence from the authored suite shell and primitive factories; hosted or full React app runtime remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/research-writing/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

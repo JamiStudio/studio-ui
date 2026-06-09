@@ -253,6 +253,20 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   factory status/source. This still does not claim Radix wrappers, a runtime
   React renderer, hosted registry, hosted persistence, or full suite React
   applications.
+- 2026-06-09 suite implementation evidence pass 1 made the four suite lanes
+  concrete beyond descriptors without claiming hosted/runtime completion. The
+  contract generator now derives four app implementation items plus app/page/block
+  `*.implementation.json` manifests from `registry/suites/<lane>/suite-shell.json`
+  and `packages/ui/src/primitive-components.mjs`. Every block implementation
+  renders its ready and declared state examples through `renderPrimitiveSpec`,
+  records tokenized `jami-*` classes, and keeps runtime React, hosted runtime,
+  harness execution, executable actions, and Radix wrapper claims false. Generated
+  suite manifests point at those implementation files, the CLI installs them in
+  temp projects, the workbench surfaces the evidence, and
+  `registry:publish:check` now reports 45 publishable items and 106 served files.
+  Full hosted React suite runtime, Radix wrappers, hosted registry, hosted
+  persistence/backend registration, final brand canon, npm/static-host publish,
+  and harness runtime execution remain open.
 
 ## Locked Decisions
 
@@ -762,16 +776,18 @@ Implementation tasks:
   (Authored suite shell descriptors now generate app-shell navigation, route
   maps, pages, blocks, resident component parts, install graph metadata, and
   long-content/empty/error state fixtures for all four lanes. Standalone page
-  and block registry items are generated from the same source descriptors and
-  included in suite install graphs; full React implementations remain pending.)
+  and block registry items plus generated app implementation items are generated
+  from the same source descriptors and included in suite install graphs; hosted/full
+  React runtime remains pending.)
 - [~] Add showcase routing for all four suites through the workbench/demo app.
   (The `apps/workbench` static showcase renders every lane from generated suite
-  manifests and labels the remaining React app implementation gap.)
+  manifests, surfaces primitive-factory app/page/block implementation evidence,
+  and labels the remaining hosted/full React runtime gap.)
 - [~] Add suite-level accessibility, responsive, long-content, empty/error state,
   and visual smoke fixtures. (The generated-shell showcase and smoke cover the
-  static suite shell route cards, resident component parts, wrapping, empty/error
-  state copy, responsive layout, and screenshots; per-suite React app visual
-  regression remains pending.)
+  static suite shell route cards, resident component parts, primitive-factory
+  block render states, wrapping, empty/error state copy, responsive layout, and
+  screenshots; per-suite mounted React app visual regression remains pending.)
 - [x] Add source/license provenance for any recomposed reference corpus material
   before redistribution. (No Builder.io or Agent-Native source was lifted; the
   suite shells are authored MIT source with `copiedSource: false`.)
@@ -779,17 +795,19 @@ Implementation tasks:
 Exit criteria:
 
 - [~] Each suite installs as a coherent full app shell descriptor. (CLI temp
-  smokes install generated suite shell manifests for all four lanes; full React
-  suite apps remain pending.)
+  smokes install generated suite shell manifests and app implementation manifests
+  for all four lanes; hosted/full React suite runtime remains pending.)
 - [~] Each suite also exposes pages, blocks, components, and primitives
   independently. (Generated manifests expose page/block/component metadata,
-  standalone page/block registry items, and install resident vocabulary
-  dependencies; full React page/block implementations remain pending.)
+  standalone page/block registry items, install resident vocabulary dependencies,
+  and generated page/block implementation manifests; mounted React pages/blocks
+  remain pending.)
 - [~] Each suite can be installed, updated, inspected for provenance, and
   visually/a11y smoked in a temp app. (Install smoke exists per suite and
-  standalone page/block item, provenance is authored MIT/no copied source, and
-  workbench visual/a11y smoke covers the static generated-shell showcase; temp
-  React app visual smoke remains pending.)
+  standalone app/page/block item, provenance is authored MIT/no copied source, and
+  workbench visual/a11y smoke covers the static generated-shell and
+  primitive-factory implementation showcase; temp mounted React app visual smoke
+  remains pending.)
 
 Suggested verification:
 

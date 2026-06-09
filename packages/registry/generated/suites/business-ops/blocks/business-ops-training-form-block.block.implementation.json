@@ -1,0 +1,166 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "implementationStatus": "renderable-primitive-factory-block",
+  "source": "registry/suites/business-ops/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "block": {
+    "id": "block.business-ops.training-form",
+    "title": "Training form",
+    "component": "text-field",
+    "stateExamples": [
+      "invalid"
+    ]
+  },
+  "component": "text-field",
+  "renderedStates": {
+    "ready": {
+      "props": {
+        "label": "Training form",
+        "value": "",
+        "placeholder": "No open schedule exceptions are announced as an empty operational state.",
+        "invalid": false,
+        "helperText": "A compliance exception with a long policy name wraps inside row cells and cards."
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "label",
+        "props": {
+          "className": "jami-field",
+          "htmlFor": "jami-field-training-form"
+        },
+        "children": [
+          {
+            "type": "span",
+            "props": {
+              "className": "jami-field-label"
+            },
+            "children": [
+              "Training form"
+            ]
+          },
+          {
+            "type": "input",
+            "props": {
+              "id": "jami-field-training-form",
+              "name": "jami-field-training-form",
+              "type": "text",
+              "defaultValue": "",
+              "placeholder": "No open schedule exceptions are announced as an empty operational state.",
+              "aria-describedby": "jami-field-training-form-help"
+            },
+            "children": []
+          },
+          {
+            "type": "span",
+            "props": {
+              "id": "jami-field-training-form-help"
+            },
+            "children": [
+              "A compliance exception with a long policy name wraps inside row cells and cards."
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-field",
+        "jami-field-label"
+      ]
+    },
+    "invalid": {
+      "props": {
+        "label": "Training form",
+        "value": "",
+        "placeholder": "No open schedule exceptions are announced as an empty operational state.",
+        "invalid": true,
+        "errorText": "A review queue error is shown without retrying or executing harness actions."
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "label",
+        "props": {
+          "className": "jami-field",
+          "htmlFor": "jami-field-training-form"
+        },
+        "children": [
+          {
+            "type": "span",
+            "props": {
+              "className": "jami-field-label"
+            },
+            "children": [
+              "Training form"
+            ]
+          },
+          {
+            "type": "input",
+            "props": {
+              "id": "jami-field-training-form",
+              "name": "jami-field-training-form",
+              "type": "text",
+              "defaultValue": "",
+              "placeholder": "No open schedule exceptions are announced as an empty operational state.",
+              "aria-invalid": "true",
+              "aria-describedby": "jami-field-training-form-help"
+            },
+            "children": []
+          },
+          {
+            "type": "span",
+            "props": {
+              "id": "jami-field-training-form-help",
+              "role": "alert"
+            },
+            "children": [
+              "A review queue error is shown without retrying or executing harness actions."
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-field",
+        "jami-field-label"
+      ]
+    }
+  },
+  "evidence": {
+    "renderableStates": [
+      "ready",
+      "invalid"
+    ],
+    "failedStates": [],
+    "tokenizedClasses": [
+      "jami-field",
+      "jami-field-label"
+    ],
+    "responsive": true,
+    "reducedMotion": true,
+    "longContentSafe": false,
+    "emptyStateSafe": false,
+    "errorStateSafe": false,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

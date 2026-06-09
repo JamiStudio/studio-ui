@@ -59,6 +59,8 @@ test("consumes real registry + generated suite shell descriptors", () => {
   assert.ok(page.includes("@jami-studio/solo-suite"));
   assert.ok(page.includes("2026-06-09.registry-foundation"), "suite schema version echoed");
   assert.ok(page.includes("app.solo.shell"), "authored solo shell id rendered");
+  assert.ok(page.includes("solo-app.implementation.json"), "solo app implementation evidence rendered");
+  assert.ok(page.includes("renderable-primitive-factory-app"), "generated app implementation status rendered");
   assert.ok(page.includes("/business-ops/dashboard"), "business ops route rendered from shell");
   assert.ok(page.includes("block.mixed-media.assets"), "mixed media block graph rendered");
   assert.ok(page.includes("page.research-writing.sources"), "research-writing page graph rendered");
@@ -86,20 +88,43 @@ test("all four lanes render generated suite shell routes without claiming React 
   for (const lane of ["solo", "business-ops", "mixed-media", "research-writing"]) {
     assert.ok(page.includes(`id="suite-${lane}"`), `${lane} section present`);
     assert.ok(data.suites.find((s) => s.lane === lane).manifest.shell, `${lane} generated shell present`);
+    assert.ok(data.suites.find((s) => s.lane === lane).implementationEvidence.app, `${lane} app implementation present`);
+    assert.equal(data.suites.find((s) => s.lane === lane).implementationEvidence.pages.length, 2, `${lane} page implementations`);
+    assert.ok(data.suites.find((s) => s.lane === lane).implementationEvidence.blocks.length >= 4, `${lane} block implementations`);
   }
   const liveRouteBadges = page.match(/generated shell route/g) ?? [];
   assert.equal(liveRouteBadges.length, 4, "all four lanes render generated shell routes");
-  assert.ok(page.includes("React app implementation pending"), "runtime implementation gap labelled");
+  assert.ok(page.includes("full React app runtime pending"), "runtime gap labelled");
 });
 
 test("does not fabricate runtime installs: generated shells and installable members are detected", () => {
-  assert.ok(page.includes("full React suite app implementations"), "runtime gap is explicit");
+  assert.ok(page.includes("full hosted React suite runtime"), "runtime gap is explicit");
   // Generated registry metadata is the source of truth for installability.
   for (const suite of data.suites) {
     assert.ok(suite.members.find((m) => m.name === "jami-theme"), `${suite.lane} theme member`);
+    assert.ok(suite.members.find((m) => m.type === "registry:app"), `${suite.lane} app implementation member`);
     assert.ok(suite.members.every((m) => m.sourceState === "installable"), `${suite.lane} members installable`);
+    assert.equal(suite.implementationEvidence.app.manifest.runtime.runtimeReactRenderer, false, `${suite.lane} no React runtime claim`);
+    assert.equal(suite.implementationEvidence.app.manifest.runtime.hostedRuntime, false, `${suite.lane} no hosted runtime claim`);
+    assert.equal(suite.implementationEvidence.app.manifest.runtime.harnessRuntimeExecution, false, `${suite.lane} no harness execution claim`);
   }
   assert.ok(page.includes("installable"), "installable state surfaced");
+});
+
+test("suite implementation evidence is generated from primitive factories", () => {
+  const suite = data.suites.find((entry) => entry.lane === "solo");
+  assert.equal(suite.implementationEvidence.app.manifest.primitiveFactory.source, "packages/ui/src/primitive-components.mjs");
+  assert.equal(suite.implementationEvidence.app.manifest.primitiveFactory.runtimeReactRenderer, false);
+  const block = suite.implementationEvidence.blocks.find((entry) =>
+    entry.target.endsWith("solo-agenda-block.block.implementation.json"),
+  );
+  assert.ok(block, "solo agenda block implementation loaded from registry content");
+  assert.equal(block.manifest.implementationStatus, "renderable-primitive-factory-block");
+  assert.equal(block.manifest.renderedStates.ready.rendererState, "renderable");
+  assert.equal(block.manifest.renderedStates["long-content"].rendererState, "renderable");
+  assert.ok(block.manifest.evidence.tokenizedClasses.includes("jami-data-list"));
+  assert.equal(block.manifest.runtime.executableActions, false);
+  assert.ok(page.includes("Primitive-factory implementation evidence"), "suite evidence section visible");
 });
 
 test("output is inert: no inline event handlers, no javascript: URLs, one app-shell script", () => {
@@ -117,6 +142,7 @@ test("always-live workbench overlay renders required status bar actions and pane
   for (const panel of ["Theme", "Color", "Typography", "Layout", "Surfaces", "Components", "Charts", "Motion", "Assets", "Registry"]) {
     assert.ok(page.includes(`<summary>${panel}</summary>`), `${panel} dock panel`);
   }
+  assert.ok(page.includes("suite implementation manifests: 30"), "asset panel counts generated implementation manifests");
   assert.ok(page.includes('aria-label="Always-live workbench overlay"'), "overlay landmark labelled");
   assert.ok(page.includes('data-wb-action="save"'), "save action is first-party state transition");
   assert.ok(page.includes('data-wb-control="accent"'), "color control is data-backed");

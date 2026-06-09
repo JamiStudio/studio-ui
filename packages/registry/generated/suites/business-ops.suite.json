@@ -10,6 +10,7 @@
     "text-field",
     "data-list",
     "agent-panel",
+    "business-ops-app",
     "business-ops-dashboard-page",
     "business-ops-staff-page",
     "business-ops-kpis-block",
@@ -27,6 +28,7 @@
       "text-field",
       "data-list",
       "agent-panel",
+      "business-ops-app",
       "business-ops-dashboard-page",
       "business-ops-staff-page",
       "business-ops-kpis-block",
@@ -173,5 +175,21 @@
       "source": "registry/suites/business-ops/suite-shell.json",
       "copiedSource": false
     }
+  },
+  "implementation": {
+    "status": "renderable-primitive-factory-implementation",
+    "runtimeReactApp": false,
+    "app": "studio-ui/suites/business-ops/business-ops-app.implementation.json",
+    "pages": [
+      "studio-ui/suites/business-ops/pages/business-ops-dashboard-page.page.implementation.json",
+      "studio-ui/suites/business-ops/pages/business-ops-staff-page.page.implementation.json"
+    ],
+    "blocks": [
+      "studio-ui/suites/business-ops/blocks/business-ops-kpis-block.block.implementation.json",
+      "studio-ui/suites/business-ops/blocks/business-ops-exceptions-block.block.implementation.json",
+      "studio-ui/suites/business-ops/blocks/business-ops-agent-review-block.block.implementation.json",
+      "studio-ui/suites/business-ops/blocks/business-ops-staff-table-block.block.implementation.json",
+      "studio-ui/suites/business-ops/blocks/business-ops-training-form-block.block.implementation.json"
+    ]
   }
 }

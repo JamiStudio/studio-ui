@@ -504,6 +504,14 @@ function workbenchOverlay(data) {
   const suites = data.suites
     .map((suite) => `<li><code>${escapeHtml(suite.lane)}</code> ${escapeHtml(suite.manifest.shell?.title ?? suite.lane)}</li>`)
     .join("");
+  const implementationCount = data.suites.reduce(
+    (total, suite) =>
+      total +
+      (suite.implementationEvidence?.app ? 1 : 0) +
+      (suite.implementationEvidence?.pages?.length ?? 0) +
+      (suite.implementationEvidence?.blocks?.length ?? 0),
+    0,
+  );
   const brandOptions = data.brandOptions
     .map(
       (option) =>
@@ -552,7 +560,7 @@ function workbenchOverlay(data) {
       <div class="ju-control"><label for="ju-wb-motion">Fast motion</label><input id="ju-wb-motion" data-wb-control="motion" type="range" min="0" max="240" step="20" value="120" /></div>
       <div class="ju-control"><label for="ju-wb-density">Density</label><input id="ju-wb-density" data-wb-control="density" type="range" min="0.85" max="1.2" step="0.05" value="1" /></div>
     </div></details>
-    <details class="ju-dock-panel"><summary>Assets</summary><div class="ju-dock-body"><ul class="ju-mini-list"><li>generated suite manifests: ${escapeHtml(data.suites.length)}</li><li>presentation fixtures: ${escapeHtml(data.presentationPanels.length)}</li></ul></div></details>
+    <details class="ju-dock-panel"><summary>Assets</summary><div class="ju-dock-body"><ul class="ju-mini-list"><li>generated suite manifests: ${escapeHtml(data.suites.length)}</li><li>suite implementation manifests: ${escapeHtml(implementationCount)}</li><li>presentation fixtures: ${escapeHtml(data.presentationPanels.length)}</li></ul></div></details>
     <details class="ju-dock-panel"><summary>Registry</summary><div class="ju-dock-body"><ul class="ju-mini-list">${registryItems}</ul><ul class="ju-mini-list" id="ju-wb-registered"></ul><div class="ju-control"><label for="ju-wb-export">Export artifact</label><textarea id="ju-wb-export" readonly></textarea></div></div></details>
   </div>
 </aside>`;
@@ -698,7 +706,38 @@ function renderShell({ manifest }) {
   </dl>`;
 }
 
-function suiteSection({ lane, manifest, item, members }) {
+function implementationEvidenceSection(evidence = {}) {
+  const app = evidence.app?.manifest;
+  const pages = evidence.pages ?? [];
+  const blocks = evidence.blocks ?? [];
+  if (!app) {
+    return `<p class="ju-notice" data-tone="warning">Generated app implementation evidence is missing for this suite.</p>`;
+  }
+  const blockRows = blocks
+    .map(({ target, manifest }) => {
+      const states = Object.keys(manifest.renderedStates ?? {})
+        .map((state) => `<span class="ju-flag" data-status="ready">${escapeHtml(state)}</span>`)
+        .join("");
+      return `<li>
+        <div class="ju-block-title"><strong>${escapeHtml(manifest.block?.title ?? manifest.block?.id ?? target)}</strong><span class="ju-chip">${escapeHtml(manifest.component ?? "")}</span></div>
+        <div class="ju-muted"><code>${escapeHtml(target)}</code></div>
+        <div class="ju-chips">${states}</div>
+      </li>`;
+    })
+    .join("");
+  return `
+  <h4>Primitive-factory implementation evidence</h4>
+  <dl class="ju-kv-grid">
+    <div class="ju-kv"><dt>app implementation</dt><dd><code>${escapeHtml(evidence.app?.target ?? "")}</code></dd></div>
+    <div class="ju-kv"><dt>status</dt><dd><span class="ju-badge" data-status="ready">${escapeHtml(app.implementationStatus)}</span></dd></div>
+    <div class="ju-kv"><dt>primitive factory</dt><dd><code>${escapeHtml(app.primitiveFactory?.version ?? "")}</code></dd></div>
+    <div class="ju-kv"><dt>runtime boundary</dt><dd>React runtime: <code>${escapeHtml(app.runtime?.runtimeReactRenderer)}</code> · hosted: <code>${escapeHtml(app.runtime?.hostedRuntime)}</code> · harness execution: <code>${escapeHtml(app.runtime?.harnessRuntimeExecution)}</code></dd></div>
+    <div class="ju-kv"><dt>rendered parts</dt><dd>${escapeHtml(pages.length)} pages · ${escapeHtml(blocks.length)} blocks</dd></div>
+  </dl>
+  <ul class="ju-block-list">${blockRows}</ul>`;
+}
+
+function suiteSection({ lane, manifest, item, members, implementationEvidence }) {
   const planned = (manifest.plannedSurfaces ?? [])
     .map((s) => `<span class="ju-pending">${escapeHtml(s)}</span>`)
     .join(" ");
@@ -721,7 +760,8 @@ function suiteSection({ lane, manifest, item, members }) {
   <h4>Installed registry items</h4>
   <ul class="ju-kv-list">${members.map(memberRow).join("")}</ul>
   ${renderShell({ manifest })}
-  <h4>Surface vocabulary <span class="ju-muted">(described in generated shell; React app implementation pending)</span></h4>
+  ${implementationEvidenceSection(implementationEvidence)}
+  <h4>Surface vocabulary <span class="ju-muted">(described in generated shell; full React app runtime pending)</span></h4>
   <div class="ju-chips">${planned}</div>
 </article>`;
 }
@@ -730,7 +770,7 @@ function suitesSection(suites) {
   return `
 <section class="ju-section" aria-labelledby="ju-suites-h">
   <h2 id="ju-suites-h">Suite lanes</h2>
-  <p class="ju-lead">Each lane renders from its generated suite manifest, including app-shell navigation, route maps, page/block/component parts, install graph metadata, and long-content/empty/error states. These are authored shell descriptors, not a claim of a React app runtime.</p>
+  <p class="ju-lead">Each lane renders from generated suite manifests and primitive-factory implementation artifacts: app-shell navigation, route maps, page/block/component parts, install graph metadata, and long-content/empty/error states. These are inert generated implementations, not a claim of a hosted React app runtime.</p>
   <div class="ju-grid">
     ${suites.map((s) => suiteSection(s)).join("")}
   </div>
@@ -871,7 +911,7 @@ function footer(data) {
 <footer class="ju-footer">
   <p>Generated by <code>node apps/workbench/build.mjs</code> from generated artifacts and the checked fixture corpus. No remote registry fetch, package-manager install, provider runtime, or harness execution is performed.</p>
   <p>Sources: <code>packages/tokens/generated/jami.css</code> · <code>packages/registry/generated/registry.json</code> · <code>packages/registry/generated/suites/*.suite.json</code> · <code>packages/renderer/fixtures/compatibility/*</code> · <code>packages/renderer/fixtures/presentation/*</code>.</p>
-  <p>Pending: full React suite app implementations, hosted persistence, backend registration, and harness runtime — none are claimed here.</p>
+  <p>Pending: full hosted React suite runtime, hosted persistence, backend registration, and harness runtime — none are claimed here.</p>
 </footer>`;
 }
 

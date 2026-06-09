@@ -1,0 +1,119 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-app-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "implementationStatus": "renderable-primitive-factory-app",
+  "source": "registry/suites/mixed-media/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "appShell": {
+    "id": "app.mixed-media.shell",
+    "layout": "media-production",
+    "navigation": [
+      {
+        "label": "Library",
+        "route": "/mixed-media/library"
+      },
+      {
+        "label": "Pipeline",
+        "route": "/mixed-media/pipeline"
+      },
+      {
+        "label": "Review",
+        "route": "/mixed-media/review"
+      },
+      {
+        "label": "Publishing",
+        "route": "/mixed-media/publishing"
+      }
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/library",
+      "page": "page.mixed-media.library",
+      "title": "Asset library",
+      "blocks": [
+        "block.mixed-media.assets",
+        "block.mixed-media.metadata"
+      ]
+    },
+    {
+      "path": "/mixed-media/pipeline",
+      "page": "page.mixed-media.pipeline",
+      "title": "Generation pipeline",
+      "blocks": [
+        "block.mixed-media.pipeline",
+        "block.mixed-media.review-agent"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.mixed-media.library",
+      "title": "Asset library",
+      "routeCount": 1,
+      "implementationFile": "studio-ui/suites/mixed-media/pages/mixed-media-library-page.page.implementation.json"
+    },
+    {
+      "id": "page.mixed-media.pipeline",
+      "title": "Generation pipeline",
+      "routeCount": 1,
+      "implementationFile": "studio-ui/suites/mixed-media/pages/mixed-media-pipeline-page.page.implementation.json"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.mixed-media.assets",
+      "title": "Assets",
+      "component": "media-grid",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-assets-block.block.implementation.json"
+    },
+    {
+      "id": "block.mixed-media.metadata",
+      "title": "Asset metadata",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-metadata-block.block.implementation.json"
+    },
+    {
+      "id": "block.mixed-media.pipeline",
+      "title": "Pipeline runs",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-pipeline-block.block.implementation.json"
+    },
+    {
+      "id": "block.mixed-media.review-agent",
+      "title": "Review agent",
+      "component": "agent-panel",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-review-agent-block.block.implementation.json"
+    }
+  ],
+  "evidence": {
+    "renderedPageCount": 2,
+    "renderedBlockCount": 4,
+    "routeCount": 2,
+    "navigationCount": 4,
+    "responsive": true,
+    "reducedMotion": true,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

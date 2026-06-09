@@ -1,0 +1,96 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "implementationStatus": "renderable-primitive-factory-page",
+  "source": "registry/suites/business-ops/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "page": {
+    "id": "page.business-ops.dashboard",
+    "title": "Operations dashboard",
+    "description": "Staffing, schedule exceptions, compliance signals, and display-only review actions.",
+    "components": [
+      "data-list",
+      "agent-panel",
+      "button",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/business-ops/dashboard",
+      "page": "page.business-ops.dashboard",
+      "title": "Operations dashboard",
+      "blocks": [
+        "block.business-ops.kpis",
+        "block.business-ops.exceptions",
+        "block.business-ops.agent-review"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.business-ops.kpis",
+      "title": "Operational KPIs",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-kpis-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.business-ops.exceptions",
+      "title": "Schedule exceptions",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-exceptions-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "id": "block.business-ops.agent-review",
+      "title": "Review queue",
+      "component": "agent-panel",
+      "implementationFile": "studio-ui/suites/business-ops/blocks/business-ops-agent-review-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "error"
+      ]
+    }
+  ],
+  "components": [
+    "agent-panel",
+    "button",
+    "data-list",
+    "panel"
+  ],
+  "evidence": {
+    "renderedBlockCount": 3,
+    "responsiveLayout": "single-column-safe generated composition",
+    "a11yStructure": "page routes compose labelled resident block implementations",
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

@@ -10,6 +10,7 @@ import {
   UI_PROP_SCHEMA_VERSION,
   UI_VOCABULARY_HANDSHAKE_VERSION,
   UI_VOCABULARY_SCHEMA_VERSION,
+  PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
   componentVocabulary,
   validateComponentProps,
   vocabularyHandshake,
@@ -509,8 +510,10 @@ function validateGeneratedRegistry() {
   const localFailures = [];
   const items = registry.items ?? [];
   const byName = new Map(items.map((item) => [item.name, item]));
+  const appItems = items.filter((item) => item.type === "registry:app");
   const pageItems = items.filter((item) => item.type === "registry:page");
   const blockItems = items.filter((item) => item.type === "registry:block");
+  if (appItems.length !== 4) localFailures.push(`expected 4 generated app implementation items, got ${appItems.length}`);
   if (pageItems.length !== 8) localFailures.push(`expected 8 generated page items, got ${pageItems.length}`);
   if (blockItems.length !== 18) localFailures.push(`expected 18 generated block items, got ${blockItems.length}`);
   for (const item of items) {
@@ -542,11 +545,41 @@ function validateGeneratedRegistry() {
   }
   for (const suite of items.filter((item) => item.type === "registry:suite")) {
     const deps = suite.registryDependencies ?? [];
+    if (!deps.some((name) => byName.get(name)?.type === "registry:app")) {
+      localFailures.push(`${suite.name} does not expose an app implementation dependency`);
+    }
     if (!deps.some((name) => byName.get(name)?.type === "registry:page")) {
       localFailures.push(`${suite.name} does not expose page item dependencies`);
     }
     if (!deps.some((name) => byName.get(name)?.type === "registry:block")) {
       localFailures.push(`${suite.name} does not expose block item dependencies`);
+    }
+    const manifestFile = suite.files?.[0]?.path;
+    const manifest = manifestFile ? readJson(manifestFile) : null;
+    if (manifest?.implementation?.runtimeReactApp !== false) {
+      localFailures.push(`${suite.name} implementation manifest must not claim a React app runtime`);
+    }
+    if (!manifest?.implementation?.app || !manifest?.implementation?.pages?.length || !manifest?.implementation?.blocks?.length) {
+      localFailures.push(`${suite.name} manifest missing app/page/block implementation evidence`);
+    }
+  }
+  for (const app of appItems) {
+    const implementationFile = app.files?.find((file) => file.path?.endsWith(".implementation.json"));
+    const implementation = implementationFile ? readJson(implementationFile.path) : null;
+    if (implementation?.$schema !== "https://jami.studio/schemas/registry/suite-app-implementation.generated.json") {
+      localFailures.push(`${app.name} generated app implementation has wrong schema`);
+    }
+    if (implementation?.primitiveFactory?.version !== PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION) {
+      localFailures.push(`${app.name} primitive factory version drift`);
+    }
+    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== false) {
+      localFailures.push(`${app.name} must not claim hosted or React runtime`);
+    }
+    if (!implementation?.evidence?.renderedPageCount || !implementation?.evidence?.renderedBlockCount) {
+      localFailures.push(`${app.name} missing rendered page/block implementation evidence`);
+    }
+    if (!app.registryDependencies?.some((name) => byName.get(name)?.type === "registry:page")) {
+      localFailures.push(`${app.name} does not depend on generated page implementation items`);
     }
   }
   for (const page of pageItems) {
@@ -561,6 +594,20 @@ function validateGeneratedRegistry() {
     for (const component of manifest?.components ?? []) {
       if (!allowedComponents.has(component)) localFailures.push(`${page.name} references non-resident component ${component}`);
     }
+    const implementationFile = page.files?.find((file) => file.path?.endsWith(".page.implementation.json"));
+    const implementation = implementationFile ? readJson(implementationFile.path) : null;
+    if (implementation?.$schema !== "https://jami.studio/schemas/registry/suite-page-implementation.generated.json") {
+      localFailures.push(`${page.name} generated page implementation has wrong schema`);
+    }
+    if (implementation?.primitiveFactory?.version !== PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION) {
+      localFailures.push(`${page.name} primitive factory version drift`);
+    }
+    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== false) {
+      localFailures.push(`${page.name} must not claim hosted or React runtime`);
+    }
+    if (!implementation?.blocks?.length || implementation.evidence?.displayOnly !== true) {
+      localFailures.push(`${page.name} missing display-only block implementation evidence`);
+    }
   }
   for (const block of blockItems) {
     const manifestFile = block.files?.[0]?.path;
@@ -573,6 +620,32 @@ function validateGeneratedRegistry() {
     }
     if (manifest?.component && !allowedComponents.has(manifest.component)) {
       localFailures.push(`${block.name} references non-resident component ${manifest.component}`);
+    }
+    const implementationFile = block.files?.find((file) => file.path?.endsWith(".block.implementation.json"));
+    const implementation = implementationFile ? readJson(implementationFile.path) : null;
+    if (implementation?.$schema !== "https://jami.studio/schemas/registry/suite-block-implementation.generated.json") {
+      localFailures.push(`${block.name} generated block implementation has wrong schema`);
+    }
+    if (implementation?.primitiveFactory?.version !== PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION) {
+      localFailures.push(`${block.name} primitive factory version drift`);
+    }
+    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== false) {
+      localFailures.push(`${block.name} must not claim hosted or React runtime`);
+    }
+    const renderedStates = Object.entries(implementation?.renderedStates ?? {});
+    if (renderedStates.length === 0) {
+      localFailures.push(`${block.name} implementation has no rendered primitive states`);
+    }
+    for (const [state, rendered] of renderedStates) {
+      if (rendered.rendererState !== "renderable") {
+        localFailures.push(`${block.name} state ${state} did not render through primitive factories`);
+      }
+      for (const unsafe of scanUnsafePayload(rendered.node)) {
+        localFailures.push(`${block.name} state ${state} leaked unsafe rendered node value: ${unsafe}`);
+      }
+      if (!rendered.tokenizedClasses?.some((className) => className.startsWith("jami-"))) {
+        localFailures.push(`${block.name} state ${state} missing tokenized jami classes`);
+      }
     }
   }
   if (localFailures.length > 0) fail("packages/registry/generated/registry.json", localFailures.join("; "));

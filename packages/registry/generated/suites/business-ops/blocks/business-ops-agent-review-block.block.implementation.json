@@ -1,0 +1,219 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "implementationStatus": "renderable-primitive-factory-block",
+  "source": "registry/suites/business-ops/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "block": {
+    "id": "block.business-ops.agent-review",
+    "title": "Review queue",
+    "component": "agent-panel",
+    "stateExamples": [
+      "error"
+    ]
+  },
+  "component": "agent-panel",
+  "renderedStates": {
+    "ready": {
+      "props": {
+        "title": "Review queue",
+        "status": "running",
+        "actionRefs": [
+          "act_business_ops_block_business_ops_agent_review_review"
+        ],
+        "artifactViewRefs": [
+          "artv_business_ops_block_business_ops_agent_review_trace"
+        ]
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-agent-panel",
+          "role": "status",
+          "aria-live": "polite",
+          "aria-label": "Review queue",
+          "data-status": "running"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {},
+            "children": [
+              "Review queue"
+            ]
+          },
+          {
+            "type": "p",
+            "props": {},
+            "children": [
+              "running"
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-action-ref-list",
+              "aria-label": "Action references"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-action-ref": "act_business_ops_block_business_ops_agent_review_review"
+                },
+                "children": [
+                  "act_business_ops_block_business_ops_agent_review_review"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-artifact-ref-list",
+              "aria-label": "Artifact view references"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-artifact-view-ref": "artv_business_ops_block_business_ops_agent_review_trace"
+                },
+                "children": [
+                  "artv_business_ops_block_business_ops_agent_review_trace"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-action-ref-list",
+        "jami-agent-panel",
+        "jami-artifact-ref-list"
+      ]
+    },
+    "error": {
+      "props": {
+        "title": "Review queue",
+        "status": "error",
+        "actionRefs": [
+          "act_business_ops_block_business_ops_agent_review_review"
+        ],
+        "artifactViewRefs": [
+          "artv_business_ops_block_business_ops_agent_review_trace"
+        ]
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-agent-panel",
+          "role": "status",
+          "aria-live": "polite",
+          "aria-label": "Review queue",
+          "data-status": "error"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {},
+            "children": [
+              "Review queue"
+            ]
+          },
+          {
+            "type": "p",
+            "props": {},
+            "children": [
+              "error"
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-action-ref-list",
+              "aria-label": "Action references"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-action-ref": "act_business_ops_block_business_ops_agent_review_review"
+                },
+                "children": [
+                  "act_business_ops_block_business_ops_agent_review_review"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-artifact-ref-list",
+              "aria-label": "Artifact view references"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-artifact-view-ref": "artv_business_ops_block_business_ops_agent_review_trace"
+                },
+                "children": [
+                  "artv_business_ops_block_business_ops_agent_review_trace"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-action-ref-list",
+        "jami-agent-panel",
+        "jami-artifact-ref-list"
+      ]
+    }
+  },
+  "evidence": {
+    "renderableStates": [
+      "ready",
+      "error"
+    ],
+    "failedStates": [],
+    "tokenizedClasses": [
+      "jami-action-ref-list",
+      "jami-agent-panel",
+      "jami-artifact-ref-list"
+    ],
+    "responsive": true,
+    "reducedMotion": true,
+    "longContentSafe": false,
+    "emptyStateSafe": false,
+    "errorStateSafe": true,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

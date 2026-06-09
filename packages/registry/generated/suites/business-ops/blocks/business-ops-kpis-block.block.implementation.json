@@ -1,0 +1,281 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "implementationStatus": "renderable-primitive-factory-block",
+  "source": "registry/suites/business-ops/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "block": {
+    "id": "block.business-ops.kpis",
+    "title": "Operational KPIs",
+    "component": "data-list",
+    "stateExamples": [
+      "long-content"
+    ]
+  },
+  "component": "data-list",
+  "renderedStates": {
+    "ready": {
+      "props": {
+        "title": "Operational KPIs",
+        "columns": [
+          {
+            "key": "item",
+            "label": "Item"
+          },
+          {
+            "key": "state",
+            "label": "State"
+          }
+        ],
+        "rows": [
+          {
+            "item": "Operational KPIs record",
+            "state": "ready"
+          }
+        ],
+        "empty": false
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-data-list",
+          "role": "region",
+          "aria-label": "Operational KPIs"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {
+              "className": "jami-data-list-title"
+            },
+            "children": [
+              "Operational KPIs"
+            ]
+          },
+          {
+            "type": "table",
+            "props": {
+              "className": "jami-data-list-table"
+            },
+            "children": [
+              {
+                "type": "thead",
+                "props": {},
+                "children": [
+                  {
+                    "type": "tr",
+                    "props": {},
+                    "children": [
+                      {
+                        "type": "th",
+                        "props": {
+                          "scope": "col"
+                        },
+                        "children": [
+                          "Item"
+                        ]
+                      },
+                      {
+                        "type": "th",
+                        "props": {
+                          "scope": "col"
+                        },
+                        "children": [
+                          "State"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tbody",
+                "props": {},
+                "children": [
+                  {
+                    "type": "tr",
+                    "props": {},
+                    "children": [
+                      {
+                        "type": "td",
+                        "props": {},
+                        "children": [
+                          "Operational KPIs record"
+                        ]
+                      },
+                      {
+                        "type": "td",
+                        "props": {},
+                        "children": [
+                          "ready"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-data-list",
+        "jami-data-list-table",
+        "jami-data-list-title"
+      ]
+    },
+    "long-content": {
+      "props": {
+        "title": "Operational KPIs",
+        "columns": [
+          {
+            "key": "item",
+            "label": "Item"
+          },
+          {
+            "key": "state",
+            "label": "State"
+          }
+        ],
+        "rows": [
+          {
+            "item": "A compliance exception with a long policy name wraps inside row cells and cards.",
+            "state": "long-content"
+          }
+        ],
+        "empty": false
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-data-list",
+          "role": "region",
+          "aria-label": "Operational KPIs"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {
+              "className": "jami-data-list-title"
+            },
+            "children": [
+              "Operational KPIs"
+            ]
+          },
+          {
+            "type": "table",
+            "props": {
+              "className": "jami-data-list-table"
+            },
+            "children": [
+              {
+                "type": "thead",
+                "props": {},
+                "children": [
+                  {
+                    "type": "tr",
+                    "props": {},
+                    "children": [
+                      {
+                        "type": "th",
+                        "props": {
+                          "scope": "col"
+                        },
+                        "children": [
+                          "Item"
+                        ]
+                      },
+                      {
+                        "type": "th",
+                        "props": {
+                          "scope": "col"
+                        },
+                        "children": [
+                          "State"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tbody",
+                "props": {},
+                "children": [
+                  {
+                    "type": "tr",
+                    "props": {},
+                    "children": [
+                      {
+                        "type": "td",
+                        "props": {},
+                        "children": [
+                          "A compliance exception with a long policy name wraps inside row cells and cards."
+                        ]
+                      },
+                      {
+                        "type": "td",
+                        "props": {},
+                        "children": [
+                          "long-content"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-data-list",
+        "jami-data-list-table",
+        "jami-data-list-title"
+      ]
+    }
+  },
+  "evidence": {
+    "renderableStates": [
+      "ready",
+      "long-content"
+    ],
+    "failedStates": [],
+    "tokenizedClasses": [
+      "jami-data-list",
+      "jami-data-list-table",
+      "jami-data-list-title"
+    ],
+    "responsive": true,
+    "reducedMotion": true,
+    "longContentSafe": true,
+    "emptyStateSafe": false,
+    "errorStateSafe": false,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

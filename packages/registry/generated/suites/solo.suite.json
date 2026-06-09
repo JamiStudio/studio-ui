@@ -11,6 +11,7 @@
     "data-list",
     "agent-panel",
     "docs-source-panel",
+    "solo-app",
     "solo-today-page",
     "solo-docs-page",
     "solo-agenda-block",
@@ -29,6 +30,7 @@
       "data-list",
       "agent-panel",
       "docs-source-panel",
+      "solo-app",
       "solo-today-page",
       "solo-docs-page",
       "solo-agenda-block",
@@ -178,5 +180,21 @@
       "source": "registry/suites/solo/suite-shell.json",
       "copiedSource": false
     }
+  },
+  "implementation": {
+    "status": "renderable-primitive-factory-implementation",
+    "runtimeReactApp": false,
+    "app": "studio-ui/suites/solo/solo-app.implementation.json",
+    "pages": [
+      "studio-ui/suites/solo/pages/solo-today-page.page.implementation.json",
+      "studio-ui/suites/solo/pages/solo-docs-page.page.implementation.json"
+    ],
+    "blocks": [
+      "studio-ui/suites/solo/blocks/solo-agenda-block.block.implementation.json",
+      "studio-ui/suites/solo/blocks/solo-task-queue-block.block.implementation.json",
+      "studio-ui/suites/solo/blocks/solo-agent-status-block.block.implementation.json",
+      "studio-ui/suites/solo/blocks/solo-docs-sources-block.block.implementation.json",
+      "studio-ui/suites/solo/blocks/solo-forms-block.block.implementation.json"
+    ]
   }
 }

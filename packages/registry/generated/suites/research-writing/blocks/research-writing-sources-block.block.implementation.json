@@ -1,0 +1,166 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "research-writing",
+  "implementationStatus": "renderable-primitive-factory-block",
+  "source": "registry/suites/research-writing/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "block": {
+    "id": "block.research-writing.sources",
+    "title": "Sources",
+    "component": "docs-source-panel",
+    "stateExamples": [
+      "long-content"
+    ]
+  },
+  "component": "docs-source-panel",
+  "renderedStates": {
+    "ready": {
+      "props": {
+        "title": "Sources",
+        "sources": [
+          {
+            "id": "src_research_writing_block_research_writing_sources",
+            "title": "Sources source"
+          }
+        ],
+        "selectedSourceId": "src_research_writing_block_research_writing_sources",
+        "redacted": false,
+        "empty": false
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "aside",
+        "props": {
+          "className": "jami-docs-source-panel",
+          "role": "complementary",
+          "aria-label": "Sources"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {},
+            "children": [
+              "Sources"
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-source-list"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-source-id": "src_research_writing_block_research_writing_sources",
+                  "aria-current": "true"
+                },
+                "children": [
+                  "Sources source"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-docs-source-panel",
+        "jami-source-list"
+      ]
+    },
+    "long-content": {
+      "props": {
+        "title": "Sources",
+        "sources": [
+          {
+            "id": "src_research_writing_block_research_writing_sources",
+            "title": "Long source names, citation strings, and outline sections wrap inside the writing shell."
+          }
+        ],
+        "selectedSourceId": "src_research_writing_block_research_writing_sources",
+        "redacted": false,
+        "empty": false
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "aside",
+        "props": {
+          "className": "jami-docs-source-panel",
+          "role": "complementary",
+          "aria-label": "Sources"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {},
+            "children": [
+              "Sources"
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-source-list"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-source-id": "src_research_writing_block_research_writing_sources",
+                  "aria-current": "true"
+                },
+                "children": [
+                  "Long source names, citation strings, and outline sections wrap inside the writing shell."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-docs-source-panel",
+        "jami-source-list"
+      ]
+    }
+  },
+  "evidence": {
+    "renderableStates": [
+      "ready",
+      "long-content"
+    ],
+    "failedStates": [],
+    "tokenizedClasses": [
+      "jami-docs-source-panel",
+      "jami-source-list"
+    ],
+    "responsive": true,
+    "reducedMotion": true,
+    "longContentSafe": true,
+    "emptyStateSafe": false,
+    "errorStateSafe": false,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/research-writing/suite-shell.json",
+    "copiedSource": false
+  }
+}

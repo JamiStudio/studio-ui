@@ -1,0 +1,84 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "implementationStatus": "renderable-primitive-factory-page",
+  "source": "registry/suites/mixed-media/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "page": {
+    "id": "page.mixed-media.pipeline",
+    "title": "Generation pipeline",
+    "description": "Pipeline status, review queue, publishing readiness, and display-only agent state.",
+    "components": [
+      "data-list",
+      "agent-panel",
+      "media-grid",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/pipeline",
+      "page": "page.mixed-media.pipeline",
+      "title": "Generation pipeline",
+      "blocks": [
+        "block.mixed-media.pipeline",
+        "block.mixed-media.review-agent"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.mixed-media.pipeline",
+      "title": "Pipeline runs",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-pipeline-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "error"
+      ]
+    },
+    {
+      "id": "block.mixed-media.review-agent",
+      "title": "Review agent",
+      "component": "agent-panel",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-review-agent-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "error"
+      ]
+    }
+  ],
+  "components": [
+    "agent-panel",
+    "data-list",
+    "media-grid",
+    "panel"
+  ],
+  "evidence": {
+    "renderedBlockCount": 2,
+    "responsiveLayout": "single-column-safe generated composition",
+    "a11yStructure": "page routes compose labelled resident block implementations",
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "solo",
+  "implementationStatus": "renderable-primitive-factory-page",
+  "source": "registry/suites/solo/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "page": {
+    "id": "page.solo.docs",
+    "title": "Docs and sources",
+    "description": "Documents, citations, lightweight forms, and long reference notes.",
+    "components": [
+      "docs-source-panel",
+      "text-field",
+      "data-list",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/solo/docs",
+      "page": "page.solo.docs",
+      "title": "Docs and sources",
+      "blocks": [
+        "block.solo.docs-sources",
+        "block.solo.forms"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.solo.docs-sources",
+      "title": "Docs sources",
+      "component": "docs-source-panel",
+      "implementationFile": "studio-ui/suites/solo/blocks/solo-docs-sources-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.solo.forms",
+      "title": "Quick form",
+      "component": "text-field",
+      "implementationFile": "studio-ui/suites/solo/blocks/solo-forms-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "invalid"
+      ]
+    }
+  ],
+  "components": [
+    "data-list",
+    "docs-source-panel",
+    "panel",
+    "text-field"
+  ],
+  "evidence": {
+    "renderedBlockCount": 2,
+    "responsiveLayout": "single-column-safe generated composition",
+    "a11yStructure": "page routes compose labelled resident block implementations",
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/solo/suite-shell.json",
+    "copiedSource": false
+  }
+}

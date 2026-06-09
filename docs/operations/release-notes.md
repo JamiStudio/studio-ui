@@ -44,9 +44,10 @@ section is part of the notes, not an afterthought.
   framework-neutral component factories, inert child-slot handling, and tokenized
   styles embedded as real install content; four suite install-graph
   descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`); and
-  eight standalone page plus eighteen standalone block registry items generated
-  from authored suite-shell source descriptors. Suite installs now expose those
-  lower-level page/block manifests independently, with generated content hashes.
+  four generated app implementation items, eight standalone page items, and
+  eighteen standalone block items generated from authored suite-shell source
+  descriptors and framework-neutral primitive factories. Suite installs now expose
+  app/page/block implementation manifests independently, with generated content hashes.
 
 ### Renderer and harness seam
 
@@ -71,16 +72,16 @@ section is part of the notes, not an afterthought.
   with hash-based non-destructive conflict handling, rollback guidance, and
   provenance verification. Remote registry fetch is an explicit unsupported state.
   18 temp-project smoke tests run against the real generated registry, including
-  standalone suite page/block install and provenance.
+  standalone suite app/page/block implementation install and provenance.
 
 ### Workbench showcase
 
 - `apps/workbench`: a dependency-free static browser surface over the generated
   theme, registry/suite descriptors, resident renderer, and presentation seam. It
-  renders all four suite lanes as generated shell routes, serializes
-  renderer/presentation output as inert escaped HTML, drives `factory`/`light`/`dark`
-  theme states from generated tokens, presents selectable non-canon default-kit
-  brand/template options from generated registry items, and adds an always-live local overlay for
+  renders all four suite lanes as generated shell routes with primitive-factory
+  implementation evidence, serializes renderer/presentation output as inert escaped
+  HTML, drives `factory`/`light`/`dark` theme states from generated tokens, presents
+  selectable non-canon default-kit brand/template options from generated registry items, and adds an always-live local overlay for
   token edits, brand-option selection, save/duplicate/restore, local register/export artifacts, and
   close/reopen state. A `node --test` gate is wired into `pnpm verify`; a separate
   headless Edge/Chrome smoke captures per-theme/focus/responsive screenshots and a
@@ -93,8 +94,8 @@ section is part of the notes, not an afterthought.
 - `pnpm registry:publish:check` static publish dry-run added and wired into
   `pnpm verify`: it re-verifies every embedded content hash, scans served bytes for
   secret-shaped content, classifies installable vs source-pending items, and reports
-  human/account actions. Current status: `ready-to-stage`, 41 publishable generated
-  items, 0 source-pending, 72 served files, secret-clean, no copied third-party source.
+  human/account actions. Current status: `ready-to-stage`, 45 publishable generated
+  items, 0 source-pending, 106 served files, secret-clean, no copied third-party source.
 - Registry publishing runbook, release/supply-chain policy (SBOM, provenance,
   hashes, attestation), and a public-claims evidence map added under
   `docs/operations/`.
@@ -116,9 +117,9 @@ contrast, and 5/5 screenshots on Microsoft Edge. This pass was verified on Node
 - No published npm packages; npm is not authenticated and `@jami-studio` scope
   access is unconfirmed.
 - No runtime React renderer, Radix wrapper library, hosted/persisted workbench
-  editing or backend package registration, and no full suite app shells. Per-lane
-  suite page/block descriptors are generated and installable, but full React
-  page/block implementations are not built.
+  editing or backend package registration, and no hosted/full React suite runtime.
+  Per-lane suite app/page/block implementation manifests are generated and installable,
+  but mounted React applications are not built.
 - No final brand canon. The brand/template options are selectable registry
   descriptors for comparison only; the exploratory logo seed files remain outside
   production token, registry, and package branding canon.

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "implementationStatus": "renderable-primitive-factory-page",
+  "source": "registry/suites/mixed-media/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "page": {
+    "id": "page.mixed-media.library",
+    "title": "Asset library",
+    "description": "Media-grid library with asset metadata, long captions, and empty collection states.",
+    "components": [
+      "media-grid",
+      "data-list",
+      "panel",
+      "button"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/library",
+      "page": "page.mixed-media.library",
+      "title": "Asset library",
+      "blocks": [
+        "block.mixed-media.assets",
+        "block.mixed-media.metadata"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.mixed-media.assets",
+      "title": "Assets",
+      "component": "media-grid",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-assets-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "empty",
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.mixed-media.metadata",
+      "title": "Asset metadata",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/mixed-media/blocks/mixed-media-metadata-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "long-content"
+      ]
+    }
+  ],
+  "components": [
+    "button",
+    "data-list",
+    "media-grid",
+    "panel"
+  ],
+  "evidence": {
+    "renderedBlockCount": 2,
+    "responsiveLayout": "single-column-safe generated composition",
+    "a11yStructure": "page routes compose labelled resident block implementations",
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

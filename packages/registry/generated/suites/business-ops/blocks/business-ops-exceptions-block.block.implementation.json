@@ -1,0 +1,274 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "implementationStatus": "renderable-primitive-factory-block",
+  "source": "registry/suites/business-ops/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "block": {
+    "id": "block.business-ops.exceptions",
+    "title": "Schedule exceptions",
+    "component": "data-list",
+    "stateExamples": [
+      "empty",
+      "error"
+    ]
+  },
+  "component": "data-list",
+  "renderedStates": {
+    "ready": {
+      "props": {
+        "title": "Schedule exceptions",
+        "columns": [
+          {
+            "key": "item",
+            "label": "Item"
+          },
+          {
+            "key": "state",
+            "label": "State"
+          }
+        ],
+        "rows": [
+          {
+            "item": "Schedule exceptions record",
+            "state": "ready"
+          }
+        ],
+        "empty": false
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-data-list",
+          "role": "region",
+          "aria-label": "Schedule exceptions"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {
+              "className": "jami-data-list-title"
+            },
+            "children": [
+              "Schedule exceptions"
+            ]
+          },
+          {
+            "type": "table",
+            "props": {
+              "className": "jami-data-list-table"
+            },
+            "children": [
+              {
+                "type": "thead",
+                "props": {},
+                "children": [
+                  {
+                    "type": "tr",
+                    "props": {},
+                    "children": [
+                      {
+                        "type": "th",
+                        "props": {
+                          "scope": "col"
+                        },
+                        "children": [
+                          "Item"
+                        ]
+                      },
+                      {
+                        "type": "th",
+                        "props": {
+                          "scope": "col"
+                        },
+                        "children": [
+                          "State"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tbody",
+                "props": {},
+                "children": [
+                  {
+                    "type": "tr",
+                    "props": {},
+                    "children": [
+                      {
+                        "type": "td",
+                        "props": {},
+                        "children": [
+                          "Schedule exceptions record"
+                        ]
+                      },
+                      {
+                        "type": "td",
+                        "props": {},
+                        "children": [
+                          "ready"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-data-list",
+        "jami-data-list-table",
+        "jami-data-list-title"
+      ]
+    },
+    "empty": {
+      "props": {
+        "title": "Schedule exceptions",
+        "columns": [
+          {
+            "key": "item",
+            "label": "Item"
+          },
+          {
+            "key": "state",
+            "label": "State"
+          }
+        ],
+        "rows": [],
+        "empty": true
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-data-list",
+          "role": "region",
+          "aria-label": "Schedule exceptions"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {
+              "className": "jami-data-list-title"
+            },
+            "children": [
+              "Schedule exceptions"
+            ]
+          },
+          {
+            "type": "p",
+            "props": {
+              "role": "status"
+            },
+            "children": [
+              "No records to display."
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-data-list",
+        "jami-data-list-title"
+      ]
+    },
+    "error": {
+      "props": {
+        "title": "Schedule exceptions",
+        "columns": [
+          {
+            "key": "item",
+            "label": "Item"
+          },
+          {
+            "key": "state",
+            "label": "State"
+          }
+        ],
+        "rows": [],
+        "empty": false,
+        "error": "A review queue error is shown without retrying or executing harness actions."
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-data-list",
+          "role": "region",
+          "aria-label": "Schedule exceptions"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {
+              "className": "jami-data-list-title"
+            },
+            "children": [
+              "Schedule exceptions"
+            ]
+          },
+          {
+            "type": "p",
+            "props": {
+              "role": "alert"
+            },
+            "children": [
+              "A review queue error is shown without retrying or executing harness actions."
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-data-list",
+        "jami-data-list-title"
+      ]
+    }
+  },
+  "evidence": {
+    "renderableStates": [
+      "ready",
+      "empty",
+      "error"
+    ],
+    "failedStates": [],
+    "tokenizedClasses": [
+      "jami-data-list",
+      "jami-data-list-table",
+      "jami-data-list-title"
+    ],
+    "responsive": true,
+    "reducedMotion": true,
+    "longContentSafe": false,
+    "emptyStateSafe": true,
+    "errorStateSafe": true,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

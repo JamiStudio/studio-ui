@@ -74,6 +74,13 @@ wrong prop types, and invalid enum values fail closed to `invalid`. It still
 produces inert, JSON-serializable render trees and does not execute actions or
 mount a DOM.
 
+The suite artifact generator also uses `renderPrimitiveSpec` from
+`packages/ui/src/primitive-components.mjs` to emit installable app/page/block
+implementation manifests under `packages/registry/generated/suites/<lane>/`.
+Those manifests prove the authored suite shells compose resident primitives into
+renderable, tokenized, display-only DOM specs. They are generated evidence, not a
+mounted React app runtime.
+
 ## Not Yet Claimed
 
 This pass does not ship Radix wrappers, a direct React package dependency,
@@ -83,6 +90,7 @@ paired with framework-neutral factory functions that can adapt to an injected
 `createElement`; they are not copied Radix implementations, not a runtime React
 renderer, and not a suite application library. The foundation remains narrow:
 source-owned vocabulary metadata, prop schemas, descriptor metadata, component
-factories, tokenized styles, registry items, renderer allowlist/schema references,
-and tests that keep the initial component colors, state metadata, handshake, prop
-schemas, inert child slots, and non-executable factory output honest.
+factories, tokenized styles, registry items, generated suite implementation
+manifests, renderer allowlist/schema references, and tests that keep the initial
+component colors, state metadata, handshake, prop schemas, inert child slots, and
+non-executable factory output honest.

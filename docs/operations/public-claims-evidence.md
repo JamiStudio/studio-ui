@@ -18,6 +18,7 @@ in this table with live evidence, it is not safe to make publicly.
 | Registry items validate against the Jami metadata contract | `packages/registry/fixtures/*` + schema gate | `pnpm contracts:check` |
 | Registry output is shadcn-shaped with embedded content + `sha256` hashes | `packages/registry/generated/registry.json` | `pnpm registry:publish:check` |
 | Suite pages and blocks are independently installable registry items | generated page/block item artifacts and CLI temp-project smoke | `pnpm --filter @jami-studio/cli test` |
+| Suite app/page/block implementation manifests are generated from suite shells and primitive factories | generated `*.implementation.json` artifacts, registry item content hashes, contract gate, workbench evidence, CLI temp-project smoke | `pnpm contracts:check`; `pnpm --filter @jami-studio/workbench test`; `pnpm --filter @jami-studio/cli test` |
 | Default-kit brand/template options are selectable and CLI-inspectable without claiming final brand canon | `registry/branding/*.brand-option.json`, generated `*-brand` registry items, workbench option cards, CLI temp-project smoke | `pnpm contracts:check`; `pnpm --filter @jami-studio/workbench test`; `pnpm --filter @jami-studio/cli test` |
 | Resident UI primitives/components ship importable framework-neutral component factory source with inert child-slot handling | `packages/ui/src/primitive-components.mjs`, generated resident UI registry items, UI tests, workbench vocabulary evidence | `pnpm --filter @jami-studio/ui test`; `pnpm contracts:check`; `pnpm --filter @jami-studio/workbench test` |
 | Every embedded registry content hash recomputes exactly | publish dry-run hash re-verification | `pnpm registry:publish:check` |
@@ -36,8 +37,8 @@ in this table with live evidence, it is not safe to make publicly.
 ## Latest Evidence Snapshot (2026-06-09)
 
 - `pnpm verify` — pass (exit 0), all stages green, including `registry:publish:check`.
-- `pnpm registry:publish:check` — `ready-to-stage`; 41 items (41 publishable now,
-  0 source-pending); 72 served files; secret-shaped content: none; copied
+- `pnpm registry:publish:check` — `ready-to-stage`; 45 items (45 publishable now,
+  0 source-pending); 106 served files; secret-shaped content: none; copied
   third-party source: none.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
@@ -51,7 +52,7 @@ These must not be stated as fact publicly until evidence exists (see
 
 - A live hosted registry at `registry.jami.studio` or any remote CLI install.
 - Any published npm package, or `@jami-studio` scope availability.
-- A runtime React renderer, Radix wrapper library, hosted/persisted workbench editing, backend package registration, or full suite app shells/full React page-block implementations.
+- A runtime React renderer, Radix wrapper library, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests exist, but mounted React applications do not.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
 - Harness runtime behavior (owned by Jami Harness, only displayed here).

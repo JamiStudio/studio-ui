@@ -80,6 +80,16 @@ function brandOptionFromItem(item) {
   };
 }
 
+function implementationFromItem(item) {
+  const file = (item?.files ?? []).find((candidate) => candidate.target?.endsWith(".implementation.json"));
+  if (!file?.content) return null;
+  return {
+    target: file.target,
+    hash: file.hash ?? null,
+    manifest: JSON.parse(file.content),
+  };
+}
+
 // Assemble everything the page needs from real generated/fixture sources.
 export function loadShowcaseData() {
   const tokenCss = readText("packages/tokens/generated/jami.css");
@@ -101,9 +111,21 @@ export function loadShowcaseData() {
         type: member?.type ?? null,
         version: member?.meta?.lifecycle?.version ?? null,
         sourceState: installable ? "installable" : sourcePending ? "source-pending" : "partial",
+        implementation: implementationFromItem(member),
       };
     });
-    return { lane, manifest, item, members };
+    const implementationMembers = members.filter((member) => member.implementation);
+    return {
+      lane,
+      manifest,
+      item,
+      members,
+      implementationEvidence: {
+        app: implementationMembers.find((member) => member.type === "registry:app")?.implementation ?? null,
+        pages: implementationMembers.filter((member) => member.type === "registry:page").map((member) => member.implementation),
+        blocks: implementationMembers.filter((member) => member.type === "registry:block").map((member) => member.implementation),
+      },
+    };
   });
 
   const brandOptions = registry.items

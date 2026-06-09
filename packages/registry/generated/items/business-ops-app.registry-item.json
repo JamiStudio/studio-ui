@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "business-ops-app",
+  "type": "registry:app",
+  "title": "Business Operations App Implementation",
+  "description": "Business Operations generated app implementation evidence composed from resident primitive factories.",
+  "dependencies": [],
+  "registryDependencies": [
+    "business-ops-dashboard-page",
+    "business-ops-staff-page"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/business-ops/business-ops-app.implementation.json",
+      "target": "studio-ui/suites/business-ops/business-ops-app.implementation.json",
+      "type": "registry:app",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-app-implementation.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"implementationStatus\": \"renderable-primitive-factory-app\",\n  \"source\": \"registry/suites/business-ops/suite-shell.json\",\n  \"primitiveFactory\": {\n    \"version\": \"2026-06-09.framework-neutral-component-factory\",\n    \"source\": \"packages/ui/src/primitive-components.mjs\",\n    \"implementationStatus\": \"framework-neutral-component-factory\",\n    \"runtimeReactRenderer\": false,\n    \"hostedRuntime\": false,\n    \"harnessRuntimeExecution\": false,\n    \"executableActions\": false,\n    \"radixWrapper\": false\n  },\n  \"appShell\": {\n    \"id\": \"app.business-ops.shell\",\n    \"layout\": \"ops-dashboard\",\n    \"navigation\": [\n      {\n        \"label\": \"Dashboard\",\n        \"route\": \"/business-ops/dashboard\"\n      },\n      {\n        \"label\": \"Staff\",\n        \"route\": \"/business-ops/staff\"\n      },\n      {\n        \"label\": \"Scheduling\",\n        \"route\": \"/business-ops/scheduling\"\n      },\n      {\n        \"label\": \"Compliance\",\n        \"route\": \"/business-ops/compliance\"\n      }\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/dashboard\",\n      \"page\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\",\n      \"blocks\": [\n        \"block.business-ops.kpis\",\n        \"block.business-ops.exceptions\",\n        \"block.business-ops.agent-review\"\n      ]\n    },\n    {\n      \"path\": \"/business-ops/staff\",\n      \"page\": \"page.business-ops.staff\",\n      \"title\": \"Staff and training\",\n      \"blocks\": [\n        \"block.business-ops.staff-table\",\n        \"block.business-ops.training-form\"\n      ]\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\",\n      \"routeCount\": 1,\n      \"implementationFile\": \"studio-ui/suites/business-ops/pages/business-ops-dashboard-page.page.implementation.json\"\n    },\n    {\n      \"id\": \"page.business-ops.staff\",\n      \"title\": \"Staff and training\",\n      \"routeCount\": 1,\n      \"implementationFile\": \"studio-ui/suites/business-ops/pages/business-ops-staff-page.page.implementation.json\"\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.business-ops.kpis\",\n      \"title\": \"Operational KPIs\",\n      \"component\": \"data-list\",\n      \"implementationFile\": \"studio-ui/suites/business-ops/blocks/business-ops-kpis-block.block.implementation.json\"\n    },\n    {\n      \"id\": \"block.business-ops.exceptions\",\n      \"title\": \"Schedule exceptions\",\n      \"component\": \"data-list\",\n      \"implementationFile\": \"studio-ui/suites/business-ops/blocks/business-ops-exceptions-block.block.implementation.json\"\n    },\n    {\n      \"id\": \"block.business-ops.agent-review\",\n      \"title\": \"Review queue\",\n      \"component\": \"agent-panel\",\n      \"implementationFile\": \"studio-ui/suites/business-ops/blocks/business-ops-agent-review-block.block.implementation.json\"\n    },\n    {\n      \"id\": \"block.business-ops.staff-table\",\n      \"title\": \"Staff records\",\n      \"component\": \"data-list\",\n      \"implementationFile\": \"studio-ui/suites/business-ops/blocks/business-ops-staff-table-block.block.implementation.json\"\n    },\n    {\n      \"id\": \"block.business-ops.training-form\",\n      \"title\": \"Training form\",\n      \"component\": \"text-field\",\n      \"implementationFile\": \"studio-ui/suites/business-ops/blocks/business-ops-training-form-block.block.implementation.json\"\n    }\n  ],\n  \"evidence\": {\n    \"renderedPageCount\": 2,\n    \"renderedBlockCount\": 5,\n    \"routeCount\": 2,\n    \"navigationCount\": 4,\n    \"responsive\": true,\n    \"reducedMotion\": true,\n    \"displayOnly\": true\n  },\n  \"runtime\": {\n    \"runtimeReactRenderer\": false,\n    \"hostedRuntime\": false,\n    \"harnessRuntimeExecution\": false,\n    \"executableActions\": false,\n    \"radixWrapper\": false\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:399824416df22360e86ed5e368ce18dc94219352354634c96b4e3ba8a9722503"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/business-ops-app",
+    "suite": "business-ops",
+    "lifecycle": {
+      "id": "app.business-ops",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:828b6342110de1e05cb0d9ef5bf5a113537a3f1f11f59930a0a390a4556d5512",
+      "migrationNotes": "Generated suite app implementation evidence from the authored suite shell and primitive factories; hosted or full React app runtime remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/business-ops/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

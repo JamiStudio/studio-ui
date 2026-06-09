@@ -1,0 +1,95 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "solo",
+  "implementationStatus": "renderable-primitive-factory-page",
+  "source": "registry/suites/solo/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "page": {
+    "id": "page.solo.today",
+    "title": "Today command center",
+    "description": "Calendar, task queue, and non-executable agent status for a solo operator.",
+    "components": [
+      "data-list",
+      "agent-panel",
+      "button",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/solo/today",
+      "page": "page.solo.today",
+      "title": "Today command center",
+      "blocks": [
+        "block.solo.agenda",
+        "block.solo.task-queue",
+        "block.solo.agent-status"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.solo.agenda",
+      "title": "Agenda",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/solo/blocks/solo-agenda-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.solo.task-queue",
+      "title": "Task queue",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/solo/blocks/solo-task-queue-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "empty"
+      ]
+    },
+    {
+      "id": "block.solo.agent-status",
+      "title": "Agent status",
+      "component": "agent-panel",
+      "implementationFile": "studio-ui/suites/solo/blocks/solo-agent-status-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "error"
+      ]
+    }
+  ],
+  "components": [
+    "agent-panel",
+    "button",
+    "data-list",
+    "panel"
+  ],
+  "evidence": {
+    "renderedBlockCount": 3,
+    "responsiveLayout": "single-column-safe generated composition",
+    "a11yStructure": "page routes compose labelled resident block implementations",
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/solo/suite-shell.json",
+    "copiedSource": false
+  }
+}

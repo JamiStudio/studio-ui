@@ -53,9 +53,10 @@ test("list returns the real generated registry items", () => {
   const r = call("list");
   assert.equal(r.code, 0);
   const names = r.result.data.items.map((i) => i.name);
-  assert.equal(names.length, 41);
+  assert.equal(names.length, 45);
   for (const name of [
     "agent-panel",
+    "business-ops-app",
     "business-ops-dashboard-page",
     "business-ops-kpis-block",
     "button",
@@ -64,6 +65,7 @@ test("list returns the real generated registry items", () => {
     "jami-theme",
     "mixed-media-library-page",
     "research-writing-sources-block",
+    "solo-app",
     "solo-suite",
     "solo-today-page",
     "solo-agenda-block",
@@ -134,6 +136,7 @@ test("add resolves a suite graph and installs authored primitive source", () => 
     "data-list",
     "agent-panel",
     "docs-source-panel",
+    "solo-app",
     "solo-today-page",
     "solo-agenda-block",
     "solo-suite",
@@ -147,10 +150,14 @@ test("add resolves a suite graph and installs authored primitive source", () => 
   assert.ok(button.files.length > 0, "authored primitive files are installable");
   assert.equal(lock.items.find((i) => i.name === "solo-today-page").sourceState, "installable");
   assert.equal(lock.items.find((i) => i.name === "solo-agenda-block").sourceState, "installable");
+  assert.equal(lock.items.find((i) => i.name === "solo-app").sourceState, "installable");
   // the suite manifest and theme files are real
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo.suite.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "solo-app.implementation.json")));
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "pages", "solo-today-page.page.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "pages", "solo-today-page.page.implementation.json")));
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "blocks", "solo-agenda-block.block.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "blocks", "solo-agenda-block.block.implementation.json")));
   assert.ok(existsSync(join(dir, "studio-ui", "jami.css")));
 });
 
@@ -161,22 +168,37 @@ test("standalone suite pages and blocks install independently with provenance", 
   assert.ok(page.result.data.graph.includes("solo-agenda-block"), "page graph installs dependent blocks");
   assert.ok(page.result.data.graph.includes("data-list"), "page graph installs resident components");
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "pages", "solo-today-page.page.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "pages", "solo-today-page.page.implementation.json")));
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "blocks", "solo-agenda-block.block.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "blocks", "solo-agenda-block.block.implementation.json")));
 
   const pageManifest = readJson(join("studio-ui", "suites", "solo", "pages", "solo-today-page.page.json"));
   assert.equal(pageManifest.$schema, "https://jami.studio/schemas/registry/suite-page.generated.json");
   assert.equal(pageManifest.lane, "solo");
   assert.ok(pageManifest.routes.some((route) => route.path === "/solo/today"));
   assert.ok(pageManifest.components.includes("agent-panel"));
+  const pageImplementation = readJson(join("studio-ui", "suites", "solo", "pages", "solo-today-page.page.implementation.json"));
+  assert.equal(pageImplementation.$schema, "https://jami.studio/schemas/registry/suite-page-implementation.generated.json");
+  assert.equal(pageImplementation.runtime.runtimeReactRenderer, false);
+  assert.equal(pageImplementation.evidence.displayOnly, true);
 
   const block = call("add", "mixed-media-assets-block");
   assert.equal(block.code, 0);
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "mixed-media", "blocks", "mixed-media-assets-block.block.json")));
+  assert.ok(
+    existsSync(join(dir, "studio-ui", "suites", "mixed-media", "blocks", "mixed-media-assets-block.block.implementation.json")),
+  );
   const blockManifest = readJson(
     join("studio-ui", "suites", "mixed-media", "blocks", "mixed-media-assets-block.block.json"),
   );
   assert.equal(blockManifest.$schema, "https://jami.studio/schemas/registry/suite-block.generated.json");
   assert.equal(blockManifest.component, "media-grid");
+  const blockImplementation = readJson(
+    join("studio-ui", "suites", "mixed-media", "blocks", "mixed-media-assets-block.block.implementation.json"),
+  );
+  assert.equal(blockImplementation.$schema, "https://jami.studio/schemas/registry/suite-block-implementation.generated.json");
+  assert.equal(blockImplementation.renderedStates.ready.rendererState, "renderable");
+  assert.equal(blockImplementation.runtime.hostedRuntime, false);
 
   const provenance = call("provenance", "solo-today-page");
   assert.equal(provenance.code, 0);
@@ -204,6 +226,13 @@ test("each suite installs generated app-shell descriptors with route metadata", 
     assert.ok(manifest.shell.pages.length >= 2, `${suite} pages generated`);
     assert.ok(manifest.shell.blocks.length >= 4, `${suite} blocks generated`);
     assert.ok(manifest.shell.componentParts.length >= 3, `${suite} component parts generated`);
+    assert.ok(manifest.implementation.app.endsWith(`${suite}-app.implementation.json`), `${suite} app implementation ref`);
+    assert.equal(manifest.implementation.runtimeReactApp, false, `${suite} manifest does not claim React runtime`);
+    assert.ok(existsSync(join(dir, "studio-ui", "suites", suite, `${suite}-app.implementation.json`)), `${suite} app implementation installed`);
+    const appImplementation = readJson(join("studio-ui", "suites", suite, `${suite}-app.implementation.json`));
+    assert.equal(appImplementation.$schema, "https://jami.studio/schemas/registry/suite-app-implementation.generated.json");
+    assert.equal(appImplementation.runtime.harnessRuntimeExecution, false, `${suite} no harness runtime claim`);
+    assert.ok(appImplementation.evidence.renderedBlockCount >= 4, `${suite} app implementation records blocks`);
     assert.ok(manifest.shell.stateFixtures.longContent, `${suite} long-content fixture`);
     assert.ok(manifest.shell.stateFixtures.empty, `${suite} empty fixture`);
     assert.ok(manifest.shell.stateFixtures.error, `${suite} error fixture`);

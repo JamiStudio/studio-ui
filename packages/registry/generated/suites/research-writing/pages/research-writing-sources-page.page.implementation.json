@@ -1,0 +1,82 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "research-writing",
+  "implementationStatus": "renderable-primitive-factory-page",
+  "source": "registry/suites/research-writing/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "page": {
+    "id": "page.research-writing.sources",
+    "title": "Sources and citations",
+    "description": "Source display, citation lists, redaction-aware references, and long document titles.",
+    "components": [
+      "docs-source-panel",
+      "data-list",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/research-writing/sources",
+      "page": "page.research-writing.sources",
+      "title": "Sources and citations",
+      "blocks": [
+        "block.research-writing.sources",
+        "block.research-writing.citations"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.research-writing.sources",
+      "title": "Sources",
+      "component": "docs-source-panel",
+      "implementationFile": "studio-ui/suites/research-writing/blocks/research-writing-sources-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.research-writing.citations",
+      "title": "Citations",
+      "component": "data-list",
+      "implementationFile": "studio-ui/suites/research-writing/blocks/research-writing-citations-block.block.implementation.json",
+      "renderedStates": [
+        "ready",
+        "empty"
+      ]
+    }
+  ],
+  "components": [
+    "data-list",
+    "docs-source-panel",
+    "panel"
+  ],
+  "evidence": {
+    "renderedBlockCount": 2,
+    "responsiveLayout": "single-column-safe generated composition",
+    "a11yStructure": "page routes compose labelled resident block implementations",
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/research-writing/suite-shell.json",
+    "copiedSource": false
+  }
+}

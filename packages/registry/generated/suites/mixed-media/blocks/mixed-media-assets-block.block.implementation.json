@@ -1,0 +1,204 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "implementationStatus": "renderable-primitive-factory-block",
+  "source": "registry/suites/mixed-media/suite-shell.json",
+  "primitiveFactory": {
+    "version": "2026-06-09.framework-neutral-component-factory",
+    "source": "packages/ui/src/primitive-components.mjs",
+    "implementationStatus": "framework-neutral-component-factory",
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "block": {
+    "id": "block.mixed-media.assets",
+    "title": "Assets",
+    "component": "media-grid",
+    "stateExamples": [
+      "empty",
+      "long-content"
+    ]
+  },
+  "component": "media-grid",
+  "renderedStates": {
+    "ready": {
+      "props": {
+        "title": "Assets",
+        "items": [
+          {
+            "id": "art_mixed_media_block_mixed_media_assets",
+            "title": "Assets item"
+          }
+        ],
+        "selectedItemId": "art_mixed_media_block_mixed_media_assets",
+        "empty": false
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-media-grid",
+          "role": "region",
+          "aria-label": "Assets"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {},
+            "children": [
+              "Assets"
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-media-grid-list"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-media-id": "art_mixed_media_block_mixed_media_assets",
+                  "aria-current": "true"
+                },
+                "children": [
+                  "Assets item"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-media-grid",
+        "jami-media-grid-list"
+      ]
+    },
+    "empty": {
+      "props": {
+        "title": "Assets",
+        "items": [],
+        "empty": true
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-media-grid",
+          "role": "region",
+          "aria-label": "Assets"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {},
+            "children": [
+              "Assets"
+            ]
+          },
+          {
+            "type": "p",
+            "props": {
+              "role": "status"
+            },
+            "children": [
+              "No media items."
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-media-grid"
+      ]
+    },
+    "long-content": {
+      "props": {
+        "title": "Assets",
+        "items": [
+          {
+            "id": "art_mixed_media_block_mixed_media_assets",
+            "title": "Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell."
+          }
+        ],
+        "selectedItemId": "art_mixed_media_block_mixed_media_assets",
+        "empty": false
+      },
+      "rendererState": "renderable",
+      "reasons": [],
+      "node": {
+        "type": "section",
+        "props": {
+          "className": "jami-media-grid",
+          "role": "region",
+          "aria-label": "Assets"
+        },
+        "children": [
+          {
+            "type": "h3",
+            "props": {},
+            "children": [
+              "Assets"
+            ]
+          },
+          {
+            "type": "ul",
+            "props": {
+              "className": "jami-media-grid-list"
+            },
+            "children": [
+              {
+                "type": "li",
+                "props": {
+                  "data-media-id": "art_mixed_media_block_mixed_media_assets",
+                  "aria-current": "true"
+                },
+                "children": [
+                  "Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tokenizedClasses": [
+        "jami-media-grid",
+        "jami-media-grid-list"
+      ]
+    }
+  },
+  "evidence": {
+    "renderableStates": [
+      "ready",
+      "empty",
+      "long-content"
+    ],
+    "failedStates": [],
+    "tokenizedClasses": [
+      "jami-media-grid",
+      "jami-media-grid-list"
+    ],
+    "responsive": true,
+    "reducedMotion": true,
+    "longContentSafe": true,
+    "emptyStateSafe": true,
+    "errorStateSafe": false,
+    "displayOnly": true
+  },
+  "runtime": {
+    "runtimeReactRenderer": false,
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "radixWrapper": false
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

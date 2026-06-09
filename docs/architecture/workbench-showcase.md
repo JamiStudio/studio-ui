@@ -37,7 +37,8 @@ no harness runtime, hosted persistence, or backend package registration.
     `research-writing`) as generated suite shell routes that read their
     generated suite manifests, resolve each member to real registry metadata,
     and display the authored app shell, route map, pages, blocks, component
-    parts, install graph, and long-content/empty/error states;
+    parts, install graph, primitive-factory implementation evidence, and
+    long-content/empty/error states;
   - selectable default-kit brand/template options (`studio-console`,
     `editorial-studio`, `command-grid`) from generated registry theme items and
     authored descriptors under `registry/branding/`, including token deltas,
@@ -83,6 +84,7 @@ checked fixture corpus. Nothing is hand-authored into the page:
 - `packages/tokens/generated/jami.css`
 - `packages/registry/generated/registry.json`
 - `packages/registry/generated/suites/<lane>.suite.json`
+- `packages/registry/generated/suites/<lane>/**/*.implementation.json`
 - `registry/suites/<lane>/suite-shell.json` through generated suite manifests
 - `registry/branding/*.brand-option.json` through generated registry theme items
 - `packages/ui/src/vocabulary.mjs`
@@ -109,8 +111,10 @@ checked fixture corpus. Nothing is hand-authored into the page:
   the browser's local state.
 - **Honest states.** Authored suite shell descriptors are labelled as generated
   shell routes, registry member installability is read from generated content,
-  brand options are labelled as selectable but not final canon, and the page
-  still states that full React suite app implementations are pending.
+  app/page/block implementation manifests are labelled as generated primitive-factory
+  evidence rather than hosted runtime, brand options are labelled as selectable
+  but not final canon, and the page still states that a hosted/full React suite
+  runtime is pending.
 
 ## Build And Verify
 
@@ -127,9 +131,11 @@ checked fixture corpus. Nothing is hand-authored into the page:
   responsive and reduced-motion affordances, long-content wrapping,
   redacted-content gating, always-live overlay controls/panels, local draft state
   transitions, and that the displayed WCAG contrast ratios recompute correctly
-  and meet their targets. It also asserts that the vocabulary handshake,
-  prop-schema version, component-factory status/source, and bad-prop fixture
-  rejection are visible in the generated page.
+  and meet their targets. It also asserts that generated suite implementation
+  manifests are loaded from registry item content and keep hosted/React/harness
+  runtime claims false, and that the vocabulary handshake, prop-schema version,
+  component-factory status/source, and bad-prop fixture rejection are visible in
+  the generated page.
 
 ## Browser, Visual, And Accessibility Evidence
 
@@ -163,8 +169,8 @@ audit plus the rendered screenshots.
 
 ## Not Yet Claimed
 
-This surface does not implement full React suite applications, hosted/persisted
+This surface does not implement hosted/full React suite applications, hosted/persisted
 editing, backend package registration, a runtime React renderer, a remote
 registry fetch, Radix wrappers, a provider runtime, or any harness execution. It
-renders, displays, and locally edits accepted, generated, authored-source, and
-fixture data only.
+renders, displays, and locally edits accepted, generated, authored-source,
+primitive-factory implementation, and fixture data only.
