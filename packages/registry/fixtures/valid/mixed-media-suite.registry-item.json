@@ -8,7 +8,11 @@
   "dependencies": [],
   "registryDependencies": [
     "jami-theme",
-    "button"
+    "button",
+    "panel",
+    "data-list",
+    "agent-panel",
+    "media-grid"
   ],
   "plannedSurfaces": [
     "assets",
@@ -30,8 +34,8 @@
     "id": "suite.mixed-media",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:32e16ebb8da7d27931d09e2672b00f834ea6a2942edeaafa9417c14802941d78",
-    "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+    "sourceHash": "sha256:c156cbefa0b43cb05a3b49d8784eb40c6fb59af2826baecb6bc2852750e19ba1",
+    "migrationNotes": "Suite shell now installs generated route/page/block/component descriptors from authored source; full React app implementation remains pending."
   },
   "tokenRequirements": [],
   "provenance": {

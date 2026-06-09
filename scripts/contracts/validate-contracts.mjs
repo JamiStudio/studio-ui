@@ -155,6 +155,48 @@ function validateRegistryFixture(path, shouldPass) {
     localFailures.push("lifecycle.sourceHash does not match registry source item");
   }
   if (!Array.isArray(item.files) || item.files.length === 0) localFailures.push("missing install files");
+  if (item.type === "suite") {
+    const lane = item.suite;
+    const shellPath = lane ? `registry/suites/${lane}/suite-shell.json` : null;
+    const shell = shellPath ? readJson(shellPath) : null;
+    if (!shell) {
+      localFailures.push("suite item must have an authored suite shell source");
+    } else {
+      if (shell.$schema !== "https://jami.studio/schemas/registry/suite-shell.source.json") {
+        localFailures.push("suite shell source has wrong schema URL");
+      }
+      if (shell.lane !== lane) localFailures.push("suite shell lane must match registry item suite");
+      if (!shell.appShell?.id || !Array.isArray(shell.appShell?.navigation) || shell.appShell.navigation.length === 0) {
+        localFailures.push("suite shell must carry appShell id and navigation");
+      }
+      if (!Array.isArray(shell.routes) || shell.routes.length === 0) localFailures.push("suite shell must carry routes");
+      if (!Array.isArray(shell.pages) || shell.pages.length === 0) localFailures.push("suite shell must carry pages");
+      if (!Array.isArray(shell.blocks) || shell.blocks.length === 0) localFailures.push("suite shell must carry blocks");
+      const routePages = new Set((shell.routes ?? []).map((route) => route.page));
+      const pages = new Set((shell.pages ?? []).map((page) => page.id));
+      const blocks = new Map((shell.blocks ?? []).map((block) => [block.id, block]));
+      for (const pageId of routePages) {
+        if (!pages.has(pageId)) localFailures.push(`suite route references missing page ${pageId}`);
+      }
+      for (const route of shell.routes ?? []) {
+        for (const blockId of route.blocks ?? []) {
+          if (!blocks.has(blockId)) localFailures.push(`suite route ${route.path} references missing block ${blockId}`);
+        }
+      }
+      const components = new Set([
+        ...(shell.pages ?? []).flatMap((page) => page.components ?? []),
+        ...(shell.blocks ?? []).map((block) => block.component),
+      ]);
+      for (const component of components) {
+        if (component && !allowedComponents.has(component)) {
+          localFailures.push(`suite shell references non-resident component ${component}`);
+        }
+      }
+      for (const state of ["longContent", "empty", "error"]) {
+        if (!shell.stateFixtures?.[state]) localFailures.push(`suite shell missing ${state} state fixture`);
+      }
+    }
+  }
   if (!item.provenance?.source || !item.provenance?.license || !item.provenance?.reviewedAt) {
     localFailures.push("missing provenance source, license, or reviewedAt");
   }

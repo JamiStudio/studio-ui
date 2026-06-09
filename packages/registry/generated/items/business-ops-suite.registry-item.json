@@ -7,15 +7,19 @@
   "dependencies": [],
   "registryDependencies": [
     "jami-theme",
-    "button"
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel"
   ],
   "files": [
     {
       "path": "packages/registry/generated/suites/business-ops.suite.json",
       "target": "studio-ui/suites/business-ops.suite.json",
       "type": "registry:suite",
-      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/business-ops-suite\",\n  \"lane\": \"business-ops\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\"\n  ],\n  \"plannedSurfaces\": [\n    \"staff\",\n    \"scheduling\",\n    \"forms\",\n    \"training\",\n    \"compliance\",\n    \"operations-dashboard\"\n  ]\n}\n",
-      "hash": "sha256:e2a0ed395df86cb0a9cd98b48a17d92634460dddb9ad1c77b8a5ad5475832870"
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/business-ops-suite\",\n  \"lane\": \"business-ops\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"text-field\",\n    \"data-list\",\n    \"agent-panel\"\n  ],\n  \"installGraph\": {\n    \"root\": \"business-ops-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"text-field\",\n      \"data-list\",\n      \"agent-panel\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"staff\",\n    \"scheduling\",\n    \"forms\",\n    \"training\",\n    \"compliance\",\n    \"operations-dashboard\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Business Operations\",\n    \"summary\": \"A dense operations shell for staff, schedules, forms, training, compliance, and operational dashboards.\",\n    \"appShell\": {\n      \"id\": \"app.business-ops.shell\",\n      \"layout\": \"ops-dashboard\",\n      \"navigation\": [\n        {\n          \"label\": \"Dashboard\",\n          \"route\": \"/business-ops/dashboard\"\n        },\n        {\n          \"label\": \"Staff\",\n          \"route\": \"/business-ops/staff\"\n        },\n        {\n          \"label\": \"Scheduling\",\n          \"route\": \"/business-ops/scheduling\"\n        },\n        {\n          \"label\": \"Compliance\",\n          \"route\": \"/business-ops/compliance\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/business-ops/dashboard\",\n        \"page\": \"page.business-ops.dashboard\",\n        \"title\": \"Operations dashboard\",\n        \"blocks\": [\n          \"block.business-ops.kpis\",\n          \"block.business-ops.exceptions\",\n          \"block.business-ops.agent-review\"\n        ]\n      },\n      {\n        \"path\": \"/business-ops/staff\",\n        \"page\": \"page.business-ops.staff\",\n        \"title\": \"Staff and training\",\n        \"blocks\": [\n          \"block.business-ops.staff-table\",\n          \"block.business-ops.training-form\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.business-ops.dashboard\",\n        \"title\": \"Operations dashboard\",\n        \"description\": \"Staffing, schedule exceptions, compliance signals, and display-only review actions.\",\n        \"components\": [\n          \"data-list\",\n          \"agent-panel\",\n          \"button\",\n          \"panel\"\n        ]\n      },\n      {\n        \"id\": \"page.business-ops.staff\",\n        \"title\": \"Staff and training\",\n        \"description\": \"Staff records, training status, and forms with invalid and empty states.\",\n        \"components\": [\n          \"data-list\",\n          \"text-field\",\n          \"panel\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.business-ops.kpis\",\n        \"title\": \"Operational KPIs\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.exceptions\",\n        \"title\": \"Schedule exceptions\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"empty\",\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.agent-review\",\n        \"title\": \"Review queue\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.staff-table\",\n        \"title\": \"Staff records\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.training-form\",\n        \"title\": \"Training form\",\n        \"component\": \"text-field\",\n        \"stateExamples\": [\n          \"invalid\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"panel\",\n      \"text-field\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"A compliance exception with a long policy name wraps inside row cells and cards.\",\n      \"empty\": \"No open schedule exceptions are announced as an empty operational state.\",\n      \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/business-ops/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
+      "hash": "sha256:2fe14662cfbc7df759417643fb33a89ace65f179584e462fcdc8e8d2f247733a"
     }
   ],
   "meta": {
@@ -25,8 +29,8 @@
       "id": "suite.business-ops",
       "version": "0.0.0-contract.20260609",
       "schemaVersion": "2026-06-09.registry-foundation",
-      "sourceHash": "sha256:0f2285ad756a97c7e0050167ebaa3810e18eac4fe20ca18c6dd9622f8e852ce3",
-      "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+      "sourceHash": "sha256:688c094b1f27d643dda424b1e14019164950d94e79bcb6819319adac253ae893",
+      "migrationNotes": "Suite shell now installs generated route/page/block/component descriptors from authored source; full React app implementation remains pending."
     },
     "tokenRequirements": [],
     "provenance": {

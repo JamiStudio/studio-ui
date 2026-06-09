@@ -106,7 +106,16 @@ test("add resolves a suite graph and installs authored primitive source", () => 
   call("init");
   const r = call("add", "solo-suite");
   assert.equal(r.code, 0);
-  assert.deepEqual(r.result.data.graph, ["jami-theme", "button", "solo-suite"]);
+  assert.deepEqual(r.result.data.graph, [
+    "jami-theme",
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel",
+    "docs-source-panel",
+    "solo-suite",
+  ]);
 
   const lock = readJson("studio-ui.lock.json");
   const button = lock.items.find((i) => i.name === "button");
@@ -115,6 +124,30 @@ test("add resolves a suite graph and installs authored primitive source", () => 
   // the suite manifest and theme files are real
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo.suite.json")));
   assert.ok(existsSync(join(dir, "studio-ui", "jami.css")));
+});
+
+test("each suite installs generated app-shell descriptors with route metadata", () => {
+  const suites = ["solo", "business-ops", "mixed-media", "research-writing"];
+  for (const suite of suites) {
+    rmSync(dir, { recursive: true, force: true });
+    dir = mkdtempSync(join(tmpdir(), "studio-ui-cli-"));
+    call("init", "--suite", suite);
+    const r = call("add", `${suite}-suite`);
+    assert.equal(r.code, 0, `${suite} install succeeds`);
+    assert.ok(r.result.data.graph.includes(`${suite}-suite`), `${suite} graph includes suite root`);
+
+    const manifest = readJson(join("studio-ui", "suites", `${suite}.suite.json`));
+    assert.equal(manifest.lane, suite);
+    assert.ok(manifest.installGraph.dependencies.length >= 4, `${suite} install graph records vocabulary deps`);
+    assert.ok(manifest.shell.appShell.id.startsWith(`app.${suite}.`), `${suite} app shell id`);
+    assert.ok(manifest.shell.routes.length >= 2, `${suite} routes generated`);
+    assert.ok(manifest.shell.pages.length >= 2, `${suite} pages generated`);
+    assert.ok(manifest.shell.blocks.length >= 4, `${suite} blocks generated`);
+    assert.ok(manifest.shell.componentParts.length >= 3, `${suite} component parts generated`);
+    assert.ok(manifest.shell.stateFixtures.longContent, `${suite} long-content fixture`);
+    assert.ok(manifest.shell.stateFixtures.empty, `${suite} empty fixture`);
+    assert.ok(manifest.shell.stateFixtures.error, `${suite} error fixture`);
+  }
 });
 
 test("conflict: a locally modified file blocks overwrite until --force", () => {

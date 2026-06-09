@@ -27,32 +27,36 @@ test("consumes real generated token values, not duplicated data", () => {
   assert.ok(data.tokens.length >= 15, "parsed the generated token set");
 });
 
-test("consumes real registry + suite descriptors", () => {
+test("consumes real registry + generated suite shell descriptors", () => {
   assert.ok(page.includes("@jami-studio/solo-suite"));
   assert.ok(page.includes("2026-06-09.registry-foundation"), "suite schema version echoed");
-  // Real planned surfaces from the solo manifest.
+  assert.ok(page.includes("app.solo.shell"), "authored solo shell id rendered");
+  assert.ok(page.includes("/business-ops/dashboard"), "business ops route rendered from shell");
+  assert.ok(page.includes("block.mixed-media.assets"), "mixed media block graph rendered");
+  assert.ok(page.includes("page.research-writing.sources"), "research-writing page graph rendered");
+  // Real planned surfaces from the generated manifests.
   for (const surface of ["calendar", "forms", "docs", "agent", "tasks"]) {
     assert.ok(page.includes(`>${surface}<`), `solo planned surface ${surface} present`);
   }
 });
 
-test("solo lane is a live route; other lanes are honest descriptor-only states", () => {
-  assert.ok(page.includes('id="suite-solo"'));
-  assert.ok(page.includes("live route"), "solo marked as a live route");
-  assert.ok(page.includes("descriptor only · app shell pending"), "other lanes labelled pending");
-  for (const lane of ["business-ops", "mixed-media", "research-writing"]) {
+test("all four lanes render generated suite shell routes without claiming React runtime", () => {
+  for (const lane of ["solo", "business-ops", "mixed-media", "research-writing"]) {
     assert.ok(page.includes(`id="suite-${lane}"`), `${lane} section present`);
+    assert.ok(data.suites.find((s) => s.lane === lane).manifest.shell, `${lane} generated shell present`);
   }
+  const liveRouteBadges = page.match(/generated shell route/g) ?? [];
+  assert.equal(liveRouteBadges.length, 4, "all four lanes render generated shell routes");
+  assert.ok(page.includes("React app implementation pending"), "runtime implementation gap labelled");
 });
 
-test("does not fabricate installs: pending vocabulary is labelled and installable members are detected", () => {
-  assert.ok(page.includes("not installed"), "planned surfaces marked not installed");
+test("does not fabricate runtime installs: generated shells and installable members are detected", () => {
+  assert.ok(page.includes("full React suite app implementations"), "runtime gap is explicit");
   // Generated registry metadata is the source of truth for installability.
-  const solo = data.suites.find((s) => s.lane === "solo");
-  const theme = solo.members.find((m) => m.name === "jami-theme");
-  const button = solo.members.find((m) => m.name === "button");
-  assert.equal(theme.sourceState, "installable");
-  assert.equal(button.sourceState, "installable");
+  for (const suite of data.suites) {
+    assert.ok(suite.members.find((m) => m.name === "jami-theme"), `${suite.lane} theme member`);
+    assert.ok(suite.members.every((m) => m.sourceState === "installable"), `${suite.lane} members installable`);
+  }
   assert.ok(page.includes("installable"), "installable state surfaced");
 });
 
@@ -125,10 +129,11 @@ test("responsive + reduced-motion affordances are present", () => {
 test("long content wraps instead of overflowing", () => {
   assert.ok(page.includes("overflow-wrap: anywhere"), "long ids/hashes wrap");
   // A genuinely long real value is on the page and relies on wrapping: the solo
-  // suite's full descriptor sentence from the generated registry item.
+  // suite's full descriptor sentence from the generated registry item and shell.
   const solo = data.suites.find((s) => s.lane === "solo");
   assert.ok(solo.item.description.length > 80, "real long descriptor exists");
   assert.ok(page.includes(solo.item.description), "long descriptor rendered on the page");
+  assert.ok(page.includes(solo.manifest.shell.stateFixtures.longContent), "long-content state rendered");
 });
 
 test("displayed contrast ratios are computed correctly and meet their targets", () => {

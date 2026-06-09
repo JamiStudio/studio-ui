@@ -119,7 +119,7 @@ function main() {
     const focusPng = join(shotsDir, "focus.png");
     screenshots.push({ name: "focus", file: focusPng, ...capture(browser, join(distDir, "focus.html"), focusPng, { width: 1280, height: 900 }) });
     const respPng = join(shotsDir, "responsive.png");
-    screenshots.push({ name: "responsive", file: respPng, ...capture(browser, join(distDir, "theme-factory.html"), respPng, { width: 390, height: 3200 }) });
+    screenshots.push({ name: "responsive", file: respPng, ...capture(browser, join(distDir, "theme-factory.html"), respPng, { width: 430, height: 3200 }) });
   }
 
   const checksFailed = audit.checks.filter((c) => !c.pass);

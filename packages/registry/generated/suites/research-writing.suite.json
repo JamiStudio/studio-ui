@@ -5,8 +5,25 @@
   "schemaVersion": "2026-06-09.registry-foundation",
   "items": [
     "jami-theme",
-    "button"
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel",
+    "docs-source-panel"
   ],
+  "installGraph": {
+    "root": "research-writing-suite",
+    "dependencies": [
+      "jami-theme",
+      "button",
+      "panel",
+      "text-field",
+      "data-list",
+      "agent-panel",
+      "docs-source-panel"
+    ]
+  },
   "plannedSurfaces": [
     "sources",
     "notes",
@@ -15,5 +32,126 @@
     "documents",
     "outlines",
     "knowledge"
-  ]
+  ],
+  "shell": {
+    "sourceSchemaVersion": "2026-06-09.suite-shell",
+    "title": "Research / Writing",
+    "summary": "A research and writing shell for sources, notes, citations, briefs, documents, outlines, and knowledge workflows.",
+    "appShell": {
+      "id": "app.research-writing.shell",
+      "layout": "document-workbench",
+      "navigation": [
+        {
+          "label": "Sources",
+          "route": "/research-writing/sources"
+        },
+        {
+          "label": "Notes",
+          "route": "/research-writing/notes"
+        },
+        {
+          "label": "Brief",
+          "route": "/research-writing/brief"
+        },
+        {
+          "label": "Outline",
+          "route": "/research-writing/outline"
+        }
+      ]
+    },
+    "routes": [
+      {
+        "path": "/research-writing/sources",
+        "page": "page.research-writing.sources",
+        "title": "Sources and citations",
+        "blocks": [
+          "block.research-writing.sources",
+          "block.research-writing.citations"
+        ]
+      },
+      {
+        "path": "/research-writing/brief",
+        "page": "page.research-writing.brief",
+        "title": "Brief drafting",
+        "blocks": [
+          "block.research-writing.outline",
+          "block.research-writing.agent-review"
+        ]
+      }
+    ],
+    "pages": [
+      {
+        "id": "page.research-writing.sources",
+        "title": "Sources and citations",
+        "description": "Source display, citation lists, redaction-aware references, and long document titles.",
+        "components": [
+          "docs-source-panel",
+          "data-list",
+          "panel"
+        ]
+      },
+      {
+        "id": "page.research-writing.brief",
+        "title": "Brief drafting",
+        "description": "Outline, notes, document state, and display-only writing-agent review.",
+        "components": [
+          "docs-source-panel",
+          "text-field",
+          "agent-panel",
+          "button"
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "id": "block.research-writing.sources",
+        "title": "Sources",
+        "component": "docs-source-panel",
+        "stateExamples": [
+          "long-content"
+        ]
+      },
+      {
+        "id": "block.research-writing.citations",
+        "title": "Citations",
+        "component": "data-list",
+        "stateExamples": [
+          "empty"
+        ]
+      },
+      {
+        "id": "block.research-writing.outline",
+        "title": "Outline",
+        "component": "text-field",
+        "stateExamples": [
+          "invalid"
+        ]
+      },
+      {
+        "id": "block.research-writing.agent-review",
+        "title": "Writing review",
+        "component": "agent-panel",
+        "stateExamples": [
+          "error"
+        ]
+      }
+    ],
+    "componentParts": [
+      "agent-panel",
+      "button",
+      "data-list",
+      "docs-source-panel",
+      "panel",
+      "text-field"
+    ],
+    "stateFixtures": {
+      "longContent": "Long source names, citation strings, and outline sections wrap inside the writing shell.",
+      "empty": "No citations selected is displayed as an empty table/list state.",
+      "error": "Review-agent errors are presented as inert status without executing actions."
+    },
+    "provenance": {
+      "source": "registry/suites/research-writing/suite-shell.json",
+      "copiedSource": false
+    }
+  }
 }

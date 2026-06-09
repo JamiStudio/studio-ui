@@ -5,8 +5,25 @@
   "schemaVersion": "2026-06-09.registry-foundation",
   "items": [
     "jami-theme",
-    "button"
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel",
+    "docs-source-panel"
   ],
+  "installGraph": {
+    "root": "solo-suite",
+    "dependencies": [
+      "jami-theme",
+      "button",
+      "panel",
+      "text-field",
+      "data-list",
+      "agent-panel",
+      "docs-source-panel"
+    ]
+  },
   "plannedSurfaces": [
     "calendar",
     "forms",
@@ -16,5 +33,136 @@
     "crm",
     "content",
     "admin"
-  ]
+  ],
+  "shell": {
+    "sourceSchemaVersion": "2026-06-09.suite-shell",
+    "title": "Solo / General Workflow",
+    "summary": "A compact personal operations shell for calendar, tasks, docs, forms, CRM, content, admin, and display-only agent status.",
+    "appShell": {
+      "id": "app.solo.shell",
+      "layout": "workspace-with-rail",
+      "navigation": [
+        {
+          "label": "Today",
+          "route": "/solo/today"
+        },
+        {
+          "label": "Tasks",
+          "route": "/solo/tasks"
+        },
+        {
+          "label": "Docs",
+          "route": "/solo/docs"
+        },
+        {
+          "label": "Admin",
+          "route": "/solo/admin"
+        }
+      ]
+    },
+    "routes": [
+      {
+        "path": "/solo/today",
+        "page": "page.solo.today",
+        "title": "Today command center",
+        "blocks": [
+          "block.solo.agenda",
+          "block.solo.task-queue",
+          "block.solo.agent-status"
+        ]
+      },
+      {
+        "path": "/solo/docs",
+        "page": "page.solo.docs",
+        "title": "Docs and sources",
+        "blocks": [
+          "block.solo.docs-sources",
+          "block.solo.forms"
+        ]
+      }
+    ],
+    "pages": [
+      {
+        "id": "page.solo.today",
+        "title": "Today command center",
+        "description": "Calendar, task queue, and non-executable agent status for a solo operator.",
+        "components": [
+          "data-list",
+          "agent-panel",
+          "button",
+          "panel"
+        ]
+      },
+      {
+        "id": "page.solo.docs",
+        "title": "Docs and sources",
+        "description": "Documents, citations, lightweight forms, and long reference notes.",
+        "components": [
+          "docs-source-panel",
+          "text-field",
+          "data-list",
+          "panel"
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "id": "block.solo.agenda",
+        "title": "Agenda",
+        "component": "data-list",
+        "stateExamples": [
+          "long-content"
+        ]
+      },
+      {
+        "id": "block.solo.task-queue",
+        "title": "Task queue",
+        "component": "data-list",
+        "stateExamples": [
+          "empty"
+        ]
+      },
+      {
+        "id": "block.solo.agent-status",
+        "title": "Agent status",
+        "component": "agent-panel",
+        "stateExamples": [
+          "error"
+        ]
+      },
+      {
+        "id": "block.solo.docs-sources",
+        "title": "Docs sources",
+        "component": "docs-source-panel",
+        "stateExamples": [
+          "long-content"
+        ]
+      },
+      {
+        "id": "block.solo.forms",
+        "title": "Quick form",
+        "component": "text-field",
+        "stateExamples": [
+          "invalid"
+        ]
+      }
+    ],
+    "componentParts": [
+      "agent-panel",
+      "button",
+      "data-list",
+      "docs-source-panel",
+      "panel",
+      "text-field"
+    ],
+    "stateFixtures": {
+      "longContent": "A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.",
+      "empty": "No tasks are due; the data-list announces an empty status instead of hiding the section.",
+      "error": "Agent status is displayed as an error panel with no executable action wiring."
+    },
+    "provenance": {
+      "source": "registry/suites/solo/suite-shell.json",
+      "copiedSource": false
+    }
+  }
 }

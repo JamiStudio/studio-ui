@@ -29,12 +29,11 @@ full suite application, and it claims no harness runtime.
   and is not symlinked into `node_modules`, so a relative import is the
   deterministic, install-free way to consume the renderer.
 - The page renders:
-  - the `solo` lane as a live route that reads its generated suite manifest and
-    resolves each member to real registry metadata (installable vs
-    source-pending state read from generated content, never assumed);
-  - the `business-ops`, `mixed-media`, and `research-writing` lanes as honest
-    descriptor-only states with their planned surfaces labelled pending, not
-    installed;
+  - all four lanes (`solo`, `business-ops`, `mixed-media`, and
+    `research-writing`) as generated suite shell routes that read their
+    generated suite manifests, resolve each member to real registry metadata,
+    and display the authored app shell, route map, pages, blocks, component
+    parts, install graph, and long-content/empty/error states;
   - the resident renderer's output for the checked compatibility fixtures — a
     valid payload renders a real resident component, action references render
     display-only (`executable: false`), denied actions render as denied, and
@@ -59,6 +58,7 @@ checked fixture corpus. Nothing is hand-authored into the page:
 - `packages/tokens/generated/jami.css`
 - `packages/registry/generated/registry.json`
 - `packages/registry/generated/suites/<lane>.suite.json`
+- `registry/suites/<lane>/suite-shell.json` through generated suite manifests
 - `packages/renderer/fixtures/compatibility/*`
 - `packages/renderer/fixtures/presentation/*`
 
@@ -74,9 +74,10 @@ checked fixture corpus. Nothing is hand-authored into the page:
   provider runtime, or harness execution happens. Redaction, freshness, and
   policy denial are displayed from the harness ref, never decided here. A
   redacted memory record's gated content is never echoed.
-- **Honest states.** Pending suite vocabulary is labelled as such, and registry
-  member installability is read from generated content; the surface never presents
-  a planned page/block/component as installed.
+- **Honest states.** Authored suite shell descriptors are labelled as generated
+  shell routes, registry member installability is read from generated content,
+  and the page still states that full React suite app implementations are
+  pending.
 
 ## Build And Verify
 
@@ -86,12 +87,13 @@ checked fixture corpus. Nothing is hand-authored into the page:
   evidence, and `build-manifest.json`.
 - Deterministic checks (part of `pnpm verify`):
   `pnpm --filter @jami-studio/workbench test` (`apps/workbench/test/workbench.test.mjs`,
-  `node --test`). It asserts real-data consumption, inert/escaped output, honest
-  installed-vs-pending states, every theme building with the correct active
-  control, accessible structure (skip link, landmarks, labelled groups, scoped
-  table headers, document language), responsive and reduced-motion affordances,
-  long-content wrapping, redacted-content gating, and that the displayed WCAG
-  contrast ratios recompute correctly and meet their targets.
+  `node --test`). It asserts real-data consumption, generated shell rendering
+  for all four lanes, inert/escaped output, honest install/runtime states, every
+  theme building with the correct active control, accessible structure (skip
+  link, landmarks, labelled groups, scoped table headers, document language),
+  responsive and reduced-motion affordances, long-content wrapping,
+  redacted-content gating, and that the displayed WCAG contrast ratios recompute
+  correctly and meet their targets.
 
 ## Browser, Visual, And Accessibility Evidence
 
@@ -125,8 +127,7 @@ audit plus the rendered screenshots.
 
 ## Not Yet Claimed
 
-This surface does not implement a full suite app shell, the per-lane suite
-page/block/component vocabulary (pending Workstream 4), interactive workbench
-editing/save flows, a runtime React renderer, a remote registry fetch, a
-package-manager install, a provider runtime, or any harness execution. It renders
-and displays accepted, generated, and fixture data only.
+This surface does not implement full React suite applications, interactive
+workbench editing/save flows, a runtime React renderer, a remote registry fetch,
+a provider runtime, or any harness execution. It renders and displays accepted,
+generated, authored-source, and fixture data only.

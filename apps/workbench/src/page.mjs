@@ -65,8 +65,8 @@ html[data-theme="factory"] body {
   --ju-motion: var(--jami-motion-fast, 120ms);
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+* { box-sizing: border-box; min-width: 0; }
+html, body { margin: 0; max-width: 100%; overflow-x: hidden; padding: 0; width: 100%; }
 body {
   background: var(--ju-bg);
   color: var(--ju-fg);
@@ -96,7 +96,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible, summary:focus-v
 }
 .ju-skip:focus { left: 8px; top: 8px; }
 
-.ju-shell { max-width: 1180px; margin: 0 auto; padding: clamp(16px, 4vw, 40px); }
+.ju-shell { max-width: 1180px; margin: 0 auto; min-width: 0; overflow-x: hidden; padding: clamp(16px, 4vw, 40px); width: 100%; }
 
 header.ju-header { border-bottom: 1px solid var(--ju-border); }
 .ju-header h1 { margin: 0 0 4px; font-size: clamp(1.4rem, 3vw, 2rem); }
@@ -122,6 +122,7 @@ header.ju-header { border-bottom: 1px solid var(--ju-border); }
 
 nav.ju-nav { margin: 20px 0; }
 nav.ju-nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; }
+nav.ju-nav li { min-width: 0; }
 nav.ju-nav a {
   text-decoration: none;
   padding: 6px 12px;
@@ -130,18 +131,21 @@ nav.ju-nav a {
   background: var(--ju-surface);
   color: var(--ju-fg);
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 section.ju-section { margin: 36px 0; }
 .ju-section > h2 { font-size: 1.3rem; margin: 0 0 4px; }
 .ju-section > p.ju-lead { margin: 0 0 18px; color: var(--ju-muted); max-width: 70ch; }
 
-.ju-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.ju-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); min-width: 0; }
 
 .ju-card, .ju-fixture, .ju-panel, .ju-suite {
   background: var(--ju-surface);
   border: 1px solid var(--ju-border);
   border-radius: var(--ju-radius);
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 16px;
 }
 .ju-card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -149,8 +153,22 @@ section.ju-section { margin: 36px 0; }
 .ju-card { margin: 0; }
 
 .ju-suite[data-suite] { border-left: 4px solid var(--ju-accent); }
-.ju-suite-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
-.ju-suite-head h3 { margin: 0; font-size: 1.1rem; }
+.ju-suite-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; justify-content: flex-start; min-width: 0; }
+.ju-suite-head h3 { margin: 0; min-width: 0; overflow-wrap: anywhere; font-size: 1.1rem; }
+.ju-route-list, .ju-block-list { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.ju-member-row { display: grid; gap: 2px; margin-bottom: 6px; min-width: 0; }
+.ju-member-meta { color: var(--ju-muted); font-size: 0.82rem; overflow-wrap: anywhere; }
+.ju-route-list li, .ju-block-list li {
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 10px;
+}
+.ju-route-title, .ju-block-title { display: flex; align-items: baseline; justify-content: flex-start; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.ju-route-title strong, .ju-block-title strong { min-width: 0; overflow-wrap: anywhere; }
+.ju-route-path { color: var(--ju-muted); font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.78rem; overflow-wrap: anywhere; }
 
 .ju-badge, .ju-chip, .ju-flag {
   display: inline-block;
@@ -217,12 +235,13 @@ section.ju-section { margin: 36px 0; }
 .ju-fixture-body, .ju-panel-body { margin-top: 12px; }
 
 .ju-kv-grid { display: grid; gap: 6px 14px; margin: 0; }
-.ju-kv { display: grid; grid-template-columns: minmax(120px, 38%) 1fr; gap: 8px; align-items: start; }
+.ju-kv { display: grid; grid-template-columns: minmax(120px, 38%) minmax(0, 1fr); gap: 8px; align-items: start; min-width: 0; }
 .ju-kv dt { color: var(--ju-muted); font-size: 0.82rem; }
-.ju-kv dd { margin: 0; }
+.ju-kv dd { margin: 0; min-width: 0; }
 /* Long hashes, ids, and free text wrap instead of overflowing. */
-.ju-kv dd, .ju-value, code, .ju-fixture-id, .ju-panel-id { overflow-wrap: anywhere; word-break: break-word; }
+.ju-kv dd, .ju-value, code, .ju-fixture-id, .ju-panel-id { overflow-wrap: anywhere; white-space: normal; word-break: break-word; }
 .ju-kv-list { margin: 0; padding-left: 18px; }
+.ju-kv-list li { min-width: 0; overflow-wrap: anywhere; }
 .ju-muted { color: var(--ju-muted); }
 .ju-reasons { margin-top: 10px; font-size: 0.85rem; }
 .ju-reasons summary { cursor: pointer; color: var(--ju-muted); }
@@ -243,8 +262,12 @@ footer.ju-footer code { overflow-wrap: anywhere; }
 
 /* Single-column layout on narrow viewports. */
 @media (max-width: 640px) {
-  .ju-grid { grid-template-columns: 1fr; }
+  .ju-shell { padding: 12px; }
+  .ju-grid { grid-template-columns: minmax(0, 1fr); }
   .ju-kv { grid-template-columns: 1fr; }
+  .ju-card, .ju-fixture, .ju-panel, .ju-suite { padding: 12px; }
+  .ju-badge, .ju-chip, .ju-flag { max-width: 100%; white-space: normal; }
+  nav.ju-nav a { display: inline-block; max-width: 100%; white-space: normal; }
 }
 `.trim();
 }
@@ -289,17 +312,63 @@ function memberRow(member) {
     member.sourceState === "installable"
       ? `<span class="ju-badge" data-status="ready">installable</span>`
       : `<span class="ju-pending">${escapeHtml(member.sourceState)}</span>`;
-  return `<li><code>${escapeHtml(member.name)}</code> <span class="ju-muted">${escapeHtml(
+  return `<li class="ju-member-row"><code>${escapeHtml(member.name)}</code><span class="ju-member-meta">${escapeHtml(
     member.type ?? "",
-  )} · v${escapeHtml(member.version ?? "?")}</span> ${state}</li>`;
+  )} · v${escapeHtml(member.version ?? "?")}</span>${state}</li>`;
 }
 
-function suiteSection({ lane, manifest, item, members }, { primary }) {
+function renderShell({ manifest }) {
+  const shell = manifest.shell;
+  if (!shell) {
+    return `<p class="ju-notice" data-tone="warning">Suite shell source missing from generated manifest.</p>`;
+  }
+  const routes = (shell.routes ?? [])
+    .map(
+      (route) => `<li>
+        <div class="ju-route-title"><strong>${escapeHtml(route.title)}</strong><code class="ju-route-path">${escapeHtml(route.path)}</code></div>
+        <div class="ju-muted">${escapeHtml(route.page)} · ${(route.blocks ?? []).map((block) => escapeHtml(block)).join(", ")}</div>
+      </li>`,
+    )
+    .join("");
+  const blocks = (shell.blocks ?? [])
+    .map(
+      (block) => `<li>
+        <div class="ju-block-title"><strong>${escapeHtml(block.title)}</strong><span class="ju-chip">${escapeHtml(block.component)}</span></div>
+        <div class="ju-chips">${(block.stateExamples ?? [])
+          .map((state) => `<span class="ju-flag" data-status="${state === "error" ? "error" : state === "empty" ? "empty" : "ready"}">${escapeHtml(state)}</span>`)
+          .join("")}</div>
+      </li>`,
+    )
+    .join("");
+  const components = (shell.componentParts ?? [])
+    .map((component) => `<span class="ju-chip">${escapeHtml(component)}</span>`)
+    .join("");
+  return `
+  <dl class="ju-kv-grid">
+    <div class="ju-kv"><dt>app shell</dt><dd><code>${escapeHtml(shell.appShell?.id ?? "")}</code> <span class="ju-muted">${escapeHtml(shell.appShell?.layout ?? "")}</span></dd></div>
+    <div class="ju-kv"><dt>routes</dt><dd>${escapeHtml((shell.routes ?? []).length)}</dd></div>
+    <div class="ju-kv"><dt>pages</dt><dd>${escapeHtml((shell.pages ?? []).length)}</dd></div>
+    <div class="ju-kv"><dt>blocks</dt><dd>${escapeHtml((shell.blocks ?? []).length)}</dd></div>
+  </dl>
+  <h4>Route map</h4>
+  <ul class="ju-route-list">${routes}</ul>
+  <h4>Block and component parts</h4>
+  <div class="ju-chips" aria-label="Resident component parts">${components}</div>
+  <ul class="ju-block-list">${blocks}</ul>
+  <h4>State coverage</h4>
+  <dl class="ju-kv-grid">
+    <div class="ju-kv"><dt>long content</dt><dd>${escapeHtml(shell.stateFixtures?.longContent ?? "")}</dd></div>
+    <div class="ju-kv"><dt>empty</dt><dd>${escapeHtml(shell.stateFixtures?.empty ?? "")}</dd></div>
+    <div class="ju-kv"><dt>error</dt><dd>${escapeHtml(shell.stateFixtures?.error ?? "")}</dd></div>
+  </dl>`;
+}
+
+function suiteSection({ lane, manifest, item, members }) {
   const planned = (manifest.plannedSurfaces ?? [])
     .map((s) => `<span class="ju-pending">${escapeHtml(s)}</span>`)
     .join(" ");
-  const heading = primary
-    ? `<span class="ju-badge" data-status="ready">live route</span>`
+  const heading = manifest.shell
+    ? `<span class="ju-badge" data-status="ready">generated shell route</span>`
     : `<span class="ju-pending">descriptor only · app shell pending</span>`;
   const description = item?.description ?? "";
   return `
@@ -312,24 +381,23 @@ function suiteSection({ lane, manifest, item, members }, { primary }) {
   <dl class="ju-kv-grid">
     <div class="ju-kv"><dt>manifest</dt><dd><code>@jami-studio/${escapeHtml(lane)}-suite</code></dd></div>
     <div class="ju-kv"><dt>schema version</dt><dd><code>${escapeHtml(manifest.schemaVersion ?? "")}</code></dd></div>
+    <div class="ju-kv"><dt>install graph</dt><dd><code>${escapeHtml(manifest.installGraph?.root ?? "")}</code> -> ${escapeHtml((manifest.installGraph?.dependencies ?? []).join(", "))}</dd></div>
   </dl>
   <h4>Installed registry items</h4>
   <ul class="ju-kv-list">${members.map(memberRow).join("")}</ul>
-  <h4>Planned surfaces <span class="ju-muted">(pending Workstream 4 vocabulary — not installed)</span></h4>
+  ${renderShell({ manifest })}
+  <h4>Surface vocabulary <span class="ju-muted">(described in generated shell; React app implementation pending)</span></h4>
   <div class="ju-chips">${planned}</div>
 </article>`;
 }
 
 function suitesSection(suites) {
-  const solo = suites.find((s) => s.lane === "solo");
-  const others = suites.filter((s) => s.lane !== "solo");
   return `
 <section class="ju-section" aria-labelledby="ju-suites-h">
   <h2 id="ju-suites-h">Suite lanes</h2>
-  <p class="ju-lead">The <code>solo</code> lane has a live route that reads its generated manifest and resolves each member to real registry metadata. The other lanes are honest descriptor-only states until their per-lane vocabulary lands.</p>
-  ${suiteSection(solo, { primary: true })}
-  <div class="ju-grid" style="margin-top:16px">
-    ${others.map((s) => suiteSection(s, { primary: false })).join("")}
+  <p class="ju-lead">Each lane renders from its generated suite manifest, including app-shell navigation, route maps, page/block/component parts, install graph metadata, and long-content/empty/error states. These are authored shell descriptors, not a claim of a React app runtime.</p>
+  <div class="ju-grid">
+    ${suites.map((s) => suiteSection(s)).join("")}
   </div>
 </section>`;
 }
@@ -424,7 +492,7 @@ function footer(data) {
 <footer class="ju-footer">
   <p>Generated by <code>node apps/workbench/build.mjs</code> from generated artifacts and the checked fixture corpus. No remote registry fetch, package-manager install, provider runtime, or harness execution is performed.</p>
   <p>Sources: <code>packages/tokens/generated/jami.css</code> · <code>packages/registry/generated/registry.json</code> · <code>packages/registry/generated/suites/*.suite.json</code> · <code>packages/renderer/fixtures/compatibility/*</code> · <code>packages/renderer/fixtures/presentation/*</code>.</p>
-  <p>Pending: per-lane suite vocabulary (pages/blocks/components), full suite app shells, and harness runtime — none are claimed here.</p>
+  <p>Pending: full React suite app implementations, interactive editing overlay, and harness runtime — none are claimed here.</p>
 </footer>`;
 }
 

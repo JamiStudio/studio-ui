@@ -8,7 +8,12 @@
   "dependencies": [],
   "registryDependencies": [
     "jami-theme",
-    "button"
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel",
+    "docs-source-panel"
   ],
   "plannedSurfaces": [
     "calendar",
@@ -31,8 +36,8 @@
     "id": "suite.solo",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:e83a294641ffa820181ea08e5ea3d86995aac76f34b77514b65ccc44f5769da0",
-    "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+    "sourceHash": "sha256:0d2774a547f951c4172582e24ba7e425d779bfb5bba548f6f65a86c4e5f17f90",
+    "migrationNotes": "Suite shell now installs generated route/page/block/component descriptors from authored source; full React app implementation remains pending."
   },
   "tokenRequirements": [],
   "provenance": {

@@ -5,8 +5,23 @@
   "schemaVersion": "2026-06-09.registry-foundation",
   "items": [
     "jami-theme",
-    "button"
+    "button",
+    "panel",
+    "data-list",
+    "agent-panel",
+    "media-grid"
   ],
+  "installGraph": {
+    "root": "mixed-media-suite",
+    "dependencies": [
+      "jami-theme",
+      "button",
+      "panel",
+      "data-list",
+      "agent-panel",
+      "media-grid"
+    ]
+  },
   "plannedSurfaces": [
     "assets",
     "generation",
@@ -15,5 +30,127 @@
     "review",
     "publishing",
     "library"
-  ]
+  ],
+  "shell": {
+    "sourceSchemaVersion": "2026-06-09.suite-shell",
+    "title": "Mixed Media",
+    "summary": "A production shell for assets, generation, editing, pipelines, review, publishing, and media libraries.",
+    "appShell": {
+      "id": "app.mixed-media.shell",
+      "layout": "media-production",
+      "navigation": [
+        {
+          "label": "Library",
+          "route": "/mixed-media/library"
+        },
+        {
+          "label": "Pipeline",
+          "route": "/mixed-media/pipeline"
+        },
+        {
+          "label": "Review",
+          "route": "/mixed-media/review"
+        },
+        {
+          "label": "Publishing",
+          "route": "/mixed-media/publishing"
+        }
+      ]
+    },
+    "routes": [
+      {
+        "path": "/mixed-media/library",
+        "page": "page.mixed-media.library",
+        "title": "Asset library",
+        "blocks": [
+          "block.mixed-media.assets",
+          "block.mixed-media.metadata"
+        ]
+      },
+      {
+        "path": "/mixed-media/pipeline",
+        "page": "page.mixed-media.pipeline",
+        "title": "Generation pipeline",
+        "blocks": [
+          "block.mixed-media.pipeline",
+          "block.mixed-media.review-agent"
+        ]
+      }
+    ],
+    "pages": [
+      {
+        "id": "page.mixed-media.library",
+        "title": "Asset library",
+        "description": "Media-grid library with asset metadata, long captions, and empty collection states.",
+        "components": [
+          "media-grid",
+          "data-list",
+          "panel",
+          "button"
+        ]
+      },
+      {
+        "id": "page.mixed-media.pipeline",
+        "title": "Generation pipeline",
+        "description": "Pipeline status, review queue, publishing readiness, and display-only agent state.",
+        "components": [
+          "data-list",
+          "agent-panel",
+          "media-grid",
+          "panel"
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "id": "block.mixed-media.assets",
+        "title": "Assets",
+        "component": "media-grid",
+        "stateExamples": [
+          "empty",
+          "long-content"
+        ]
+      },
+      {
+        "id": "block.mixed-media.metadata",
+        "title": "Asset metadata",
+        "component": "data-list",
+        "stateExamples": [
+          "long-content"
+        ]
+      },
+      {
+        "id": "block.mixed-media.pipeline",
+        "title": "Pipeline runs",
+        "component": "data-list",
+        "stateExamples": [
+          "error"
+        ]
+      },
+      {
+        "id": "block.mixed-media.review-agent",
+        "title": "Review agent",
+        "component": "agent-panel",
+        "stateExamples": [
+          "error"
+        ]
+      }
+    ],
+    "componentParts": [
+      "agent-panel",
+      "button",
+      "data-list",
+      "media-grid",
+      "panel"
+    ],
+    "stateFixtures": {
+      "longContent": "Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.",
+      "empty": "An empty asset collection keeps a visible media-grid state.",
+      "error": "Pipeline errors render as status panels without invoking provider or harness actions."
+    },
+    "provenance": {
+      "source": "registry/suites/mixed-media/suite-shell.json",
+      "copiedSource": false
+    }
+  }
 }

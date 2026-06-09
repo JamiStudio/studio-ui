@@ -16,6 +16,11 @@ function readJson(path) {
   return JSON.parse(readFileSync(join(root, path), "utf8"));
 }
 
+function readOptionalJson(path) {
+  const absolute = join(root, path);
+  return existsSync(absolute) ? JSON.parse(readFileSync(absolute, "utf8")) : null;
+}
+
 function flattenTokens(node, prefix = [], out = new Map()) {
   if (!isObject(node)) return out;
   for (const [key, value] of Object.entries(node)) {
@@ -178,13 +183,35 @@ function registryOutputItem(item) {
 // manifest is generated from the source item so the suite descriptor cannot
 // drift from the item graph it claims to install.
 function suiteManifest(item) {
+  const shell = readOptionalJson(`registry/suites/${item.suite}/suite-shell.json`);
   return {
     $schema: "https://jami.studio/schemas/registry/suite-manifest.generated.json",
     name: item.name,
     lane: item.suite ?? null,
     schemaVersion: item.lifecycle.schemaVersion,
     items: item.registryDependencies ?? [],
+    installGraph: {
+      root: item.name.replace("@jami-studio/", ""),
+      dependencies: item.registryDependencies ?? [],
+    },
     plannedSurfaces: item.plannedSurfaces ?? [],
+    shell: shell
+      ? {
+          sourceSchemaVersion: shell.schemaVersion,
+          title: shell.title,
+          summary: shell.summary,
+          appShell: shell.appShell,
+          routes: shell.routes ?? [],
+          pages: shell.pages ?? [],
+          blocks: shell.blocks ?? [],
+          componentParts: [...new Set((shell.pages ?? []).flatMap((page) => page.components ?? []))].sort(),
+          stateFixtures: shell.stateFixtures ?? {},
+          provenance: {
+            source: `registry/suites/${item.suite}/suite-shell.json`,
+            copiedSource: false,
+          },
+        }
+      : null,
   };
 }
 

@@ -8,7 +8,11 @@
   "dependencies": [],
   "registryDependencies": [
     "jami-theme",
-    "button"
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel"
   ],
   "plannedSurfaces": [
     "staff",
@@ -29,8 +33,8 @@
     "id": "suite.business-ops",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:0f2285ad756a97c7e0050167ebaa3810e18eac4fe20ca18c6dd9622f8e852ce3",
-    "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+    "sourceHash": "sha256:688c094b1f27d643dda424b1e14019164950d94e79bcb6819319adac253ae893",
+    "migrationNotes": "Suite shell now installs generated route/page/block/component descriptors from authored source; full React app implementation remains pending."
   },
   "tokenRequirements": [],
   "provenance": {
