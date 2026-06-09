@@ -6,14 +6,21 @@ import { fileURLToPath } from "node:url";
 import {
   componentVocabulary,
   createJamiPrimitiveComponents,
+  canClaimRadixWrappers,
   getComponentDefinition,
   getPrimitiveDescriptor,
   getPrimitiveComponentImplementation,
+  getRadixWrapperGaps,
+  getRadixWrapperReadiness,
   primitiveComponentImplementations,
   primitiveComponentNames,
   primitiveDescriptors,
+  radixWrapperBoundary,
+  radixWrapperOfficialSources,
+  radixWrapperReadiness,
   registryAddressableNames,
   renderPrimitiveSpec,
+  requiredRadixWrapperEvidence,
   stateFixtureMatrix,
   validateComponentProps,
   vocabularyHandshake,
@@ -209,6 +216,48 @@ test("createJamiPrimitiveComponents adapts factories to an injected createElemen
   assert.deepEqual(collectExecutable(button), [], "createElement adapter does not attach executable props");
 
   assert.throws(() => createJamiPrimitiveComponents(null), /requires a createElement function/);
+});
+
+test("Radix wrapper readiness is source-locked but not claimed as implemented", () => {
+  assert.deepEqual(Object.keys(radixWrapperReadiness), requiredNames);
+  assert.equal(radixWrapperBoundary.implementationStatus, "readiness-contract-only");
+  assert.equal(radixWrapperBoundary.radixDependencyDeclared, false);
+  assert.equal(radixWrapperBoundary.reactDependencyDeclared, false);
+  assert.equal(radixWrapperBoundary.runtimeReactRenderer, false);
+  assert.equal(radixWrapperBoundary.backendPersistence, false);
+  assert.equal(radixWrapperBoundary.backendRegistration, false);
+
+  for (const source of radixWrapperOfficialSources) {
+    assert.equal(source.checkedAt, "2026-06-09");
+    assert.match(source.url, /^https:\/\/(www\.radix-ui\.com|ui\.shadcn\.com)\//);
+  }
+  assert.ok(
+    requiredRadixWrapperEvidence.includes("negative renderer fixture proving wrappers are not runtime payload execution"),
+  );
+
+  for (const name of requiredNames) {
+    const readiness = getRadixWrapperReadiness(name);
+    const implementation = getPrimitiveComponentImplementation(name);
+    assert.ok(readiness, `${name} has wrapper readiness`);
+    assert.equal(readiness.registryItem, `@jami-studio/${name}`);
+    assert.equal(readiness.currentImplementation, implementation.implementationStatus);
+    assert.equal(readiness.claimStatus, "do-not-claim");
+    assert.equal(readiness.readiness.officialSourceLock, true);
+    assert.equal(readiness.readiness.dependencyDeclared, false);
+    assert.equal(readiness.readiness.wrapperSourceFile, false);
+    assert.equal(readiness.readiness.browserA11yVisualSmoke, false);
+    assert.equal(readiness.boundary.radixWrapper, false);
+    assert.equal(readiness.boundary.runtimeReactRenderer, false);
+    assert.equal(readiness.boundary.rendererPayloadExecution, false);
+    assert.equal(readiness.boundary.executableActions, false);
+    assert.equal(readiness.boundary.hostedRuntime, false);
+    assert.equal(readiness.boundary.backendPersistence, false);
+    assert.equal(readiness.boundary.backendRegistration, false);
+  }
+
+  assert.equal(canClaimRadixWrappers(), false);
+  assert.ok(getRadixWrapperGaps().includes("button:dependencyDeclared"));
+  assert.ok(getRadixWrapperGaps().includes("button:rendererNonExecutionFixture"));
 });
 
 test("primitive component factories keep caller children inert", () => {

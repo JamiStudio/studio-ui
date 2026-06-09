@@ -38,6 +38,9 @@ setup before specific workstreams begin. It is an operations map, not a product 
   `docs/generated/sbom.cdx.json` plus `docs/generated/release-notes.md`; it
   publishes nothing and executes no attestation.
 - `pnpm sbom:check` and `pnpm release:notes:check` exist for targeted checks.
+- `packages/ui/src/radix-wrapper-readiness.mjs` records official-source-backed
+  readiness metadata for future Radix/React wrappers while keeping every current
+  wrapper claim explicitly unsupported.
 - Root MIT `LICENSE` exists and root/package `license` fields match item provenance.
 - Release/publishing readiness docs exist: `registry-publishing.md`,
   `release-and-supply-chain.md`, `release-notes.md`, `public-claims-evidence.md`.
@@ -87,11 +90,11 @@ npm whoami
 
 ## Missing Before App Deployment
 
-- No app exists yet under `apps/workbench`.
-- No Vercel project is linked in this repo yet, and none is needed until an actual app
-  surface exists.
-- Add app deployment runbook after the workbench scaffold exists.
-- Add deployment env templates after runtime requirements exist.
+- A dependency-free static workbench exists under `apps/workbench`, with local
+  build, unit, and headless browser smoke coverage.
+- No hosted app deployment target is provisioned or linked in this repo.
+- Add app deployment runbook before any hosted workbench claim.
+- Add deployment env templates after hosted runtime requirements exist.
 
 ## Ready Contract Foundations
 

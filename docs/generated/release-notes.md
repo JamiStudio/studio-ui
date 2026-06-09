@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 34
-- Typed fragments: 17
+- Total fragments: 35
+- Typed fragments: 18
 - Unclassified legacy fragments: 17
 
 ## Notes By Surface
@@ -74,6 +74,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 #### feature
 
 - `2026-06-09-primitive-component-factories.md` - Added importable framework-neutral component factories for the seven resident UI primitives/components, embedded the factory source into generated registry install artifacts, hardened caller-provided child slots as inert display data, and surfaced the evidence in UI/workbench tests without claiming Radix wrappers, a runtime React renderer, hosted registry, or full suite app implementations.
+- `2026-06-09-radix-wrapper-readiness.md` - Added a source-locked Radix wrapper readiness contract for the resident UI vocabulary. The contract records current official Radix and shadcn registry sources, enumerates the evidence required before any wrapper can be claimed, and keeps every current wrapper, runtime React renderer, hosted runtime, backend persistence, and backend registration claim explicitly unsupported.
 
 ### unclassified
 

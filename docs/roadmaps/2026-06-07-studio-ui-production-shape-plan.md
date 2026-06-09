@@ -285,6 +285,15 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   fragments now avoid obsolete registry item/file counts, while current counts stay
   owned by `pnpm registry:publish:check`, `docs/operations/registry-publishing.md`,
   and `docs/operations/public-claims-evidence.md`.
+- 2026-06-09 Radix wrapper readiness pass 1 added a source-locked, machine-readable
+  readiness contract for future Radix/React wrappers under `packages/ui`. Official
+  Radix and shadcn registry sources are recorded in `docs/operations/source-lock-records.md`;
+  every resident vocabulary item now has a `do-not-claim` wrapper record until React/Radix
+  dependencies, wrapper source files, prop-schema parity, tokenized styles, browser
+  accessibility/visual smoke, registry install content, and renderer non-execution
+  evidence exist. This does not implement Radix wrappers, add React/Radix packages,
+  change generated registry output, enable hosted persistence/backend registration,
+  or weaken the data-only resident renderer.
 
 ## Locked Decisions
 
@@ -575,7 +584,8 @@ Implementation tasks:
   first source-owned resident vocabulary metadata and package exports for `button`,
   `panel`, `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
   `media-grid`, plus React-style primitive metadata and framework-neutral component
-  factories; full Radix wrapper boundaries remain pending.)
+  factories, plus a source-locked Radix wrapper readiness contract; full Radix
+  wrapper implementation remains pending.)
 - [~] Add tokenized primitive implementations. (Initial authored CSS uses generated
   `--jami-*` variables for the resident vocabulary, and the component factories
   emit those classes without executable action handlers while treating caller
@@ -606,7 +616,8 @@ Exit criteria:
   factories, and registry items exist; full Radix wrappers remain pending.)
 - [x] Component-local hardcoded colors are rejected by tests or lint rules.
 - [~] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
-  (Metadata and CSS guards exist; browser visual/a11y evidence per primitive remains pending.)
+  (Metadata, CSS guards, and Radix wrapper readiness evidence exist; browser visual/a11y
+  evidence per primitive and per wrapper remains pending.)
 
 Suggested verification:
 

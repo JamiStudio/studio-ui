@@ -24,3 +24,14 @@ export {
   primitiveComponentNames,
   renderPrimitiveSpec,
 } from "./primitive-components.mjs";
+
+export {
+  RADIX_WRAPPER_READINESS_VERSION,
+  canClaimRadixWrappers,
+  getRadixWrapperGaps,
+  getRadixWrapperReadiness,
+  radixWrapperBoundary,
+  radixWrapperOfficialSources,
+  radixWrapperReadiness,
+  requiredRadixWrapperEvidence,
+} from "./radix-wrapper-readiness.mjs";

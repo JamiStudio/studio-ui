@@ -15,6 +15,7 @@ component-factory foundation, not a full Radix wrapper library or suite shell se
 - Vocabulary metadata: `packages/ui/src/vocabulary.mjs`
 - React-style primitive descriptors: `packages/ui/src/primitive-descriptors.mjs`
 - Framework-neutral component factories: `packages/ui/src/primitive-components.mjs`
+- Radix wrapper readiness contract: `packages/ui/src/radix-wrapper-readiness.mjs`
 - Tokenized resident styles: `packages/ui/src/styles.css`
 - Package entry point: `packages/ui/src/index.mjs`
 - Registry source items: `packages/registry/fixtures/valid/*.registry-item.json`
@@ -51,6 +52,10 @@ Every vocabulary definition carries:
 - state coverage for keyboard, focus visibility, ARIA, contrast, reduced motion,
   responsive layout, disabled, loading, invalid, empty, error, and long-content
   behavior.
+- a source-locked Radix wrapper readiness record for each resident component.
+  The record is intentionally `do-not-claim` until React/Radix dependency,
+  wrapper source, prop-schema parity, tokenized-style, browser smoke, registry
+  install, and renderer non-execution evidence exists.
 
 `packages/ui/src/styles.css` uses generated `--jami-*` token variables for
 component colors, focus ring, spacing, radius, shadow, and motion. The UI test
@@ -91,6 +96,7 @@ paired with framework-neutral factory functions that can adapt to an injected
 renderer, and not a suite application library. The foundation remains narrow:
 source-owned vocabulary metadata, prop schemas, descriptor metadata, component
 factories, tokenized styles, registry items, generated suite implementation
-manifests, renderer allowlist/schema references, and tests that keep the initial
-component colors, state metadata, handshake, prop schemas, inert child slots, and
-non-executable factory output honest.
+manifests, renderer allowlist/schema references, Radix wrapper readiness metadata,
+and tests that keep the initial component colors, state metadata, handshake, prop
+schemas, inert child slots, non-executable factory output, and no-wrapper claim
+honest.
