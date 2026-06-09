@@ -1,0 +1,22 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "actionRef.denied",
+  "kind": "actionRef",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/action-ref.schema.json",
+  "expectedPresentationStatus": "denied",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "actionId": "act_publish_release",
+    "label": "Publish release",
+    "route": "harness://actions/publish-release",
+    "risk": "external",
+    "policyScope": "release:publish",
+    "confirmationMode": "owner_required",
+    "state": "denied",
+    "denial": {
+      "reason": "Actor lacks release:publish scope.",
+      "auditRef": "aud_denied_publish_release"
+    },
+    "evidenceRef": "ev_denied_publish_release"
+  }
+}

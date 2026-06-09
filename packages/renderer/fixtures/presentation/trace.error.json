@@ -1,0 +1,31 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "trace.error",
+  "kind": "trace",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/run-event.schema.json",
+  "expectedPresentationStatus": "error",
+  "ref": {
+    "runId": "run_contract_spine",
+    "events": [
+      {
+        "schemaVersion": "2026-06-09",
+        "eventId": "evt_run_started",
+        "runId": "run_contract_spine",
+        "sequence": 0,
+        "occurredAt": "2026-06-09T04:00:00.000Z",
+        "eventType": "run.started",
+        "traceRef": { "traceId": "trace_err", "spanId": "span_0" }
+      },
+      {
+        "schemaVersion": "2026-06-09",
+        "eventId": "evt_renderer_error",
+        "runId": "run_contract_spine",
+        "sequence": 1,
+        "occurredAt": "2026-06-09T04:00:01.000Z",
+        "eventType": "renderer.error",
+        "traceRef": { "traceId": "trace_err", "spanId": "span_1" },
+        "rendererState": "error_state"
+      }
+    ]
+  }
+}

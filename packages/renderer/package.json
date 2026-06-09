@@ -10,7 +10,7 @@
     "./safe-payload": "./src/safe-payload.mjs"
   },
   "scripts": {
-    "test": "node --test test/render.test.mjs",
+    "test": "node --test test/render.test.mjs test/presentation.test.mjs",
     "test:contracts": "pnpm --dir ../.. contracts:check"
   }
 }

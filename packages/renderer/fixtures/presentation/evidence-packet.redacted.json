@@ -1,0 +1,26 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "evidencePacket.redacted",
+  "kind": "evidencePacket",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/evidence-packet.schema.json",
+  "expectedPresentationStatus": "redacted",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "evidenceId": "ev_deploy_run",
+    "subject": "Deployment run evidence with redacted payloads",
+    "freshnessClass": "same_day",
+    "source": {
+      "repo": "jami-harness",
+      "commit": "working-tree",
+      "recordedAt": "2026-06-09T13:00:00.000Z"
+    },
+    "commands": [
+      { "command": "deploy:apply", "status": "passed", "recordedAt": "2026-06-09T13:00:00.000Z" }
+    ],
+    "artifacts": [
+      { "artifactId": "art_deploy_log", "path": "logs/deploy.log", "kind": "log" }
+    ],
+    "redaction": { "containsSecrets": true, "privatePayloadPolicy": "redacted", "notes": "provider tokens redacted by harness" },
+    "acceptedContracts": ["evidencePacket"]
+  }
+}

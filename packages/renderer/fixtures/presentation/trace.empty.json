@@ -1,0 +1,11 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "trace.empty",
+  "kind": "trace",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/run-event.schema.json",
+  "expectedPresentationStatus": "empty",
+  "ref": {
+    "runId": "run_contract_spine",
+    "events": []
+  }
+}

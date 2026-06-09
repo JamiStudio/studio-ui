@@ -1,0 +1,23 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "artifactView.missing-source",
+  "kind": "artifactView",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/artifact-view.schema.json",
+  "expectedPresentationStatus": "missing-source",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "artifactViewId": "artv_orphan",
+    "artifactId": "art_orphan_001",
+    "kind": "report",
+    "title": "Orphaned artifact",
+    "promotionState": "draft",
+    "renderers": [
+      { "rendererId": "plain-text", "mode": "text" }
+    ],
+    "provenance": {
+      "runId": "run_orphan",
+      "sourceCommit": "",
+      "evidenceRef": ""
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "evidencePacket.loading",
+  "kind": "evidencePacket",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/evidence-packet.schema.json",
+  "expectedPresentationStatus": "loading",
+  "lifecycle": "loading",
+  "ref": null
+}

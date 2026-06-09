@@ -1,0 +1,24 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "evidencePacket.stale",
+  "kind": "evidencePacket",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/evidence-packet.schema.json",
+  "expectedPresentationStatus": "stale",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "evidenceId": "ev_old_audit",
+    "subject": "Audit evidence captured before the current source lock",
+    "freshnessClass": "stale",
+    "source": {
+      "repo": "jami-harness",
+      "commit": "0000000",
+      "recordedAt": "2026-01-01T00:00:00.000Z"
+    },
+    "commands": [
+      { "command": "pnpm contracts:validate", "status": "not_run", "recordedAt": "2026-01-01T00:00:00.000Z" }
+    ],
+    "artifacts": [],
+    "redaction": { "containsSecrets": false, "privatePayloadPolicy": "none" },
+    "acceptedContracts": ["evidencePacket"]
+  }
+}

@@ -5,6 +5,9 @@ import { generateAllArtifacts, registrySourceHash } from "./generate-contract-ar
 // unsafe-payload scan, secret-key set). The contract check imports them so the
 // fixture gate and the runtime renderer can never enforce different rules.
 import { allowedComponents, scanUnsafePayload } from "../../packages/renderer/src/safe-payload.mjs";
+// The workbench presentation seam is exercised by the contract gate so the
+// presentation fixtures cannot drift from the seam that consumes them.
+import { presentWorkbenchPanel } from "../../packages/renderer/src/presentation.mjs";
 
 const root = process.cwd();
 const failures = [];
@@ -322,12 +325,63 @@ function validateRendererFixture(path, shouldPass) {
   if (!shouldPass && localFailures.length === 0) fail(path, "expected invalid renderer fixture to fail");
 }
 
+// The presentation seam consumes only shared harness refs. Each presentation
+// fixture must point at a real harness schema id for its kind (memory/context is
+// the exception: the harness does not model it yet, so it carries no schema id
+// and must fail closed to missing-source), and the seam must produce the exact
+// operational status the fixture declares. This keeps the workbench presentation
+// from drifting into a parallel artifact/trace data shape.
+const presentationHarnessSchemaIds = new Map([
+  ["artifactView", "https://jami.studio/schemas/harness/artifact-view.schema.json"],
+  ["evidencePacket", "https://jami.studio/schemas/harness/evidence-packet.schema.json"],
+  ["trace", "https://jami.studio/schemas/harness/run-event.schema.json"],
+  ["actionRef", "https://jami.studio/schemas/harness/action-ref.schema.json"],
+]);
+
+function validatePresentationFixture(path) {
+  const fixture = readJson(path);
+  if (!fixture) return;
+  const localFailures = [];
+  if (fixture.$schema !== "https://jami.studio/schemas/renderer/presentation-fixture.schema.json") {
+    localFailures.push("missing Studio UI presentation fixture schema URL");
+  }
+  if (!fixture.panelId || !fixture.kind || !fixture.expectedPresentationStatus) {
+    localFailures.push("missing panelId, kind, or expectedPresentationStatus");
+  }
+  const expectedSchemaId = presentationHarnessSchemaIds.get(fixture.kind);
+  if (expectedSchemaId) {
+    if (fixture.harnessSchemaId !== expectedSchemaId) {
+      localFailures.push(`harnessSchemaId must be ${expectedSchemaId}`);
+    }
+    // A ref-backed kind must actually carry a harness ref (unless it is a
+    // lifecycle-only loading panel), proving the seam consumes shared data.
+    if (fixture.lifecycle !== "loading" && fixture.ref == null) {
+      localFailures.push(`${fixture.kind} fixture must carry a harness ref`);
+    }
+  } else if (fixture.kind === "memoryContext" && fixture.harnessSchemaId) {
+    localFailures.push("memoryContext is not modeled by the harness and must not claim a harness schema id");
+  }
+  // The seam must compute exactly the declared operational status.
+  const result = presentWorkbenchPanel(fixture);
+  if (result.status !== fixture.expectedPresentationStatus) {
+    localFailures.push(
+      `presentation seam produced status ${result.status}, expected ${fixture.expectedPresentationStatus}`,
+    );
+  }
+  // The presented descriptor must never carry an unsafe value.
+  for (const unsafe of scanUnsafePayload(result.descriptor)) {
+    localFailures.push(`descriptor leaked unsafe value: ${unsafe}`);
+  }
+  if (localFailures.length > 0) fail(path, localFailures.join("; "));
+}
+
 for (const path of listJson("packages/tokens/fixtures/valid")) validateTokenFixture(path, true);
 for (const path of listJson("packages/tokens/fixtures/invalid")) validateTokenFixture(path, false);
 for (const path of listJson("packages/registry/fixtures/valid")) validateRegistryFixture(path, true);
 for (const path of listJson("packages/registry/fixtures/invalid")) validateRegistryFixture(path, false);
 for (const path of listJson("packages/renderer/fixtures/compatibility/valid")) validateRendererFixture(path, true);
 for (const path of listJson("packages/renderer/fixtures/compatibility/invalid")) validateRendererFixture(path, false);
+for (const path of listJson("packages/renderer/fixtures/presentation")) validatePresentationFixture(path);
 
 for (const failure of generateAllArtifacts({ check: true })) failures.push(failure);
 

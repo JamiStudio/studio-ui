@@ -78,6 +78,22 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `validate-contracts.mjs`, so the fixture gate and the renderer cannot drift. `node --test`
   unit/fixture tests prove inert output, fail-closed negatives, and no executable callbacks.
   This is still not a React renderer, browser surface, or workbench app.
+- 2026-06-09 Stream 4 pass 1 added the smallest real workbench presentation seam in
+  `packages/renderer/src/presentation.mjs`. It turns harness-originated `artifactView`
+  (including the `trace` and `evidence` artifact kinds), `evidencePacket`, run-event
+  traces, and `actionRef` data into inert, JSON-serializable, display-only presentation
+  descriptors annotated with dense workbench operational states: empty, loading, denied,
+  redacted, stale, missing-source, unsupported, error, and ready. Renderer selection is
+  display-only configuration (prefer a resident `studio_ui` renderer, fall back to a plain
+  display mode, report `unsupported` otherwise); it never instantiates a renderer. Evidence
+  redaction and freshness are surfaced without echoing secret values, presented identifiers
+  are echoed from the source ref rather than fabricated, and memory/context refs fail closed
+  to `missing-source` because the harness does not model them yet. `pnpm contracts:check`
+  now runs every presentation fixture through the seam and enforces shared harness schema
+  ids, ref presence, the declared operational status, and no unsafe descriptor values;
+  `packages/renderer/test/presentation.test.mjs` proves inert, display-only, secret-safe,
+  no-invented-data behavior. This is still not a React renderer, browser surface, or
+  workbench app, and no browser/accessibility evidence is claimed.
 
 ## Locked Decisions
 

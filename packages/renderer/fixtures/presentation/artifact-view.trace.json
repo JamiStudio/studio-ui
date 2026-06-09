@@ -1,0 +1,24 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "artifactView.trace.ready",
+  "kind": "artifactView",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/artifact-view.schema.json",
+  "expectedPresentationStatus": "ready",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "artifactViewId": "artv_run_trace",
+    "artifactId": "art_run_trace_001",
+    "kind": "trace",
+    "title": "Run trace",
+    "promotionState": "accepted",
+    "renderers": [
+      { "rendererId": "studio-ui.artifact-card", "mode": "studio_ui", "componentRef": "@jami-studio/ui/artifact-card" },
+      { "rendererId": "plain-json", "mode": "json" }
+    ],
+    "provenance": {
+      "runId": "run_contract_spine",
+      "sourceCommit": "contract-fixture",
+      "evidenceRef": "ev_contract_validation"
+    }
+  }
+}

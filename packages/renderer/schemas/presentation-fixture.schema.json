@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "title": "Studio UI workbench presentation fixture",
+  "description": "A consumer-side fixture proving the workbench presentation seam consumes a shared harness reference and produces a single operational presentation status. The fixture never carries Studio-UI-invented artifact or trace data; it carries a real harness ref (or an envelope that omits one) plus the expected presented status.",
+  "type": "object",
+  "required": ["$schema", "panelId", "kind", "expectedPresentationStatus"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "const": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json" },
+    "panelId": { "type": "string", "pattern": "^[a-zA-Z0-9._-]+$" },
+    "kind": { "enum": ["artifactView", "evidencePacket", "trace", "memoryContext", "actionRef"] },
+    "harnessSchemaId": {
+      "enum": [
+        "https://jami.studio/schemas/harness/artifact-view.schema.json",
+        "https://jami.studio/schemas/harness/evidence-packet.schema.json",
+        "https://jami.studio/schemas/harness/run-event.schema.json",
+        "https://jami.studio/schemas/harness/action-ref.schema.json"
+      ]
+    },
+    "expectedPresentationStatus": {
+      "enum": ["empty", "loading", "denied", "redacted", "stale", "missing-source", "unsupported", "error", "ready"]
+    },
+    "lifecycle": { "enum": ["loading", "ready", "empty"] },
+    "ref": { "type": ["object", "array", "null"] }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "memoryContext.not-modeled",
+  "kind": "memoryContext",
+  "expectedPresentationStatus": "missing-source",
+  "ref": null
+}

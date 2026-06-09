@@ -13,6 +13,7 @@ const requiredFiles = [
   "docs/architecture/token-contract.md",
   "docs/architecture/registry-lifecycle.md",
   "docs/architecture/runtime-renderer.md",
+  "docs/architecture/workbench-presentation.md",
   "docs/architecture/compatibility-contract.md",
   "docs/operations/account-and-env-lanes.md",
   "docs/operations/changelog.md",

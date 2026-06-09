@@ -114,6 +114,19 @@ The renderer computes its display state independently from each fixture's declar
 fixture is JSON-inert, carries no callbacks or executable capability, and contains
 no unsafe values, and that rejected payloads never reach a renderable state.
 
+## Workbench Presentation Seam
+
+`packages/renderer/src/presentation.mjs` builds on this render core to present
+harness refs in a dense operational workbench. It turns `artifactView` (including
+the `trace` and `evidence` artifact kinds), `evidencePacket`, run-event traces,
+and `actionRef` data into inert display-only descriptors annotated with workbench
+operational states: empty, loading, denied, redacted, stale, missing-source,
+unsupported, error, and ready. Memory/context refs are not modeled by the harness
+yet, so the seam fails closed to `missing-source` rather than inventing a shape.
+`pnpm contracts:check` runs the presentation fixtures
+(`packages/renderer/fixtures/presentation/`) through the seam. See
+`docs/architecture/workbench-presentation.md`.
+
 ## Ownership Boundary
 
 Studio UI renders or displays the typed data. Jami Harness owns policy decisions,

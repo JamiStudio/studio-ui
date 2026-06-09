@@ -1,0 +1,23 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "artifactView.unsupported-renderer",
+  "kind": "artifactView",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/artifact-view.schema.json",
+  "expectedPresentationStatus": "unsupported",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "artifactViewId": "artv_unsupported",
+    "artifactId": "art_unsupported_001",
+    "kind": "image",
+    "title": "Unsupported media artifact",
+    "promotionState": "reviewed",
+    "renderers": [
+      { "rendererId": "vendor.canvas", "mode": "studio_ui", "componentRef": "@vendor/ui/canvas", "unsupportedReason": "foreign component namespace" }
+    ],
+    "provenance": {
+      "runId": "run_contract_spine",
+      "sourceCommit": "contract-fixture",
+      "evidenceRef": "ev_contract_validation"
+    }
+  }
+}

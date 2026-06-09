@@ -1,0 +1,41 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "trace.ready",
+  "kind": "trace",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/run-event.schema.json",
+  "expectedPresentationStatus": "ready",
+  "ref": {
+    "runId": "run_contract_spine",
+    "events": [
+      {
+        "schemaVersion": "2026-06-09",
+        "eventId": "evt_run_started",
+        "runId": "run_contract_spine",
+        "sequence": 0,
+        "occurredAt": "2026-06-09T04:00:00.000Z",
+        "eventType": "run.started",
+        "traceRef": { "traceId": "trace_abc", "spanId": "span_0" }
+      },
+      {
+        "schemaVersion": "2026-06-09",
+        "eventId": "evt_policy_decision",
+        "runId": "run_contract_spine",
+        "sequence": 1,
+        "occurredAt": "2026-06-09T04:00:01.000Z",
+        "eventType": "policy.decision",
+        "traceRef": { "traceId": "trace_abc", "spanId": "span_1" },
+        "policyDecision": { "decision": "allow", "scope": "renderer:display", "reason": "within scope", "auditRef": "aud_allow" }
+      },
+      {
+        "schemaVersion": "2026-06-09",
+        "eventId": "evt_run_completed",
+        "runId": "run_contract_spine",
+        "sequence": 2,
+        "occurredAt": "2026-06-09T04:00:02.000Z",
+        "eventType": "run.completed",
+        "traceRef": { "traceId": "trace_abc", "spanId": "span_2" },
+        "rendererState": "rendered"
+      }
+    ]
+  }
+}

@@ -20,3 +20,15 @@ export {
   componentNameAllowed,
   scanUnsafePayload,
 } from "./safe-payload.mjs";
+
+// Workbench presentation seam: turns harness artifact/trace/evidence/memory/
+// action refs into inert, display-only operational presentation descriptors.
+export {
+  harnessSchemaIds,
+  presentArtifactView,
+  presentEvidencePacket,
+  presentTrace,
+  presentMemoryContext,
+  presentActionRef,
+  presentWorkbenchPanel,
+} from "./presentation.mjs";
