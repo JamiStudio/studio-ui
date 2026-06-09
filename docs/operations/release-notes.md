@@ -3,11 +3,12 @@
 Status: Foundation — unreleased
 Last updated: 2026-06-09
 
-These notes are compiled from the accepted `.changes/` fragments
-(`docs/operations/changelog.md`). They describe shipped, verified foundation
-behavior. Nothing has been published: all packages are `private: true` at version
-`0.0.0`, and no registry or npm artifact has been released. The "Not Yet Claimed"
-section is part of the notes, not an afterthought.
+These curated notes are backed by accepted `.changes/` fragments
+(`docs/operations/changelog.md`) and the generated rollup at
+`docs/generated/release-notes.md` (`pnpm release:notes:check`). They describe
+shipped, verified foundation behavior. Nothing has been published: all packages
+are `private: true` at version `0.0.0`, and no registry or npm artifact has been
+released. The "Not Yet Claimed" section is part of the notes, not an afterthought.
 
 ## Foundation (0.0.0, unreleased)
 
@@ -99,15 +100,23 @@ section is part of the notes, not an afterthought.
 - Registry publishing runbook, release/supply-chain policy (SBOM, provenance,
   hashes, attestation), and a public-claims evidence map added under
   `docs/operations/`.
+- `pnpm release:artifacts:check` now verifies two local generated release
+  readiness artifacts: `docs/generated/sbom.cdx.json` (CycloneDX 1.7, generated
+  from package/app manifests, `pnpm-lock.yaml`, Node engine declaration, and the
+  generated registry bundle hash manifest) and `docs/generated/release-notes.md`
+  (deterministic rollup from `.changes/` fragments, with legacy unclassified
+  fragments preserved rather than silently dropped). These artifacts are checked
+  by `pnpm verify` and publish nothing.
 
 ## Verification
 
 `pnpm verify` passes (exit 0) on this machine. It runs `docs:check`,
-`contracts:check`, `contracts:artifacts:check`, `registry:publish:check`, and the
-tokens / registry / renderer / cli / workbench package tests. The workbench
-browser/a11y/visual smoke passed most recently with 14/14 structural a11y, 4/4
-contrast, and 5/5 screenshots on Microsoft Edge. This pass was verified on Node
-24.16.0 via `fnm use 24.16.0` and pnpm 10.33.2.
+`contracts:check`, `contracts:artifacts:check`, `registry:publish:check`,
+`release:artifacts:check`, and the tokens / registry / renderer / cli /
+workbench package tests. The workbench browser/a11y/visual smoke passed most
+recently with 14/14 structural a11y, 4/4 contrast, and 5/5 screenshots on
+Microsoft Edge. This pass was verified on Node 24.16.0 via
+`fnm use 24.16.0` and pnpm 10.33.2.
 
 ## Not Yet Claimed
 
@@ -116,6 +125,8 @@ contrast, and 5/5 screenshots on Microsoft Edge. This pass was verified on Node
   install from a hosted URL.
 - No published npm packages; npm is not authenticated and `@jami-studio` scope
   access is unconfirmed.
+- No release attestation has been executed. The SBOM is a checked local artifact,
+  not an attached release asset.
 - No runtime React renderer, Radix wrapper library, hosted/persisted workbench
   editing or backend package registration, and no hosted/full React suite runtime.
   Per-lane suite app/page/block implementation manifests are generated and installable,

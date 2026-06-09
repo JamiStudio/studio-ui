@@ -51,6 +51,11 @@ It exits non-zero only on an integrity failure. Source-pending items and unresol
 account actions are honest readiness states, not failures. The check is part of
 `pnpm verify`.
 
+`pnpm release:artifacts:check` is the companion release-readiness gate. It verifies
+the local CycloneDX SBOM (`docs/generated/sbom.cdx.json`) and generated
+`.changes` rollup (`docs/generated/release-notes.md`) have not drifted. It also is
+part of `pnpm verify`. It does not publish, upload, attach, or attest anything.
+
 ### Current dry-run status (2026-06-09)
 
 ```
@@ -110,6 +115,8 @@ and cannot be performed or verified by the dry-run:
 - [ ] Add a clean-project install smoke against the live hosted URL (today the CLI
       smoke runs against the local generated directory; remote fetch resolves to an
       explicit `registry-unavailable` state).
+- [ ] Re-run `pnpm release:artifacts:check`, review the SBOM and generated release
+      notes, and attach them only inside an actual release workflow.
 
 Do not write Cloudflare, npm, or DNS tokens into tracked files.
 

@@ -46,6 +46,8 @@ Run the narrowest complete checks for the touched surface:
 - Renderer: payload schema tests, allowlist tests, invalid-prop fallback tests, injection guard tests.
 - CLI: dry-run, diff, install, clean temporary-project smoke tests.
 - Current contract foundation: `pnpm contracts:check`.
+- Release readiness: `pnpm release:artifacts:check` for the local SBOM and
+  generated `.changes` rollup.
 - Full gate: `pnpm verify`.
 
 Every agent final response must report the exact checks run, results, unavailable commands, commit SHA,
@@ -84,6 +86,8 @@ not be hidden behind permissive fallbacks, demo-only data, or downgraded validat
 
 - Production-meaningful changes require a `.changes/` fragment.
 - Release notes are compiled from accepted fragments and evidence packets.
+  `pnpm release:notes:generate` writes the deterministic rollup at
+  `docs/generated/release-notes.md`, and `pnpm release:notes:check` verifies it.
 - Changelog entries should describe shipped behavior and verification, not aspirational status.
 
 ## Free Tooling Bias

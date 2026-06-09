@@ -29,6 +29,9 @@ or hosted registry publishing.
 - `scripts/release/publish-dry-run.mjs` - read-only static registry publish
   readiness dry-run (`pnpm registry:publish:check`): hash re-verification, secret
   scan, installable-vs-pending classification. Publishes nothing.
+- `scripts/release/generate-release-artifacts.mjs` - local release-artifact
+  generator/check (`pnpm release:artifacts:check`) for the CycloneDX SBOM and
+  generated `.changes` rollup. Publishes nothing and executes no attestation.
 - `LICENSE` - root MIT license matching item provenance.
 
 ## Source Areas
@@ -59,13 +62,17 @@ or hosted registry publishing.
 - `docs/operations/` - setup, release, account, env, registry publish, and verification guidance.
   Release/publishing readiness lives in `registry-publishing.md`,
   `release-and-supply-chain.md`, `release-notes.md`, and `public-claims-evidence.md`.
+- `docs/generated/` - checked generated release-readiness artifacts:
+  `sbom.cdx.json` and `release-notes.md`.
 - `docs/engineering/` - reusable engineering standards and orchestration prompts.
 - `docs/decisions/` - durable decision records once choices are promoted from reports/plans.
 
 ## Generated Or Build Outputs
 
-Generated registry output should not be committed until a workstream explicitly defines the
-publishing contract. Current ignored paths:
+Checked generated contract artifacts are committed where the owning workstream has
+defined a deterministic generation/check command: `packages/tokens/generated`,
+`packages/registry/generated`, and `docs/generated`. Transient outputs remain
+ignored:
 
 - `public/r/`
 - `registry/.generated/`

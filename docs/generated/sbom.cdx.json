@@ -1,0 +1,449 @@
+{
+  "$schema": "https://cyclonedx.org/schema/bom-1.7.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "type": "application",
+      "bom-ref": "studio-ui:workspace:root",
+      "name": "studio-ui",
+      "version": "0.0.0",
+      "description": "Jami.Studio UI foundation: token system, primitive registry, workbench overlay, CLI, renderer, and suite packs.",
+      "scope": "required",
+      "purl": "pkg:npm/studio-ui@0.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7b35286bcb457c1b59ab9bc1e1cb1c48869d5d125a78b1dafc487d5574574c88"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:workspace-path",
+          "value": "."
+        },
+        {
+          "name": "studio-ui:private",
+          "value": "true"
+        },
+        {
+          "name": "studio-ui:declared-dependency-count",
+          "value": "0"
+        }
+      ]
+    },
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "studio-ui-local-release-artifacts",
+          "version": "2026-06-09",
+          "author": "Jami.Studio",
+          "properties": [
+            {
+              "name": "studio-ui:generator",
+              "value": "scripts/release/generate-release-artifacts.mjs"
+            },
+            {
+              "name": "studio-ui:npm-sbom-used",
+              "value": "false"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:workspace:@jami-studio/cli",
+      "name": "@jami-studio/cli",
+      "version": "0.0.0",
+      "description": "Studio UI install/config CLI: registry-driven lifecycle for themes, primitives, and suite descriptors.",
+      "scope": "required",
+      "purl": "pkg:npm/%40jami-studio/cli@0.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "44002d647e5f8db4d67642e8cde821b3e02e27cda26a987fc9df1f9d945cebfb"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:workspace-path",
+          "value": "packages/cli"
+        },
+        {
+          "name": "studio-ui:private",
+          "value": "true"
+        },
+        {
+          "name": "studio-ui:declared-dependency-count",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:workspace:@jami-studio/registry",
+      "name": "@jami-studio/registry",
+      "version": "0.0.0",
+      "description": "Studio UI registry item metadata and package graph contract fixtures.",
+      "scope": "required",
+      "purl": "pkg:npm/%40jami-studio/registry@0.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5ba31608991f95e737a4c05577dc6d15283ed1a37dd1d1bc2315e0b7936a5074"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:workspace-path",
+          "value": "packages/registry"
+        },
+        {
+          "name": "studio-ui:private",
+          "value": "true"
+        },
+        {
+          "name": "studio-ui:declared-dependency-count",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:workspace:@jami-studio/renderer",
+      "name": "@jami-studio/renderer",
+      "version": "0.0.0",
+      "description": "Studio UI minimal resident renderer and compatibility fixture foundations.",
+      "scope": "required",
+      "purl": "pkg:npm/%40jami-studio/renderer@0.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1bc1afc0131dea1510d3d1c9f9889651780b1fbd60e82ad95eb8daf094df5a62"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:workspace-path",
+          "value": "packages/renderer"
+        },
+        {
+          "name": "studio-ui:private",
+          "value": "true"
+        },
+        {
+          "name": "studio-ui:declared-dependency-count",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:workspace:@jami-studio/tokens",
+      "name": "@jami-studio/tokens",
+      "version": "0.0.0",
+      "description": "DTCG-compatible Studio UI token contract fixtures and validation foundations.",
+      "scope": "required",
+      "purl": "pkg:npm/%40jami-studio/tokens@0.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "026b86928f83960594acaa960074917338a3da5157b42500ce5dd00009a2f5fa"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:workspace-path",
+          "value": "packages/tokens"
+        },
+        {
+          "name": "studio-ui:private",
+          "value": "true"
+        },
+        {
+          "name": "studio-ui:declared-dependency-count",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:workspace:@jami-studio/ui",
+      "name": "@jami-studio/ui",
+      "version": "0.0.0",
+      "description": "Authored resident Studio UI primitive and component vocabulary.",
+      "scope": "required",
+      "purl": "pkg:npm/%40jami-studio/ui@0.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0e1245858133f2358c2090e4b0053e140dfed9c82e0ecd64e97ce2f63fa37f1f"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:workspace-path",
+          "value": "packages/ui"
+        },
+        {
+          "name": "studio-ui:private",
+          "value": "false"
+        },
+        {
+          "name": "studio-ui:declared-dependency-count",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "type": "application",
+      "bom-ref": "studio-ui:workspace:@jami-studio/workbench",
+      "name": "@jami-studio/workbench",
+      "version": "0.0.0",
+      "description": "Studio UI workbench showcase: a dependency-free static browser surface over the generated token theme, registry/suite descriptors, resident renderer, and workbench presentation seam.",
+      "scope": "required",
+      "purl": "pkg:npm/%40jami-studio/workbench@0.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f064dd367a13d37fc310ef561985fbc320ddcc4bec1bf9a1641b9693e5ad13a8"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:workspace-path",
+          "value": "apps/workbench"
+        },
+        {
+          "name": "studio-ui:private",
+          "value": "true"
+        },
+        {
+          "name": "studio-ui:declared-dependency-count",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "type": "platform",
+      "bom-ref": "studio-ui:runtime:node",
+      "name": "Node.js",
+      "version": ">=24.0.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "studio-ui:version-source",
+          "value": "package.json engines.node"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "studio-ui:file:pnpm-lock.yaml",
+      "name": "pnpm-lock.yaml",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "17c814b167307942d3609c7b9d916ceddb85839573ab39baa114e30edb132a1a"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:package-manager",
+          "value": "pnpm@10.33.2"
+        },
+        {
+          "name": "studio-ui:resolved-third-party-package-count",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "studio-ui:file:packages/registry/generated",
+      "name": "packages/registry/generated",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8aabbc46a64991a16a832af8d77747f010733fea256b9d0e2fceab25e7669956"
+        }
+      ],
+      "properties": [
+        {
+          "name": "studio-ui:generated-registry-file-count",
+          "value": "106"
+        },
+        {
+          "name": "studio-ui:bundle-hash-input",
+          "value": "path plus sha256 for each generated registry JSON file"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "studio-ui:file:packages/registry/generated/registry.json",
+      "name": "packages/registry/generated/registry.json",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d1cee9e98213182b60fbbd9c65e56eddae094683a07df96021c52e288985bdd6"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "studio-ui:workspace:root",
+      "dependsOn": [
+        "studio-ui:file:packages/registry/generated",
+        "studio-ui:file:packages/registry/generated/registry.json",
+        "studio-ui:file:pnpm-lock.yaml",
+        "studio-ui:runtime:node",
+        "studio-ui:workspace:@jami-studio/cli",
+        "studio-ui:workspace:@jami-studio/registry",
+        "studio-ui:workspace:@jami-studio/renderer",
+        "studio-ui:workspace:@jami-studio/tokens",
+        "studio-ui:workspace:@jami-studio/ui",
+        "studio-ui:workspace:@jami-studio/workbench"
+      ]
+    },
+    {
+      "ref": "studio-ui:workspace:@jami-studio/cli",
+      "dependsOn": [
+        "studio-ui:runtime:node"
+      ]
+    },
+    {
+      "ref": "studio-ui:workspace:@jami-studio/registry",
+      "dependsOn": [
+        "studio-ui:runtime:node"
+      ]
+    },
+    {
+      "ref": "studio-ui:workspace:@jami-studio/renderer",
+      "dependsOn": [
+        "studio-ui:runtime:node"
+      ]
+    },
+    {
+      "ref": "studio-ui:workspace:@jami-studio/tokens",
+      "dependsOn": [
+        "studio-ui:runtime:node"
+      ]
+    },
+    {
+      "ref": "studio-ui:workspace:@jami-studio/ui",
+      "dependsOn": [
+        "studio-ui:runtime:node"
+      ]
+    },
+    {
+      "ref": "studio-ui:workspace:@jami-studio/workbench",
+      "dependsOn": [
+        "studio-ui:runtime:node"
+      ]
+    },
+    {
+      "ref": "studio-ui:runtime:node",
+      "dependsOn": []
+    },
+    {
+      "ref": "studio-ui:file:pnpm-lock.yaml",
+      "dependsOn": []
+    },
+    {
+      "ref": "studio-ui:file:packages/registry/generated",
+      "dependsOn": [
+        "studio-ui:file:packages/registry/generated/registry.json"
+      ]
+    },
+    {
+      "ref": "studio-ui:file:packages/registry/generated/registry.json",
+      "dependsOn": []
+    }
+  ],
+  "properties": [
+    {
+      "name": "studio-ui:source-posture",
+      "value": "local deterministic generator over manifests, lockfile, and generated registry artifacts"
+    },
+    {
+      "name": "studio-ui:cyclonedx-predicate-type",
+      "value": "https://cyclonedx.org/bom"
+    },
+    {
+      "name": "studio-ui:hosted-registry-claimed",
+      "value": "false"
+    },
+    {
+      "name": "studio-ui:npm-package-publish-claimed",
+      "value": "false"
+    },
+    {
+      "name": "studio-ui:attestation-executed",
+      "value": "false"
+    },
+    {
+      "name": "studio-ui:workspace-package-count",
+      "value": "7"
+    },
+    {
+      "name": "studio-ui:third-party-package-count",
+      "value": "0"
+    }
+  ]
+}

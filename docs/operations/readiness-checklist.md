@@ -28,10 +28,16 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - `pnpm docs:check` exists and passes.
 - `pnpm contracts:check` exists for token, registry, and renderer compatibility
   fixture foundations.
-- `pnpm verify` runs docs and contract checks, the static registry publish
-  readiness dry-run, and the tokens/registry/renderer/cli/workbench package tests.
+- `pnpm verify` runs docs and contract checks, generated artifact drift checks,
+  the static registry publish readiness dry-run, local release-artifact checks
+  (SBOM and generated release-note rollup), and the
+  tokens/registry/renderer/cli/workbench package tests.
 - `pnpm registry:publish:check` exists (read-only static publish dry-run; current
   status `ready-to-stage`, secret-clean, no copied source). It publishes nothing.
+- `pnpm release:artifacts:check` exists and validates
+  `docs/generated/sbom.cdx.json` plus `docs/generated/release-notes.md`; it
+  publishes nothing and executes no attestation.
+- `pnpm sbom:check` and `pnpm release:notes:check` exist for targeted checks.
 - Root MIT `LICENSE` exists and root/package `license` fields match item provenance.
 - Release/publishing readiness docs exist: `registry-publishing.md`,
   `release-and-supply-chain.md`, `release-notes.md`, `public-claims-evidence.md`.
@@ -51,8 +57,9 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - The package publishing + provenance/attestation policy is documented in
   `docs/operations/release-and-supply-chain.md`; npm auth and a trusted CI publish
   workflow are still required before it can run.
-- Generate a machine-readable SBOM at publish time (current footprint is zero
-  third-party dependencies; see `release-and-supply-chain.md`).
+- Re-run and review the local machine-readable SBOM before release. Current
+  footprint is zero third-party dependencies; see
+  `docs/generated/sbom.cdx.json` and `release-and-supply-chain.md`.
 
 Commands:
 
@@ -117,7 +124,8 @@ npm whoami
 
 ## Automation Readiness
 
-- Local first: `pnpm verify` currently runs `pnpm docs:check` and `pnpm contracts:check`.
+- Local first: `pnpm verify` currently runs docs, contract, generated artifact,
+  publish dry-run, release-artifact, and package test gates.
 - GitHub Actions docs check is manual fallback through `workflow_dispatch`.
 - Do not rely on CI as the only gate. Agents must run local checks before pushing.
 - Automatic push and pull-request checks can be enabled later when development slows or minutes are no longer constrained.

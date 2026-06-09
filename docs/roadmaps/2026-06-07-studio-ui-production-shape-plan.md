@@ -267,6 +267,17 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   Full hosted React suite runtime, Radix wrappers, hosted registry, hosted
   persistence/backend registration, final brand canon, npm/static-host publish,
   and harness runtime execution remain open.
+- 2026-06-09 Workstream 9 release-artifacts pass 1 added dependency-light local
+  release artifact generation and checks without claiming any publish action. The
+  new `scripts/release/generate-release-artifacts.mjs` writes/checks
+  `docs/generated/sbom.cdx.json` (CycloneDX 1.7 over root/package/app manifests,
+  `pnpm-lock.yaml`, the Node engine declaration, and the generated registry bundle
+  hash manifest) and `docs/generated/release-notes.md` (deterministic `.changes`
+  rollup with legacy unclassified fragments preserved). `pnpm verify` now includes
+  `pnpm release:artifacts:check`; targeted `pnpm sbom:check` and
+  `pnpm release:notes:check` are available. This still does not attach a release
+  SBOM, execute attestations, publish npm packages, publish the static registry,
+  claim a hosted registry URL, or claim hosted persistence/backend registration.
 
 ## Locked Decisions
 
@@ -841,21 +852,27 @@ Implementation tasks:
 
 - [~] Add `pnpm verify` covering lint, typecheck, tests, build, registry validation, and docs checks. (Runs docs, contract, artifact-drift, publish-dry-run, and package tests; lint/typecheck/build land with the product packages.)
 - [~] Add `pnpm verify` coverage for token schema fixtures, registry provenance, renderer unsafe payloads, CLI lifecycle smokes, and accessibility/visual checks once those surfaces exist. (All present except browser a11y/visual, which stays a separate dependency-free smoke by design.)
-- [~] Add release/changelog flow. (Release flow + notes compiled from `.changes/` fragments in `release-and-supply-chain.md` and `release-notes.md`; automated fragment-to-notes generation is pending release tooling.)
+- [x] Add release/changelog flow. (Release flow + curated notes live in
+  `release-and-supply-chain.md` and `release-notes.md`; the checked generated
+  rollup from `.changes/` fragments lives at `docs/generated/release-notes.md`
+  and is enforced by `pnpm release:notes:check` / `pnpm verify`.)
 - [x] Add registry publishing runbook. (`docs/operations/registry-publishing.md` + `pnpm registry:publish:check`.)
 - [~] Add package publishing runbook after npm auth is confirmed. (Policy + steps in `release-and-supply-chain.md`; gated on npm auth and a trusted CI publish workflow.)
-- [~] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution. (Documented in `release-and-supply-chain.md`; SBOM generation + attestation run at publish time. No third-party source is currently lifted.)
+- [~] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution. (Documented in `release-and-supply-chain.md`; local SBOM generation/check now exists at `docs/generated/sbom.cdx.json` and `pnpm sbom:check`. Release attachment, npm provenance, and attestation execution remain pending publish workflow/account setup. No third-party source is currently lifted.)
 
 Exit criteria:
 
 - [x] Full verification passes. (`pnpm verify` exit 0, including `registry:publish:check`.)
 - [~] Registry publish path is documented and smoke-tested. (Documented + a read-only publish dry-run passes against the generated bundle; a hosted-URL install smoke is pending host provisioning.)
-- [~] Changelog fragments and release notes are generated from the same source. (`release-notes.md` is compiled from `.changes/` fragments; automated generation is pending tooling.)
+- [x] Changelog fragments and release notes are generated from the same source. (`docs/generated/release-notes.md` is generated from `.changes/` fragments and checked by `pnpm release:notes:check`; curated release posture remains in `docs/operations/release-notes.md`.)
 - [~] Public registry/package claims map to source, license, generated output, and verification evidence. (`docs/operations/public-claims-evidence.md` maps every current claim to a reproducible command/artifact.)
 
 Suggested verification:
 
 - `pnpm verify`
+- `pnpm release:artifacts:check`
+- `pnpm sbom:check`
+- `pnpm release:notes:check`
 - Registry install smoke in a clean temporary project.
 
 ## Final Verification And Closeout
@@ -877,6 +894,7 @@ Suggested verification:
 - `pnpm typecheck`
 - `pnpm test`
 - `pnpm build`
+- `pnpm release:artifacts:check`
 - `pnpm verify`
 - `git diff --check`
 - Confirm `.env` and provider secrets remain untracked.

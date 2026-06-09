@@ -38,9 +38,19 @@ Short plain-language description of the change.
 
 ## Release Notes
 
-Release notes are compiled from fragments once package/release tooling exists. Until then,
-keep fragments as durable review notes and do not delete them unless a release closeout
-explicitly consumes them.
+Release notes have a generated source rollup now:
+
+```powershell
+pnpm release:notes:generate
+pnpm release:notes:check
+```
+
+The generated rollup lives at `docs/generated/release-notes.md` and is checked by
+`pnpm verify` through `pnpm release:artifacts:check`. The curated release posture
+stays in `docs/operations/release-notes.md`. Keep fragments as durable review
+notes and do not delete them unless a release closeout explicitly consumes them.
+Legacy fragments without frontmatter are preserved in the generated rollup under
+an explicit `unclassified` section until a separate cleanup normalizes them.
 
 ## Rules
 

@@ -16,9 +16,10 @@ current honest state; nothing has been published.
    (`docs/operations/changelog.md`).
 2. Run the local verification ladder for the touched surface, ending at
    `pnpm verify` (`docs/operations/development-workflow.md`).
-3. Compile release notes from the accepted `.changes/` fragments into
-   `docs/operations/release-notes.md`. Release notes describe shipped, verified
-   behavior and an explicit "Not Yet Claimed" section — never aspirational status.
+3. Regenerate/check release artifacts from accepted source inputs:
+   `pnpm release:artifacts:generate` writes `docs/generated/sbom.cdx.json` and
+   `docs/generated/release-notes.md`; `pnpm release:artifacts:check` verifies
+   they have not drifted. `pnpm verify` includes the check.
 4. Before any publish, satisfy the supply-chain gates below and the human/account
    actions in `docs/operations/registry-publishing.md`.
 5. Tag and publish only after the dry-run is `ready-to-stage`, the hosting/auth
@@ -34,15 +35,21 @@ package or registry artifact has been published.
   dependencies. `pnpm-lock.yaml` records a single importer (`.`) with no resolved
   packages, and no package manifest declares `dependencies` or `devDependencies`.
   Every package and script runs on Node.js built-ins only.
-- **Consequence.** The current SBOM is trivially small: the only first-party
-  components are the workspace packages themselves, and the only external runtime
-  dependency is the Node.js engine (`>=24` declared in `engines`; verified locally
-  on `v22.x` and `v24.x`). There is no transitive dependency tree to enumerate.
-- **Before first publish.** Generate a machine-readable SBOM (CycloneDX or SPDX)
-  from the package graph and the lockfile, attach it to the release, and re-verify it
-  carries no undeclared third-party component. Add the generation command to this doc
-  when the publishing toolchain is chosen. Re-run the SBOM whenever a real dependency
-  is added — a single added dependency changes the supply-chain risk class.
+- **Local SBOM.** `pnpm sbom:generate` writes
+  `docs/generated/sbom.cdx.json`; `pnpm sbom:check` verifies it. The artifact is a
+  deterministic CycloneDX 1.7 JSON BOM generated locally from root/package/app
+  manifests, `pnpm-lock.yaml`, the Node engine declaration, and a hash manifest of
+  `packages/registry/generated`. It intentionally does not use `npm sbom` or add a
+  generator dependency.
+- **Consequence.** The current BOM is small: the first-party components are the
+  root workspace, `@jami-studio/*` packages, and the workbench app; the required
+  runtime platform is the Node.js engine (`>=24` declared in `engines`). There is
+  no transitive dependency tree to enumerate.
+- **Before first publish.** Re-run `pnpm release:artifacts:generate`, review the
+  SBOM, attach it to the release, and re-verify it carries no undeclared
+  third-party component. Re-run the SBOM whenever a real dependency is added; a
+  single added dependency changes the supply-chain risk class and must be reviewed
+  against the lockfile before publish.
 
 ## Source And License Provenance
 

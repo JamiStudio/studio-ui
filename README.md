@@ -35,3 +35,10 @@ Static registry publish readiness (read-only, publishes nothing):
 ```powershell
 pnpm registry:publish:check
 ```
+
+Local release artifact readiness (SBOM + generated change-note rollup; publishes
+nothing):
+
+```powershell
+pnpm release:artifacts:check
+```

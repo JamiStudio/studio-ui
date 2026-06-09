@@ -25,6 +25,8 @@ in this table with live evidence, it is not safe to make publicly.
 | No secret-shaped content in the served registry bundle | publish dry-run secret scan (`secret-shaped content: none`) | `pnpm registry:publish:check` |
 | No third-party source is redistributed | all items `copiedSource: false`; dry-run `copiedSourceItems: none` | `pnpm registry:publish:check` |
 | Items are MIT-licensed and the repo carries a matching LICENSE | root `LICENSE`; package `license` fields; item `meta.provenance.license` | `pnpm registry:publish:check` (fails if LICENSE missing) |
+| Local SBOM is generated from the package/app graph, lockfile, Node engine declaration, and generated registry bundle | `docs/generated/sbom.cdx.json` | `pnpm sbom:check` |
+| Release-note rollup is generated from `.changes/` fragments | `docs/generated/release-notes.md` | `pnpm release:notes:check` |
 | The renderer fails closed on unsafe/malformed payloads | renderer fixtures + `safe-payload.mjs` + unit tests | `pnpm --filter @jami-studio/renderer test` |
 | Renderer/seam emit inert, non-executable, secret-safe output | `render.test.mjs` / `presentation.test.mjs` | `pnpm --filter @jami-studio/renderer test` |
 | The CLI installs/updates/removes/migrates and verifies provenance | 18 temp-project smoke tests | `pnpm --filter @jami-studio/cli test` |
@@ -40,6 +42,9 @@ in this table with live evidence, it is not safe to make publicly.
 - `pnpm registry:publish:check` — `ready-to-stage`; 45 items (45 publishable now,
   0 source-pending); 106 served files; secret-shaped content: none; copied
   third-party source: none.
+- `pnpm release:artifacts:check` — pass (exit 0); local SBOM and generated
+  `.changes` rollup are in sync with source inputs. It publishes nothing and
+  executes no attestation.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
   `apps/workbench/output/`.
@@ -55,6 +60,8 @@ These must not be stated as fact publicly until evidence exists (see
 - A runtime React renderer, Radix wrapper library, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests exist, but mounted React applications do not.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
+- A release-attached SBOM, SLSA/npm provenance, or any executed release
+  attestation. The current SBOM is local and checked only.
 - Harness runtime behavior (owned by Jami Harness, only displayed here).
 - Any final branding or visual-identity canon claim. Selectable brand/template option descriptors exist,
   but they are exploratory choices only.
