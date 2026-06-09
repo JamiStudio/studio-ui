@@ -8,7 +8,7 @@
   "scripts": {
     "contracts:check": "node scripts/contracts/validate-contracts.mjs",
     "docs:check": "node scripts/docs/check-docs.mjs",
-    "verify": "pnpm docs:check && pnpm contracts:check"
+    "verify": "pnpm docs:check && pnpm contracts:check && pnpm --filter @jami-studio/tokens test && pnpm --filter @jami-studio/registry test && pnpm --filter @jami-studio/renderer test"
   },
   "engines": {
     "node": ">=24.0.0",
