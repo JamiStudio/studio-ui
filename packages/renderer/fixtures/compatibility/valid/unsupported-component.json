@@ -1,0 +1,16 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.unsupported.component",
+  "kind": "unsupportedComponent",
+  "expectedRendererState": "unsupported",
+  "payload": {
+    "component": "UnknownChart",
+    "props": {
+      "title": "Unsupported component"
+    }
+  },
+  "fallback": {
+    "component": "InlineNotice",
+    "message": "This component is not supported by the resident renderer."
+  }
+}

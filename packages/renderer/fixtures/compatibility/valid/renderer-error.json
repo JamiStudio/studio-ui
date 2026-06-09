@@ -1,0 +1,11 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "renderer.error.invalid-props",
+  "kind": "rendererError",
+  "expectedRendererState": "error",
+  "rendererError": {
+    "code": "invalid_props",
+    "recoverable": true,
+    "displayComponent": "InlineNotice"
+  }
+}

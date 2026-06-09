@@ -6,8 +6,9 @@
   "packageManager": "pnpm@10.33.2",
   "type": "module",
   "scripts": {
+    "contracts:check": "node scripts/contracts/validate-contracts.mjs",
     "docs:check": "node scripts/docs/check-docs.mjs",
-    "verify": "pnpm docs:check"
+    "verify": "pnpm docs:check && pnpm contracts:check"
   },
   "engines": {
     "node": ">=24.0.0",

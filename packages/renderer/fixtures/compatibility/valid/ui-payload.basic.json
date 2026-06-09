@@ -1,0 +1,15 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.basic.button",
+  "kind": "uiPayload",
+  "expectedRendererState": "renderable",
+  "payload": {
+    "component": "Button",
+    "props": {
+      "variant": "primary",
+      "children": "Save"
+    },
+    "actionRefs": ["action.save-theme"]
+  },
+  "vocabularyVersion": "2026-06-09.renderer-foundation"
+}

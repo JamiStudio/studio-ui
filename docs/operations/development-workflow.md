@@ -23,6 +23,8 @@ The repo should converge on a unified source registry rather than hand-maintaine
 
 Until implementation packages exist, `docs/` plus `.changes/` are the source canon. As packages land,
 promote truth into machine-readable manifests and generate outward-facing surfaces from those manifests.
+The first promoted machine-readable surfaces are the token, registry, and renderer compatibility
+fixtures under `packages/*/fixtures/`, checked by `pnpm contracts:check`.
 
 The registry-root source-lock record at
 `C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`
@@ -36,11 +38,14 @@ registry format, or hosted target it uses before claiming an implementation gate
 Run the narrowest complete checks for the touched surface:
 
 - Docs and plans: read back changed Markdown, `pnpm docs:check`, `git diff --check`.
-- Tokens: schema validation, generation, contrast/dark-light parity checks, typecheck, unit tests.
-- Registry: shadcn schema validation, Jami metadata validation, dependency graph checks, install smoke.
+- Tokens: schema validation, reference and contrast fixtures, generation, dark-light parity checks,
+  typecheck, unit tests.
+- Registry: Jami metadata validation, dependency graph checks, shadcn schema validation,
+  install smoke.
 - UI/workbench: lint, typecheck, unit tests, build, browser smoke when the app exists.
 - Renderer: payload schema tests, allowlist tests, invalid-prop fallback tests, injection guard tests.
 - CLI: dry-run, diff, install, clean temporary-project smoke tests.
+- Current contract foundation: `pnpm contracts:check`.
 - Full gate: `pnpm verify`.
 
 Every agent final response must report the exact checks run, results, unavailable commands, commit SHA,

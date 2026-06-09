@@ -1,0 +1,13 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "themeRef.factory.jami-warm",
+  "kind": "themeRef",
+  "expectedRendererState": "display-only",
+  "themeRef": {
+    "themeId": "jami-warm",
+    "tokenVersion": "2026-06-09.token-foundation",
+    "sourceRegistryItem": "@jami-studio/jami-warm-theme",
+    "factory": true,
+    "restoreTarget": "factory:jami-warm"
+  }
+}

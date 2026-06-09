@@ -1,0 +1,10 @@
+{
+  "name": "@jami-studio/tokens",
+  "private": true,
+  "version": "0.0.0",
+  "description": "DTCG-compatible Studio UI token contract fixtures and validation foundations.",
+  "type": "module",
+  "scripts": {
+    "test": "pnpm --dir ../.. contracts:check"
+  }
+}

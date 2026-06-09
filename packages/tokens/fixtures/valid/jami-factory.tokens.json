@@ -1,0 +1,69 @@
+{
+  "$schema": "https://jami.studio/schemas/tokens/token-set.schema.json",
+  "$extensions": {
+    "studio-ui": {
+      "schemaVersion": "2026-06-09.token-foundation",
+      "dtcgReport": "DTCG Format Module 2025.10 Community Group report",
+      "migration": {
+        "current": "2026-06-09.token-foundation",
+        "compatibleFrom": "2026-06-09.token-foundation",
+        "notes": "Initial Studio UI token fixture contract."
+      },
+      "generatedOutputs": {
+        "cssVariables": "packages/tokens/generated/jami.css",
+        "tailwindTheme": "packages/tokens/generated/jami.tailwind.css",
+        "typescriptTypes": "packages/tokens/generated/jami-tokens.ts",
+        "shadcnCssVars": "packages/tokens/generated/jami.shadcn.json"
+      }
+    }
+  },
+  "tokens": {
+    "color": {
+      "brand": {
+        "accent": { "$type": "color", "$value": "#C14D84", "$description": "Warm Jami factory accent." },
+        "teal": { "$type": "color", "$value": "#237C7A" }
+      },
+      "neutral": {
+        "warm0": { "$type": "color", "$value": "#FFF9F5" },
+        "warm950": { "$type": "color", "$value": "#20171B" }
+      }
+    },
+    "semantic": {
+      "light": {
+        "background": { "$type": "color", "$value": "{color.neutral.warm0}" },
+        "foreground": { "$type": "color", "$value": "{color.neutral.warm950}" },
+        "accent": { "$type": "color", "$value": "{color.brand.accent}" }
+      },
+      "dark": {
+        "background": { "$type": "color", "$value": "{color.neutral.warm950}" },
+        "foreground": { "$type": "color", "$value": "{color.neutral.warm0}" },
+        "accent": { "$type": "color", "$value": "{color.brand.accent}" }
+      }
+    },
+    "typography": {
+      "body": {
+        "$type": "typography",
+        "$value": { "fontFamily": "Inter", "fontSize": "16px", "fontWeight": 400, "lineHeight": "24px" }
+      }
+    },
+    "spacing": { "control": { "$type": "dimension", "$value": "8px" } },
+    "radius": { "control": { "$type": "dimension", "$value": "8px" } },
+    "shadow": {
+      "overlay": {
+        "$type": "shadow",
+        "$value": { "color": "rgba(32, 23, 27, 0.18)", "offsetX": "0px", "offsetY": "12px", "blur": "32px", "spread": "0px" }
+      }
+    },
+    "motion": { "fast": { "$type": "duration", "$value": "120ms" } },
+    "density": { "comfortable": { "$type": "number", "$value": 1 } },
+    "shell": { "dockWidth": { "$type": "dimension", "$value": "320px" } },
+    "componentState": {
+      "focusRing": { "$type": "color", "$value": "{color.brand.teal}" },
+      "deprecatedAccentAlias": {
+        "$type": "color",
+        "$value": "{color.brand.accent}",
+        "$deprecated": "Use semantic light/dark accent tokens."
+      }
+    }
+  }
+}

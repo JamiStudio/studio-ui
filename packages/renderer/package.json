@@ -1,0 +1,10 @@
+{
+  "name": "@jami-studio/renderer",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Studio UI resident renderer compatibility fixture foundations.",
+  "type": "module",
+  "scripts": {
+    "test": "pnpm --dir ../.. contracts:check"
+  }
+}

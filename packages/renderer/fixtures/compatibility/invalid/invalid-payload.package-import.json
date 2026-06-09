@@ -1,0 +1,13 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.invalid.package-import",
+  "kind": "uiPayload",
+  "expectedRendererState": "renderable",
+  "payload": {
+    "component": "Button",
+    "props": {
+      "packageImport": "left-pad",
+      "children": "Install code"
+    }
+  }
+}

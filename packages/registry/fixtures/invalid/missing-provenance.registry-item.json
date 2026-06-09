@@ -1,0 +1,21 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
+  "name": "@jami-studio/button",
+  "type": "primitive",
+  "title": "Button",
+  "lifecycle": {
+    "id": "primitive.button",
+    "version": "0.0.0-contract.20260609",
+    "schemaVersion": "2026-06-09.registry-foundation",
+    "sourceHash": "sha256:contract-fixture-not-release-artifact"
+  },
+  "compatibility": {
+    "shadcn": "4.x source-lock required before generated output",
+    "tailwind": "4.x source-lock required before generated output",
+    "react": ">=19"
+  },
+  "tokenRequirements": [],
+  "files": [
+    { "path": "components/ui/button.tsx", "target": "components/ui/button.tsx", "kind": "registry:ui" }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "actionRef.denied.delete-artifact",
+  "kind": "deniedAction",
+  "expectedRendererState": "denied",
+  "actionRef": {
+    "id": "action.delete-artifact",
+    "label": "Delete artifact",
+    "risk": "destructive",
+    "policyScope": "artifact.lifecycle",
+    "confirmationMode": "harness-approval",
+    "harnessRoute": "jami-harness://actions/delete-artifact",
+    "policyDecision": {
+      "state": "denied",
+      "reasonCode": "missing_approval"
+    },
+    "execution": {
+      "canExecute": false,
+      "owner": "jami-harness"
+    }
+  }
+}

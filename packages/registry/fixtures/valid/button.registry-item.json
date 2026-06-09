@@ -1,0 +1,44 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
+  "name": "@jami-studio/button",
+  "type": "primitive",
+  "title": "Button",
+  "description": "Tokenized Radix-first shadcn-compatible button primitive contract fixture.",
+  "suite": "solo",
+  "lifecycle": {
+    "id": "primitive.button",
+    "version": "0.0.0-contract.20260609",
+    "schemaVersion": "2026-06-09.registry-foundation",
+    "sourceHash": "sha256:contract-fixture-not-release-artifact",
+    "migrationNotes": "Initial fixture; no installed API migration exists yet."
+  },
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "reviewedAt": "2026-06-09",
+    "copiedSource": false
+  },
+  "compatibility": {
+    "shadcn": "4.x source-lock required before generated output",
+    "tailwind": "4.x source-lock required before generated output",
+    "react": ">=19"
+  },
+  "tokenRequirements": [
+    "semantic.light.background",
+    "semantic.light.foreground",
+    "semantic.light.accent",
+    "componentState.focusRing"
+  ],
+  "dependencies": [],
+  "files": [
+    { "path": "components/ui/button.tsx", "target": "components/ui/button.tsx", "kind": "registry:ui" }
+  ],
+  "docs": {
+    "architecture": "docs/architecture/registry-lifecycle.md"
+  },
+  "agentManifest": {
+    "renderableComponent": "Button",
+    "actionSlots": ["onPress"],
+    "policyOwner": "jami-harness"
+  }
+}

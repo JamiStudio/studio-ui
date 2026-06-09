@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jami.studio/schemas/registry/registry-item.schema.json",
+  "title": "Studio UI registry item",
+  "type": "object",
+  "required": ["$schema", "name", "type", "title", "lifecycle", "provenance", "compatibility", "tokenRequirements", "files"],
+  "properties": {
+    "$schema": { "const": "https://jami.studio/schemas/registry/registry-item.schema.json" },
+    "name": { "type": "string", "pattern": "^@jami-studio/[a-z0-9][a-z0-9-]*$" },
+    "type": { "enum": ["primitive", "component", "block", "page", "theme", "font", "app", "suite"] },
+    "suite": { "enum": ["solo", "business-ops", "mixed-media", "research-writing"] },
+    "lifecycle": { "type": "object" },
+    "provenance": { "type": "object" },
+    "compatibility": { "type": "object" },
+    "tokenRequirements": { "type": "array" },
+    "dependencies": { "type": "array" },
+    "files": { "type": "array" }
+  }
+}

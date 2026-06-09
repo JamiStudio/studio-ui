@@ -1,0 +1,10 @@
+{
+  "name": "@jami-studio/registry",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Studio UI registry item metadata and package graph contract fixtures.",
+  "type": "module",
+  "scripts": {
+    "test": "pnpm --dir ../.. contracts:check"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "artifactView.basic.document",
+  "kind": "artifactView",
+  "expectedRendererState": "display-only",
+  "artifactView": {
+    "artifactId": "artifact.theme-report.001",
+    "kind": "document",
+    "promotedState": "accepted",
+    "availableRenderers": ["ArtifactCard", "Text"],
+    "provenance": {
+      "sourceRepo": "jami-harness",
+      "evidenceRefs": ["evidence.contract-fixture.001"]
+    }
+  }
+}

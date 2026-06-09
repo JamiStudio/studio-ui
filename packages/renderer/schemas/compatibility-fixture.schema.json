@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "title": "Studio UI renderer compatibility fixture",
+  "type": "object",
+  "required": ["$schema", "fixtureId", "kind", "expectedRendererState"],
+  "properties": {
+    "$schema": { "const": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json" },
+    "fixtureId": { "type": "string" },
+    "kind": {
+      "enum": ["uiPayload", "artifactView", "actionRef", "themeRef", "suiteRef", "unsupportedComponent", "deniedAction", "invalidPayload", "rendererError"]
+    },
+    "expectedRendererState": { "enum": ["renderable", "display-only", "denied", "unsupported", "invalid", "error"] }
+  }
+}

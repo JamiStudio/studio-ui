@@ -10,12 +10,16 @@ Current foundation:
 - Operating rules: `AGENTS.md`
 - Product shape: `docs/architecture/studio-ui-product-shape.md`
 - Repository map: `docs/architecture/repository-map.md`
+- Token contract: `docs/architecture/token-contract.md`
+- Registry lifecycle: `docs/architecture/registry-lifecycle.md`
+- Runtime renderer contract: `docs/architecture/runtime-renderer.md`
+- Harness compatibility contract: `docs/architecture/compatibility-contract.md`
 - Account/env lanes: `docs/operations/account-and-env-lanes.md`
 - Readiness checklist: `docs/operations/readiness-checklist.md`
 - Changelog rules: `docs/operations/changelog.md`
 
-Run docs verification:
+Run verification:
 
 ```powershell
-pnpm docs:check
+pnpm verify
 ```

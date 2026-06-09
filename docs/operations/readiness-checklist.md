@@ -26,6 +26,9 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - Node `v24.16.0` and pnpm `10.33.2` available.
 - Minimal pnpm workspace scaffold exists.
 - `pnpm docs:check` exists and passes.
+- `pnpm contracts:check` exists for token, registry, and renderer compatibility
+  fixture foundations.
+- `pnpm verify` runs docs and contract checks.
 - `.env.example` exists; `.env` and local secret variants are ignored.
 - Changelog fragment system exists under `.changes/`.
 - Local-first development workflow exists under `docs/operations/development-workflow.md`.
@@ -66,17 +69,31 @@ npm whoami
 - Add app deployment runbook after the workbench scaffold exists.
 - Add deployment env templates after runtime requirements exist.
 
-## Missing Before Implementation Workstreams
+## Ready Contract Foundations
 
 - `docs/architecture/token-contract.md`
 - `docs/architecture/registry-lifecycle.md`
-- `docs/architecture/workbench-overlay.md`
 - `docs/architecture/runtime-renderer.md`
+- `docs/architecture/compatibility-contract.md`
+- `docs/operations/source-lock-records.md`
+- `packages/tokens` package scaffold, schema, valid token fixture, and negative
+  reference/contrast fixtures.
+- `packages/registry` package scaffold, registry item schema, sample `@jami-studio`
+  item, and missing-provenance negative fixture.
+- `packages/renderer` package scaffold, compatibility schema, fixture mirror for
+  `uiPayload`, `artifactView`, denied `actionRef`, `themeRef`, `suiteRef`,
+  unsupported components, invalid payloads, and renderer error states.
+
+## Missing Before Implementation Workstreams
+
+- `docs/architecture/workbench-overlay.md`
 - `docs/operations/registry-install.md`
-- Repo-local source-lock records and drift checks for each adopted drift-prone dependency or
-  copied/recomposed source surface, using the registry-root source-lock record as intake evidence.
-- Shared compatibility schema or fixture commands for `uiPayload`, `artifactView`, `actionRef`,
-  `themeRef`, `suiteRef`, unsupported renderer states, invalid payloads, and denied actions.
+- Additional repo-local source-lock records and drift checks for each adopted drift-prone
+  dependency or copied/recomposed source surface, using the registry-root source-lock
+  record as intake evidence.
+- Harness-side compatibility fixture export or mirror for `uiPayload`, `artifactView`,
+  `actionRef`, `themeRef`, `suiteRef`, unsupported renderer states, invalid payloads,
+  denied actions, and renderer error states.
 - Evidence packet schema for generated docs, system maps, registry outputs, visual evidence,
   changelog/release notes, and public readiness claims.
 - package-level lint/type/test/build scripts
@@ -84,7 +101,7 @@ npm whoami
 
 ## Automation Readiness
 
-- Local first: `pnpm verify` currently maps to `pnpm docs:check`.
+- Local first: `pnpm verify` currently runs `pnpm docs:check` and `pnpm contracts:check`.
 - GitHub Actions docs check is manual fallback through `workflow_dispatch`.
 - Do not rely on CI as the only gate. Agents must run local checks before pushing.
 - Automatic push and pull-request checks can be enabled later when development slows or minutes are no longer constrained.

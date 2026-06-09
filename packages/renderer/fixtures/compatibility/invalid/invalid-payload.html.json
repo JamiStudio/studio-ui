@@ -1,0 +1,12 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.invalid.html",
+  "kind": "uiPayload",
+  "expectedRendererState": "renderable",
+  "payload": {
+    "component": "Text",
+    "props": {
+      "children": "<script>alert('no')</script>"
+    }
+  }
+}

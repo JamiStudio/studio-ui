@@ -1,0 +1,35 @@
+{
+  "$schema": "https://jami.studio/schemas/tokens/token-set.schema.json",
+  "$extensions": {
+    "studio-ui": {
+      "schemaVersion": "2026-06-09.token-foundation",
+      "dtcgReport": "DTCG Format Module 2025.10 Community Group report",
+      "migration": { "current": "2026-06-09.token-foundation" },
+      "generatedOutputs": {
+        "cssVariables": "packages/tokens/generated/jami.css",
+        "tailwindTheme": "packages/tokens/generated/jami.tailwind.css",
+        "typescriptTypes": "packages/tokens/generated/jami-tokens.ts",
+        "shadcnCssVars": "packages/tokens/generated/jami.shadcn.json"
+      }
+    }
+  },
+  "tokens": {
+    "color": {
+      "brand": { "accent": { "$type": "color", "$value": "#C14D84" } },
+      "neutral": {
+        "warm0": { "$type": "color", "$value": "#FFF9F5" },
+        "warm950": { "$type": "color", "$value": "#20171B" }
+      }
+    },
+    "semantic": {
+      "light": {
+        "background": { "$type": "color", "$value": "#FFFFFF" },
+        "foreground": { "$type": "color", "$value": "#F8F8F8" }
+      },
+      "dark": {
+        "background": { "$type": "color", "$value": "{color.neutral.warm950}" },
+        "foreground": { "$type": "color", "$value": "{color.neutral.warm0}" }
+      }
+    }
+  }
+}

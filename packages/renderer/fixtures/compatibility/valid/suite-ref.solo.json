@@ -1,0 +1,13 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "suiteRef.solo.minimum",
+  "kind": "suiteRef",
+  "expectedRendererState": "display-only",
+  "suiteRef": {
+    "suiteLane": "solo",
+    "appShellId": "@jami-studio/solo-suite",
+    "routeMap": ["/", "/tasks"],
+    "itemGraph": ["@jami-studio/button"],
+    "optionalHarnessCapabilities": ["actionRef", "artifactView"]
+  }
+}

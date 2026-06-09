@@ -77,6 +77,12 @@ Initial shared contract families:
 - `suiteRef`: suite lane, installed item graph, app shell id, route map, and optional
   harness capabilities.
 
+Studio UI's first machine-readable mirror for these families lives under
+`packages/renderer/fixtures/compatibility/` and is checked by `pnpm contracts:check`.
+The fixture set covers `uiPayload`, `artifactView`, denied `actionRef`, `themeRef`,
+`suiteRef`, unsupported components, invalid payloads, and renderer error states.
+`docs/architecture/compatibility-contract.md` records the expected harness handshake.
+
 ## Integration Direction
 
 The first integration should be contract-first:

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "actionRef.invalid.denied-executable",
+  "kind": "deniedAction",
+  "expectedRendererState": "denied",
+  "actionRef": {
+    "id": "action.delete-artifact",
+    "label": "Delete artifact",
+    "policyDecision": {
+      "state": "denied"
+    },
+    "execution": {
+      "canExecute": true,
+      "owner": "studio-ui"
+    }
+  }
+}

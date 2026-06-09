@@ -38,6 +38,13 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   implementation work still needs repo-local source-lock records before code depends on those sources.
 - Registry-root branding intake treats current logo files as exploratory source material, not production
   brand canon or token/registry/UI source truth.
+- 2026-06-09 Stream 2 pass 1 added the first machine-readable contract spine:
+  `packages/tokens`, `packages/registry`, `packages/renderer`, and `scripts/contracts/validate-contracts.mjs`.
+  `pnpm contracts:check` validates token references/contrast/output declarations, registry lifecycle
+  and provenance metadata, and renderer compatibility fixtures for `uiPayload`, `artifactView`,
+  denied `actionRef`, `themeRef`, `suiteRef`, unsupported components, invalid payloads, and renderer
+  error states. Generated token outputs, public shadcn registry output, React renderer code, and CLI
+  install flows are still pending.
 
 ## Locked Decisions
 
@@ -212,7 +219,7 @@ Goal: Define the DTCG-compatible source token model and generate web/runtime out
 
 Depends on:
 
-- [ ] Workstream 1 complete.
+- [x] Workstream 1 complete.
 
 Enables:
 
@@ -231,13 +238,13 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Define token source schema for color, semantic, chart, typography, spacing, radius, shadow, motion, density, shell, and component-state tokens.
-- [ ] Record the current DTCG source-lock, schema version, and migration posture before token schemas are treated as durable.
-- [ ] Add factory theme definitions for the warm Jami family anchored around `#C14D84`.
+- [~] Define token source schema for color, semantic, chart, typography, spacing, radius, shadow, motion, density, shell, and component-state tokens.
+- [~] Record the current DTCG source-lock, schema version, and migration posture before token schemas are treated as durable.
+- [~] Add factory theme definitions for the warm Jami family anchored around `#C14D84`.
 - [ ] Add rich blue-green support ramps and explicitly exclude lime/yellow-green factory ranges.
 - [ ] Generate CSS variables, Tailwind `@theme` variables, TypeScript types, and shadcn `cssVars` payloads.
-- [ ] Add validation for token completeness, references, contrast, and dark/light parity.
-- [ ] Add fixtures for aliases, invalid references, deprecated tokens, composite tokens, contrast failures, and deterministic generated outputs.
+- [~] Add validation for token completeness, references, contrast, and dark/light parity.
+- [~] Add fixtures for aliases, invalid references, deprecated tokens, composite tokens, contrast failures, and deterministic generated outputs.
 
 Exit criteria:
 
@@ -247,6 +254,7 @@ Exit criteria:
 
 Suggested verification:
 
+- `pnpm contracts:check`
 - `pnpm test --filter @jami-studio/tokens`
 - `pnpm build --filter @jami-studio/tokens`
 
@@ -256,7 +264,7 @@ Goal: Build the shadcn-compatible registry item contract and package graph aroun
 
 Depends on:
 
-- [ ] Workstream 2 token outputs.
+- [~] Workstream 2 token contract foundations.
 
 Enables:
 
@@ -275,12 +283,12 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Define registry item metadata for item type, suite, token requirements, dependencies, docs, version generation, and agent manifest.
-- [ ] Add lifecycle and provenance metadata for item id, version, suite membership, schema version, source hash, install paths, dependencies, compatibility ranges, and migration notes.
+- [~] Define registry item metadata for item type, suite, token requirements, dependencies, docs, version generation, and agent manifest.
+- [~] Add lifecycle and provenance metadata for item id, version, suite membership, schema version, source hash, install paths, dependencies, compatibility ranges, and migration notes.
 - [ ] Generate valid `registry.json` and `registry-item.json` outputs.
-- [ ] Add item types for primitives, components, blocks, pages, themes, fonts, apps, and suites.
+- [~] Add item types for primitives, components, blocks, pages, themes, fonts, apps, and suites.
 - [ ] Add cache/revision naming policy.
-- [ ] Add schema validation and sample items.
+- [~] Add schema validation and sample items.
 
 Exit criteria:
 
@@ -290,6 +298,7 @@ Exit criteria:
 
 Suggested verification:
 
+- `pnpm contracts:check`
 - `pnpm test --filter @jami-studio/registry`
 - `pnpm build --filter @jami-studio/registry`
 
@@ -413,14 +422,14 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Define payload schema for component, props, children, action refs, and vocabulary generation.
-- [ ] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-harness` without importing harness runtime ownership into this repo.
+- [~] Define payload schema for component, props, children, action refs, and vocabulary generation.
+- [~] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-harness` without importing harness runtime ownership into this repo.
 - [ ] Add per-component prop validation.
 - [ ] Add fallback rendering for unknown components and invalid props.
-- [ ] Add no-HTML/no-code injection guards.
+- [~] Add no-HTML/no-code injection guards.
 - [ ] Add handshake/version rules for vocabulary generation.
-- [ ] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, and unsupported renderer states.
-- [ ] Add denied-action fixtures that render the harness-owned policy decision without executing it.
+- [~] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, and unsupported renderer states.
+- [~] Add denied-action fixtures that render the harness-owned policy decision without executing it.
 
 Exit criteria:
 
@@ -431,6 +440,7 @@ Exit criteria:
 
 Suggested verification:
 
+- `pnpm contracts:check`
 - `pnpm test --filter @jami-studio/renderer`
 
 ## Workstream 7: CLI Install And Config Flow
@@ -549,8 +559,8 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Add `pnpm verify` covering lint, typecheck, tests, build, registry validation, and docs checks.
-- [ ] Add `pnpm verify` coverage for token schema fixtures, registry provenance, renderer unsafe payloads, CLI lifecycle smokes, and accessibility/visual checks once those surfaces exist.
+- [~] Add `pnpm verify` covering lint, typecheck, tests, build, registry validation, and docs checks.
+- [~] Add `pnpm verify` coverage for token schema fixtures, registry provenance, renderer unsafe payloads, CLI lifecycle smokes, and accessibility/visual checks once those surfaces exist.
 - [ ] Add release/changelog flow.
 - [ ] Add registry publishing runbook.
 - [ ] Add package publishing runbook after npm auth is confirmed.
@@ -582,6 +592,7 @@ Suggested verification:
 - Accessibility and visual checks pass for primitives, workbench, renderer states, and suites once those
   surfaces exist.
 - `pnpm docs:check`
+- `pnpm contracts:check`
 - `pnpm lint`
 - `pnpm typecheck`
 - `pnpm test`
