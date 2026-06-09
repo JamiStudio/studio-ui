@@ -30,5 +30,6 @@ node apps/workbench/smoke/a11y-visual-smoke.mjs     # browser + a11y + visual sm
 
 No remote registry fetch, package-manager install, provider runtime, or harness
 execution. Policy, tool execution, memory, and provenance stay owned by Jami
-Harness; this surface only displays and configures. Pending suite vocabulary and
-source-pending registry members are labelled, never presented as installed.
+Harness; this surface only displays and configures. Pending suite vocabulary is
+labelled, and registry member installability is read from generated content, never
+assumed.

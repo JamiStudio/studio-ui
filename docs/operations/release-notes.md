@@ -37,10 +37,11 @@ section is part of the notes, not an afterthought.
   hashes where source resolves on disk. Source items carry validated SHA-256 source
   hashes.
 - Items: `jami-theme` (installable — its files are the generated token outputs);
-  `button` (source-pending primitive descriptor, no fabricated source); and four
-  suite install-graph descriptors (`solo`, `business-ops`, `mixed-media`,
-  `research-writing`) with generated manifests and explicitly pending per-lane
-  surfaces.
+  seven resident vocabulary items (`button`, `panel`, `text-field`, `data-list`,
+  `agent-panel`, `docs-source-panel`, `media-grid`) with authored metadata and
+  tokenized styles embedded as real install content; and four suite install-graph
+  descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`) with
+  generated manifests and explicitly pending per-lane surfaces.
 
 ### Renderer and harness seam
 
@@ -83,8 +84,8 @@ section is part of the notes, not an afterthought.
 - `pnpm registry:publish:check` static publish dry-run added and wired into
   `pnpm verify`: it re-verifies every embedded content hash, scans served bytes for
   secret-shaped content, classifies installable vs source-pending items, and reports
-  human/account actions. Current status: `ready-to-stage`, secret-clean, no copied
-  third-party source.
+  human/account actions. Current status: `ready-to-stage`, 12 publishable generated
+  items, 0 source-pending, secret-clean, no copied third-party source.
 - Registry publishing runbook, release/supply-chain policy (SBOM, provenance,
   hashes, attestation), and a public-claims evidence map added under
   `docs/operations/`.

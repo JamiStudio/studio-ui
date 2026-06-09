@@ -113,8 +113,8 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `@jami-studio/cli` lifecycle surface. A `jami-theme` registry item now ships the
   generated token outputs as install content; the contract generator embeds real
   file `content` plus a `sha256` hash for any file whose source resolves on disk and
-  records source-pending files (for example the `button` primitive) as descriptors
-  without fabricating source. Four suite foundation items (`solo-suite`,
+  records any future source-pending files as descriptors without fabricating source.
+  Four suite foundation items (`solo-suite`,
   `business-ops-suite`, `mixed-media-suite`, `research-writing-suite`) are install-graph
   descriptors with generated suite manifests and pending per-lane surfaces. The
   dependency-free CLI implements `init`, `list`, `inspect`, `add`, `remove`, `update`,
@@ -154,8 +154,9 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   wired into `pnpm verify`) re-verifies every embedded registry content hash, scans the
   served bundle for secret-shaped content, classifies installable vs source-pending
   items from real generated content, and lists the human/account actions it cannot
-  perform; current status is `ready-to-stage`, secret-clean, no copied source. Four
-  operations docs were added — `registry-publishing.md` (runbook + readiness),
+  perform; current status is `ready-to-stage`, 12 publishable generated items, 0
+  source-pending, secret-clean, no copied source. Four operations docs were added —
+  `registry-publishing.md` (runbook + readiness),
   `release-and-supply-chain.md` (release flow, SBOM, source/license provenance,
   registry hashes, package provenance, attestation policy), `release-notes.md`
   (foundation notes compiled from `.changes/` fragments with an explicit Not-Yet-Claimed
@@ -633,7 +634,7 @@ Implementation tasks:
 
 Exit criteria:
 
-- [~] A clean project can install a sample theme, primitive, and suite. (Theme installs real content; primitive and suite install as descriptors with source-pending vocabulary; page items do not exist yet.)
+- [~] A clean project can install a sample theme, primitive, and suite. (Theme and resident vocabulary items install real embedded content; suites install generated manifests while page items do not exist yet.)
 - [x] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
 - [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; remote registry is an explicit unsupported state; account/auth tooling integration is pending.)
 

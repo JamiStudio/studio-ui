@@ -45,15 +45,15 @@ test("solo lane is a live route; other lanes are honest descriptor-only states",
   }
 });
 
-test("does not fabricate installs: pending vocabulary and source-pending members are labelled", () => {
+test("does not fabricate installs: pending vocabulary is labelled and installable members are detected", () => {
   assert.ok(page.includes("not installed"), "planned surfaces marked not installed");
-  // jami-theme ships generated content (installable); button is source-pending.
+  // Generated registry metadata is the source of truth for installability.
   const solo = data.suites.find((s) => s.lane === "solo");
   const theme = solo.members.find((m) => m.name === "jami-theme");
   const button = solo.members.find((m) => m.name === "button");
   assert.equal(theme.sourceState, "installable");
-  assert.equal(button.sourceState, "source-pending");
-  assert.ok(page.includes("source-pending"), "source-pending state surfaced");
+  assert.equal(button.sourceState, "installable");
+  assert.ok(page.includes("installable"), "installable state surfaced");
 });
 
 test("output is inert: no inline event handlers, no javascript: URLs, one app-shell script", () => {

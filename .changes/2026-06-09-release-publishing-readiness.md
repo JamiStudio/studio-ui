@@ -18,8 +18,8 @@ high-signal secret-shaped-content scan over every served byte (never echoing a
 match), confirms each item has a generated artifact and each suite a manifest,
 confirms a LICENSE file and per-item license exist, classifies items installable vs
 source-pending from real generated content, and lists the human/account actions it
-cannot perform. Current status: `ready-to-stage`, 6 items (5 publishable now, 1
-source-pending `button`), secret-clean, no copied third-party source.
+cannot perform. Current status: `ready-to-stage`, 12 items (12 publishable now,
+0 source-pending), secret-clean, no copied third-party source.
 
 Adds four operations docs: `registry-publishing.md` (static publishing runbook and
 readiness, with the dry-run status and pending host/DNS/source-lock actions),

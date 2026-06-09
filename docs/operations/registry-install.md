@@ -27,11 +27,12 @@ workaround, never a silent empty registry.
 Installable vs source-pending:
 
 - An item whose files all carry content (for example `jami-theme`, whose files
-  are the generated token outputs) is `installable`: the CLI writes real bytes
-  and records each file's content hash.
-- An item whose files carry no content yet (for example `button`, whose `.tsx`
-  source lands in a later workstream) is `source-pending`: the CLI records it as
-  a descriptor and never fabricates the missing source.
+  are the generated token outputs, or `button`, whose authored vocabulary/style
+  files are embedded) is `installable`: the CLI writes real bytes and records
+  each file's content hash.
+- An item whose files carry no content yet is `source-pending`: the CLI records
+  it as a descriptor and never fabricates the missing source. The current
+  generated registry has no source-pending items.
 - An item with a mix is `partial`.
 
 ## Project State
@@ -86,7 +87,7 @@ without an explicit `--force`.
 
 - `pnpm --filter @jami-studio/cli test` runs deterministic temp-project smoke
   tests under the OS temp dir covering init, list, install, suite-graph install
-  with source-pending members, dry-run, conflict refusal and forced overwrite,
+  with authored primitive source, dry-run, conflict refusal and forced overwrite,
   doctor drift detection, remove, update of outdated entries, pin/update
   interaction, migrate report/apply, provenance verification, remote-registry
   unsupported state, and unknown-item failure.

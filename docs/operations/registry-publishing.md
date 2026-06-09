@@ -56,22 +56,21 @@ account actions are honest readiness states, not failures. The check is part of
 ```
 publish dry-run: ready-to-stage
   registry: @jami-studio/registry -> https://registry.jami.studio
-  items: 6 (5 publishable now, 1 source-pending)
-  publishable now: business-ops-suite, jami-theme, mixed-media-suite, research-writing-suite, solo-suite
-  source-pending: button
+  items: 12 (12 publishable now, 0 source-pending)
+  publishable now: agent-panel, business-ops-suite, button, data-list, docs-source-panel, jami-theme, media-grid, mixed-media-suite, panel, research-writing-suite, solo-suite, text-field
+  source-pending: (none)
   copied third-party source items: none
-  served files: 11
+  served files: 17
   secret-shaped content: none
 ```
 
 Read "publishable now" precisely: an item is listed when **its own served bytes are
 complete and hash-verified**. The `jami-theme` item ships the four generated token
-outputs as real, hashed content. The four suite items ship a complete, hashed suite
-*manifest*. "Publishable now" does **not** assert that a suite's planned per-lane
-page/block/component surfaces exist — those are `plannedSurfaces`, pending
-Workstream 4 — nor that a suite's `button` member has source yet. The `button`
-primitive is the one source-pending item (its `.tsx` source lands in Workstream 4),
-recorded as a descriptor with no fabricated content.
+outputs as real, hashed content. The primitive and component vocabulary items ship
+the authored `packages/ui` vocabulary metadata and tokenized styles as real, hashed
+content. The four suite items ship a complete, hashed suite *manifest*. "Publishable
+now" does **not** assert that a suite's planned per-lane page/block/component surfaces
+exist — those are `plannedSurfaces`, pending later suite work.
 
 ## Provenance And Hashes
 

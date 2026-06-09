@@ -74,9 +74,9 @@ checked fixture corpus. Nothing is hand-authored into the page:
   provider runtime, or harness execution happens. Redaction, freshness, and
   policy denial are displayed from the harness ref, never decided here. A
   redacted memory record's gated content is never echoed.
-- **Honest states.** Pending suite vocabulary and source-pending registry
-  members are labelled as such; the surface never presents a planned page/block/
-  component as installed.
+- **Honest states.** Pending suite vocabulary is labelled as such, and registry
+  member installability is read from generated content; the surface never presents
+  a planned page/block/component as installed.
 
 ## Build And Verify
 

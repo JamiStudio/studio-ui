@@ -32,8 +32,8 @@ in this table with live evidence, it is not safe to make publicly.
 ## Latest Evidence Snapshot (2026-06-09)
 
 - `pnpm verify` — pass (exit 0), all stages green, including `registry:publish:check`.
-- `pnpm registry:publish:check` — `ready-to-stage`; 6 items (5 publishable now, 1
-  source-pending `button`); 11 served files; secret-shaped content: none; copied
+- `pnpm registry:publish:check` — `ready-to-stage`; 12 items (12 publishable now,
+  0 source-pending); 17 served files; secret-shaped content: none; copied
   third-party source: none.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
