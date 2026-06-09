@@ -46,6 +46,8 @@ Every vocabulary definition carries:
 - importable non-executable component factory metadata in
   `packages/ui/src/primitive-components.mjs`, including `renderPrimitiveSpec` and
   `createJamiPrimitiveComponents(createElement)`.
+- child-slot handling that treats caller-provided children as inert display data,
+  never as caller-supplied element specs or executable props.
 - state coverage for keyboard, focus visibility, ARIA, contrast, reduced motion,
   responsive layout, disabled, loading, invalid, empty, error, and long-content
   behavior.
@@ -83,4 +85,4 @@ renderer, and not a suite application library. The foundation remains narrow:
 source-owned vocabulary metadata, prop schemas, descriptor metadata, component
 factories, tokenized styles, registry items, renderer allowlist/schema references,
 and tests that keep the initial component colors, state metadata, handshake, prop
-schemas, and non-executable factory output honest.
+schemas, inert child slots, and non-executable factory output honest.

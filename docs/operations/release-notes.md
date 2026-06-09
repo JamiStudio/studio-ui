@@ -41,8 +41,8 @@ section is part of the notes, not an afterthought.
   `editorial-studio-brand`, `command-grid-brand`) that are CLI-inspectable and
   explicitly not final brand canon; seven resident vocabulary items (`button`, `panel`, `text-field`, `data-list`,
   `agent-panel`, `docs-source-panel`, `media-grid`) with authored metadata,
-  framework-neutral component factories, and tokenized styles embedded as real
-  install content; four suite install-graph
+  framework-neutral component factories, inert child-slot handling, and tokenized
+  styles embedded as real install content; four suite install-graph
   descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`); and
   eight standalone page plus eighteen standalone block registry items generated
   from authored suite-shell source descriptors. Suite installs now expose those
@@ -105,8 +105,8 @@ section is part of the notes, not an afterthought.
 `contracts:check`, `contracts:artifacts:check`, `registry:publish:check`, and the
 tokens / registry / renderer / cli / workbench package tests. The workbench
 browser/a11y/visual smoke passed most recently with 14/14 structural a11y, 4/4
-contrast, and 5/5 screenshots on Microsoft Edge. Node `>=24` is the declared
-engine; runs succeed on Node 22 with a non-fatal pnpm unsupported-engine warning.
+contrast, and 5/5 screenshots on Microsoft Edge. This pass was verified on Node
+24.16.0 via `fnm use 24.16.0` and pnpm 10.33.2.
 
 ## Not Yet Claimed
 

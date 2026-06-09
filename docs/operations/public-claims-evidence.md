@@ -19,7 +19,7 @@ in this table with live evidence, it is not safe to make publicly.
 | Registry output is shadcn-shaped with embedded content + `sha256` hashes | `packages/registry/generated/registry.json` | `pnpm registry:publish:check` |
 | Suite pages and blocks are independently installable registry items | generated page/block item artifacts and CLI temp-project smoke | `pnpm --filter @jami-studio/cli test` |
 | Default-kit brand/template options are selectable and CLI-inspectable without claiming final brand canon | `registry/branding/*.brand-option.json`, generated `*-brand` registry items, workbench option cards, CLI temp-project smoke | `pnpm contracts:check`; `pnpm --filter @jami-studio/workbench test`; `pnpm --filter @jami-studio/cli test` |
-| Resident UI primitives/components ship importable framework-neutral component factory source | `packages/ui/src/primitive-components.mjs`, generated resident UI registry items, UI tests, workbench vocabulary evidence | `pnpm --filter @jami-studio/ui test`; `pnpm contracts:check`; `pnpm --filter @jami-studio/workbench test` |
+| Resident UI primitives/components ship importable framework-neutral component factory source with inert child-slot handling | `packages/ui/src/primitive-components.mjs`, generated resident UI registry items, UI tests, workbench vocabulary evidence | `pnpm --filter @jami-studio/ui test`; `pnpm contracts:check`; `pnpm --filter @jami-studio/workbench test` |
 | Every embedded registry content hash recomputes exactly | publish dry-run hash re-verification | `pnpm registry:publish:check` |
 | No secret-shaped content in the served registry bundle | publish dry-run secret scan (`secret-shaped content: none`) | `pnpm registry:publish:check` |
 | No third-party source is redistributed | all items `copiedSource: false`; dry-run `copiedSourceItems: none` | `pnpm registry:publish:check` |
@@ -42,8 +42,7 @@ in this table with live evidence, it is not safe to make publicly.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
   `apps/workbench/output/`.
-- Node engine: declared `>=24`; runs succeed on Node 22 with a non-fatal pnpm
-  unsupported-engine warning.
+- Node engine: verified on Node 24.16.0 via `fnm use 24.16.0` and pnpm 10.33.2.
 
 ## Claims That Are NOT Yet Supported
 

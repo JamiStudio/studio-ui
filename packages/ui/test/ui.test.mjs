@@ -211,6 +211,46 @@ test("createJamiPrimitiveComponents adapts factories to an injected createElemen
   assert.throws(() => createJamiPrimitiveComponents(null), /requires a createElement function/);
 });
 
+test("primitive component factories keep caller children inert", () => {
+  const unsafeChild = {
+    type: "script",
+    props: {
+      onClick: "run",
+      dangerouslySetInnerHTML: { __html: "<script>run()</script>" },
+    },
+    children: [],
+  };
+  const circular = {};
+  circular.self = circular;
+
+  const spec = renderPrimitiveSpec("panel", {
+    title: "Evidence",
+    children: [unsafeChild, circular],
+  });
+  assert.equal(spec.state, "renderable");
+  assert.deepEqual(collectExecutable(spec.node), [], "raw spec does not expose executable child props");
+  assert.equal(
+    spec.node.children.some((child) => child && typeof child === "object" && child.type === "script"),
+    false,
+    "caller-supplied spec-shaped children are not adapted as elements",
+  );
+  assert.ok(
+    spec.node.children.includes("[unserializable value]"),
+    "unserializable child data is represented by an inert marker",
+  );
+
+  const createElement = (type, props, ...children) => ({ type, props, children });
+  const components = createJamiPrimitiveComponents(createElement);
+  const panel = components.Panel({ title: "Evidence", children: [unsafeChild] });
+  assert.deepEqual(collectExecutable(panel), [], "adapter output does not expose executable child props");
+  assert.equal(
+    panel.children.some((child) => child && typeof child === "object" && child.type === "script"),
+    false,
+    "createElement adapter does not receive caller-supplied child elements",
+  );
+  assert.equal(typeof panel.children.at(-1), "string", "caller child is display data only");
+});
+
 test("component token references stay inside the generated Studio UI token set", () => {
   const generated = readFileSync(join(root, "packages/tokens/generated/jami-tokens.ts"), "utf8");
   for (const definition of componentVocabulary) {

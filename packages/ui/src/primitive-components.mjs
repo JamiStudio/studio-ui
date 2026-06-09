@@ -47,15 +47,27 @@ function safeArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
-function safeChildren(value) {
-  if (Array.isArray(value)) return value;
-  return value === undefined || value === null || value === false ? [] : [value];
-}
-
 function displayValue(value) {
   if (value === null || value === undefined) return "";
-  if (typeof value === "object") return JSON.stringify(value);
+  if (typeof value === "function" || typeof value === "symbol") return "[unsupported value]";
+  if (typeof value === "object") {
+    try {
+      return JSON.stringify(value);
+    } catch {
+      return "[unserializable value]";
+    }
+  }
   return String(value);
+}
+
+function safeChild(value) {
+  if (value === undefined || value === null || value === false) return null;
+  return displayValue(value);
+}
+
+function safeChildren(value) {
+  const values = Array.isArray(value) ? value.flat(Infinity) : [value];
+  return values.map(safeChild).filter((child) => child !== null);
 }
 
 function childrenOrLabel(props, fallback) {

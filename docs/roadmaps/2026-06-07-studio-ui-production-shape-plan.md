@@ -546,8 +546,9 @@ Implementation tasks:
   factories; full Radix wrapper boundaries remain pending.)
 - [~] Add tokenized primitive implementations. (Initial authored CSS uses generated
   `--jami-*` variables for the resident vocabulary, and the component factories
-  emit those classes without executable action handlers; Radix wrappers and browser
-  visual regression remain pending.)
+  emit those classes without executable action handlers while treating caller
+  children as inert display data; Radix wrappers and browser visual regression
+  remain pending.)
 - [~] Add composed components for agent panel, data display, forms, calendar shell, docs shell, media grid, source board, and command/action surfaces. (`agent-panel`, `data-list`,
   `text-field`, `docs-source-panel`, `media-grid`, and `button` metadata/styles/factories exist;
   calendar shell and source-board composition remain pending.)
@@ -556,8 +557,8 @@ Implementation tasks:
   `packages/ui`; dedicated primitive example stories remain pending.)
 - [~] Add accessibility, interaction, and visual regression checks for critical primitives.
   (`packages/ui/test/ui.test.mjs` checks ARIA/state metadata, tokenized CSS, importable
-  non-executable component factories, and invalid-prop fail-closed behavior; browser
-  visual regression for the primitives remains pending.)
+  non-executable component factories, inert child-slot handling, and invalid-prop
+  fail-closed behavior; browser visual regression for the primitives remains pending.)
 - [~] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior. (The state matrix is recorded and tested in vocabulary metadata; per-component browser fixtures remain pending.)
 - [x] Add per-component prop schemas for the resident vocabulary. (`packages/ui`
   exports structured prop schemas and tests for valid, unsupported, wrong-type,

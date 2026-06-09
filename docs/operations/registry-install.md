@@ -29,7 +29,7 @@ Installable vs source-pending:
 - An item whose files all carry content (for example `jami-theme`, whose files
   are the generated token outputs; `studio-console-brand`, whose file is an
   authored brand-option descriptor; or `button`, whose authored vocabulary,
-  descriptor, component-factory, and style files are embedded) is `installable`:
+  descriptor, inert component-factory, and style files are embedded) is `installable`:
   the CLI writes real bytes and records each file's content hash.
 - An item whose files carry no content yet is `source-pending`: the CLI records
   it as a descriptor and never fabricates the missing source. The current
@@ -102,5 +102,5 @@ registry, run a package manager, scaffold an app shell, render a browser
 surface, decide a final brand identity, or execute harness actions. Suite items install their theme, suite
 descriptor, and generated page/block descriptors. These are installable
 manifests, not full React page or block implementations. Resident UI items now
-ship framework-neutral component factory source, but not Radix wrappers or a
-runtime React renderer.
+ship framework-neutral component factory source with inert child-slot handling,
+but not Radix wrappers or a runtime React renderer.
