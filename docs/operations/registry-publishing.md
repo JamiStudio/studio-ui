@@ -56,24 +56,28 @@ account actions are honest readiness states, not failures. The check is part of
 ```
 publish dry-run: ready-to-stage
   registry: @jami-studio/registry -> https://registry.jami.studio
-  items: 38 (38 publishable now, 0 source-pending)
+  items: 41 (41 publishable now, 0 source-pending)
   source-pending: (none)
   copied third-party source items: none
-  served files: 69
+  served files: 72
   secret-shaped content: none
 ```
 
-The 38 publishable items are: 1 theme, 3 primitives, 4 resident components, 4
-suite roots, 8 generated page descriptors, and 18 generated block descriptors.
+The 41 publishable items are: 1 factory theme, 3 selectable brand/template option
+descriptors, 3 primitives, 4 resident components, 4 suite roots, 8 generated page
+descriptors, and 18 generated block descriptors.
 
 Read "publishable now" precisely: an item is listed when **its own served bytes are
 complete and hash-verified**. The `jami-theme` item ships the four generated token
-outputs as real, hashed content. The primitive and component vocabulary items ship
-the authored `packages/ui` vocabulary metadata and tokenized styles as real, hashed
-content. The four suite items ship complete, hashed suite manifests. The generated
-page and block items ship complete, hashed descriptor manifests derived from the
-authored suite shell sources. "Publishable now" still does **not** assert full
-React page/block implementations or hosted registry availability.
+outputs as real, hashed content. The brand/template option descriptors ship authored
+descriptor JSON with `canonicalBrand: false`; they are selectable default-kit options,
+not final brand canon, and they do not redistribute logo source. The primitive and
+component vocabulary items ship the authored `packages/ui` vocabulary metadata and
+tokenized styles as real, hashed content. The four suite items ship complete, hashed
+suite manifests. The generated page and block items ship complete, hashed descriptor
+manifests derived from the authored suite shell sources. "Publishable now" still does
+**not** assert full React page/block implementations, final visual identity, or hosted
+registry availability.
 
 ## Provenance And Hashes
 
