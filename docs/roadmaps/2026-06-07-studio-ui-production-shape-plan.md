@@ -121,12 +121,21 @@ active plan, not optional research notes.
 
 - `path-lock`: active plans and boundary docs must point to `C:\Users\james\dev\orgs\oss\registry\studio-ui`
   and `C:\Users\james\dev\orgs\oss\registry\jami-harness`, with package names kept distinct from repo
-  folder names.
+  folder names; closure requires search/readback or equivalent path-lock evidence.
 - `source-lock`: shadcn, Tailwind, DTCG, Radix/Base UI, Agent-Native references, package publishing,
   static registry hosting, and lifted third-party source need current-source, license, and provenance
-  evidence before implementation relies on them.
+  evidence before implementation relies on them. The root current-source record is
+  `C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`; implementation rows
+  must become checked-in source-lock records before code depends on the source.
 - `compat-lock`: `uiPayload`, `artifactView`, `actionRef`, `themeRef`, `suiteRef`, unsupported component,
-  invalid payload, denied action, and renderer error fixtures must align with the harness.
+  invalid payload, denied action, and renderer error fixtures must align with the harness and be enforced
+  by schema/fixture commands once those commands exist.
+- `policy-lock`: renderer and action surfaces must include denied-action, approval/refusal display,
+  unsafe payload, secret-redaction, and no-side-effect fixtures that preserve harness-owned policy
+  decisions.
+- `adapter-lock`: AG-UI and any registry/CLI/provider adapter claims must document support,
+  unsupported states, denial behavior, trace/evidence mapping, auth expectations, and cancellation or
+  streaming limitations where applicable.
 - `token-lock`: token fixtures must cover schema version, aliases, invalid references, deprecation,
   composite tokens, dark/light parity, contrast, and generated output determinism.
 - `renderer-lock`: runtime rendering is data-only, resident, allowlisted, validated, and failing-closed.
@@ -134,8 +143,12 @@ active plan, not optional research notes.
   guidance, conflict handling, and provenance inspection.
 - `a11y-visual-lock`: component, workbench, renderer, and suite work must prove keyboard, focus, ARIA,
   contrast, reduced motion, responsive, long-content, and multi-theme behavior.
+- `evidence-lock`: registry, token, renderer, workbench, suite, docs, and public-claim outputs must link
+  to source commit, accepted contract, command result, timestamp, freshness class, and generated output
+  paths once evidence schemas exist.
 - `supply-chain-lock`: source/license provenance, registry item hashes, SBOM policy, and publish/attestation
-  readiness start before suite and release expansion.
+  readiness start before suite and release expansion; package publishing, static registry hosting, and
+  release attestation tooling need dry-run or capability evidence before public claims.
 
 ## Workstream 1: Repo Foundation And Docs Alignment
 
@@ -551,6 +564,9 @@ Suggested verification:
 
 - Path-lock and source-lock evidence for sibling repos, DTCG, shadcn, Tailwind, component substrates,
   package publishing, static registry hosting, and lifted source.
+- Source-lock records satisfy the root current-source record for shadcn, Tailwind, DTCG, AG-UI, Agent-Native reference
+  material, package publishing, static registry hosting, OWASP/NIST renderer guidance, and release
+  attestation tooling before those implementation lanes depend on them.
 - Shared harness/UI compatibility fixtures pass.
 - Token schema, alias, deprecation, invalid reference, contrast, and generated-output fixtures pass.
 - Renderer unsafe-payload and denied-action fixtures pass.
