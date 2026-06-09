@@ -1,7 +1,7 @@
 # Development Workflow
 
 Status: Active
-Last updated: 2026-06-07
+Last updated: 2026-06-09
 
 ## Purpose
 
@@ -24,6 +24,13 @@ The repo should converge on a unified source registry rather than hand-maintaine
 Until implementation packages exist, `docs/` plus `.changes/` are the source canon. As packages land,
 promote truth into machine-readable manifests and generate outward-facing surfaces from those manifests.
 
+The registry-root source-lock record at
+`C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`
+is the current crossflow intake record for drift-prone standards, packages, hosted services,
+and release tooling. Studio UI docs may reference that record for planning and readiness, but
+code-bearing work must add repo-local evidence for the exact dependency, package, source file,
+registry format, or hosted target it uses before claiming an implementation gate is complete.
+
 ## Local-First Verification Ladder
 
 Run the narrowest complete checks for the touched surface:
@@ -45,12 +52,20 @@ and push result.
   dispatches it.
 - Do not rely on CI to catch workstream failures. The worker must run the ladder before commit and push.
 - Automatic PR/push CI can be enabled later when development slows or GitHub minutes are no longer a constraint.
+- For docs-only changes, the complete local gate is readback of changed Markdown, `pnpm docs:check`,
+  and `git diff --check`. Implementation changes must add the relevant stronger local checks from
+  the ladder above before push.
 
 ## No Stub Completion
 
 Do not fake progress with placeholders, hidden demo data, disabled checks, broad compatibility shims, or
 weakened validation. If real user input or account action is needed, pause the stream, record the exact
 intervention needed, alert the human, then continue after it is resolved. Do not patch around it.
+
+No-stub escalation applies to shared seams as well: unsupported renderer payloads, denied actions,
+missing source-lock evidence, missing package auth, missing hosted-registry capability, or absent
+compatibility fixtures must be represented as explicit blocked or missing-readiness states. They must
+not be hidden behind permissive fallbacks, demo-only data, or downgraded validation.
 
 ## Diagrams And System Maps
 

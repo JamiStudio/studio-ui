@@ -1,7 +1,7 @@
 # Readiness Checklist
 
 Status: Active
-Last updated: 2026-06-07
+Last updated: 2026-06-09
 
 ## Purpose
 
@@ -13,6 +13,11 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - Git repository initialized on `main`.
 - Remote configured: `https://github.com/JamiStudio/studio-ui.git`.
 - `main` pushed and tracking `origin/main`.
+- Path-lock checked on 2026-06-09: `studio-ui` and sibling `jami-harness` are separate
+  registry-root Git worktrees with remotes `https://github.com/JamiStudio/studio-ui.git`
+  and `https://github.com/JamiStudio/jami-harness.git`.
+- Root source-lock record checked on 2026-06-09:
+  `C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`.
 - GitHub CLI authenticated as `jamesnavinhill`.
 - Vercel CLI authenticated as `studio-jami`.
 - No Vercel project is needed for Studio UI or Jami Harness just because
@@ -27,6 +32,8 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - Active roadmap exists under `docs/roadmaps/`.
 - Durable product shape exists under `docs/architecture/`.
 - Account/env lane doc exists under `docs/operations/`.
+- Root branding intake exists under `C:\Users\james\dev\orgs\oss\registry\docs\branding\README.md`
+  and treats early logo files as exploratory source material, not production brand canon.
 
 ## Missing Before Package Publishing
 
@@ -66,6 +73,12 @@ npm whoami
 - `docs/architecture/workbench-overlay.md`
 - `docs/architecture/runtime-renderer.md`
 - `docs/operations/registry-install.md`
+- Repo-local source-lock records and drift checks for each adopted drift-prone dependency or
+  copied/recomposed source surface, using the registry-root source-lock record as intake evidence.
+- Shared compatibility schema or fixture commands for `uiPayload`, `artifactView`, `actionRef`,
+  `themeRef`, `suiteRef`, unsupported renderer states, invalid payloads, and denied actions.
+- Evidence packet schema for generated docs, system maps, registry outputs, visual evidence,
+  changelog/release notes, and public readiness claims.
 - package-level lint/type/test/build scripts
 - package-level source/license audit policy for lifted third-party files
 

@@ -30,6 +30,14 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   before implementation expands from docs into product packages.
 - Yrka reference surfaces under `C:\Users\james\projects\yrka\packages\design-tokens`, `C:\Users\james\projects\yrka\apps\web\lib\theme`, and `C:\Users\james\projects\yrka\apps\web\components\admin\dock` are the preferred local influence for dense, always-live, orderly theme controls.
 - Current checkout has docs, research, package/source-control scaffold, and repo-readiness guidance. Product packages are not implemented yet.
+- 2026-06-09 path-lock evidence confirms `studio-ui` and `jami-harness` are separate registry-root Git
+  worktrees with canonical `JamiStudio` remotes; the sibling harness worktree had an unrelated dirty
+  deletion during this Studio UI pass and was not edited here.
+- Registry-root source-lock evidence is current at
+  `C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`; Studio UI
+  implementation work still needs repo-local source-lock records before code depends on those sources.
+- Registry-root branding intake treats current logo files as exploratory source material, not production
+  brand canon or token/registry/UI source truth.
 
 ## Locked Decisions
 
@@ -184,14 +192,14 @@ Implementation tasks:
 - [x] Add minimal package/source-control scaffold.
 - [x] Add sibling foundation alignment doc and cross-repo boundary rules.
 - [x] Normalize active plan sibling path to the registry-root `jami-harness` checkout.
-- [ ] Confirm all active roadmap and boundary docs are path-locked to the actual sibling repos.
+- [x] Confirm all active roadmap and boundary docs are path-locked to the actual sibling repos.
 
 Exit criteria:
 
 - [x] All Intercal-specific repo ownership references are removed from active operating docs.
 - [x] Agents can find the active roadmap, report, account/env lanes, and changelog rules.
 - [x] Git/package scaffolding exists and docs-only checks run.
-- [ ] No active plan or boundary doc points at legacy sibling paths outside the registry root.
+- [x] No active plan or boundary doc points at legacy sibling paths outside the registry root.
 
 Suggested verification:
 

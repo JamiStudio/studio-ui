@@ -2,7 +2,7 @@
 
 Status: Active foundation
 Owner: Jami.Studio
-Last updated: 2026-06-07
+Last updated: 2026-06-09
 
 ## Purpose
 
@@ -141,3 +141,8 @@ Separate suite namespaces or aliases require a later decision record.
 Builder.io / Agent-Native templates are a reference corpus to recompose. Do not copy source
 without verifying license scope, attribution requirements, current upstream source, and
 the exact files being lifted.
+
+Early Jami.Studio logo files under the registry-root `docs/branding/` directory are exploratory
+source material only. They are not accepted brand canon, token source, registry assets, package
+branding, or UI theme defaults until a later brand branch expresses changes through the accepted
+token, registry, renderer, suite, and docs seams.

@@ -2,7 +2,7 @@
 
 Status: Active boundary
 Owner: Jami.Studio
-Last updated: 2026-06-07
+Last updated: 2026-06-09
 
 ## Purpose
 
@@ -14,6 +14,14 @@ deliberate contract surface under the `@jami-studio/*` family.
 
 - `studio-ui`: source at `C:\Users\james\dev\orgs\oss\registry\studio-ui`.
 - `jami-harness`: source at `C:\Users\james\dev\orgs\oss\registry\jami-harness`.
+
+Path-lock evidence checked on 2026-06-09:
+
+- `studio-ui` is a Git worktree at `C:\Users\james\dev\orgs\oss\registry\studio-ui`
+  with `origin` set to `https://github.com/JamiStudio/studio-ui.git`.
+- `jami-harness` is a Git worktree at `C:\Users\james\dev\orgs\oss\registry\jami-harness`
+  with `origin` set to `https://github.com/JamiStudio/jami-harness.git`.
+- Active Studio UI boundary docs and roadmaps use these registry-root sibling paths.
 
 The repositories should remain separate until a later decision record proves that one
 workspace would reduce real release or integration friction. Planning convenience is not
@@ -49,6 +57,13 @@ The shared seam is typed data, not arbitrary code:
 - Studio UI components expose declared action slots and never execute model-provided code.
 - Theme, preset, registry item, and suite metadata can be referenced by harness artifacts
   but remain authored and distributed by Studio UI.
+
+Current root source-lock evidence lives at
+`C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`.
+That root record is sufficient for planning alignment, but implementation work in this repo
+still needs repo-local source-lock records and failing checks before adopting shadcn,
+Tailwind, DTCG, Agent-Native reference material, AG-UI payload semantics, package publishing,
+static registry hosting, renderer safety guidance, or release attestation tooling.
 
 Initial shared contract families:
 
