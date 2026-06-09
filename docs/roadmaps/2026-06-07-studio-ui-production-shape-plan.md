@@ -50,6 +50,10 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   non-execution checks, renderer-error run-event mirrors, and malformed-reference negative coverage.
   This remains consumer-side contract validation only; Studio UI still does not import harness
   implementation internals or claim harness runtime execution.
+- 2026-06-09 Stream 2 pass 4 added deterministic contract artifact generation for token CSS,
+  Tailwind `@theme`, TypeScript token-name exports, shadcn `cssVars`, and local shadcn-shaped
+  registry output under `packages/*/generated`. `pnpm contracts:check` now drift-checks those
+  artifacts and enforces real SHA-256 source hashes on registry source items.
 
 ## Locked Decisions
 
@@ -247,7 +251,7 @@ Implementation tasks:
 - [~] Record the current DTCG source-lock, schema version, and migration posture before token schemas are treated as durable.
 - [~] Add factory theme definitions for the warm Jami family anchored around `#C14D84`.
 - [ ] Add rich blue-green support ramps and explicitly exclude lime/yellow-green factory ranges.
-- [ ] Generate CSS variables, Tailwind `@theme` variables, TypeScript types, and shadcn `cssVars` payloads.
+- [x] Generate CSS variables, Tailwind `@theme` variables, TypeScript types, and shadcn `cssVars` payloads.
 - [~] Add validation for token completeness, references, contrast, and dark/light parity.
 - [~] Add fixtures for aliases, invalid references, deprecated tokens, composite tokens, contrast failures, and deterministic generated outputs.
 
@@ -290,20 +294,22 @@ Implementation tasks:
 
 - [~] Define registry item metadata for item type, suite, token requirements, dependencies, docs, version generation, and agent manifest.
 - [~] Add lifecycle and provenance metadata for item id, version, suite membership, schema version, source hash, install paths, dependencies, compatibility ranges, and migration notes.
-- [ ] Generate valid `registry.json` and `registry-item.json` outputs.
+- [~] Generate valid `registry.json` and `registry-item.json` outputs.
 - [~] Add item types for primitives, components, blocks, pages, themes, fonts, apps, and suites.
 - [ ] Add cache/revision naming policy.
 - [~] Add schema validation and sample items.
 
 Exit criteria:
 
-- [ ] Sample registry items validate against shadcn schema and Jami metadata rules.
+- [~] Sample registry items validate against local shadcn-shaped output and Jami metadata rules.
 - [ ] `@jami-studio` item names are discoverable and deterministic.
 - [ ] Registry items are inspectable for provenance and future migration before CLI work consumes them.
 
 Suggested verification:
 
 - `pnpm contracts:check`
+- `pnpm contracts:generate`
+- `pnpm contracts:artifacts:check`
 - `pnpm test --filter @jami-studio/registry`
 - `pnpm build --filter @jami-studio/registry`
 

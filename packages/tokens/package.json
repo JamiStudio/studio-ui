@@ -5,6 +5,7 @@
   "description": "DTCG-compatible Studio UI token contract fixtures and validation foundations.",
   "type": "module",
   "scripts": {
+    "generate": "pnpm --dir ../.. contracts:generate",
     "test": "pnpm --dir ../.. contracts:check"
   }
 }

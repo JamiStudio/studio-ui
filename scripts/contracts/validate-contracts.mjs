@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { generateAllArtifacts, registrySourceHash } from "./generate-contract-artifacts.mjs";
 
 const root = process.cwd();
 const failures = [];
@@ -139,6 +140,12 @@ function validateRegistryFixture(path, shouldPass) {
   }
   for (const field of ["id", "version", "schemaVersion", "sourceHash"]) {
     if (!item.lifecycle?.[field]) localFailures.push(`missing lifecycle.${field}`);
+  }
+  if (item.lifecycle?.sourceHash && !/^sha256:[0-9a-f]{64}$/.test(item.lifecycle.sourceHash)) {
+    localFailures.push("lifecycle.sourceHash must be a sha256 digest");
+  }
+  if (item.lifecycle?.sourceHash && item.lifecycle.sourceHash !== registrySourceHash(item)) {
+    localFailures.push("lifecycle.sourceHash does not match registry source item");
   }
   if (!Array.isArray(item.files) || item.files.length === 0) localFailures.push("missing install files");
   if (!item.provenance?.source || !item.provenance?.license || !item.provenance?.reviewedAt) {
@@ -301,6 +308,8 @@ for (const path of listJson("packages/registry/fixtures/valid")) validateRegistr
 for (const path of listJson("packages/registry/fixtures/invalid")) validateRegistryFixture(path, false);
 for (const path of listJson("packages/renderer/fixtures/compatibility/valid")) validateRendererFixture(path, true);
 for (const path of listJson("packages/renderer/fixtures/compatibility/invalid")) validateRendererFixture(path, false);
+
+for (const failure of generateAllArtifacts({ check: true })) failures.push(failure);
 
 if (failures.length > 0) {
   console.error("contracts:check failed");

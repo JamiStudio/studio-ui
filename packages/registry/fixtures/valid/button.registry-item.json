@@ -9,7 +9,7 @@
     "id": "primitive.button",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:contract-fixture-not-release-artifact",
+    "sourceHash": "sha256:c154b7cbcc9275a3f92eed34162ace1cfe544e9ab52322680e96ae623af379ea",
     "migrationNotes": "Initial fixture; no installed API migration exists yet."
   },
   "provenance": {

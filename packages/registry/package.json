@@ -5,6 +5,7 @@
   "description": "Studio UI registry item metadata and package graph contract fixtures.",
   "type": "module",
   "scripts": {
+    "generate": "pnpm --dir ../.. contracts:generate",
     "test": "pnpm --dir ../.. contracts:check"
   }
 }

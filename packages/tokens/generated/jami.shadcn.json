@@ -1,0 +1,18 @@
+{
+  "$schema": "https://jami.studio/schemas/tokens/shadcn-css-vars.generated.json",
+  "schemaVersion": "2026-06-09.token-foundation",
+  "cssVars": {
+    "light": {
+      "background": "var(--jami-semantic-light-background)",
+      "foreground": "var(--jami-semantic-light-foreground)",
+      "accent": "var(--jami-semantic-light-accent)",
+      "ring": "var(--jami-componentState-focusRing)"
+    },
+    "dark": {
+      "background": "var(--jami-semantic-dark-background)",
+      "foreground": "var(--jami-semantic-dark-foreground)",
+      "accent": "var(--jami-semantic-dark-accent)",
+      "ring": "var(--jami-componentState-focusRing)"
+    }
+  }
+}
