@@ -77,6 +77,7 @@ test("exposes source-owned vocabulary handshake and prop schemas", () => {
   assert.ok(page.includes("2026-06-09.ui-props"), "prop schema version surfaced");
   assert.ok(page.includes("descriptor-only"), "descriptor status surfaced honestly");
   assert.ok(page.includes("unsupported prop href for button"), "bad prop fixture reason is visible");
+  assert.ok(page.includes("prop variant must be one of primary, secondary, ghost, danger"), "invalid enum fixture reason is visible");
 });
 
 test("all four lanes render generated suite shell routes without claiming React runtime", () => {

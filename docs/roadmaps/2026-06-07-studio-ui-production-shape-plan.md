@@ -235,6 +235,13 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   the workbench displays the handshake/prop-schema evidence from `packages/ui`.
   This still does not claim Radix wrappers, rendered React primitives, hosted
   registry, hosted persistence, or full suite React applications.
+- 2026-06-09 post-audit confirmation pass 2 found the prop-schema enforcement
+  path sound and added the missing renderer compatibility fixture for invalid
+  enum values. The fixture corpus now separately proves stale handshakes,
+  unsupported props, wrong prop types, invalid enum values, and unsupported
+  component names keep their intended `invalid` or `unsupported` renderer
+  states, and the workbench evidence test confirms the invalid-enum reason is
+  visible.
 
 ## Locked Decisions
 
