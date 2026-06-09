@@ -242,6 +242,17 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   component names keep their intended `invalid` or `unsupported` renderer
   states, and the workbench evidence test confirms the invalid-enum reason is
   visible.
+- 2026-06-09 post-audit implementation pass 3 moved the resident vocabulary past
+  descriptor-only metadata by adding `packages/ui/src/primitive-components.mjs`.
+  It exports dependency-free, framework-neutral component factories for the seven
+  resident primitives/components, a JSON-inert `renderPrimitiveSpec`, and
+  `createJamiPrimitiveComponents(createElement)` for React-style adapter use
+  without importing React or Radix. Generated resident UI registry items now
+  embed that source with SHA-256 hashes, `validate-contracts.mjs` checks the
+  embedded factory file, and the workbench vocabulary evidence shows the
+  factory status/source. This still does not claim Radix wrappers, a runtime
+  React renderer, hosted registry, hosted persistence, or full suite React
+  applications.
 
 ## Locked Decisions
 
@@ -531,17 +542,21 @@ Implementation tasks:
 - [~] Define primitive inventory and import boundaries. (`packages/ui` now exposes the
   first source-owned resident vocabulary metadata and package exports for `button`,
   `panel`, `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
-  `media-grid`, plus descriptor-only React-style primitive metadata; full
-  Radix/React implementation boundaries remain pending.)
+  `media-grid`, plus React-style primitive metadata and framework-neutral component
+  factories; full Radix wrapper boundaries remain pending.)
 - [~] Add tokenized primitive implementations. (Initial authored CSS uses generated
-  `--jami-*` variables for the resident vocabulary; full component implementations are
-  pending.)
+  `--jami-*` variables for the resident vocabulary, and the component factories
+  emit those classes without executable action handlers; Radix wrappers and browser
+  visual regression remain pending.)
 - [~] Add composed components for agent panel, data display, forms, calendar shell, docs shell, media grid, source board, and command/action surfaces. (`agent-panel`, `data-list`,
-  `text-field`, `docs-source-panel`, `media-grid`, and `button` metadata/styles exist;
+  `text-field`, `docs-source-panel`, `media-grid`, and `button` metadata/styles/factories exist;
   calendar shell and source-board composition remain pending.)
-- [ ] Add Storybook-like or workbench-compatible examples once the workbench scaffold exists.
+- [~] Add Storybook-like or workbench-compatible examples once the workbench scaffold exists.
+  (The workbench vocabulary section now surfaces component-factory status/source from
+  `packages/ui`; dedicated primitive example stories remain pending.)
 - [~] Add accessibility, interaction, and visual regression checks for critical primitives.
-  (`packages/ui/test/ui.test.mjs` checks ARIA/state metadata and tokenized CSS; browser
+  (`packages/ui/test/ui.test.mjs` checks ARIA/state metadata, tokenized CSS, importable
+  non-executable component factories, and invalid-prop fail-closed behavior; browser
   visual regression for the primitives remains pending.)
 - [~] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior. (The state matrix is recorded and tested in vocabulary metadata; per-component browser fixtures remain pending.)
 - [x] Add per-component prop schemas for the resident vocabulary. (`packages/ui`
@@ -554,8 +569,8 @@ Implementation tasks:
 Exit criteria:
 
 - [~] Primitive and component vocabulary is tokenized and registry-addressable. (Initial
-  metadata/styles, descriptor-only primitive metadata, and registry items exist;
-  full React/Radix primitives remain pending.)
+  metadata/styles, React-style descriptor metadata, framework-neutral component
+  factories, and registry items exist; full Radix wrappers remain pending.)
 - [x] Component-local hardcoded colors are rejected by tests or lint rules.
 - [~] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
   (Metadata and CSS guards exist; browser visual/a11y evidence per primitive remains pending.)
@@ -699,7 +714,7 @@ Implementation tasks:
 
 Exit criteria:
 
-- [~] A clean project can install a sample theme, primitive, page, block, and suite. (Theme and resident vocabulary items install real embedded content; suites install generated manifests plus standalone page/block descriptors; full React implementations remain pending.)
+- [~] A clean project can install a sample theme, primitive, page, block, and suite. (Theme and resident vocabulary items install real embedded content, including component factory source; suites install generated manifests plus standalone page/block descriptors; full React suite/page/block implementations remain pending.)
 - [x] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
 - [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; remote registry is an explicit unsupported state; account/auth tooling integration is pending.)
 

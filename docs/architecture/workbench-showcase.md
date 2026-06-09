@@ -15,8 +15,8 @@ to end:
   (`packages/registry/generated/`),
 - the resident renderer (`packages/renderer/src/render.mjs`),
 - the workbench presentation seam (`packages/renderer/src/presentation.mjs`), and
-- the resident vocabulary handshake, prop schemas, and descriptor-only
-  React-style primitive descriptors (`packages/ui/src`).
+- the resident vocabulary handshake, prop schemas, React-style primitive
+  descriptors, and framework-neutral component factories (`packages/ui/src`).
 
 It is the smallest real surface that lets the registry → renderer → presentation
 loop be inspected visually, edited through generated-token controls, and produce
@@ -48,8 +48,9 @@ no harness runtime, hosted persistence, or backend package registration.
     unknown/unsafe/malformed payloads fail closed to the renderer-owned inert
     fallback;
   - the vocabulary handshake and per-component prop schemas loaded from
-    `packages/ui`, including descriptor-only primitive metadata and the
-    invalid/unsupported state rules the renderer enforces;
+    `packages/ui`, including primitive descriptor metadata, component-factory
+    source evidence, and the invalid/unsupported state rules the renderer
+    enforces;
   - the workbench presentation seam's descriptors for harness refs (artifact
     views, evidence packets, run-event traces, memory records, context packs,
     action refs) with their operational status badges (ready, redacted, stale,
@@ -86,6 +87,7 @@ checked fixture corpus. Nothing is hand-authored into the page:
 - `registry/branding/*.brand-option.json` through generated registry theme items
 - `packages/ui/src/vocabulary.mjs`
 - `packages/ui/src/primitive-descriptors.mjs`
+- `packages/ui/src/primitive-components.mjs`
 - `packages/renderer/fixtures/compatibility/*`
 - `packages/renderer/fixtures/presentation/*`
 
@@ -126,8 +128,8 @@ checked fixture corpus. Nothing is hand-authored into the page:
   redacted-content gating, always-live overlay controls/panels, local draft state
   transitions, and that the displayed WCAG contrast ratios recompute correctly
   and meet their targets. It also asserts that the vocabulary handshake,
-  prop-schema version, descriptor-only status, and a bad-prop fixture rejection
-  are visible in the generated page.
+  prop-schema version, component-factory status/source, and bad-prop fixture
+  rejection are visible in the generated page.
 
 ## Browser, Visual, And Accessibility Evidence
 
@@ -163,6 +165,6 @@ audit plus the rendered screenshots.
 
 This surface does not implement full React suite applications, hosted/persisted
 editing, backend package registration, a runtime React renderer, a remote
-registry fetch, a provider runtime, or any harness execution. It renders,
-displays, and locally edits accepted, generated, authored-source, and fixture data
-only.
+registry fetch, Radix wrappers, a provider runtime, or any harness execution. It
+renders, displays, and locally edits accepted, generated, authored-source, and
+fixture data only.

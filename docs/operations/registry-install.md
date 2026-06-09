@@ -7,7 +7,7 @@ Last updated: 2026-06-09
 
 `@jami-studio/cli` (`packages/cli`) is the install/config surface for the Studio
 UI registry. It installs and maintains registry distribution artifacts — themes,
-brand/template option descriptors, primitives, and suite descriptors — in a target project, with an inspectable
+brand/template option descriptors, primitives/components, and suite descriptors — in a target project, with an inspectable
 config and lockfile, hash-based conflict detection, and provenance verification.
 
 The CLI is dependency-free (Node built-ins only) and consumes the real generated
@@ -28,9 +28,9 @@ Installable vs source-pending:
 
 - An item whose files all carry content (for example `jami-theme`, whose files
   are the generated token outputs; `studio-console-brand`, whose file is an
-  authored brand-option descriptor; or `button`, whose authored vocabulary/style
-  files are embedded) is `installable`: the CLI writes real bytes and records
-  each file's content hash.
+  authored brand-option descriptor; or `button`, whose authored vocabulary,
+  descriptor, component-factory, and style files are embedded) is `installable`:
+  the CLI writes real bytes and records each file's content hash.
 - An item whose files carry no content yet is `source-pending`: the CLI records
   it as a descriptor and never fabricates the missing source. The current
   generated registry has no source-pending items.
@@ -88,7 +88,7 @@ without an explicit `--force`.
 
 - `pnpm --filter @jami-studio/cli test` runs deterministic temp-project smoke
   tests under the OS temp dir covering init, list, install, brand-option
-  descriptor install and provenance, suite-graph install with authored primitive
+  descriptor install and provenance, suite-graph install with authored primitive/component
   source, standalone suite page/block install and provenance, dry-run, conflict
   refusal and forced overwrite, doctor drift detection, remove, update of
   outdated entries, pin/update interaction, migrate report/apply, provenance
@@ -101,4 +101,6 @@ The CLI installs UI distribution artifacts only. It does not fetch a remote
 registry, run a package manager, scaffold an app shell, render a browser
 surface, decide a final brand identity, or execute harness actions. Suite items install their theme, suite
 descriptor, and generated page/block descriptors. These are installable
-manifests, not full React page or block implementations.
+manifests, not full React page or block implementations. Resident UI items now
+ship framework-neutral component factory source, but not Radix wrappers or a
+runtime React renderer.

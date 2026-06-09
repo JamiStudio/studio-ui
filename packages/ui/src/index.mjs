@@ -15,3 +15,12 @@ export {
   getPrimitiveDescriptor,
   primitiveDescriptors,
 } from "./primitive-descriptors.mjs";
+
+export {
+  PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
+  createJamiPrimitiveComponents,
+  getPrimitiveComponentImplementation,
+  primitiveComponentImplementations,
+  primitiveComponentNames,
+  renderPrimitiveSpec,
+} from "./primitive-components.mjs";

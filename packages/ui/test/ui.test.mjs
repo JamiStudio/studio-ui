@@ -5,10 +5,15 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   componentVocabulary,
+  createJamiPrimitiveComponents,
   getComponentDefinition,
   getPrimitiveDescriptor,
+  getPrimitiveComponentImplementation,
+  primitiveComponentImplementations,
+  primitiveComponentNames,
   primitiveDescriptors,
   registryAddressableNames,
+  renderPrimitiveSpec,
   stateFixtureMatrix,
   validateComponentProps,
   vocabularyHandshake,
@@ -92,16 +97,118 @@ test("vocabulary handshake pins renderer payload and prop schema versions", () =
   assert.equal(vocabularyHandshake.generation.copiedSource, false);
 });
 
-test("react-style primitive descriptors are source-backed and descriptor-only", () => {
+test("react-style primitive descriptors are source-backed by component factories", () => {
   assert.deepEqual(Object.keys(primitiveDescriptors), requiredNames);
   for (const name of requiredNames) {
     const descriptor = getPrimitiveDescriptor(name);
     assert.ok(descriptor, `${name} descriptor exists`);
-    assert.equal(descriptor.implementationStatus, "descriptor-only");
+    assert.equal(descriptor.implementationStatus, "framework-neutral-component-factory");
+    assert.equal(descriptor.implementationSource, "packages/ui/src/primitive-components.mjs");
+    assert.equal(descriptor.radixWrapper, false);
+    assert.equal(descriptor.runtimeReactRenderer, false);
     assert.equal(descriptor.vocabularyHandshake, vocabularyHandshake.schemaVersion);
     assert.equal(descriptor.provenance.copiedSource, false);
     assert.equal(descriptor.propSchema, getComponentDefinition(name).propSchema);
   }
+});
+
+function collectProps(node, out = []) {
+  if (!node || typeof node !== "object") return out;
+  if (node.props) out.push(node.props);
+  for (const child of node.children ?? []) collectProps(child, out);
+  return out;
+}
+
+function collectExecutable(value, out = []) {
+  if (Array.isArray(value)) {
+    for (const item of value) collectExecutable(item, out);
+  } else if (value && typeof value === "object") {
+    for (const [key, item] of Object.entries(value)) {
+      if (/^on[a-z]/i.test(key) || key === "dangerouslySetInnerHTML") out.push(key);
+      if ((key === "executable" || key === "canExecute") && item === true) out.push(key);
+      collectExecutable(item, out);
+    }
+  }
+  return out;
+}
+
+const sampleProps = {
+  button: { label: "Save", variant: "primary", actionRef: "act_save" },
+  panel: { title: "Operations", children: ["Dense operational state"] },
+  "text-field": { label: "Search", helperText: "Find records" },
+  "data-list": {
+    title: "Tasks",
+    columns: [{ key: "name", label: "Name" }],
+    rows: [{ name: "Review evidence" }],
+  },
+  "agent-panel": {
+    title: "Review agent",
+    status: "running",
+    actionRefs: ["act_review"],
+    artifactViewRefs: ["artv_trace"],
+  },
+  "docs-source-panel": {
+    title: "Sources",
+    sources: [{ id: "src_1", title: "Foundation alignment" }],
+  },
+  "media-grid": {
+    title: "Assets",
+    items: [{ id: "art_1", title: "Frame 01" }],
+  },
+};
+
+test("primitive component factories render importable non-executable DOM specs", () => {
+  assert.deepEqual(primitiveComponentNames, requiredNames);
+  assert.deepEqual(Object.keys(primitiveComponentImplementations), requiredNames);
+  for (const name of requiredNames) {
+    const implementation = getPrimitiveComponentImplementation(name);
+    assert.equal(implementation.implementationStatus, "framework-neutral-component-factory");
+    assert.equal(implementation.radixWrapper, false);
+    assert.equal(implementation.runtimeReactRenderer, false);
+    assert.equal(implementation.executableActions, false);
+    assert.equal(implementation.vocabularyHandshake, vocabularyHandshake.schemaVersion);
+
+    const result = renderPrimitiveSpec(name, sampleProps[name]);
+    assert.equal(result.state, "renderable", `${name} renders`);
+    assert.deepEqual(result.reasons, []);
+    assert.deepEqual(JSON.parse(JSON.stringify(result.node)), result.node, `${name} render spec is JSON-inert`);
+    assert.deepEqual(collectExecutable(result.node), [], `${name} does not expose executable props`);
+    assert.ok(
+      collectProps(result.node).some((props) => typeof props.className === "string" && props.className.startsWith("jami-")),
+      `${name} uses tokenized jami classes`,
+    );
+  }
+});
+
+test("primitive component factories fail closed on unsupported or invalid props", () => {
+  const unknown = renderPrimitiveSpec("calendar-board", {});
+  assert.equal(unknown.state, "unsupported");
+  const invalid = renderPrimitiveSpec("button", { href: "/unsafe" });
+  assert.equal(invalid.state, "invalid");
+  assert.deepEqual(invalid.reasons, ["unsupported prop href for button"]);
+  assert.deepEqual(collectExecutable(invalid.node), [], "invalid fallback stays non-executable");
+});
+
+test("createJamiPrimitiveComponents adapts factories to an injected createElement", () => {
+  const createElement = (type, props, ...children) => ({ type, props, children });
+  const components = createJamiPrimitiveComponents(createElement);
+  assert.deepEqual(Object.keys(components), [
+    "Button",
+    "Panel",
+    "TextField",
+    "DataList",
+    "AgentPanel",
+    "DocsSourcePanel",
+    "MediaGrid",
+  ]);
+  const button = components.Button({ label: "Save", actionRef: "act_save", children: "Save now" });
+  assert.equal(button.type, "button");
+  assert.equal(button.props.className, "jami-button");
+  assert.equal(button.props["data-action-ref"], "act_save");
+  assert.deepEqual(button.children, ["Save now"]);
+  assert.deepEqual(collectExecutable(button), [], "createElement adapter does not attach executable props");
+
+  assert.throws(() => createJamiPrimitiveComponents(null), /requires a createElement function/);
 });
 
 test("component token references stay inside the generated Studio UI token set", () => {

@@ -766,6 +766,7 @@ function vocabularyEvidenceSection(data) {
   const rows = data.componentVocabulary
     .map((definition) => {
       const descriptor = data.primitiveDescriptors[definition.name];
+      const implementation = data.primitiveComponentImplementations[definition.name];
       return `
 <article class="ju-card">
   <header class="ju-card-head">
@@ -777,6 +778,7 @@ function vocabularyEvidenceSection(data) {
     <div class="ju-kv"><dt>registry item</dt><dd><code>${escapeHtml(definition.registryItem)}</code></dd></div>
     <div class="ju-kv"><dt>prop schema</dt><dd><code>${escapeHtml(definition.propSchema.schemaVersion)}</code></dd></div>
     <div class="ju-kv"><dt>element</dt><dd><code>${escapeHtml(descriptor?.element ?? "")}</code></dd></div>
+    <div class="ju-kv"><dt>component source</dt><dd><code>${escapeHtml(implementation?.source ?? "")}</code></dd></div>
     <div class="ju-kv"><dt>a11y role</dt><dd><code>${escapeHtml(definition.aria.role)}</code></dd></div>
   </dl>
   <div class="ju-chips" aria-label="${escapeAttr(definition.name)} prop schema">${propSummary(definition.propSchema)}</div>
@@ -791,6 +793,7 @@ function vocabularyEvidenceSection(data) {
     <div class="ju-kv"><dt>handshake</dt><dd><code>${escapeHtml(data.vocabularyHandshake.schemaVersion)}</code></dd></div>
     <div class="ju-kv"><dt>payload schemas</dt><dd>${data.vocabularyHandshake.payloadSchemaVersions.map((version) => `<code>${escapeHtml(version)}</code>`).join(" ")}</dd></div>
     <div class="ju-kv"><dt>prop schema</dt><dd><code>${escapeHtml(data.vocabularyHandshake.propSchemaVersion)}</code></dd></div>
+    <div class="ju-kv"><dt>factory source</dt><dd><code>packages/ui/src/primitive-components.mjs</code></dd></div>
     <div class="ju-kv"><dt>invalid props</dt><dd><code>${escapeHtml(data.vocabularyHandshake.generation.invalidPropState)}</code></dd></div>
     <div class="ju-kv"><dt>unsupported components</dt><dd><code>${escapeHtml(data.vocabularyHandshake.generation.unsupportedComponentState)}</code></dd></div>
   </dl>

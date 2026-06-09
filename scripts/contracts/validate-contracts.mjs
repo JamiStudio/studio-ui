@@ -528,6 +528,17 @@ function validateGeneratedRegistry() {
     for (const dependency of item.registryDependencies ?? []) {
       if (!byName.has(dependency)) localFailures.push(`${item.name} references missing dependency ${dependency}`);
     }
+    if (item.type === "registry:ui" || item.type === "registry:component") {
+      const factoryFile = (item.files ?? []).find(
+        (file) => file.path === "packages/ui/src/primitive-components.mjs",
+      );
+      if (!factoryFile?.target?.endsWith("jami-primitive-components.mjs")) {
+        localFailures.push(`${item.name} missing installed primitive component factory source`);
+      }
+      if (typeof factoryFile?.content !== "string" || !factoryFile.hash?.startsWith("sha256:")) {
+        localFailures.push(`${item.name} primitive component factory source is not hash-embedded`);
+      }
+    }
   }
   for (const suite of items.filter((item) => item.type === "registry:suite")) {
     const deps = suite.registryDependencies ?? [];

@@ -40,8 +40,9 @@ section is part of the notes, not an afterthought.
   three selectable brand/template option descriptors (`studio-console-brand`,
   `editorial-studio-brand`, `command-grid-brand`) that are CLI-inspectable and
   explicitly not final brand canon; seven resident vocabulary items (`button`, `panel`, `text-field`, `data-list`,
-  `agent-panel`, `docs-source-panel`, `media-grid`) with authored metadata and
-  tokenized styles embedded as real install content; four suite install-graph
+  `agent-panel`, `docs-source-panel`, `media-grid`) with authored metadata,
+  framework-neutral component factories, and tokenized styles embedded as real
+  install content; four suite install-graph
   descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`); and
   eight standalone page plus eighteen standalone block registry items generated
   from authored suite-shell source descriptors. Suite installs now expose those
@@ -114,10 +115,10 @@ engine; runs succeed on Node 22 with a non-fatal pnpm unsupported-engine warning
   install from a hosted URL.
 - No published npm packages; npm is not authenticated and `@jami-studio` scope
   access is unconfirmed.
-- No runtime React renderer, no hosted/persisted workbench editing or backend
-  package registration, and no full suite app shells. Per-lane suite page/block
-  descriptors are generated and installable, but full React page/block
-  implementations are not built.
+- No runtime React renderer, Radix wrapper library, hosted/persisted workbench
+  editing or backend package registration, and no full suite app shells. Per-lane
+  suite page/block descriptors are generated and installable, but full React
+  page/block implementations are not built.
 - No final brand canon. The brand/template options are selectable registry
   descriptors for comparison only; the exploratory logo seed files remain outside
   production token, registry, and package branding canon.

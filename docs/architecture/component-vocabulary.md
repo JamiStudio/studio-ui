@@ -7,13 +7,14 @@ Last updated: 2026-06-09
 
 `packages/ui` now owns the first authored resident primitive and component
 vocabulary that Studio UI can reference from the renderer, registry, CLI, and
-workbench. This is a dependency-light metadata and style foundation, not a full
-React component library or suite shell set.
+workbench. This is a dependency-light metadata, style, and framework-neutral
+component-factory foundation, not a full Radix wrapper library or suite shell set.
 
 ## Source
 
 - Vocabulary metadata: `packages/ui/src/vocabulary.mjs`
 - React-style primitive descriptors: `packages/ui/src/primitive-descriptors.mjs`
+- Framework-neutral component factories: `packages/ui/src/primitive-components.mjs`
 - Tokenized resident styles: `packages/ui/src/styles.css`
 - Package entry point: `packages/ui/src/index.mjs`
 - Registry source items: `packages/registry/fixtures/valid/*.registry-item.json`
@@ -42,6 +43,9 @@ Every vocabulary definition carries:
 - ARIA role and label-source metadata.
 - source-owned per-component prop schemas for renderer and workbench consumption.
 - a vocabulary handshake version that pins accepted payload, vocabulary, and prop schema versions.
+- importable non-executable component factory metadata in
+  `packages/ui/src/primitive-components.mjs`, including `renderPrimitiveSpec` and
+  `createJamiPrimitiveComponents(createElement)`.
 - state coverage for keyboard, focus visibility, ARIA, contrast, reduced motion,
   responsive layout, disabled, loading, invalid, empty, error, and long-content
   behavior.
@@ -56,8 +60,9 @@ checks that every referenced token exists in the generated token output.
 Each initial vocabulary item has a registry-addressable source fixture under
 `packages/registry/fixtures/valid`. Generated registry artifacts embed the real
 `packages/ui/src/vocabulary.mjs`, `packages/ui/src/primitive-descriptors.mjs`,
-and `packages/ui/src/styles.css` content with per-file SHA-256 hashes, so the CLI
-no longer reports the `button` primitive as source-pending.
+`packages/ui/src/primitive-components.mjs`, and `packages/ui/src/styles.css`
+content with per-file SHA-256 hashes, so the CLI no longer reports the `button`
+primitive as source-pending.
 
 The renderer allowlist now accepts the authored resident names in addition to
 the renderer's internal display-only components. It also imports the vocabulary
@@ -69,12 +74,13 @@ mount a DOM.
 
 ## Not Yet Claimed
 
-This pass does not ship Radix wrappers, React component implementations,
+This pass does not ship Radix wrappers, a direct React package dependency,
 Storybook, visual regression tooling for every primitive, calendar/source-board
 shells, or full suite app shells. The React-style primitive descriptor source is
-descriptor-only metadata; it is not a copied Radix implementation and not a
-rendered React component library. The foundation remains narrow:
-source-owned vocabulary metadata, prop schemas, descriptor metadata, tokenized
-styles, registry items, renderer allowlist/schema references, and tests that
-keep the initial component colors, state metadata, handshake, and prop schemas
-honest.
+paired with framework-neutral factory functions that can adapt to an injected
+`createElement`; they are not copied Radix implementations, not a runtime React
+renderer, and not a suite application library. The foundation remains narrow:
+source-owned vocabulary metadata, prop schemas, descriptor metadata, component
+factories, tokenized styles, registry items, renderer allowlist/schema references,
+and tests that keep the initial component colors, state metadata, handshake, prop
+schemas, and non-executable factory output honest.

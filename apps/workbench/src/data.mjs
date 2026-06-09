@@ -24,6 +24,7 @@ import {
 } from "../../../packages/renderer/src/index.mjs";
 import {
   componentVocabulary,
+  primitiveComponentImplementations,
   primitiveDescriptors,
   vocabularyHandshake,
 } from "../../../packages/ui/src/index.mjs";
@@ -143,6 +144,7 @@ export function loadShowcaseData() {
     componentVocabulary,
     compatFixtures,
     presentationPanels,
+    primitiveComponentImplementations,
     primitiveDescriptors,
     vocabularyHandshake,
   };

@@ -73,11 +73,12 @@ outputs as real, hashed content. The brand/template option descriptors ship auth
 descriptor JSON with `canonicalBrand: false`; they are selectable default-kit options,
 not final brand canon, and they do not redistribute logo source. The primitive and
 component vocabulary items ship the authored `packages/ui` vocabulary metadata and
-tokenized styles as real, hashed content. The four suite items ship complete, hashed
+descriptor metadata, framework-neutral component factories, and tokenized styles
+as real, hashed content. The four suite items ship complete, hashed
 suite manifests. The generated page and block items ship complete, hashed descriptor
 manifests derived from the authored suite shell sources. "Publishable now" still does
-**not** assert full React page/block implementations, final visual identity, or hosted
-registry availability.
+**not** assert Radix wrappers, a runtime React renderer, full React page/block
+implementations, final visual identity, or hosted registry availability.
 
 ## Provenance And Hashes
 

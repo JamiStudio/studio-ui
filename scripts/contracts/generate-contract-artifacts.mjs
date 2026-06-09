@@ -160,13 +160,22 @@ function registryOutputFile(file) {
 function registryOutputFiles(item) {
   const files = [...item.files];
   if (["primitive", "component"].includes(item.type)) {
-    const hasDescriptor = files.some((file) => file.path === "packages/ui/src/primitive-descriptors.mjs");
-    if (!hasDescriptor) {
-      files.push({
+    const sharedUiFiles = [
+      {
         path: "packages/ui/src/primitive-descriptors.mjs",
         target: "components/ui/jami-primitive-descriptors.mjs",
         kind: "registry:ui",
-      });
+      },
+      {
+        path: "packages/ui/src/primitive-components.mjs",
+        target: "components/ui/jami-primitive-components.mjs",
+        kind: "registry:ui",
+      },
+    ];
+    for (const sharedFile of sharedUiFiles) {
+      if (!files.some((file) => file.path === sharedFile.path)) {
+        files.push(sharedFile);
+      }
     }
   }
   return files.map(registryOutputFile);
