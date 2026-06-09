@@ -11,9 +11,10 @@ token and registry artifacts, a minimal resident renderer with a workbench prese
 seam, the `@jami-studio/cli` install/config lifecycle that operates on the real generated
 registry, and a dependency-free `apps/workbench` static showcase surface that renders the
 generated theme, registry/suite descriptors, resident renderer, and presentation seam in a
-browser with visual/accessibility evidence. It does not yet contain production UI
-components, an interactive workbench editing app, full suite app shells, or hosted registry
-publishing.
+browser with visual/accessibility evidence plus a local always-live overlay for generated
+token edits and deterministic local artifacts. It does not yet contain production UI
+components, hosted/persisted workbench editing, backend registration, full suite app shells,
+or hosted registry publishing.
 
 ## Root
 
@@ -32,11 +33,11 @@ publishing.
 
 ## Source Areas
 
-- `apps/workbench` - dependency-free static showcase surface over the generated theme,
-  registry/suite descriptors, resident renderer, and presentation seam, with a node `--test`
-  gate and a separate headless-browser visual/accessibility smoke
-  (`docs/architecture/workbench-showcase.md`). The always-live interactive overlay/editing
-  app is not implemented yet.
+- `apps/workbench` - dependency-free static workbench surface over the generated theme,
+  registry/suite descriptors, resident renderer, and presentation seam, with a local
+  always-live overlay, a node `--test` gate, and a separate headless-browser
+  visual/accessibility smoke (`docs/architecture/workbench-showcase.md`). Hosted
+  persistence and backend registration are not implemented yet.
 - `packages/tokens` - DTCG-compatible token schema, fixtures, and deterministic generated
   CSS/Tailwind/TypeScript/shadcn outputs.
 - `packages/registry` - registry item metadata, source items, and deterministic generated
@@ -70,4 +71,4 @@ publishing contract. Current ignored paths:
 - `registry/.generated/`
 - package build outputs such as `dist/`, `build/`, `.next/`, and `out/`
 - `output/` — local smoke evidence (the workbench screenshots and a11y report)
-- `apps/workbench/dist/` is the reproducible static showcase build (`node apps/workbench/build.mjs`)
+- `apps/workbench/dist/` is the reproducible static workbench build (`node apps/workbench/build.mjs`)

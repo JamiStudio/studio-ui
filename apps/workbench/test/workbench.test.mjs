@@ -14,6 +14,15 @@ import { test } from "node:test";
 import { loadShowcaseData } from "../src/data.mjs";
 import { THEMES, buildPage, computeContrastRows } from "../src/page.mjs";
 import { contrastRatio, parseHex } from "../src/escape.mjs";
+import {
+  ARTIFACT_VERSION,
+  createInitialWorkbenchState,
+  factoryDraft,
+  isDirty,
+  parseWorkbenchState,
+  reduceWorkbenchState,
+  serializeWorkbenchState,
+} from "../src/workbench-state.mjs";
 import { build } from "../build.mjs";
 
 const data = loadShowcaseData();
@@ -72,6 +81,45 @@ test("output is inert: no inline event handlers, no javascript: URLs, one app-sh
   const scriptTags = page.match(/<script/gi) ?? [];
   assert.equal(scriptTags.length, 1, "exactly one (theme switcher) script");
   assert.ok(page.includes("addEventListener"), "theme switcher uses addEventListener, not inline handlers");
+});
+
+test("always-live workbench overlay renders required status bar actions and panels", () => {
+  for (const label of ["Target", "Theme", "State", "Save", "Duplicate", "Restore", "Register", "Export", "Close"]) {
+    assert.ok(page.includes(`>${label}<`) || page.includes(`${label}</span>`), `${label} surfaced`);
+  }
+  for (const panel of ["Theme", "Color", "Typography", "Layout", "Surfaces", "Components", "Charts", "Motion", "Assets", "Registry"]) {
+    assert.ok(page.includes(`<summary>${panel}</summary>`), `${panel} dock panel`);
+  }
+  assert.ok(page.includes('aria-label="Always-live workbench overlay"'), "overlay landmark labelled");
+  assert.ok(page.includes('data-wb-action="save"'), "save action is first-party state transition");
+  assert.ok(page.includes('data-wb-control="accent"'), "color control is data-backed");
+  assert.ok(page.includes('data-wb-control="radius"'), "layout control is data-backed");
+  assert.ok(page.includes('id="ju-wb-export" readonly'), "export artifact is local/read-only");
+});
+
+test("workbench state transitions are deterministic local draft/artifact flows", () => {
+  let state = createInitialWorkbenchState();
+  assert.equal(isDirty(state), false);
+  state = reduceWorkbenchState(state, { type: "update-control", name: "radius", value: "6" });
+  assert.equal(state.draft.controls.radius, "6");
+  assert.equal(isDirty(state), true, "live edit marks draft dirty");
+  state = reduceWorkbenchState(state, { type: "close" });
+  assert.equal(state.overlayOpen, false, "close hides overlay");
+  const reopened = reduceWorkbenchState(parseWorkbenchState(serializeWorkbenchState(state)), { type: "open" });
+  assert.equal(reopened.overlayOpen, true, "open restores overlay");
+  assert.equal(reopened.draft.controls.radius, "6", "draft survives close/reopen through local state");
+  state = reduceWorkbenchState(reopened, { type: "save" });
+  assert.equal(isDirty(state), false, "save persists the draft locally");
+  state = reduceWorkbenchState(state, { type: "duplicate" });
+  assert.equal(state.draft.themeName, "Jami factory copy 1");
+  assert.equal(isDirty(state), true, "duplicate creates a new unsaved draft");
+  state = reduceWorkbenchState(state, { type: "register" });
+  assert.equal(state.registeredArtifacts[0].schemaVersion, ARTIFACT_VERSION);
+  assert.equal(state.registeredArtifacts[0].backendPersistence, false);
+  state = reduceWorkbenchState(state, { type: "export" });
+  assert.equal(state.exportArtifact.localOnly, true);
+  state = reduceWorkbenchState(state, { type: "restore" });
+  assert.deepEqual(state.draft, factoryDraft, "restore returns the draft to factory");
 });
 
 test("renders the resident renderer fixtures, including fail-closed states", () => {

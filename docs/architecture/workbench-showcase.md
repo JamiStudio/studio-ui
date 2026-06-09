@@ -5,9 +5,10 @@ Last updated: 2026-06-09
 
 ## Purpose
 
-`apps/workbench` is Studio UI's first browser-renderable surface. It is a
-dependency-free static showcase that a developer or agent can open in a browser
-to see and verify the accepted Stream 5 seams end to end:
+`apps/workbench` is Studio UI's first browser-renderable workbench surface. It
+is a dependency-free static showcase plus an always-live local overlay that a
+developer or agent can open in a browser to see and verify the accepted seams end
+to end:
 
 - the generated Jami factory theme (`packages/tokens/generated/jami.css`),
 - the generated registry items and suite descriptors
@@ -16,8 +17,9 @@ to see and verify the accepted Stream 5 seams end to end:
 - the workbench presentation seam (`packages/renderer/src/presentation.mjs`).
 
 It is the smallest real surface that lets the registry → renderer → presentation
-loop be inspected visually and produce visual/accessibility evidence. It is not a
-full suite application, and it claims no harness runtime.
+loop be inspected visually, edited through generated-token controls, and produce
+visual/accessibility evidence. It is not a full suite application, and it claims
+no harness runtime, hosted persistence, or backend package registration.
 
 ## What It Is
 
@@ -45,10 +47,21 @@ full suite application, and it claims no harness runtime.
     empty, error, denied, missing-source, loading);
   - the generated color tokens and the computed WCAG contrast ratios for the key
     foreground/background pairs.
-- Theme states are token-driven. The page maps an active theme
-  (`factory`, `light`, `dark`) to the generated semantic tokens; the theme
-  switcher is a first-party app-shell script that only toggles the document theme
-  attribute — it wires no network, storage, action, or renderer behavior.
+- Theme states and overlay controls are token-driven. The page maps an active
+  theme (`factory`, `light`, `dark`) to the generated semantic tokens, then the
+  overlay updates CSS variables immediately for the live page.
+- The always-live overlay is first-party static-app code, not a renderer payload.
+  It exposes a compact status bar with target, theme/preset, dirty/storage state,
+  Save, Duplicate, Restore, Register, Export, and Close. Its docked panels cover
+  Theme, Color, Typography, Layout, Surfaces, Components, Charts, Motion, Assets,
+  and Registry. Panels are data-backed where current generated token, suite,
+  component, fixture, and registry data exists; Charts explicitly reports that no
+  chart registry item exists yet.
+- `apps/workbench/src/workbench-state.mjs` owns deterministic state transitions.
+  Draft state, close/open state, and saved state survive in `localStorage` in the
+  static runtime. Save, Duplicate, Restore, Register, and Export create local
+  state transitions and local artifacts only; exported/register artifacts include
+  `backendPersistence: false`.
 
 ## What It Consumes (no duplicated data)
 
@@ -74,6 +87,10 @@ checked fixture corpus. Nothing is hand-authored into the page:
   provider runtime, or harness execution happens. Redaction, freshness, and
   policy denial are displayed from the harness ref, never decided here. A
   redacted memory record's gated content is never echoed.
+- **Local artifacts only.** The overlay's register/export flows serialize a
+  deterministic local workbench artifact for inspection. They do not publish,
+  register a package, write a hosted record, call a backend, or persist outside
+  the browser's local state.
 - **Honest states.** Authored suite shell descriptors are labelled as generated
   shell routes, registry member installability is read from generated content,
   and the page still states that full React suite app implementations are
@@ -92,8 +109,9 @@ checked fixture corpus. Nothing is hand-authored into the page:
   theme building with the correct active control, accessible structure (skip
   link, landmarks, labelled groups, scoped table headers, document language),
   responsive and reduced-motion affordances, long-content wrapping,
-  redacted-content gating, and that the displayed WCAG contrast ratios recompute
-  correctly and meet their targets.
+  redacted-content gating, always-live overlay controls/panels, local draft state
+  transitions, and that the displayed WCAG contrast ratios recompute correctly
+  and meet their targets.
 
 ## Browser, Visual, And Accessibility Evidence
 
@@ -127,7 +145,8 @@ audit plus the rendered screenshots.
 
 ## Not Yet Claimed
 
-This surface does not implement full React suite applications, interactive
-workbench editing/save flows, a runtime React renderer, a remote registry fetch,
-a provider runtime, or any harness execution. It renders and displays accepted,
-generated, authored-source, and fixture data only.
+This surface does not implement full React suite applications, hosted/persisted
+editing, backend package registration, a runtime React renderer, a remote
+registry fetch, a provider runtime, or any harness execution. It renders,
+displays, and locally edits accepted, generated, authored-source, and fixture data
+only.

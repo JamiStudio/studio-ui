@@ -1,9 +1,9 @@
 # @jami-studio/workbench
 
-Studio UI's browser-renderable showcase surface. A dependency-free static
-generator over the accepted Stream 5 seams: the generated token theme, the
-generated registry and suite descriptors, the resident renderer, and the
-workbench presentation seam.
+Studio UI's browser-renderable workbench surface. A dependency-free static
+generator over the accepted seams: the generated token theme, the generated
+registry and suite descriptors, the resident renderer, the workbench presentation
+seam, and a local always-live editing overlay.
 
 See `docs/architecture/workbench-showcase.md` for the full contract.
 
@@ -24,7 +24,10 @@ node apps/workbench/smoke/a11y-visual-smoke.mjs     # browser + a11y + visual sm
 - the workbench presentation panels for harness refs with operational status
   badges;
 - generated color tokens and computed WCAG contrast ratios;
-- `factory` / `light` / `dark` theme states driven by the generated tokens.
+- `factory` / `light` / `dark` theme states driven by the generated tokens;
+- compact local overlay controls for target/theme/dirty state, save, duplicate,
+  restore, local register/export artifacts, close/reopen, and data-backed dock
+  panels.
 
 ## Boundaries
 
@@ -32,4 +35,5 @@ No remote registry fetch, package-manager install, provider runtime, or harness
 execution. Policy, tool execution, memory, and provenance stay owned by Jami
 Harness; this surface only displays and configures. Pending suite vocabulary is
 labelled, and registry member installability is read from generated content, never
-assumed.
+assumed. Overlay state is static-runtime `localStorage`; it is not hosted
+persistence or backend package registration.

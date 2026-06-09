@@ -12,6 +12,7 @@ import {
   renderNodeHtml,
   renderPresentationPanel,
 } from "./render-html.mjs";
+import { buildWorkbenchClientScript } from "./workbench-client.mjs";
 
 export const THEMES = ["factory", "light", "dark"];
 
@@ -61,6 +62,9 @@ html[data-theme="dark"] {
   --ju-radius: var(--jami-radius-control, 8px);
   --ju-gap: var(--jami-spacing-control, 8px);
   --ju-motion: var(--jami-motion-fast, 120ms);
+  --ju-dock-width: var(--jami-shell-dockWidth, 320px);
+  --ju-density: var(--jami-density-comfortable, 1);
+  --ju-font-size: 16px;
 }
 
 * { box-sizing: border-box; min-width: 0; }
@@ -69,12 +73,13 @@ body {
   background: var(--ju-bg);
   color: var(--ju-fg);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  font-size: 16px;
+  font-size: var(--ju-font-size);
   line-height: 1.5;
   min-height: 100vh;
 }
 
 a { color: var(--ju-accent); }
+p, h1, h2, h3, h4 { max-width: 100%; overflow-wrap: anywhere; }
 
 /* Visible, token-driven focus for every interactive element. */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible, summary:focus-visible {
@@ -95,6 +100,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible, summary:focus-v
 .ju-skip:focus { left: 8px; top: 8px; }
 
 .ju-shell { max-width: 1180px; margin: 0 auto; min-width: 0; overflow-x: hidden; padding: clamp(16px, 4vw, 40px); width: 100%; }
+body:not([data-workbench-closed]) .ju-shell { padding-bottom: 96px; }
 
 header.ju-header { border-bottom: 1px solid var(--ju-border); }
 .ju-header h1 { margin: 0 0 4px; font-size: clamp(1.4rem, 3vw, 2rem); }
@@ -116,6 +122,150 @@ header.ju-header { border-bottom: 1px solid var(--ju-border); }
   background: var(--ju-accent);
   color: var(--ju-bg);
   border-color: var(--ju-accent);
+}
+
+.ju-open-workbench {
+  bottom: 14px;
+  display: none;
+  position: fixed;
+  right: 14px;
+  z-index: 20;
+}
+body[data-workbench-closed] .ju-open-workbench { display: inline-flex; }
+body:not([data-workbench-closed]) .ju-open-workbench { display: none; }
+
+.ju-workbench {
+  background: var(--ju-surface);
+  border-top: 1px solid var(--ju-border);
+  bottom: 0;
+  box-shadow: 0 -8px 24px color-mix(in srgb, var(--ju-fg) 10%, transparent);
+  color: var(--ju-fg);
+  display: grid;
+  gap: 0;
+  left: 0;
+  max-height: min(58vh, 520px);
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  z-index: 15;
+}
+body[data-workbench-closed] .ju-workbench { display: none; }
+.ju-statusbar {
+  align-items: center;
+  border-bottom: 1px solid var(--ju-border);
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(150px, 1.2fr) minmax(140px, 1fr) auto auto auto auto auto auto auto auto;
+  min-height: 48px;
+  padding: 8px 12px;
+}
+.ju-status-item {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.ju-status-label {
+  color: var(--ju-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.ju-status-value {
+  font-size: 0.82rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ju-tool-btn {
+  align-items: center;
+  background: var(--ju-surface-2);
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  color: var(--ju-fg);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  justify-content: center;
+  min-height: 32px;
+  min-width: 64px;
+  padding: 5px 10px;
+}
+.ju-tool-btn[data-primary="true"] {
+  background: var(--ju-accent);
+  border-color: var(--ju-accent);
+  color: var(--ju-bg);
+}
+.ju-dock {
+  align-items: start;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, var(--ju-dock-width));
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 12px 12px;
+}
+.ju-dock-panel {
+  background: var(--ju-bg);
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  min-width: 0;
+  overflow: hidden;
+}
+.ju-dock-panel summary {
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 800;
+  list-style: none;
+  padding: 9px 10px;
+}
+.ju-dock-panel summary::-webkit-details-marker { display: none; }
+.ju-dock-body {
+  border-top: 1px solid var(--ju-border);
+  display: grid;
+  gap: 10px;
+  max-height: 260px;
+  overflow: auto;
+  padding: 10px;
+}
+.ju-control {
+  display: grid;
+  gap: 4px;
+}
+.ju-control label, .ju-control span {
+  color: var(--ju-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.ju-control input, .ju-control select, .ju-control textarea {
+  background: var(--ju-surface);
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  color: var(--ju-fg);
+  font: inherit;
+  min-height: 32px;
+  padding: 5px 8px;
+  width: 100%;
+}
+.ju-control input[type="color"] { padding: 2px; }
+.ju-control textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+.ju-mini-list {
+  display: grid;
+  gap: 5px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ju-mini-list li {
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  font-size: 0.76rem;
+  overflow-wrap: anywhere;
+  padding: 6px;
 }
 
 nav.ju-nav { margin: 20px 0; }
@@ -266,6 +416,9 @@ footer.ju-footer code { overflow-wrap: anywhere; }
   .ju-card, .ju-fixture, .ju-panel, .ju-suite { padding: 12px; }
   .ju-badge, .ju-chip, .ju-flag { max-width: 100%; white-space: normal; }
   nav.ju-nav a { display: inline-block; max-width: 100%; white-space: normal; }
+  .ju-statusbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ju-tool-btn { min-width: 0; width: 100%; }
+  .ju-dock { grid-auto-columns: minmax(220px, 84vw); }
 }
 `.trim();
 }
@@ -288,6 +441,78 @@ function header(theme) {
     ${buttons}
   </div>
 </header>`;
+}
+
+function tokenValue(tokens, name) {
+  return tokens.find((t) => t.name === name)?.value ?? null;
+}
+
+function workbenchOverlay(data) {
+  const colorControls = [
+    ["accent", "Accent", tokenValue(data.tokens, "--jami-semantic-light-accent")],
+    ["focusRing", "Focus", tokenValue(data.tokens, "--jami-componentState-focusRing")],
+  ]
+    .map(
+      ([name, label, value]) =>
+        `<div class="ju-control"><label for="ju-wb-${name}">${escapeHtml(label)}</label><input id="ju-wb-${name}" data-wb-control="${escapeAttr(
+          name,
+        )}" type="color" value="${escapeAttr(value ?? "")}" /></div>`,
+    )
+    .join("");
+  const registryItems = data.registry.items
+    .slice(0, 9)
+    .map((item) => `<li><code>${escapeHtml(item.name)}</code> ${escapeHtml(item.type)}</li>`)
+    .join("");
+  const components = data.registry.items
+    .filter((item) => item.type === "registry:ui" || item.type === "registry:component")
+    .map((item) => `<li><code>${escapeHtml(item.name)}</code> ${escapeHtml(item.title ?? "")}</li>`)
+    .join("");
+  const suites = data.suites
+    .map((suite) => `<li><code>${escapeHtml(suite.lane)}</code> ${escapeHtml(suite.manifest.shell?.title ?? suite.lane)}</li>`)
+    .join("");
+  return `
+<button type="button" class="ju-tool-btn ju-open-workbench" data-wb-action="open">Workbench</button>
+<aside class="ju-workbench" aria-label="Always-live workbench overlay">
+  <div class="ju-statusbar">
+    <div class="ju-status-item"><span class="ju-status-label">Target</span><span class="ju-status-value" id="ju-wb-target">suite.solo</span></div>
+    <div class="ju-status-item"><span class="ju-status-label">Theme</span><span class="ju-status-value" id="ju-wb-theme">Jami factory / factory</span></div>
+    <div class="ju-status-item"><span class="ju-status-label">State</span><span class="ju-status-value" id="ju-wb-dirty">saved</span></div>
+    <div class="ju-status-item"><span class="ju-status-label">Store</span><span class="ju-status-value" id="ju-wb-storage">local draft</span></div>
+    <button type="button" class="ju-tool-btn" data-primary="true" data-wb-action="save">Save</button>
+    <button type="button" class="ju-tool-btn" data-wb-action="duplicate">Duplicate</button>
+    <button type="button" class="ju-tool-btn" data-wb-action="restore">Restore</button>
+    <button type="button" class="ju-tool-btn" data-wb-action="register">Register</button>
+    <button type="button" class="ju-tool-btn" data-wb-action="export">Export</button>
+    <button type="button" class="ju-tool-btn" data-wb-action="close">Close</button>
+  </div>
+  <div class="ju-dock" aria-label="Workbench panels">
+    <details class="ju-dock-panel" open><summary>Theme</summary><div class="ju-dock-body">
+      <div class="ju-control"><span>Preset</span><div class="ju-chips">${THEMES.map(
+        (name) => `<button type="button" class="ju-theme-btn" data-theme-value="${name}" aria-pressed="${name === "factory" ? "true" : "false"}">${escapeHtml(THEME_LABEL[name])}</button>`,
+      ).join("")}</div></div>
+      <div class="ju-control"><span>Last action</span><code id="ju-wb-last-action">ready</code></div>
+    </div></details>
+    <details class="ju-dock-panel" open><summary>Color</summary><div class="ju-dock-body">${colorControls}</div></details>
+    <details class="ju-dock-panel"><summary>Typography</summary><div class="ju-dock-body">
+      <div class="ju-control"><label for="ju-wb-fontSize">Body size</label><input id="ju-wb-fontSize" data-wb-control="fontSize" type="range" min="14" max="18" step="1" value="16" /></div>
+      <div class="ju-control"><span>Token</span><code>--jami-typography-body</code></div>
+    </div></details>
+    <details class="ju-dock-panel"><summary>Layout</summary><div class="ju-dock-body">
+      <div class="ju-control"><label for="ju-wb-spacing">Spacing</label><input id="ju-wb-spacing" data-wb-control="spacing" type="range" min="6" max="14" step="1" value="8" /></div>
+      <div class="ju-control"><label for="ju-wb-radius">Radius</label><input id="ju-wb-radius" data-wb-control="radius" type="range" min="4" max="8" step="1" value="8" /></div>
+      <div class="ju-control"><label for="ju-wb-dockWidth">Dock width</label><input id="ju-wb-dockWidth" data-wb-control="dockWidth" type="range" min="240" max="420" step="20" value="320" /></div>
+    </div></details>
+    <details class="ju-dock-panel"><summary>Surfaces</summary><div class="ju-dock-body"><ul class="ju-mini-list">${suites}</ul></div></details>
+    <details class="ju-dock-panel"><summary>Components</summary><div class="ju-dock-body"><ul class="ju-mini-list">${components}</ul></div></details>
+    <details class="ju-dock-panel"><summary>Charts</summary><div class="ju-dock-body"><ul class="ju-mini-list"><li>no chart registry items in current generated registry</li></ul></div></details>
+    <details class="ju-dock-panel"><summary>Motion</summary><div class="ju-dock-body">
+      <div class="ju-control"><label for="ju-wb-motion">Fast motion</label><input id="ju-wb-motion" data-wb-control="motion" type="range" min="0" max="240" step="20" value="120" /></div>
+      <div class="ju-control"><label for="ju-wb-density">Density</label><input id="ju-wb-density" data-wb-control="density" type="range" min="0.85" max="1.2" step="0.05" value="1" /></div>
+    </div></details>
+    <details class="ju-dock-panel"><summary>Assets</summary><div class="ju-dock-body"><ul class="ju-mini-list"><li>generated suite manifests: ${escapeHtml(data.suites.length)}</li><li>presentation fixtures: ${escapeHtml(data.presentationPanels.length)}</li></ul></div></details>
+    <details class="ju-dock-panel"><summary>Registry</summary><div class="ju-dock-body"><ul class="ju-mini-list">${registryItems}</ul><ul class="ju-mini-list" id="ju-wb-registered"></ul><div class="ju-control"><label for="ju-wb-export">Export artifact</label><textarea id="ju-wb-export" readonly></textarea></div></div></details>
+  </div>
+</aside>`;
 }
 
 function nav(suites) {
@@ -435,10 +660,6 @@ const CONTRAST_PAIRS = [
   { label: "Focus ring on light background", fgVar: "--jami-componentState-focusRing", bgVar: "--jami-semantic-light-background", min: 3.0, level: "AA non-text" },
 ];
 
-function tokenValue(tokens, name) {
-  return tokens.find((t) => t.name === name)?.value ?? null;
-}
-
 export function computeContrastRows(tokens) {
   return CONTRAST_PAIRS.map((pair) => {
     const fg = tokenValue(tokens, pair.fgVar);
@@ -494,25 +715,6 @@ function footer(data) {
 </footer>`;
 }
 
-// Theme switcher: first-party app-shell script (not a renderer payload). It only
-// toggles the document theme attribute and the pressed state; it wires no
-// network, storage, or action behavior.
-const THEME_SCRIPT = `
-(function () {
-  var root = document.documentElement;
-  var buttons = document.querySelectorAll('.ju-theme-btn');
-  buttons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var value = btn.getAttribute('data-theme-value');
-      root.setAttribute('data-theme', value);
-      buttons.forEach(function (other) {
-        other.setAttribute('aria-pressed', other === btn ? 'true' : 'false');
-      });
-    });
-  });
-})();
-`.trim();
-
 export function buildPage(data, { theme = "factory", focusFirst = false } = {}) {
   const body = [
     `<a class="ju-skip" href="#ju-main">Skip to content</a>`,
@@ -527,6 +729,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
     `</main>`,
     footer(data),
     `</div>`,
+    workbenchOverlay(data),
   ].join("\n");
 
   // `focusFirst` adds autofocus to the first theme control so the headless
@@ -545,7 +748,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
 </head>
 <body>
 ${withFocus}
-<script>${THEME_SCRIPT}</script>
+<script>${buildWorkbenchClientScript()}</script>
 </body>
 </html>
 `;

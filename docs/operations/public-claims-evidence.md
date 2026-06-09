@@ -26,6 +26,7 @@ in this table with live evidence, it is not safe to make publicly.
 | The CLI installs/updates/removes/migrates and verifies provenance | 15 temp-project smoke tests | `pnpm --filter @jami-studio/cli test` |
 | The CLI provenance command verifies content hashes | `cli provenance <name>` (`state: verified`) | `node packages/cli/bin/studio-ui.mjs provenance jami-theme --registry packages/registry/generated --json` |
 | The workbench renders the seams in a browser | static showcase + `node --test` gate | `pnpm --filter @jami-studio/workbench test` |
+| The workbench supports always-live local token edits and deterministic local artifacts | local overlay state reducer + `node --test` gate | `pnpm --filter @jami-studio/workbench test` |
 | The workbench meets structural a11y + contrast targets | a11y/visual smoke report | `node apps/workbench/smoke/a11y-visual-smoke.mjs` |
 | The full gate passes | aggregate verify | `pnpm verify` |
 
@@ -48,7 +49,7 @@ These must not be stated as fact publicly until evidence exists (see
 
 - A live hosted registry at `registry.jami.studio` or any remote CLI install.
 - Any published npm package, or `@jami-studio` scope availability.
-- A runtime React renderer, interactive workbench editing, or full suite app shells.
+- A runtime React renderer, hosted/persisted workbench editing, backend package registration, or full suite app shells.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
 - Harness runtime behavior (owned by Jami Harness, only displayed here).

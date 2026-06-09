@@ -11,9 +11,10 @@ seam. It turns harness-originated reference data into inert, JSON-serializable
 workbench surface must show. It is the smallest real foundation for displaying
 and configuring shared harness refs without owning any runtime execution.
 
-This is not a browser, React, or app surface. There is no workbench app shell in
-this repo yet. The seam produces descriptors a future shell could render; nothing
-here mounts a DOM, runs an event loop, executes actions, or owns policy.
+This is not a browser, React, or app surface. The `apps/workbench` static surface
+now consumes the descriptors, but the seam itself still only produces descriptors
+for a shell to render; nothing here mounts a DOM, runs an event loop, executes
+actions, or owns policy.
 
 ## What It Consumes
 
@@ -109,17 +110,18 @@ fixture corpus cannot drift from the code that consumes it.
 The seam itself still produces structured descriptors only — it does not render
 React, mount a DOM, map AG-UI event streams, import harness types, define a
 memory/context contract, or execute actions. As of 2026-06-09 the dependency-free
-`apps/workbench` static showcase (`docs/architecture/workbench-showcase.md`) is
+`apps/workbench` static workbench (`docs/architecture/workbench-showcase.md`) is
 the first surface to consume these descriptors: it serializes them to inert,
-escaped HTML with their operational status badges and produces browser
-screenshot and accessibility evidence. Consuming the descriptors changes nothing
-about this seam's ownership boundary — redaction, freshness, denial, and
-provenance remain harness-owned and display-only, and a redacted record's gated
-content is never echoed.
+escaped HTML with their operational status badges, layers a local always-live
+editing overlay over the same generated page, and produces browser screenshot
+and accessibility evidence. Consuming the descriptors changes nothing about this
+seam's ownership boundary — redaction, freshness, denial, and provenance remain
+harness-owned and display-only, and a redacted record's gated content is never
+echoed.
 
 ## Not Yet Claimed
 
 The seam does not execute actions, own policy, or render its own DOM. The
-showcase that consumes it is a static, read-only display surface; there is no
-interactive workbench editing app, no runtime React renderer, and no harness
-execution in this repo yet.
+workbench surface that consumes it now has a local static-runtime editing overlay,
+but the seam remains display-only: there is no hosted persistence, backend
+registration, runtime React renderer, or harness execution in this repo yet.

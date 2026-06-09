@@ -144,7 +144,7 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   (`apps/workbench/smoke/a11y-visual-smoke.mjs`) captures per-theme, focus, and
   narrow-viewport screenshots plus a structural a11y + contrast report under
   `apps/workbench/output/`. This is not a full suite app shell, the per-lane suite
-  vocabulary (pending Workstream 4), an interactive workbench editing app, a runtime React
+  vocabulary (pending Workstream 4), an always-live editing overlay, a runtime React
   renderer, or any harness runtime.
 - 2026-06-09 Stream 6 pass 1 added release/publishing/supply-chain readiness over the
   accepted Stream 5 surfaces without expanding product scope. A root MIT `LICENSE`
@@ -171,8 +171,8 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `pnpm --filter @jami-studio/workbench smoke` all exit 0; `.env` remains ignored.
   This does not close the full roadmap acceptance criteria. Open product gaps remain:
   full Radix/React `packages/ui` primitive implementations, per-component renderer prop
-  schemas, vocabulary-generation handshake/version rules, the interactive always-live
-  workbench editing overlay, full suite app shells and lower-level suite parts, hosted
+  schemas, vocabulary-generation handshake/version rules, hosted/persisted workbench
+  editing and backend registration, full suite app shells and lower-level suite parts, hosted
   registry URL install smoke, automated release-note generation, SBOM/attestation execution
   at publish time, and npm/static-host publish actions.
 - 2026-06-09 Workstream 4 pass 1 added a real but narrow `packages/ui` vocabulary
@@ -193,6 +193,19 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   every lane from those generated manifests, and CLI temp-project smoke coverage
   installs every suite. Full React suite applications, independent page/block
   registry items, and harness runtime behavior remain open.
+- 2026-06-09 Workstream 5 always-live overlay pass 1 made the static workbench
+  materially interactive without claiming hosted persistence or backend package
+  registration. `apps/workbench` now renders a compact status bar with target,
+  theme/preset, dirty/storage state, Save, Duplicate, Restore, Register, Export,
+  and Close; docked panels for Theme, Color, Typography, Layout, Surfaces,
+  Components, Charts, Motion, Assets, and Registry; immediate CSS-variable
+  updates from generated token data; localStorage-backed draft state across
+  close/reopen; and deterministic local register/export artifacts marked
+  `backendPersistence: false`. `apps/workbench/src/workbench-state.mjs` owns the
+  pure state transitions and tests cover edit/save/duplicate/restore/register/
+  export/close/reopen. Full React/Radix component implementations, hosted
+  persisted editing, backend registry/package registration, independent page and
+  block registry items, and full suite app shells remain open.
 
 ## Locked Decisions
 
@@ -539,21 +552,21 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Build compact workbench status bar with target, theme/preset name, dirty state, Save, Duplicate, Restore, Register, Export, and Close.
-- [ ] Build collapsible docked panels for Theme, Color, Typography, Layout, Surfaces, Components, Charts, Motion, Assets, and Registry.
-- [ ] Preserve navigation while the overlay is active.
-- [ ] Preserve draft state across close/reopen.
-- [ ] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows.
+- [x] Build compact workbench status bar with target, theme/preset name, dirty state, Save, Duplicate, Restore, Register, Export, and Close.
+- [~] Build collapsible docked panels for Theme, Color, Typography, Layout, Surfaces, Components, Charts, Motion, Assets, and Registry. (All requested panels exist in the static overlay; panels are data-backed where current token, suite, component, fixture, and registry data exists, while Charts honestly reports no chart registry item yet.)
+- [x] Preserve navigation while the overlay is active. (The overlay is fixed over the generated showcase and does not replace section navigation.)
+- [x] Preserve draft state across close/reopen. (`localStorage` stores the static-runtime draft and closed/open state.)
+- [~] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows. (Save, duplicate, restore-to-factory, local register artifact, local export artifact, and close/reopen are implemented as deterministic local transitions; discard/rename and backend persistence/registration remain pending.)
 - [ ] Add inspector focus if it can be done without destabilizing the first overlay.
-- [~] Gate workbench expansion on an early vertical slice: one token family, one primitive, one registry item, one CLI temp install, one renderer payload, one harness-compatible action/error fixture, and one screenshot/accessibility check. (The `apps/workbench` static showcase proves the token theme -> registry/suite descriptor -> resident renderer -> presentation seam loop end to end with screenshot and accessibility evidence; the interactive editing overlay remains pending.)
-- [~] Add workbench visual/a11y fixtures across light, dark, factory theme, and suite-theme states. (The showcase builds `factory`/`light`/`dark` theme states with per-theme screenshots and a structural a11y + contrast smoke; a dedicated suite-theme state and the editing overlay remain pending.)
+- [x] Gate workbench expansion on an early vertical slice: one token family, one primitive, one registry item, one CLI temp install, one renderer payload, one harness-compatible action/error fixture, and one screenshot/accessibility check. (The `apps/workbench` static surface proves the token theme -> registry/suite descriptor -> resident renderer -> presentation seam loop end to end and now exposes the local always-live editing overlay over that same real page.)
+- [~] Add workbench visual/a11y fixtures across light, dark, factory theme, and suite-theme states. (The showcase builds `factory`/`light`/`dark` theme states with per-theme screenshots and a structural a11y + contrast smoke; dedicated persisted suite-theme state and full visual regression remain pending.)
 
 Exit criteria:
 
-- [ ] Token changes update the real page immediately.
-- [ ] Save persists; close hides overlay without losing the draft; restore returns to factory.
-- [ ] No configuration controls are scattered across product pages.
-- [ ] Workbench controls do not outpace the proven registry -> CLI -> renderer -> harness compatibility loop.
+- [x] Token changes update the real page immediately. (Overlay controls update CSS variables on the generated workbench page as the draft changes.)
+- [~] Save persists; close hides overlay without losing the draft; restore returns to factory. (Implemented for static-runtime local state through `localStorage`; hosted persistence remains unclaimed.)
+- [x] No configuration controls are scattered across product pages.
+- [x] Workbench controls do not outpace the proven registry -> CLI -> renderer -> harness compatibility loop. (Controls are limited to generated token, suite, component, fixture, and registry data plus explicit no-chart state.)
 
 Suggested verification:
 

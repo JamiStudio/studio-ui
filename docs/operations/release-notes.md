@@ -106,8 +106,9 @@ engine; runs succeed on Node 22 with a non-fatal pnpm unsupported-engine warning
   install from a hosted URL.
 - No published npm packages; npm is not authenticated and `@jami-studio` scope
   access is unconfirmed.
-- No runtime React renderer, no interactive workbench editing app, and no full suite
-  app shells. Per-lane suite page/block/component vocabulary is planned, not built.
+- No runtime React renderer, no hosted/persisted workbench editing or backend
+  package registration, and no full suite app shells. Per-lane suite
+  page/block/component vocabulary is planned, not built.
 - No harness runtime in this repo: agent execution, policy, tools, memory, and
   traces are owned by Jami Harness and only displayed here.
 - No branding canon: current logo material is exploratory only; branding work is
