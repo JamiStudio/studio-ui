@@ -87,16 +87,17 @@ without an explicit `--force`.
 
 - `pnpm --filter @jami-studio/cli test` runs deterministic temp-project smoke
   tests under the OS temp dir covering init, list, install, suite-graph install
-  with authored primitive source, dry-run, conflict refusal and forced overwrite,
-  doctor drift detection, remove, update of outdated entries, pin/update
-  interaction, migrate report/apply, provenance verification, remote-registry
-  unsupported state, and unknown-item failure.
+  with authored primitive source, standalone suite page/block install and
+  provenance, dry-run, conflict refusal and forced overwrite, doctor drift
+  detection, remove, update of outdated entries, pin/update interaction, migrate
+  report/apply, provenance verification, remote-registry unsupported state, and
+  unknown-item failure.
 - The CLI test is part of `pnpm verify`.
 
 ## Not Yet Claimed
 
 The CLI installs UI distribution artifacts only. It does not fetch a remote
 registry, run a package manager, scaffold an app shell, render a browser
-surface, or execute harness actions. Suite items install their theme and
-descriptor today; their per-lane page/block/component vocabulary is pending the
-primitive/component workstream and is surfaced as planned, not installed.
+surface, or execute harness actions. Suite items install their theme, suite
+descriptor, and generated page/block descriptors. These are installable
+manifests, not full React page or block implementations.

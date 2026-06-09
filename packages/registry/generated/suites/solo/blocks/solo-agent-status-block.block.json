@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "solo",
+  "block": {
+    "id": "block.solo.agent-status",
+    "title": "Agent status",
+    "component": "agent-panel",
+    "stateExamples": [
+      "error"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/solo/today",
+      "page": "page.solo.today",
+      "title": "Today command center"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.solo.today",
+      "title": "Today command center"
+    }
+  ],
+  "component": "agent-panel",
+  "stateFixtures": {
+    "error": "Agent status is displayed as an error panel with no executable action wiring."
+  },
+  "provenance": {
+    "source": "registry/suites/solo/suite-shell.json",
+    "copiedSource": false
+  }
+}

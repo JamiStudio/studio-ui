@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "solo-today-page",
+  "type": "registry:page",
+  "title": "Today command center",
+  "description": "Calendar, task queue, and non-executable agent status for a solo operator.",
+  "dependencies": [],
+  "registryDependencies": [
+    "solo-agenda-block",
+    "solo-task-queue-block",
+    "solo-agent-status-block",
+    "data-list",
+    "agent-panel",
+    "button",
+    "panel"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/solo/pages/solo-today-page.page.json",
+      "target": "studio-ui/suites/solo/pages/solo-today-page.page.json",
+      "type": "registry:page",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"page\": {\n    \"id\": \"page.solo.today\",\n    \"title\": \"Today command center\",\n    \"description\": \"Calendar, task queue, and non-executable agent status for a solo operator.\",\n    \"components\": [\n      \"data-list\",\n      \"agent-panel\",\n      \"button\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/today\",\n      \"page\": \"page.solo.today\",\n      \"title\": \"Today command center\",\n      \"blocks\": [\n        \"block.solo.agenda\",\n        \"block.solo.task-queue\",\n        \"block.solo.agent-status\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.solo.agenda\",\n      \"title\": \"Agenda\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.solo.task-queue\",\n      \"title\": \"Task queue\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"empty\"\n      ]\n    },\n    {\n      \"id\": \"block.solo.agent-status\",\n      \"title\": \"Agent status\",\n      \"component\": \"agent-panel\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"agent-panel\",\n    \"button\",\n    \"data-list\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\",\n    \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\",\n    \"error\": \"Agent status is displayed as an error panel with no executable action wiring.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:41acf741727f0c7c38a854c48ccb76c0c3592e27014744dd19fe8e9511489969"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/solo-today-page",
+    "suite": "solo",
+    "lifecycle": {
+      "id": "page.solo.today",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:684a0f1aff3c573fc52240c8baf78d3dc3c8d58ea44d3b9dff0b0819b6052385",
+      "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/solo/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

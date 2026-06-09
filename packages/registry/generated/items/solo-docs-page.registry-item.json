@@ -1,0 +1,49 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "solo-docs-page",
+  "type": "registry:page",
+  "title": "Docs and sources",
+  "description": "Documents, citations, lightweight forms, and long reference notes.",
+  "dependencies": [],
+  "registryDependencies": [
+    "solo-docs-sources-block",
+    "solo-forms-block",
+    "docs-source-panel",
+    "text-field",
+    "data-list",
+    "panel"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/solo/pages/solo-docs-page.page.json",
+      "target": "studio-ui/suites/solo/pages/solo-docs-page.page.json",
+      "type": "registry:page",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"page\": {\n    \"id\": \"page.solo.docs\",\n    \"title\": \"Docs and sources\",\n    \"description\": \"Documents, citations, lightweight forms, and long reference notes.\",\n    \"components\": [\n      \"docs-source-panel\",\n      \"text-field\",\n      \"data-list\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/docs\",\n      \"page\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\",\n      \"blocks\": [\n        \"block.solo.docs-sources\",\n        \"block.solo.forms\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.solo.docs-sources\",\n      \"title\": \"Docs sources\",\n      \"component\": \"docs-source-panel\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.solo.forms\",\n      \"title\": \"Quick form\",\n      \"component\": \"text-field\",\n      \"stateExamples\": [\n        \"invalid\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"data-list\",\n    \"docs-source-panel\",\n    \"panel\",\n    \"text-field\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\",\n    \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\",\n    \"error\": \"Agent status is displayed as an error panel with no executable action wiring.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:c400fc7d5d8c7756922d46959ef3628990cc735a1c04ec2cece38c1b06ddf7d5"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/solo-docs-page",
+    "suite": "solo",
+    "lifecycle": {
+      "id": "page.solo.docs",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:80f64cc246e149eedac53feb72e27cdd20bfed067a8634df6bcbeeed717c16ad",
+      "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/solo/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

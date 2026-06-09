@@ -1,0 +1,61 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "page": {
+    "id": "page.mixed-media.library",
+    "title": "Asset library",
+    "description": "Media-grid library with asset metadata, long captions, and empty collection states.",
+    "components": [
+      "media-grid",
+      "data-list",
+      "panel",
+      "button"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/library",
+      "page": "page.mixed-media.library",
+      "title": "Asset library",
+      "blocks": [
+        "block.mixed-media.assets",
+        "block.mixed-media.metadata"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.mixed-media.assets",
+      "title": "Assets",
+      "component": "media-grid",
+      "stateExamples": [
+        "empty",
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.mixed-media.metadata",
+      "title": "Asset metadata",
+      "component": "data-list",
+      "stateExamples": [
+        "long-content"
+      ]
+    }
+  ],
+  "components": [
+    "button",
+    "data-list",
+    "media-grid",
+    "panel"
+  ],
+  "stateFixtures": {
+    "longContent": "Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.",
+    "empty": "An empty asset collection keeps a visible media-grid state.",
+    "error": "Pipeline errors render as status panels without invoking provider or harness actions."
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

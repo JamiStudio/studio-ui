@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mixed-media-assets-block",
+  "type": "registry:block",
+  "title": "Assets",
+  "description": "Assets block for the Mixed Media suite shell.",
+  "dependencies": [],
+  "registryDependencies": [
+    "media-grid"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/mixed-media/blocks/mixed-media-assets-block.block.json",
+      "target": "studio-ui/suites/mixed-media/blocks/mixed-media-assets-block.block.json",
+      "type": "registry:block",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"block\": {\n    \"id\": \"block.mixed-media.assets\",\n    \"title\": \"Assets\",\n    \"component\": \"media-grid\",\n    \"stateExamples\": [\n      \"empty\",\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/library\",\n      \"page\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\"\n    }\n  ],\n  \"component\": \"media-grid\",\n  \"stateFixtures\": {\n    \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n    \"long-content\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:2fba729bae0063c79247bd35c06b244c94cf4aa22ec0ea87595ffe60fc20b82a"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/mixed-media-assets-block",
+    "suite": "mixed-media",
+    "lifecycle": {
+      "id": "block.mixed-media.assets",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:989f6be7f7b9bfa8e299682a3761ad620261731aff79e4e9debb70c0ce0d481a",
+      "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/mixed-media/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

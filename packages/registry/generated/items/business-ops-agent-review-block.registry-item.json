@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "business-ops-agent-review-block",
+  "type": "registry:block",
+  "title": "Review queue",
+  "description": "Review queue block for the Business Operations suite shell.",
+  "dependencies": [],
+  "registryDependencies": [
+    "agent-panel"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/business-ops/blocks/business-ops-agent-review-block.block.json",
+      "target": "studio-ui/suites/business-ops/blocks/business-ops-agent-review-block.block.json",
+      "type": "registry:block",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"block\": {\n    \"id\": \"block.business-ops.agent-review\",\n    \"title\": \"Review queue\",\n    \"component\": \"agent-panel\",\n    \"stateExamples\": [\n      \"error\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/dashboard\",\n      \"page\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"component\": \"agent-panel\",\n  \"stateFixtures\": {\n    \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:9c61e22c4729bd13a6ba6f05ee6c51ad710f105f602ef6e5b9cde0c909b9ba06"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/business-ops-agent-review-block",
+    "suite": "business-ops",
+    "lifecycle": {
+      "id": "block.business-ops.agent-review",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:39d3215a4cb12dbef1d0912a54c261f1f028e36a946f246aa83dd27fc82f7fcb",
+      "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/business-ops/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

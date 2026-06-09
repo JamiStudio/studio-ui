@@ -1,0 +1,70 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "page": {
+    "id": "page.business-ops.dashboard",
+    "title": "Operations dashboard",
+    "description": "Staffing, schedule exceptions, compliance signals, and display-only review actions.",
+    "components": [
+      "data-list",
+      "agent-panel",
+      "button",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/business-ops/dashboard",
+      "page": "page.business-ops.dashboard",
+      "title": "Operations dashboard",
+      "blocks": [
+        "block.business-ops.kpis",
+        "block.business-ops.exceptions",
+        "block.business-ops.agent-review"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.business-ops.kpis",
+      "title": "Operational KPIs",
+      "component": "data-list",
+      "stateExamples": [
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.business-ops.exceptions",
+      "title": "Schedule exceptions",
+      "component": "data-list",
+      "stateExamples": [
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "id": "block.business-ops.agent-review",
+      "title": "Review queue",
+      "component": "agent-panel",
+      "stateExamples": [
+        "error"
+      ]
+    }
+  ],
+  "components": [
+    "agent-panel",
+    "button",
+    "data-list",
+    "panel"
+  ],
+  "stateFixtures": {
+    "longContent": "A compliance exception with a long policy name wraps inside row cells and cards.",
+    "empty": "No open schedule exceptions are announced as an empty operational state.",
+    "error": "A review queue error is shown without retrying or executing harness actions."
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

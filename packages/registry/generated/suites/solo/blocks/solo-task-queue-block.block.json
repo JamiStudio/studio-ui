@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "solo",
+  "block": {
+    "id": "block.solo.task-queue",
+    "title": "Task queue",
+    "component": "data-list",
+    "stateExamples": [
+      "empty"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/solo/today",
+      "page": "page.solo.today",
+      "title": "Today command center"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.solo.today",
+      "title": "Today command center"
+    }
+  ],
+  "component": "data-list",
+  "stateFixtures": {
+    "empty": "No tasks are due; the data-list announces an empty status instead of hiding the section."
+  },
+  "provenance": {
+    "source": "registry/suites/solo/suite-shell.json",
+    "copiedSource": false
+  }
+}

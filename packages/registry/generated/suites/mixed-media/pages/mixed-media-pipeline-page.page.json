@@ -1,0 +1,60 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "page": {
+    "id": "page.mixed-media.pipeline",
+    "title": "Generation pipeline",
+    "description": "Pipeline status, review queue, publishing readiness, and display-only agent state.",
+    "components": [
+      "data-list",
+      "agent-panel",
+      "media-grid",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/pipeline",
+      "page": "page.mixed-media.pipeline",
+      "title": "Generation pipeline",
+      "blocks": [
+        "block.mixed-media.pipeline",
+        "block.mixed-media.review-agent"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.mixed-media.pipeline",
+      "title": "Pipeline runs",
+      "component": "data-list",
+      "stateExamples": [
+        "error"
+      ]
+    },
+    {
+      "id": "block.mixed-media.review-agent",
+      "title": "Review agent",
+      "component": "agent-panel",
+      "stateExamples": [
+        "error"
+      ]
+    }
+  ],
+  "components": [
+    "agent-panel",
+    "data-list",
+    "media-grid",
+    "panel"
+  ],
+  "stateFixtures": {
+    "longContent": "Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.",
+    "empty": "An empty asset collection keeps a visible media-grid state.",
+    "error": "Pipeline errors render as status panels without invoking provider or harness actions."
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

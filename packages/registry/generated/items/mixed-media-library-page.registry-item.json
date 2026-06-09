@@ -1,0 +1,49 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mixed-media-library-page",
+  "type": "registry:page",
+  "title": "Asset library",
+  "description": "Media-grid library with asset metadata, long captions, and empty collection states.",
+  "dependencies": [],
+  "registryDependencies": [
+    "mixed-media-assets-block",
+    "mixed-media-metadata-block",
+    "media-grid",
+    "data-list",
+    "panel",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/mixed-media/pages/mixed-media-library-page.page.json",
+      "target": "studio-ui/suites/mixed-media/pages/mixed-media-library-page.page.json",
+      "type": "registry:page",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"page\": {\n    \"id\": \"page.mixed-media.library\",\n    \"title\": \"Asset library\",\n    \"description\": \"Media-grid library with asset metadata, long captions, and empty collection states.\",\n    \"components\": [\n      \"media-grid\",\n      \"data-list\",\n      \"panel\",\n      \"button\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/library\",\n      \"page\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\",\n      \"blocks\": [\n        \"block.mixed-media.assets\",\n        \"block.mixed-media.metadata\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.mixed-media.assets\",\n      \"title\": \"Assets\",\n      \"component\": \"media-grid\",\n      \"stateExamples\": [\n        \"empty\",\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.mixed-media.metadata\",\n      \"title\": \"Asset metadata\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"button\",\n    \"data-list\",\n    \"media-grid\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\",\n    \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n    \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:fc3fac01090ac6a617a5498797c108e28594380fabcf01f65b5c0a8f1ed7e47f"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/mixed-media-library-page",
+    "suite": "mixed-media",
+    "lifecycle": {
+      "id": "page.mixed-media.library",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:3d72e734615baa713b92837f5f7ae5d3f4c73b7abac5c101464c79229de2a177",
+      "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/mixed-media/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

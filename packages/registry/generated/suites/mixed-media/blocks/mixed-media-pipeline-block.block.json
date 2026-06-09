@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "block": {
+    "id": "block.mixed-media.pipeline",
+    "title": "Pipeline runs",
+    "component": "data-list",
+    "stateExamples": [
+      "error"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/pipeline",
+      "page": "page.mixed-media.pipeline",
+      "title": "Generation pipeline"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.mixed-media.pipeline",
+      "title": "Generation pipeline"
+    }
+  ],
+  "component": "data-list",
+  "stateFixtures": {
+    "error": "Pipeline errors render as status panels without invoking provider or harness actions."
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

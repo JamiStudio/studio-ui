@@ -17,6 +17,7 @@ in this table with live evidence, it is not safe to make publicly.
 | Token source generates deterministic CSS / Tailwind `@theme` / TS / shadcn `cssVars` | `packages/tokens/generated/*` + drift check | `pnpm contracts:artifacts:check` |
 | Registry items validate against the Jami metadata contract | `packages/registry/fixtures/*` + schema gate | `pnpm contracts:check` |
 | Registry output is shadcn-shaped with embedded content + `sha256` hashes | `packages/registry/generated/registry.json` | `pnpm registry:publish:check` |
+| Suite pages and blocks are independently installable registry items | generated page/block item artifacts and CLI temp-project smoke | `pnpm --filter @jami-studio/cli test` |
 | Every embedded registry content hash recomputes exactly | publish dry-run hash re-verification | `pnpm registry:publish:check` |
 | No secret-shaped content in the served registry bundle | publish dry-run secret scan (`secret-shaped content: none`) | `pnpm registry:publish:check` |
 | No third-party source is redistributed | all items `copiedSource: false`; dry-run `copiedSourceItems: none` | `pnpm registry:publish:check` |
@@ -33,8 +34,8 @@ in this table with live evidence, it is not safe to make publicly.
 ## Latest Evidence Snapshot (2026-06-09)
 
 - `pnpm verify` — pass (exit 0), all stages green, including `registry:publish:check`.
-- `pnpm registry:publish:check` — `ready-to-stage`; 12 items (12 publishable now,
-  0 source-pending); 17 served files; secret-shaped content: none; copied
+- `pnpm registry:publish:check` — `ready-to-stage`; 38 items (38 publishable now,
+  0 source-pending); 69 served files; secret-shaped content: none; copied
   third-party source: none.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
@@ -49,7 +50,7 @@ These must not be stated as fact publicly until evidence exists (see
 
 - A live hosted registry at `registry.jami.studio` or any remote CLI install.
 - Any published npm package, or `@jami-studio` scope availability.
-- A runtime React renderer, hosted/persisted workbench editing, backend package registration, or full suite app shells.
+- A runtime React renderer, hosted/persisted workbench editing, backend package registration, or full suite app shells/full React page-block implementations.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
 - Harness runtime behavior (owned by Jami Harness, only displayed here).

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "solo",
+  "page": {
+    "id": "page.solo.docs",
+    "title": "Docs and sources",
+    "description": "Documents, citations, lightweight forms, and long reference notes.",
+    "components": [
+      "docs-source-panel",
+      "text-field",
+      "data-list",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/solo/docs",
+      "page": "page.solo.docs",
+      "title": "Docs and sources",
+      "blocks": [
+        "block.solo.docs-sources",
+        "block.solo.forms"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.solo.docs-sources",
+      "title": "Docs sources",
+      "component": "docs-source-panel",
+      "stateExamples": [
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.solo.forms",
+      "title": "Quick form",
+      "component": "text-field",
+      "stateExamples": [
+        "invalid"
+      ]
+    }
+  ],
+  "components": [
+    "data-list",
+    "docs-source-panel",
+    "panel",
+    "text-field"
+  ],
+  "stateFixtures": {
+    "longContent": "A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.",
+    "empty": "No tasks are due; the data-list announces an empty status instead of hiding the section.",
+    "error": "Agent status is displayed as an error panel with no executable action wiring."
+  },
+  "provenance": {
+    "source": "registry/suites/solo/suite-shell.json",
+    "copiedSource": false
+  }
+}

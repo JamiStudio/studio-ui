@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "block": {
+    "id": "block.business-ops.kpis",
+    "title": "Operational KPIs",
+    "component": "data-list",
+    "stateExamples": [
+      "long-content"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/business-ops/dashboard",
+      "page": "page.business-ops.dashboard",
+      "title": "Operations dashboard"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.business-ops.dashboard",
+      "title": "Operations dashboard"
+    }
+  ],
+  "component": "data-list",
+  "stateFixtures": {
+    "long-content": "A compliance exception with a long policy name wraps inside row cells and cards."
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

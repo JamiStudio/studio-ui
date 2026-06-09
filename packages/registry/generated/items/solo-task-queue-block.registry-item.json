@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "solo-task-queue-block",
+  "type": "registry:block",
+  "title": "Task queue",
+  "description": "Task queue block for the Solo / General Workflow suite shell.",
+  "dependencies": [],
+  "registryDependencies": [
+    "data-list"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/solo/blocks/solo-task-queue-block.block.json",
+      "target": "studio-ui/suites/solo/blocks/solo-task-queue-block.block.json",
+      "type": "registry:block",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.task-queue\",\n    \"title\": \"Task queue\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"empty\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/today\",\n      \"page\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:e667aed837951f35cddc76af74f7b4713a40256be310341b3ed05b462e16410b"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/solo-task-queue-block",
+    "suite": "solo",
+    "lifecycle": {
+      "id": "block.solo.task-queue",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:37a694b2b52feedd4c8bb69aab7c31ac29ad7895426a9f13d8696b0e2fb5759d",
+      "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/solo/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

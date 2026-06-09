@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "solo",
+  "block": {
+    "id": "block.solo.docs-sources",
+    "title": "Docs sources",
+    "component": "docs-source-panel",
+    "stateExamples": [
+      "long-content"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/solo/docs",
+      "page": "page.solo.docs",
+      "title": "Docs and sources"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.solo.docs",
+      "title": "Docs and sources"
+    }
+  ],
+  "component": "docs-source-panel",
+  "stateFixtures": {
+    "long-content": "A long source title, task description, or calendar note wraps inside the shell without horizontal overflow."
+  },
+  "provenance": {
+    "source": "registry/suites/solo/suite-shell.json",
+    "copiedSource": false
+  }
+}

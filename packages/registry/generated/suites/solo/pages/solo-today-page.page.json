@@ -1,0 +1,69 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "solo",
+  "page": {
+    "id": "page.solo.today",
+    "title": "Today command center",
+    "description": "Calendar, task queue, and non-executable agent status for a solo operator.",
+    "components": [
+      "data-list",
+      "agent-panel",
+      "button",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/solo/today",
+      "page": "page.solo.today",
+      "title": "Today command center",
+      "blocks": [
+        "block.solo.agenda",
+        "block.solo.task-queue",
+        "block.solo.agent-status"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.solo.agenda",
+      "title": "Agenda",
+      "component": "data-list",
+      "stateExamples": [
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.solo.task-queue",
+      "title": "Task queue",
+      "component": "data-list",
+      "stateExamples": [
+        "empty"
+      ]
+    },
+    {
+      "id": "block.solo.agent-status",
+      "title": "Agent status",
+      "component": "agent-panel",
+      "stateExamples": [
+        "error"
+      ]
+    }
+  ],
+  "components": [
+    "agent-panel",
+    "button",
+    "data-list",
+    "panel"
+  ],
+  "stateFixtures": {
+    "longContent": "A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.",
+    "empty": "No tasks are due; the data-list announces an empty status instead of hiding the section.",
+    "error": "Agent status is displayed as an error panel with no executable action wiring."
+  },
+  "provenance": {
+    "source": "registry/suites/solo/suite-shell.json",
+    "copiedSource": false
+  }
+}

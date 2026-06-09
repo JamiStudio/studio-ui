@@ -53,23 +53,21 @@ test("list returns the real generated registry items", () => {
   const r = call("list");
   assert.equal(r.code, 0);
   const names = r.result.data.items.map((i) => i.name);
-  assert.deepEqual(
-    names,
-    [
-      "agent-panel",
-      "business-ops-suite",
-      "button",
-      "data-list",
-      "docs-source-panel",
-      "jami-theme",
-      "media-grid",
-      "mixed-media-suite",
-      "panel",
-      "research-writing-suite",
-      "solo-suite",
-      "text-field",
-    ],
-  );
+  assert.equal(names.length, 38);
+  for (const name of [
+    "agent-panel",
+    "business-ops-dashboard-page",
+    "business-ops-kpis-block",
+    "button",
+    "jami-theme",
+    "mixed-media-library-page",
+    "research-writing-sources-block",
+    "solo-suite",
+    "solo-today-page",
+    "solo-agenda-block",
+  ]) {
+    assert.ok(names.includes(name), `${name} listed`);
+  }
 });
 
 test("add installs real theme files and records provenance in the lock", () => {
@@ -106,7 +104,7 @@ test("add resolves a suite graph and installs authored primitive source", () => 
   call("init");
   const r = call("add", "solo-suite");
   assert.equal(r.code, 0);
-  assert.deepEqual(r.result.data.graph, [
+  for (const name of [
     "jami-theme",
     "button",
     "panel",
@@ -114,16 +112,54 @@ test("add resolves a suite graph and installs authored primitive source", () => 
     "data-list",
     "agent-panel",
     "docs-source-panel",
+    "solo-today-page",
+    "solo-agenda-block",
     "solo-suite",
-  ]);
+  ]) {
+    assert.ok(r.result.data.graph.includes(name), `${name} included in suite graph`);
+  }
 
   const lock = readJson("studio-ui.lock.json");
   const button = lock.items.find((i) => i.name === "button");
   assert.equal(button.sourceState, "installable");
   assert.ok(button.files.length > 0, "authored primitive files are installable");
+  assert.equal(lock.items.find((i) => i.name === "solo-today-page").sourceState, "installable");
+  assert.equal(lock.items.find((i) => i.name === "solo-agenda-block").sourceState, "installable");
   // the suite manifest and theme files are real
   assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo.suite.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "pages", "solo-today-page.page.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "blocks", "solo-agenda-block.block.json")));
   assert.ok(existsSync(join(dir, "studio-ui", "jami.css")));
+});
+
+test("standalone suite pages and blocks install independently with provenance", () => {
+  call("init");
+  const page = call("add", "solo-today-page");
+  assert.equal(page.code, 0);
+  assert.ok(page.result.data.graph.includes("solo-agenda-block"), "page graph installs dependent blocks");
+  assert.ok(page.result.data.graph.includes("data-list"), "page graph installs resident components");
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "pages", "solo-today-page.page.json")));
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "solo", "blocks", "solo-agenda-block.block.json")));
+
+  const pageManifest = readJson(join("studio-ui", "suites", "solo", "pages", "solo-today-page.page.json"));
+  assert.equal(pageManifest.$schema, "https://jami.studio/schemas/registry/suite-page.generated.json");
+  assert.equal(pageManifest.lane, "solo");
+  assert.ok(pageManifest.routes.some((route) => route.path === "/solo/today"));
+  assert.ok(pageManifest.components.includes("agent-panel"));
+
+  const block = call("add", "mixed-media-assets-block");
+  assert.equal(block.code, 0);
+  assert.ok(existsSync(join(dir, "studio-ui", "suites", "mixed-media", "blocks", "mixed-media-assets-block.block.json")));
+  const blockManifest = readJson(
+    join("studio-ui", "suites", "mixed-media", "blocks", "mixed-media-assets-block.block.json"),
+  );
+  assert.equal(blockManifest.$schema, "https://jami.studio/schemas/registry/suite-block.generated.json");
+  assert.equal(blockManifest.component, "media-grid");
+
+  const provenance = call("provenance", "solo-today-page");
+  assert.equal(provenance.code, 0);
+  assert.equal(provenance.result.data.provenance.source, "registry/suites/solo/suite-shell.json");
+  assert.ok(provenance.result.data.files.every((f) => f.state === "verified"));
 });
 
 test("each suite installs generated app-shell descriptors with route metadata", () => {
@@ -138,7 +174,9 @@ test("each suite installs generated app-shell descriptors with route metadata", 
 
     const manifest = readJson(join("studio-ui", "suites", `${suite}.suite.json`));
     assert.equal(manifest.lane, suite);
-    assert.ok(manifest.installGraph.dependencies.length >= 4, `${suite} install graph records vocabulary deps`);
+    assert.ok(manifest.installGraph.dependencies.length >= 10, `${suite} install graph records vocabulary and page/block deps`);
+    assert.ok(manifest.items.some((name) => name.endsWith("-page")), `${suite} page items generated`);
+    assert.ok(manifest.items.some((name) => name.endsWith("-block")), `${suite} block items generated`);
     assert.ok(manifest.shell.appShell.id.startsWith(`app.${suite}.`), `${suite} app shell id`);
     assert.ok(manifest.shell.routes.length >= 2, `${suite} routes generated`);
     assert.ok(manifest.shell.pages.length >= 2, `${suite} pages generated`);

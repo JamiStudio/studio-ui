@@ -39,9 +39,11 @@ section is part of the notes, not an afterthought.
 - Items: `jami-theme` (installable — its files are the generated token outputs);
   seven resident vocabulary items (`button`, `panel`, `text-field`, `data-list`,
   `agent-panel`, `docs-source-panel`, `media-grid`) with authored metadata and
-  tokenized styles embedded as real install content; and four suite install-graph
-  descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`) with
-  generated manifests and explicitly pending per-lane surfaces.
+  tokenized styles embedded as real install content; four suite install-graph
+  descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`); and
+  eight standalone page plus eighteen standalone block registry items generated
+  from authored suite-shell source descriptors. Suite installs now expose those
+  lower-level page/block manifests independently, with generated content hashes.
 
 ### Renderer and harness seam
 
@@ -65,7 +67,8 @@ section is part of the notes, not an afterthought.
   `provenance`) over an inspectable `studio-ui.config.json`/`studio-ui.lock.json`,
   with hash-based non-destructive conflict handling, rollback guidance, and
   provenance verification. Remote registry fetch is an explicit unsupported state.
-  15 temp-project smoke tests run against the real generated registry.
+  17 temp-project smoke tests run against the real generated registry, including
+  standalone suite page/block install and provenance.
 
 ### Workbench showcase
 
@@ -86,8 +89,8 @@ section is part of the notes, not an afterthought.
 - `pnpm registry:publish:check` static publish dry-run added and wired into
   `pnpm verify`: it re-verifies every embedded content hash, scans served bytes for
   secret-shaped content, classifies installable vs source-pending items, and reports
-  human/account actions. Current status: `ready-to-stage`, 12 publishable generated
-  items, 0 source-pending, secret-clean, no copied third-party source.
+  human/account actions. Current status: `ready-to-stage`, 38 publishable generated
+  items, 0 source-pending, 69 served files, secret-clean, no copied third-party source.
 - Registry publishing runbook, release/supply-chain policy (SBOM, provenance,
   hashes, attestation), and a public-claims evidence map added under
   `docs/operations/`.
@@ -109,8 +112,9 @@ engine; runs succeed on Node 22 with a non-fatal pnpm unsupported-engine warning
 - No published npm packages; npm is not authenticated and `@jami-studio` scope
   access is unconfirmed.
 - No runtime React renderer, no hosted/persisted workbench editing or backend
-  package registration, and no full suite app shells. Per-lane suite
-  page/block/component vocabulary is planned, not built.
+  package registration, and no full suite app shells. Per-lane suite page/block
+  descriptors are generated and installable, but full React page/block
+  implementations are not built.
 - No harness runtime in this repo: agent execution, policy, tools, memory, and
   traces are owned by Jami Harness and only displayed here.
 - No branding canon: current logo material is exploratory only; branding work is

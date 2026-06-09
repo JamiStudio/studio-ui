@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "block": {
+    "id": "block.mixed-media.metadata",
+    "title": "Asset metadata",
+    "component": "data-list",
+    "stateExamples": [
+      "long-content"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/library",
+      "page": "page.mixed-media.library",
+      "title": "Asset library"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.mixed-media.library",
+      "title": "Asset library"
+    }
+  ],
+  "component": "data-list",
+  "stateFixtures": {
+    "long-content": "Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell."
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

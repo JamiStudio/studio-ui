@@ -121,7 +121,7 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `migrate`, `pin`/`unpin`, `lock`, `doctor`, and `provenance` over an inspectable
   `studio-ui.config.json`/`studio-ui.lock.json`, with hash-based, non-destructive
   conflict handling and rollback guidance. Remote registry fetch resolves to an explicit
-  unsupported state. 15 deterministic temp-project smoke tests
+  unsupported state. 17 deterministic temp-project smoke tests
   (`packages/cli/test/cli.test.mjs`) run against the real generated registry and are part
   of `pnpm verify`. No browser, workbench app, or suite app shell exists yet; suite
   page/block/component vocabulary is surfaced as planned, not installed, and no
@@ -154,8 +154,8 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   wired into `pnpm verify`) re-verifies every embedded registry content hash, scans the
   served bundle for secret-shaped content, classifies installable vs source-pending
   items from real generated content, and lists the human/account actions it cannot
-  perform; current status is `ready-to-stage`, 12 publishable generated items, 0
-  source-pending, secret-clean, no copied source. Four operations docs were added —
+  perform; current status is `ready-to-stage`, 38 publishable generated items, 0
+  source-pending, 69 served files, secret-clean, no copied source. Four operations docs were added —
   `registry-publishing.md` (runbook + readiness),
   `release-and-supply-chain.md` (release flow, SBOM, source/license provenance,
   registry hashes, package provenance, attestation policy), `release-notes.md`
@@ -172,7 +172,7 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   This does not close the full roadmap acceptance criteria. Open product gaps remain:
   full Radix/React `packages/ui` primitive implementations, per-component renderer prop
   schemas, vocabulary-generation handshake/version rules, hosted/persisted workbench
-  editing and backend registration, full suite app shells and lower-level suite parts, hosted
+  editing and backend registration, full suite app shells/full React page-block implementations, hosted
   registry URL install smoke, automated release-note generation, SBOM/attestation execution
   at publish time, and npm/static-host publish actions.
 - 2026-06-09 Workstream 4 pass 1 added a real but narrow `packages/ui` vocabulary
@@ -191,8 +191,18 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   route maps, pages, blocks, resident component parts, install graph metadata,
   and long-content/empty/error state fixtures. The workbench showcase renders
   every lane from those generated manifests, and CLI temp-project smoke coverage
-  installs every suite. Full React suite applications, independent page/block
+  installs every suite. Full React suite applications, standalone page/block
   registry items, and harness runtime behavior remain open.
+- 2026-06-09 Workstream 8 pass 2 derived standalone page and block registry
+  items from the authored suite shell descriptors for all four lanes. The
+  generated registry now exposes 38 publishable items: the original token,
+  resident vocabulary, and suite roots plus 8 page items and 18 block items with
+  generated install manifests, authored MIT provenance, dependency graphs, and
+  content hashes. Suite install graphs include those lower-level parts
+  independently, `packages/cli/test/cli.test.mjs` proves standalone page/block
+  install and provenance in temp projects, and `registry:publish:check` now
+  recurses through nested generated suite artifacts. Full React suite/page/block
+  implementations remain open; no hosted registry or harness runtime is claimed.
 - 2026-06-09 Workstream 5 always-live overlay pass 1 made the static workbench
   materially interactive without claiming hosted persistence or backend package
   registration. `apps/workbench` now renders a compact status bar with target,
@@ -656,7 +666,7 @@ Implementation tasks:
 
 Exit criteria:
 
-- [~] A clean project can install a sample theme, primitive, and suite. (Theme and resident vocabulary items install real embedded content; suites install generated manifests while page items do not exist yet.)
+- [~] A clean project can install a sample theme, primitive, page, block, and suite. (Theme and resident vocabulary items install real embedded content; suites install generated manifests plus standalone page/block descriptors; full React implementations remain pending.)
 - [x] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
 - [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; remote registry is an explicit unsupported state; account/auth tooling integration is pending.)
 
@@ -702,8 +712,9 @@ Implementation tasks:
 - [~] Add suite install metadata and page/block/component dependency graphs.
   (Authored suite shell descriptors now generate app-shell navigation, route
   maps, pages, blocks, resident component parts, install graph metadata, and
-  long-content/empty/error state fixtures for all four lanes; independent
-  page/block registry items and full React implementations remain pending.)
+  long-content/empty/error state fixtures for all four lanes. Standalone page
+  and block registry items are generated from the same source descriptors and
+  included in suite install graphs; full React implementations remain pending.)
 - [~] Add showcase routing for all four suites through the workbench/demo app.
   (The `apps/workbench` static showcase renders every lane from generated suite
   manifests and labels the remaining React app implementation gap.)
@@ -722,13 +733,14 @@ Exit criteria:
   smokes install generated suite shell manifests for all four lanes; full React
   suite apps remain pending.)
 - [~] Each suite also exposes pages, blocks, components, and primitives
-  independently. (Generated manifests expose page/block/component metadata and
-  install resident vocabulary dependencies; standalone page/block registry items
-  remain pending.)
+  independently. (Generated manifests expose page/block/component metadata,
+  standalone page/block registry items, and install resident vocabulary
+  dependencies; full React page/block implementations remain pending.)
 - [~] Each suite can be installed, updated, inspected for provenance, and
-  visually/a11y smoked in a temp app. (Install smoke exists per suite, provenance
-  is authored MIT/no copied source, and workbench visual/a11y smoke covers the
-  static generated-shell showcase; temp React app visual smoke remains pending.)
+  visually/a11y smoked in a temp app. (Install smoke exists per suite and
+  standalone page/block item, provenance is authored MIT/no copied source, and
+  workbench visual/a11y smoke covers the static generated-shell showcase; temp
+  React app visual smoke remains pending.)
 
 Suggested verification:
 

@@ -9,7 +9,14 @@
     "panel",
     "text-field",
     "data-list",
-    "agent-panel"
+    "agent-panel",
+    "business-ops-dashboard-page",
+    "business-ops-staff-page",
+    "business-ops-kpis-block",
+    "business-ops-exceptions-block",
+    "business-ops-agent-review-block",
+    "business-ops-staff-table-block",
+    "business-ops-training-form-block"
   ],
   "installGraph": {
     "root": "business-ops-suite",
@@ -19,7 +26,14 @@
       "panel",
       "text-field",
       "data-list",
-      "agent-panel"
+      "agent-panel",
+      "business-ops-dashboard-page",
+      "business-ops-staff-page",
+      "business-ops-kpis-block",
+      "business-ops-exceptions-block",
+      "business-ops-agent-review-block",
+      "business-ops-staff-table-block",
+      "business-ops-training-form-block"
     ]
   },
   "plannedSurfaces": [

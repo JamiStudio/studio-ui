@@ -158,13 +158,15 @@ function registryOutputFile(file) {
 }
 
 function registryOutputItem(item) {
+  const registryDependencies =
+    item.type === "suite" ? suiteRegistryDependencies(item) : item.registryDependencies ?? [];
   return {
     name: item.name.replace("@jami-studio/", ""),
     type: item.type === "primitive" ? "registry:ui" : `registry:${item.type}`,
     title: item.title,
     description: item.description,
     dependencies: item.dependencies,
-    registryDependencies: item.registryDependencies ?? [],
+    registryDependencies,
     files: item.files.map(registryOutputFile),
     meta: {
       packageName: item.name,
@@ -184,15 +186,16 @@ function registryOutputItem(item) {
 // drift from the item graph it claims to install.
 function suiteManifest(item) {
   const shell = readOptionalJson(`registry/suites/${item.suite}/suite-shell.json`);
+  const registryDependencies = suiteRegistryDependencies(item);
   return {
     $schema: "https://jami.studio/schemas/registry/suite-manifest.generated.json",
     name: item.name,
     lane: item.suite ?? null,
     schemaVersion: item.lifecycle.schemaVersion,
-    items: item.registryDependencies ?? [],
+    items: registryDependencies,
     installGraph: {
       root: item.name.replace("@jami-studio/", ""),
-      dependencies: item.registryDependencies ?? [],
+      dependencies: registryDependencies,
     },
     plannedSurfaces: item.plannedSurfaces ?? [],
     shell: shell
@@ -215,6 +218,168 @@ function suiteManifest(item) {
   };
 }
 
+function suitePartSlug(id, prefix) {
+  return String(id ?? "")
+    .replace(prefix, "")
+    .replaceAll(".", "-");
+}
+
+function suitePageItemName(lane, page) {
+  return `${lane}-${suitePartSlug(page.id, `page.${lane}.`)}-page`;
+}
+
+function suiteBlockItemName(lane, block) {
+  return `${lane}-${suitePartSlug(block.id, `block.${lane}.`)}-block`;
+}
+
+function suiteRegistryDependencies(item) {
+  const shell = readOptionalJson(`registry/suites/${item.suite}/suite-shell.json`);
+  if (!shell) return item.registryDependencies ?? [];
+  const pages = (shell.pages ?? []).map((page) => suitePageItemName(item.suite, page));
+  const blocks = (shell.blocks ?? []).map((block) => suiteBlockItemName(item.suite, block));
+  return [...new Set([...(item.registryDependencies ?? []), ...pages, ...blocks])];
+}
+
+function suitePageManifest(lane, shell, page) {
+  const routes = (shell.routes ?? []).filter((route) => route.page === page.id);
+  const blockIds = [...new Set(routes.flatMap((route) => route.blocks ?? []))];
+  const blocks = blockIds
+    .map((blockId) => (shell.blocks ?? []).find((block) => block.id === blockId))
+    .filter(Boolean);
+  return {
+    $schema: "https://jami.studio/schemas/registry/suite-page.generated.json",
+    schemaVersion: shell.schemaVersion,
+    lane,
+    page,
+    routes,
+    blocks,
+    components: [...new Set([...(page.components ?? []), ...blocks.map((block) => block.component)])].sort(),
+    stateFixtures: shell.stateFixtures ?? {},
+    provenance: {
+      source: `registry/suites/${lane}/suite-shell.json`,
+      copiedSource: false,
+    },
+  };
+}
+
+function suiteBlockManifest(lane, shell, block) {
+  const routes = (shell.routes ?? []).filter((route) => (route.blocks ?? []).includes(block.id));
+  const pages = (shell.pages ?? []).filter((page) => routes.some((route) => route.page === page.id));
+  return {
+    $schema: "https://jami.studio/schemas/registry/suite-block.generated.json",
+    schemaVersion: shell.schemaVersion,
+    lane,
+    block,
+    routes: routes.map((route) => ({ path: route.path, page: route.page, title: route.title })),
+    pages: pages.map((page) => ({ id: page.id, title: page.title })),
+    component: block.component,
+    stateFixtures: Object.fromEntries(
+      (block.stateExamples ?? []).map((state) => [
+        state,
+        state === "long-content"
+          ? shell.stateFixtures?.longContent
+          : state === "empty"
+            ? shell.stateFixtures?.empty
+            : state === "error"
+              ? shell.stateFixtures?.error
+              : `${block.title} includes the ${state} state.`,
+      ]),
+    ),
+    provenance: {
+      source: `registry/suites/${lane}/suite-shell.json`,
+      copiedSource: false,
+    },
+  };
+}
+
+function suitePartItems(suiteItem) {
+  const lane = suiteItem.suite;
+  const shell = readOptionalJson(`registry/suites/${lane}/suite-shell.json`);
+  if (!shell) return [];
+  const base = {
+    $schema: "https://jami.studio/schemas/registry/registry-item.schema.json",
+    suite: lane,
+    dependencies: [],
+    tokenRequirements: [],
+    provenance: {
+      source: `registry/suites/${lane}/suite-shell.json`,
+      license: "MIT",
+      reviewedAt: "2026-06-09",
+      copiedSource: false,
+    },
+    compatibility: suiteItem.compatibility,
+  };
+  const pageItems = (shell.pages ?? []).map((page) => {
+    const name = suitePageItemName(lane, page);
+    const routes = (shell.routes ?? []).filter((route) => route.page === page.id);
+    const blockDeps = [
+      ...new Set(
+        routes
+          .flatMap((route) => route.blocks ?? [])
+          .map((blockId) => {
+            const block = (shell.blocks ?? []).find((candidate) => candidate.id === blockId);
+            return block ? suiteBlockItemName(lane, block) : null;
+          })
+          .filter(Boolean),
+      ),
+    ];
+    const item = {
+      ...base,
+      name: `@jami-studio/${name}`,
+      type: "page",
+      title: page.title,
+      description: page.description,
+      registryDependencies: [...new Set([...blockDeps, ...(page.components ?? [])])],
+      files: [
+        {
+          path: `packages/registry/generated/suites/${lane}/pages/${name}.page.json`,
+          target: `studio-ui/suites/${lane}/pages/${name}.page.json`,
+          kind: "registry:page",
+        },
+      ],
+      lifecycle: {
+        id: `page.${lane}.${suitePartSlug(page.id, `page.${lane}.`)}`,
+        version: suiteItem.lifecycle.version,
+        schemaVersion: suiteItem.lifecycle.schemaVersion,
+        sourceHash: "",
+        migrationNotes:
+          "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending.",
+      },
+    };
+    item.lifecycle.sourceHash = registrySourceHash(item);
+    return item;
+  });
+  const blockItems = (shell.blocks ?? []).map((block) => {
+    const name = suiteBlockItemName(lane, block);
+    const item = {
+      ...base,
+      name: `@jami-studio/${name}`,
+      type: "block",
+      title: block.title,
+      description: `${block.title} block for the ${shell.title} suite shell.`,
+      registryDependencies: [block.component],
+      files: [
+        {
+          path: `packages/registry/generated/suites/${lane}/blocks/${name}.block.json`,
+          target: `studio-ui/suites/${lane}/blocks/${name}.block.json`,
+          kind: "registry:block",
+        },
+      ],
+      lifecycle: {
+        id: `block.${lane}.${suitePartSlug(block.id, `block.${lane}.`)}`,
+        version: suiteItem.lifecycle.version,
+        schemaVersion: suiteItem.lifecycle.schemaVersion,
+        sourceHash: "",
+        migrationNotes:
+          "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending.",
+      },
+    };
+    item.lifecycle.sourceHash = registrySourceHash(item);
+    return item;
+  });
+  return [...pageItems, ...blockItems];
+}
+
 function generateTokenArtifacts({ check }) {
   const source = readJson(tokenSourcePath);
   const tokenMap = flattenTokens(source.tokens);
@@ -234,12 +399,38 @@ function generateRegistryArtifacts({ check }) {
     .filter((name) => name.endsWith(".registry-item.json"))
     .sort();
   const sourceItems = itemPaths.map((name) => readJson(`${registrySourceDir}/${name}`));
+  const derivedItems = sourceItems.flatMap((item) => (item.type === "suite" ? suitePartItems(item) : []));
+  const allItems = [...sourceItems, ...derivedItems].sort((a, b) => a.name.localeCompare(b.name));
   const failures = [];
 
   // Pass 1: emit suite install-graph manifests so suite items can embed real
-  // generated content (and so --check drift-checks them) before items build.
+  // generated content, plus standalone page/block manifests derived from the
+  // authored shell source, before item outputs build.
   for (const item of sourceItems) {
     if (item.type !== "suite") continue;
+    const shell = readOptionalJson(`registry/suites/${item.suite}/suite-shell.json`);
+    if (shell) {
+      for (const page of shell.pages ?? []) {
+        const name = suitePageItemName(item.suite, page);
+        failures.push(
+          ...compareOrWrite(
+            `packages/registry/generated/suites/${item.suite}/pages/${name}.page.json`,
+            `${JSON.stringify(suitePageManifest(item.suite, shell, page), null, 2)}\n`,
+            { check },
+          ),
+        );
+      }
+      for (const block of shell.blocks ?? []) {
+        const name = suiteBlockItemName(item.suite, block);
+        failures.push(
+          ...compareOrWrite(
+            `packages/registry/generated/suites/${item.suite}/blocks/${name}.block.json`,
+            `${JSON.stringify(suiteBlockManifest(item.suite, shell, block), null, 2)}\n`,
+            { check },
+          ),
+        );
+      }
+    }
     failures.push(
       ...compareOrWrite(
         `packages/registry/generated/suites/${item.suite}.suite.json`,
@@ -249,7 +440,7 @@ function generateRegistryArtifacts({ check }) {
     );
   }
 
-  const generatedItems = sourceItems.map(registryOutputItem);
+  const generatedItems = allItems.map(registryOutputItem);
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "@jami-studio/registry",

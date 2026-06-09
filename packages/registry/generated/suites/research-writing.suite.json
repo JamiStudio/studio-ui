@@ -10,7 +10,13 @@
     "text-field",
     "data-list",
     "agent-panel",
-    "docs-source-panel"
+    "docs-source-panel",
+    "research-writing-sources-page",
+    "research-writing-brief-page",
+    "research-writing-sources-block",
+    "research-writing-citations-block",
+    "research-writing-outline-block",
+    "research-writing-agent-review-block"
   ],
   "installGraph": {
     "root": "research-writing-suite",
@@ -21,7 +27,13 @@
       "text-field",
       "data-list",
       "agent-panel",
-      "docs-source-panel"
+      "docs-source-panel",
+      "research-writing-sources-page",
+      "research-writing-brief-page",
+      "research-writing-sources-block",
+      "research-writing-citations-block",
+      "research-writing-outline-block",
+      "research-writing-agent-review-block"
     ]
   },
   "plannedSurfaces": [

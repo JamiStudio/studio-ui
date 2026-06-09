@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "business-ops-dashboard-page",
+  "type": "registry:page",
+  "title": "Operations dashboard",
+  "description": "Staffing, schedule exceptions, compliance signals, and display-only review actions.",
+  "dependencies": [],
+  "registryDependencies": [
+    "business-ops-kpis-block",
+    "business-ops-exceptions-block",
+    "business-ops-agent-review-block",
+    "data-list",
+    "agent-panel",
+    "button",
+    "panel"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/business-ops/pages/business-ops-dashboard-page.page.json",
+      "target": "studio-ui/suites/business-ops/pages/business-ops-dashboard-page.page.json",
+      "type": "registry:page",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"page\": {\n    \"id\": \"page.business-ops.dashboard\",\n    \"title\": \"Operations dashboard\",\n    \"description\": \"Staffing, schedule exceptions, compliance signals, and display-only review actions.\",\n    \"components\": [\n      \"data-list\",\n      \"agent-panel\",\n      \"button\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/dashboard\",\n      \"page\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\",\n      \"blocks\": [\n        \"block.business-ops.kpis\",\n        \"block.business-ops.exceptions\",\n        \"block.business-ops.agent-review\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.business-ops.kpis\",\n      \"title\": \"Operational KPIs\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.business-ops.exceptions\",\n      \"title\": \"Schedule exceptions\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"empty\",\n        \"error\"\n      ]\n    },\n    {\n      \"id\": \"block.business-ops.agent-review\",\n      \"title\": \"Review queue\",\n      \"component\": \"agent-panel\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"agent-panel\",\n    \"button\",\n    \"data-list\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"A compliance exception with a long policy name wraps inside row cells and cards.\",\n    \"empty\": \"No open schedule exceptions are announced as an empty operational state.\",\n    \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:e617c1e301ca55ed2f925c855bdbd711d3f25babd8c61469865581c08cd9f3f5"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/business-ops-dashboard-page",
+    "suite": "business-ops",
+    "lifecycle": {
+      "id": "page.business-ops.dashboard",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:6a9a5967782b0eed2b3f568d85894d8ff93f388351feb9fc866824e766f98b96",
+      "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/business-ops/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

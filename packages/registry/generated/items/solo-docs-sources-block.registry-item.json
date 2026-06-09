@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "solo-docs-sources-block",
+  "type": "registry:block",
+  "title": "Docs sources",
+  "description": "Docs sources block for the Solo / General Workflow suite shell.",
+  "dependencies": [],
+  "registryDependencies": [
+    "docs-source-panel"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/solo/blocks/solo-docs-sources-block.block.json",
+      "target": "studio-ui/suites/solo/blocks/solo-docs-sources-block.block.json",
+      "type": "registry:block",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.docs-sources\",\n    \"title\": \"Docs sources\",\n    \"component\": \"docs-source-panel\",\n    \"stateExamples\": [\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/docs\",\n      \"page\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"component\": \"docs-source-panel\",\n  \"stateFixtures\": {\n    \"long-content\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:c0bda320c0f238e8905dbe6435d044ccbdd89d93148ae98b5fa187af5fdef6f6"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/solo-docs-sources-block",
+    "suite": "solo",
+    "lifecycle": {
+      "id": "block.solo.docs-sources",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:0ec97c3a4e3ff5ee9e2b5f3b754d89949bb09bc2a2477b2e2c19c1f38d584c87",
+      "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/solo/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

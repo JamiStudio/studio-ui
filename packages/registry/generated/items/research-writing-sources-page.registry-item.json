@@ -1,0 +1,48 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "research-writing-sources-page",
+  "type": "registry:page",
+  "title": "Sources and citations",
+  "description": "Source display, citation lists, redaction-aware references, and long document titles.",
+  "dependencies": [],
+  "registryDependencies": [
+    "research-writing-sources-block",
+    "research-writing-citations-block",
+    "docs-source-panel",
+    "data-list",
+    "panel"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/research-writing/pages/research-writing-sources-page.page.json",
+      "target": "studio-ui/suites/research-writing/pages/research-writing-sources-page.page.json",
+      "type": "registry:page",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"page\": {\n    \"id\": \"page.research-writing.sources\",\n    \"title\": \"Sources and citations\",\n    \"description\": \"Source display, citation lists, redaction-aware references, and long document titles.\",\n    \"components\": [\n      \"docs-source-panel\",\n      \"data-list\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/sources\",\n      \"page\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\",\n      \"blocks\": [\n        \"block.research-writing.sources\",\n        \"block.research-writing.citations\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.research-writing.sources\",\n      \"title\": \"Sources\",\n      \"component\": \"docs-source-panel\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.research-writing.citations\",\n      \"title\": \"Citations\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"empty\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"data-list\",\n    \"docs-source-panel\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"Long source names, citation strings, and outline sections wrap inside the writing shell.\",\n    \"empty\": \"No citations selected is displayed as an empty table/list state.\",\n    \"error\": \"Review-agent errors are presented as inert status without executing actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:481bf2e52832e07cc633b31d4c572ad473da71ef72335da425d9e52c749a1648"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/research-writing-sources-page",
+    "suite": "research-writing",
+    "lifecycle": {
+      "id": "page.research-writing.sources",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:98f2253cff68469f199e9425c025bf8f61cc5bb410643c421e02a3a0336ffeae",
+      "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/research-writing/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

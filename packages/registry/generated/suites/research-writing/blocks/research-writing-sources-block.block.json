@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "research-writing",
+  "block": {
+    "id": "block.research-writing.sources",
+    "title": "Sources",
+    "component": "docs-source-panel",
+    "stateExamples": [
+      "long-content"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/research-writing/sources",
+      "page": "page.research-writing.sources",
+      "title": "Sources and citations"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.research-writing.sources",
+      "title": "Sources and citations"
+    }
+  ],
+  "component": "docs-source-panel",
+  "stateFixtures": {
+    "long-content": "Long source names, citation strings, and outline sections wrap inside the writing shell."
+  },
+  "provenance": {
+    "source": "registry/suites/research-writing/suite-shell.json",
+    "copiedSource": false
+  }
+}

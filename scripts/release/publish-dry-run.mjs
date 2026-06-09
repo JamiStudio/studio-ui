@@ -17,7 +17,7 @@
 // items and unresolved account actions are honest readiness states, not failures.
 
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -63,6 +63,22 @@ function listJson(dirRel) {
   const abs = join(root, dirRel);
   if (!existsSync(abs)) return [];
   return readdirSync(abs).filter((f) => f.endsWith(".json")).sort();
+}
+
+function listJsonRecursive(dirRel) {
+  const abs = join(root, dirRel);
+  if (!existsSync(abs)) return [];
+  const files = [];
+  for (const entry of readdirSync(abs).sort()) {
+    const full = join(abs, entry);
+    const rel = join(dirRel, entry);
+    if (statSync(full).isDirectory()) {
+      files.push(...listJsonRecursive(rel));
+    } else if (entry.endsWith(".json")) {
+      files.push(rel);
+    }
+  }
+  return files;
 }
 
 // --- Load the registry index --------------------------------------------------
@@ -163,7 +179,7 @@ function recordServed(relPath) {
 }
 recordServed(registryPath);
 for (const f of listJson(itemsDir)) recordServed(join(itemsDir, f));
-for (const f of listJson(suitesDir)) recordServed(join(suitesDir, f));
+for (const f of listJsonRecursive(suitesDir)) recordServed(f);
 
 // --- Provenance honesty: license declared but is there a LICENSE file? ----------
 

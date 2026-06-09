@@ -1,0 +1,58 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "research-writing",
+  "page": {
+    "id": "page.research-writing.sources",
+    "title": "Sources and citations",
+    "description": "Source display, citation lists, redaction-aware references, and long document titles.",
+    "components": [
+      "docs-source-panel",
+      "data-list",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/research-writing/sources",
+      "page": "page.research-writing.sources",
+      "title": "Sources and citations",
+      "blocks": [
+        "block.research-writing.sources",
+        "block.research-writing.citations"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.research-writing.sources",
+      "title": "Sources",
+      "component": "docs-source-panel",
+      "stateExamples": [
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.research-writing.citations",
+      "title": "Citations",
+      "component": "data-list",
+      "stateExamples": [
+        "empty"
+      ]
+    }
+  ],
+  "components": [
+    "data-list",
+    "docs-source-panel",
+    "panel"
+  ],
+  "stateFixtures": {
+    "longContent": "Long source names, citation strings, and outline sections wrap inside the writing shell.",
+    "empty": "No citations selected is displayed as an empty table/list state.",
+    "error": "Review-agent errors are presented as inert status without executing actions."
+  },
+  "provenance": {
+    "source": "registry/suites/research-writing/suite-shell.json",
+    "copiedSource": false
+  }
+}

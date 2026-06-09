@@ -422,6 +422,70 @@ function validatePresentationFixture(path) {
   if (localFailures.length > 0) fail(path, localFailures.join("; "));
 }
 
+function validateGeneratedRegistry() {
+  const registry = readJson("packages/registry/generated/registry.json");
+  if (!registry) return;
+  const localFailures = [];
+  const items = registry.items ?? [];
+  const byName = new Map(items.map((item) => [item.name, item]));
+  const pageItems = items.filter((item) => item.type === "registry:page");
+  const blockItems = items.filter((item) => item.type === "registry:block");
+  if (pageItems.length !== 8) localFailures.push(`expected 8 generated page items, got ${pageItems.length}`);
+  if (blockItems.length !== 18) localFailures.push(`expected 18 generated block items, got ${blockItems.length}`);
+  for (const item of items) {
+    if (!item.meta?.lifecycle?.sourceHash?.startsWith("sha256:")) {
+      localFailures.push(`${item.name} missing generated lifecycle source hash`);
+    }
+    if (!Array.isArray(item.files) || item.files.length === 0) {
+      localFailures.push(`${item.name} missing generated files`);
+    }
+    for (const file of item.files ?? []) {
+      if (typeof file.content !== "string" || !file.hash?.startsWith("sha256:")) {
+        localFailures.push(`${item.name} -> ${file.target} is not installable with content hash`);
+      }
+    }
+    for (const dependency of item.registryDependencies ?? []) {
+      if (!byName.has(dependency)) localFailures.push(`${item.name} references missing dependency ${dependency}`);
+    }
+  }
+  for (const suite of items.filter((item) => item.type === "registry:suite")) {
+    const deps = suite.registryDependencies ?? [];
+    if (!deps.some((name) => byName.get(name)?.type === "registry:page")) {
+      localFailures.push(`${suite.name} does not expose page item dependencies`);
+    }
+    if (!deps.some((name) => byName.get(name)?.type === "registry:block")) {
+      localFailures.push(`${suite.name} does not expose block item dependencies`);
+    }
+  }
+  for (const page of pageItems) {
+    const manifestFile = page.files?.[0]?.path;
+    const manifest = manifestFile ? readJson(manifestFile) : null;
+    if (manifest?.$schema !== "https://jami.studio/schemas/registry/suite-page.generated.json") {
+      localFailures.push(`${page.name} generated page manifest has wrong schema`);
+    }
+    if (!manifest?.routes?.length || !manifest?.blocks?.length || !manifest?.components?.length) {
+      localFailures.push(`${page.name} generated page manifest missing routes, blocks, or components`);
+    }
+    for (const component of manifest?.components ?? []) {
+      if (!allowedComponents.has(component)) localFailures.push(`${page.name} references non-resident component ${component}`);
+    }
+  }
+  for (const block of blockItems) {
+    const manifestFile = block.files?.[0]?.path;
+    const manifest = manifestFile ? readJson(manifestFile) : null;
+    if (manifest?.$schema !== "https://jami.studio/schemas/registry/suite-block.generated.json") {
+      localFailures.push(`${block.name} generated block manifest has wrong schema`);
+    }
+    if (!manifest?.block?.id || !manifest?.component) {
+      localFailures.push(`${block.name} generated block manifest missing block or component`);
+    }
+    if (manifest?.component && !allowedComponents.has(manifest.component)) {
+      localFailures.push(`${block.name} references non-resident component ${manifest.component}`);
+    }
+  }
+  if (localFailures.length > 0) fail("packages/registry/generated/registry.json", localFailures.join("; "));
+}
+
 for (const path of listJson("packages/tokens/fixtures/valid")) validateTokenFixture(path, true);
 for (const path of listJson("packages/tokens/fixtures/invalid")) validateTokenFixture(path, false);
 for (const path of listJson("packages/registry/fixtures/valid")) validateRegistryFixture(path, true);
@@ -431,6 +495,7 @@ for (const path of listJson("packages/renderer/fixtures/compatibility/invalid"))
 for (const path of listJson("packages/renderer/fixtures/presentation")) validatePresentationFixture(path);
 
 for (const failure of generateAllArtifacts({ check: true })) failures.push(failure);
+validateGeneratedRegistry();
 
 if (failures.length > 0) {
   console.error("contracts:check failed");

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "page": {
+    "id": "page.business-ops.staff",
+    "title": "Staff and training",
+    "description": "Staff records, training status, and forms with invalid and empty states.",
+    "components": [
+      "data-list",
+      "text-field",
+      "panel"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/business-ops/staff",
+      "page": "page.business-ops.staff",
+      "title": "Staff and training",
+      "blocks": [
+        "block.business-ops.staff-table",
+        "block.business-ops.training-form"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.business-ops.staff-table",
+      "title": "Staff records",
+      "component": "data-list",
+      "stateExamples": [
+        "long-content"
+      ]
+    },
+    {
+      "id": "block.business-ops.training-form",
+      "title": "Training form",
+      "component": "text-field",
+      "stateExamples": [
+        "invalid"
+      ]
+    }
+  ],
+  "components": [
+    "data-list",
+    "panel",
+    "text-field"
+  ],
+  "stateFixtures": {
+    "longContent": "A compliance exception with a long policy name wraps inside row cells and cards.",
+    "empty": "No open schedule exceptions are announced as an empty operational state.",
+    "error": "A review queue error is shown without retrying or executing harness actions."
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "mixed-media",
+  "block": {
+    "id": "block.mixed-media.assets",
+    "title": "Assets",
+    "component": "media-grid",
+    "stateExamples": [
+      "empty",
+      "long-content"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/mixed-media/library",
+      "page": "page.mixed-media.library",
+      "title": "Asset library"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.mixed-media.library",
+      "title": "Asset library"
+    }
+  ],
+  "component": "media-grid",
+  "stateFixtures": {
+    "empty": "An empty asset collection keeps a visible media-grid state.",
+    "long-content": "Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell."
+  },
+  "provenance": {
+    "source": "registry/suites/mixed-media/suite-shell.json",
+    "copiedSource": false
+  }
+}

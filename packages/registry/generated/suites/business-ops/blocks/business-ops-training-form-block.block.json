@@ -1,0 +1,34 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-block.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "business-ops",
+  "block": {
+    "id": "block.business-ops.training-form",
+    "title": "Training form",
+    "component": "text-field",
+    "stateExamples": [
+      "invalid"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/business-ops/staff",
+      "page": "page.business-ops.staff",
+      "title": "Staff and training"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page.business-ops.staff",
+      "title": "Staff and training"
+    }
+  ],
+  "component": "text-field",
+  "stateFixtures": {
+    "invalid": "Training form includes the invalid state."
+  },
+  "provenance": {
+    "source": "registry/suites/business-ops/suite-shell.json",
+    "copiedSource": false
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "solo-forms-block",
+  "type": "registry:block",
+  "title": "Quick form",
+  "description": "Quick form block for the Solo / General Workflow suite shell.",
+  "dependencies": [],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/solo/blocks/solo-forms-block.block.json",
+      "target": "studio-ui/suites/solo/blocks/solo-forms-block.block.json",
+      "type": "registry:block",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.forms\",\n    \"title\": \"Quick form\",\n    \"component\": \"text-field\",\n    \"stateExamples\": [\n      \"invalid\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/docs\",\n      \"page\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"component\": \"text-field\",\n  \"stateFixtures\": {\n    \"invalid\": \"Quick form includes the invalid state.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:dbb6aeee3a3b674945d3a95f77afc2e492ee151428d20d7089340c104367eea0"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/solo-forms-block",
+    "suite": "solo",
+    "lifecycle": {
+      "id": "block.solo.forms",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:2bb83c3cf2f58d7086230196bdaf2dfc5867c0da59cb5ffa1bb13fa0998624da",
+      "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/solo/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}

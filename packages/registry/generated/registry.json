@@ -70,6 +70,274 @@
       }
     },
     {
+      "name": "business-ops-agent-review-block",
+      "type": "registry:block",
+      "title": "Review queue",
+      "description": "Review queue block for the Business Operations suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "agent-panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/business-ops/blocks/business-ops-agent-review-block.block.json",
+          "target": "studio-ui/suites/business-ops/blocks/business-ops-agent-review-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"block\": {\n    \"id\": \"block.business-ops.agent-review\",\n    \"title\": \"Review queue\",\n    \"component\": \"agent-panel\",\n    \"stateExamples\": [\n      \"error\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/dashboard\",\n      \"page\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"component\": \"agent-panel\",\n  \"stateFixtures\": {\n    \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:9c61e22c4729bd13a6ba6f05ee6c51ad710f105f602ef6e5b9cde0c909b9ba06"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/business-ops-agent-review-block",
+        "suite": "business-ops",
+        "lifecycle": {
+          "id": "block.business-ops.agent-review",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:39d3215a4cb12dbef1d0912a54c261f1f028e36a946f246aa83dd27fc82f7fcb",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/business-ops/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "business-ops-dashboard-page",
+      "type": "registry:page",
+      "title": "Operations dashboard",
+      "description": "Staffing, schedule exceptions, compliance signals, and display-only review actions.",
+      "dependencies": [],
+      "registryDependencies": [
+        "business-ops-kpis-block",
+        "business-ops-exceptions-block",
+        "business-ops-agent-review-block",
+        "data-list",
+        "agent-panel",
+        "button",
+        "panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/business-ops/pages/business-ops-dashboard-page.page.json",
+          "target": "studio-ui/suites/business-ops/pages/business-ops-dashboard-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"page\": {\n    \"id\": \"page.business-ops.dashboard\",\n    \"title\": \"Operations dashboard\",\n    \"description\": \"Staffing, schedule exceptions, compliance signals, and display-only review actions.\",\n    \"components\": [\n      \"data-list\",\n      \"agent-panel\",\n      \"button\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/dashboard\",\n      \"page\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\",\n      \"blocks\": [\n        \"block.business-ops.kpis\",\n        \"block.business-ops.exceptions\",\n        \"block.business-ops.agent-review\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.business-ops.kpis\",\n      \"title\": \"Operational KPIs\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.business-ops.exceptions\",\n      \"title\": \"Schedule exceptions\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"empty\",\n        \"error\"\n      ]\n    },\n    {\n      \"id\": \"block.business-ops.agent-review\",\n      \"title\": \"Review queue\",\n      \"component\": \"agent-panel\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"agent-panel\",\n    \"button\",\n    \"data-list\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"A compliance exception with a long policy name wraps inside row cells and cards.\",\n    \"empty\": \"No open schedule exceptions are announced as an empty operational state.\",\n    \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:e617c1e301ca55ed2f925c855bdbd711d3f25babd8c61469865581c08cd9f3f5"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/business-ops-dashboard-page",
+        "suite": "business-ops",
+        "lifecycle": {
+          "id": "page.business-ops.dashboard",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:6a9a5967782b0eed2b3f568d85894d8ff93f388351feb9fc866824e766f98b96",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/business-ops/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "business-ops-exceptions-block",
+      "type": "registry:block",
+      "title": "Schedule exceptions",
+      "description": "Schedule exceptions block for the Business Operations suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/business-ops/blocks/business-ops-exceptions-block.block.json",
+          "target": "studio-ui/suites/business-ops/blocks/business-ops-exceptions-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"block\": {\n    \"id\": \"block.business-ops.exceptions\",\n    \"title\": \"Schedule exceptions\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"empty\",\n      \"error\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/dashboard\",\n      \"page\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"empty\": \"No open schedule exceptions are announced as an empty operational state.\",\n    \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:10aa69ff4567d85ebee43f10239f7956856bfeac27d9ab91e8bcdbb9a50de63f"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/business-ops-exceptions-block",
+        "suite": "business-ops",
+        "lifecycle": {
+          "id": "block.business-ops.exceptions",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:66939205ac9b7c4cb841a7f7523cbb226f7781f29c50c7a42a05137fd640e173",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/business-ops/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "business-ops-kpis-block",
+      "type": "registry:block",
+      "title": "Operational KPIs",
+      "description": "Operational KPIs block for the Business Operations suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/business-ops/blocks/business-ops-kpis-block.block.json",
+          "target": "studio-ui/suites/business-ops/blocks/business-ops-kpis-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"block\": {\n    \"id\": \"block.business-ops.kpis\",\n    \"title\": \"Operational KPIs\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/dashboard\",\n      \"page\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.business-ops.dashboard\",\n      \"title\": \"Operations dashboard\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"long-content\": \"A compliance exception with a long policy name wraps inside row cells and cards.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:4da37c8f45d62998048ef17b3a68b24dc57fc2b9186329be81bf1ccf93d78585"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/business-ops-kpis-block",
+        "suite": "business-ops",
+        "lifecycle": {
+          "id": "block.business-ops.kpis",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:856185b04942bb7e749d8bdd403b0c305653bfafc88dbc3b310d15c3c0755358",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/business-ops/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "business-ops-staff-page",
+      "type": "registry:page",
+      "title": "Staff and training",
+      "description": "Staff records, training status, and forms with invalid and empty states.",
+      "dependencies": [],
+      "registryDependencies": [
+        "business-ops-staff-table-block",
+        "business-ops-training-form-block",
+        "data-list",
+        "text-field",
+        "panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/business-ops/pages/business-ops-staff-page.page.json",
+          "target": "studio-ui/suites/business-ops/pages/business-ops-staff-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"page\": {\n    \"id\": \"page.business-ops.staff\",\n    \"title\": \"Staff and training\",\n    \"description\": \"Staff records, training status, and forms with invalid and empty states.\",\n    \"components\": [\n      \"data-list\",\n      \"text-field\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/staff\",\n      \"page\": \"page.business-ops.staff\",\n      \"title\": \"Staff and training\",\n      \"blocks\": [\n        \"block.business-ops.staff-table\",\n        \"block.business-ops.training-form\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.business-ops.staff-table\",\n      \"title\": \"Staff records\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.business-ops.training-form\",\n      \"title\": \"Training form\",\n      \"component\": \"text-field\",\n      \"stateExamples\": [\n        \"invalid\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"data-list\",\n    \"panel\",\n    \"text-field\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"A compliance exception with a long policy name wraps inside row cells and cards.\",\n    \"empty\": \"No open schedule exceptions are announced as an empty operational state.\",\n    \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:e8d7d883b3498fbe52f31f9c056bc562558d92a7ab8020c6d35bb5cb25f7ec45"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/business-ops-staff-page",
+        "suite": "business-ops",
+        "lifecycle": {
+          "id": "page.business-ops.staff",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:cf027fabe4fc667216f3f00e4249019c77eb2cc10937726c8e85b29a1aec49e6",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/business-ops/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "business-ops-staff-table-block",
+      "type": "registry:block",
+      "title": "Staff records",
+      "description": "Staff records block for the Business Operations suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/business-ops/blocks/business-ops-staff-table-block.block.json",
+          "target": "studio-ui/suites/business-ops/blocks/business-ops-staff-table-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"block\": {\n    \"id\": \"block.business-ops.staff-table\",\n    \"title\": \"Staff records\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/staff\",\n      \"page\": \"page.business-ops.staff\",\n      \"title\": \"Staff and training\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.business-ops.staff\",\n      \"title\": \"Staff and training\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"long-content\": \"A compliance exception with a long policy name wraps inside row cells and cards.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:a3f9305e901f74f01d43ed64193b5fdff22d1d032ce6dc22885e02b428461f3e"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/business-ops-staff-table-block",
+        "suite": "business-ops",
+        "lifecycle": {
+          "id": "block.business-ops.staff-table",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:07dc257d9dfe7e0e52379cd444afb6ff9c37987397354b3394cc2d2d6937fa3b",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/business-ops/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
       "name": "business-ops-suite",
       "type": "registry:suite",
       "title": "Business Ops Suite",
@@ -81,15 +349,22 @@
         "panel",
         "text-field",
         "data-list",
-        "agent-panel"
+        "agent-panel",
+        "business-ops-dashboard-page",
+        "business-ops-staff-page",
+        "business-ops-kpis-block",
+        "business-ops-exceptions-block",
+        "business-ops-agent-review-block",
+        "business-ops-staff-table-block",
+        "business-ops-training-form-block"
       ],
       "files": [
         {
           "path": "packages/registry/generated/suites/business-ops.suite.json",
           "target": "studio-ui/suites/business-ops.suite.json",
           "type": "registry:suite",
-          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/business-ops-suite\",\n  \"lane\": \"business-ops\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"text-field\",\n    \"data-list\",\n    \"agent-panel\"\n  ],\n  \"installGraph\": {\n    \"root\": \"business-ops-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"text-field\",\n      \"data-list\",\n      \"agent-panel\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"staff\",\n    \"scheduling\",\n    \"forms\",\n    \"training\",\n    \"compliance\",\n    \"operations-dashboard\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Business Operations\",\n    \"summary\": \"A dense operations shell for staff, schedules, forms, training, compliance, and operational dashboards.\",\n    \"appShell\": {\n      \"id\": \"app.business-ops.shell\",\n      \"layout\": \"ops-dashboard\",\n      \"navigation\": [\n        {\n          \"label\": \"Dashboard\",\n          \"route\": \"/business-ops/dashboard\"\n        },\n        {\n          \"label\": \"Staff\",\n          \"route\": \"/business-ops/staff\"\n        },\n        {\n          \"label\": \"Scheduling\",\n          \"route\": \"/business-ops/scheduling\"\n        },\n        {\n          \"label\": \"Compliance\",\n          \"route\": \"/business-ops/compliance\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/business-ops/dashboard\",\n        \"page\": \"page.business-ops.dashboard\",\n        \"title\": \"Operations dashboard\",\n        \"blocks\": [\n          \"block.business-ops.kpis\",\n          \"block.business-ops.exceptions\",\n          \"block.business-ops.agent-review\"\n        ]\n      },\n      {\n        \"path\": \"/business-ops/staff\",\n        \"page\": \"page.business-ops.staff\",\n        \"title\": \"Staff and training\",\n        \"blocks\": [\n          \"block.business-ops.staff-table\",\n          \"block.business-ops.training-form\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.business-ops.dashboard\",\n        \"title\": \"Operations dashboard\",\n        \"description\": \"Staffing, schedule exceptions, compliance signals, and display-only review actions.\",\n        \"components\": [\n          \"data-list\",\n          \"agent-panel\",\n          \"button\",\n          \"panel\"\n        ]\n      },\n      {\n        \"id\": \"page.business-ops.staff\",\n        \"title\": \"Staff and training\",\n        \"description\": \"Staff records, training status, and forms with invalid and empty states.\",\n        \"components\": [\n          \"data-list\",\n          \"text-field\",\n          \"panel\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.business-ops.kpis\",\n        \"title\": \"Operational KPIs\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.exceptions\",\n        \"title\": \"Schedule exceptions\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"empty\",\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.agent-review\",\n        \"title\": \"Review queue\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.staff-table\",\n        \"title\": \"Staff records\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.training-form\",\n        \"title\": \"Training form\",\n        \"component\": \"text-field\",\n        \"stateExamples\": [\n          \"invalid\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"panel\",\n      \"text-field\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"A compliance exception with a long policy name wraps inside row cells and cards.\",\n      \"empty\": \"No open schedule exceptions are announced as an empty operational state.\",\n      \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/business-ops/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
-          "hash": "sha256:2fe14662cfbc7df759417643fb33a89ace65f179584e462fcdc8e8d2f247733a"
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/business-ops-suite\",\n  \"lane\": \"business-ops\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"text-field\",\n    \"data-list\",\n    \"agent-panel\",\n    \"business-ops-dashboard-page\",\n    \"business-ops-staff-page\",\n    \"business-ops-kpis-block\",\n    \"business-ops-exceptions-block\",\n    \"business-ops-agent-review-block\",\n    \"business-ops-staff-table-block\",\n    \"business-ops-training-form-block\"\n  ],\n  \"installGraph\": {\n    \"root\": \"business-ops-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"text-field\",\n      \"data-list\",\n      \"agent-panel\",\n      \"business-ops-dashboard-page\",\n      \"business-ops-staff-page\",\n      \"business-ops-kpis-block\",\n      \"business-ops-exceptions-block\",\n      \"business-ops-agent-review-block\",\n      \"business-ops-staff-table-block\",\n      \"business-ops-training-form-block\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"staff\",\n    \"scheduling\",\n    \"forms\",\n    \"training\",\n    \"compliance\",\n    \"operations-dashboard\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Business Operations\",\n    \"summary\": \"A dense operations shell for staff, schedules, forms, training, compliance, and operational dashboards.\",\n    \"appShell\": {\n      \"id\": \"app.business-ops.shell\",\n      \"layout\": \"ops-dashboard\",\n      \"navigation\": [\n        {\n          \"label\": \"Dashboard\",\n          \"route\": \"/business-ops/dashboard\"\n        },\n        {\n          \"label\": \"Staff\",\n          \"route\": \"/business-ops/staff\"\n        },\n        {\n          \"label\": \"Scheduling\",\n          \"route\": \"/business-ops/scheduling\"\n        },\n        {\n          \"label\": \"Compliance\",\n          \"route\": \"/business-ops/compliance\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/business-ops/dashboard\",\n        \"page\": \"page.business-ops.dashboard\",\n        \"title\": \"Operations dashboard\",\n        \"blocks\": [\n          \"block.business-ops.kpis\",\n          \"block.business-ops.exceptions\",\n          \"block.business-ops.agent-review\"\n        ]\n      },\n      {\n        \"path\": \"/business-ops/staff\",\n        \"page\": \"page.business-ops.staff\",\n        \"title\": \"Staff and training\",\n        \"blocks\": [\n          \"block.business-ops.staff-table\",\n          \"block.business-ops.training-form\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.business-ops.dashboard\",\n        \"title\": \"Operations dashboard\",\n        \"description\": \"Staffing, schedule exceptions, compliance signals, and display-only review actions.\",\n        \"components\": [\n          \"data-list\",\n          \"agent-panel\",\n          \"button\",\n          \"panel\"\n        ]\n      },\n      {\n        \"id\": \"page.business-ops.staff\",\n        \"title\": \"Staff and training\",\n        \"description\": \"Staff records, training status, and forms with invalid and empty states.\",\n        \"components\": [\n          \"data-list\",\n          \"text-field\",\n          \"panel\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.business-ops.kpis\",\n        \"title\": \"Operational KPIs\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.exceptions\",\n        \"title\": \"Schedule exceptions\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"empty\",\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.agent-review\",\n        \"title\": \"Review queue\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.staff-table\",\n        \"title\": \"Staff records\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.business-ops.training-form\",\n        \"title\": \"Training form\",\n        \"component\": \"text-field\",\n        \"stateExamples\": [\n          \"invalid\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"panel\",\n      \"text-field\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"A compliance exception with a long policy name wraps inside row cells and cards.\",\n      \"empty\": \"No open schedule exceptions are announced as an empty operational state.\",\n      \"error\": \"A review queue error is shown without retrying or executing harness actions.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/business-ops/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
+          "hash": "sha256:29fababf89bca9dd2576bfad5937fda6f2436469499f804295b31b21ff458e41"
         }
       ],
       "meta": {
@@ -122,6 +397,49 @@
           "compliance",
           "operations-dashboard"
         ],
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "business-ops-training-form-block",
+      "type": "registry:block",
+      "title": "Training form",
+      "description": "Training form block for the Business Operations suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "text-field"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/business-ops/blocks/business-ops-training-form-block.block.json",
+          "target": "studio-ui/suites/business-ops/blocks/business-ops-training-form-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"business-ops\",\n  \"block\": {\n    \"id\": \"block.business-ops.training-form\",\n    \"title\": \"Training form\",\n    \"component\": \"text-field\",\n    \"stateExamples\": [\n      \"invalid\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/business-ops/staff\",\n      \"page\": \"page.business-ops.staff\",\n      \"title\": \"Staff and training\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.business-ops.staff\",\n      \"title\": \"Staff and training\"\n    }\n  ],\n  \"component\": \"text-field\",\n  \"stateFixtures\": {\n    \"invalid\": \"Training form includes the invalid state.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/business-ops/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:d25badc515143c84247d0db367ba5226f5fa4502fcbd76d7e968163ce57559ac"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/business-ops-training-form-block",
+        "suite": "business-ops",
+        "lifecycle": {
+          "id": "block.business-ops.training-form",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:2358fa2474abd0d10bfd8f41a7199de34ea3e5ac42f4904f7d701eb6c0af7306",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/business-ops/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
         "agentManifest": null
       }
     },
@@ -454,6 +772,274 @@
       }
     },
     {
+      "name": "mixed-media-assets-block",
+      "type": "registry:block",
+      "title": "Assets",
+      "description": "Assets block for the Mixed Media suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "media-grid"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/mixed-media/blocks/mixed-media-assets-block.block.json",
+          "target": "studio-ui/suites/mixed-media/blocks/mixed-media-assets-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"block\": {\n    \"id\": \"block.mixed-media.assets\",\n    \"title\": \"Assets\",\n    \"component\": \"media-grid\",\n    \"stateExamples\": [\n      \"empty\",\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/library\",\n      \"page\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\"\n    }\n  ],\n  \"component\": \"media-grid\",\n  \"stateFixtures\": {\n    \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n    \"long-content\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:2fba729bae0063c79247bd35c06b244c94cf4aa22ec0ea87595ffe60fc20b82a"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/mixed-media-assets-block",
+        "suite": "mixed-media",
+        "lifecycle": {
+          "id": "block.mixed-media.assets",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:989f6be7f7b9bfa8e299682a3761ad620261731aff79e4e9debb70c0ce0d481a",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/mixed-media/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "mixed-media-library-page",
+      "type": "registry:page",
+      "title": "Asset library",
+      "description": "Media-grid library with asset metadata, long captions, and empty collection states.",
+      "dependencies": [],
+      "registryDependencies": [
+        "mixed-media-assets-block",
+        "mixed-media-metadata-block",
+        "media-grid",
+        "data-list",
+        "panel",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/mixed-media/pages/mixed-media-library-page.page.json",
+          "target": "studio-ui/suites/mixed-media/pages/mixed-media-library-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"page\": {\n    \"id\": \"page.mixed-media.library\",\n    \"title\": \"Asset library\",\n    \"description\": \"Media-grid library with asset metadata, long captions, and empty collection states.\",\n    \"components\": [\n      \"media-grid\",\n      \"data-list\",\n      \"panel\",\n      \"button\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/library\",\n      \"page\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\",\n      \"blocks\": [\n        \"block.mixed-media.assets\",\n        \"block.mixed-media.metadata\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.mixed-media.assets\",\n      \"title\": \"Assets\",\n      \"component\": \"media-grid\",\n      \"stateExamples\": [\n        \"empty\",\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.mixed-media.metadata\",\n      \"title\": \"Asset metadata\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"button\",\n    \"data-list\",\n    \"media-grid\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\",\n    \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n    \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:fc3fac01090ac6a617a5498797c108e28594380fabcf01f65b5c0a8f1ed7e47f"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/mixed-media-library-page",
+        "suite": "mixed-media",
+        "lifecycle": {
+          "id": "page.mixed-media.library",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:3d72e734615baa713b92837f5f7ae5d3f4c73b7abac5c101464c79229de2a177",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/mixed-media/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "mixed-media-metadata-block",
+      "type": "registry:block",
+      "title": "Asset metadata",
+      "description": "Asset metadata block for the Mixed Media suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/mixed-media/blocks/mixed-media-metadata-block.block.json",
+          "target": "studio-ui/suites/mixed-media/blocks/mixed-media-metadata-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"block\": {\n    \"id\": \"block.mixed-media.metadata\",\n    \"title\": \"Asset metadata\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/library\",\n      \"page\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.mixed-media.library\",\n      \"title\": \"Asset library\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"long-content\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:66b8efd3a4c718089503ea1b601a691885d492498bcd2a6ba0b3dd4405acdb5a"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/mixed-media-metadata-block",
+        "suite": "mixed-media",
+        "lifecycle": {
+          "id": "block.mixed-media.metadata",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:cb7b43afb40f4fcd593b6344fd83d47abcd3014bcb5bfe3a427c8a4a5be9c671",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/mixed-media/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "mixed-media-pipeline-block",
+      "type": "registry:block",
+      "title": "Pipeline runs",
+      "description": "Pipeline runs block for the Mixed Media suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/mixed-media/blocks/mixed-media-pipeline-block.block.json",
+          "target": "studio-ui/suites/mixed-media/blocks/mixed-media-pipeline-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"block\": {\n    \"id\": \"block.mixed-media.pipeline\",\n    \"title\": \"Pipeline runs\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"error\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/pipeline\",\n      \"page\": \"page.mixed-media.pipeline\",\n      \"title\": \"Generation pipeline\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.mixed-media.pipeline\",\n      \"title\": \"Generation pipeline\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:ccc6854b7cf894aca08410e0201df330d0a4f1edde48e28d7f3d95fc855dfa7e"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/mixed-media-pipeline-block",
+        "suite": "mixed-media",
+        "lifecycle": {
+          "id": "block.mixed-media.pipeline",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:3772496d3683b883db2f48f51adc899cd56bc31ef538377dc4c449eeb9a5dec5",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/mixed-media/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "mixed-media-pipeline-page",
+      "type": "registry:page",
+      "title": "Generation pipeline",
+      "description": "Pipeline status, review queue, publishing readiness, and display-only agent state.",
+      "dependencies": [],
+      "registryDependencies": [
+        "mixed-media-pipeline-block",
+        "mixed-media-review-agent-block",
+        "data-list",
+        "agent-panel",
+        "media-grid",
+        "panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/mixed-media/pages/mixed-media-pipeline-page.page.json",
+          "target": "studio-ui/suites/mixed-media/pages/mixed-media-pipeline-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"page\": {\n    \"id\": \"page.mixed-media.pipeline\",\n    \"title\": \"Generation pipeline\",\n    \"description\": \"Pipeline status, review queue, publishing readiness, and display-only agent state.\",\n    \"components\": [\n      \"data-list\",\n      \"agent-panel\",\n      \"media-grid\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/pipeline\",\n      \"page\": \"page.mixed-media.pipeline\",\n      \"title\": \"Generation pipeline\",\n      \"blocks\": [\n        \"block.mixed-media.pipeline\",\n        \"block.mixed-media.review-agent\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.mixed-media.pipeline\",\n      \"title\": \"Pipeline runs\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    },\n    {\n      \"id\": \"block.mixed-media.review-agent\",\n      \"title\": \"Review agent\",\n      \"component\": \"agent-panel\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"agent-panel\",\n    \"data-list\",\n    \"media-grid\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\",\n    \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n    \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:58fd74b9d7c0e0c385a77a8131a612ac2d9e0d5717fc237e69699cc6ce07d9c9"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/mixed-media-pipeline-page",
+        "suite": "mixed-media",
+        "lifecycle": {
+          "id": "page.mixed-media.pipeline",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:2cd339efa9e43961500fa93224497c69a298382710bbd7200eb19b9cf8b25d14",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/mixed-media/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "mixed-media-review-agent-block",
+      "type": "registry:block",
+      "title": "Review agent",
+      "description": "Review agent block for the Mixed Media suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "agent-panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/mixed-media/blocks/mixed-media-review-agent-block.block.json",
+          "target": "studio-ui/suites/mixed-media/blocks/mixed-media-review-agent-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"block\": {\n    \"id\": \"block.mixed-media.review-agent\",\n    \"title\": \"Review agent\",\n    \"component\": \"agent-panel\",\n    \"stateExamples\": [\n      \"error\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/pipeline\",\n      \"page\": \"page.mixed-media.pipeline\",\n      \"title\": \"Generation pipeline\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.mixed-media.pipeline\",\n      \"title\": \"Generation pipeline\"\n    }\n  ],\n  \"component\": \"agent-panel\",\n  \"stateFixtures\": {\n    \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:8e261765afa384297e5fe4a86a1dda49d2c742ece9b3f59de32c7a5115b55b72"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/mixed-media-review-agent-block",
+        "suite": "mixed-media",
+        "lifecycle": {
+          "id": "block.mixed-media.review-agent",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:02132f65a8d45f4c8d79d0260471e7a7edbbb1eb55a37977c94437bd5d8529b4",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/mixed-media/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
       "name": "mixed-media-suite",
       "type": "registry:suite",
       "title": "Mixed Media Suite",
@@ -465,15 +1051,21 @@
         "panel",
         "data-list",
         "agent-panel",
-        "media-grid"
+        "media-grid",
+        "mixed-media-library-page",
+        "mixed-media-pipeline-page",
+        "mixed-media-assets-block",
+        "mixed-media-metadata-block",
+        "mixed-media-pipeline-block",
+        "mixed-media-review-agent-block"
       ],
       "files": [
         {
           "path": "packages/registry/generated/suites/mixed-media.suite.json",
           "target": "studio-ui/suites/mixed-media.suite.json",
           "type": "registry:suite",
-          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/mixed-media-suite\",\n  \"lane\": \"mixed-media\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"data-list\",\n    \"agent-panel\",\n    \"media-grid\"\n  ],\n  \"installGraph\": {\n    \"root\": \"mixed-media-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"data-list\",\n      \"agent-panel\",\n      \"media-grid\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"assets\",\n    \"generation\",\n    \"editing\",\n    \"pipelines\",\n    \"review\",\n    \"publishing\",\n    \"library\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Mixed Media\",\n    \"summary\": \"A production shell for assets, generation, editing, pipelines, review, publishing, and media libraries.\",\n    \"appShell\": {\n      \"id\": \"app.mixed-media.shell\",\n      \"layout\": \"media-production\",\n      \"navigation\": [\n        {\n          \"label\": \"Library\",\n          \"route\": \"/mixed-media/library\"\n        },\n        {\n          \"label\": \"Pipeline\",\n          \"route\": \"/mixed-media/pipeline\"\n        },\n        {\n          \"label\": \"Review\",\n          \"route\": \"/mixed-media/review\"\n        },\n        {\n          \"label\": \"Publishing\",\n          \"route\": \"/mixed-media/publishing\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/mixed-media/library\",\n        \"page\": \"page.mixed-media.library\",\n        \"title\": \"Asset library\",\n        \"blocks\": [\n          \"block.mixed-media.assets\",\n          \"block.mixed-media.metadata\"\n        ]\n      },\n      {\n        \"path\": \"/mixed-media/pipeline\",\n        \"page\": \"page.mixed-media.pipeline\",\n        \"title\": \"Generation pipeline\",\n        \"blocks\": [\n          \"block.mixed-media.pipeline\",\n          \"block.mixed-media.review-agent\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.mixed-media.library\",\n        \"title\": \"Asset library\",\n        \"description\": \"Media-grid library with asset metadata, long captions, and empty collection states.\",\n        \"components\": [\n          \"media-grid\",\n          \"data-list\",\n          \"panel\",\n          \"button\"\n        ]\n      },\n      {\n        \"id\": \"page.mixed-media.pipeline\",\n        \"title\": \"Generation pipeline\",\n        \"description\": \"Pipeline status, review queue, publishing readiness, and display-only agent state.\",\n        \"components\": [\n          \"data-list\",\n          \"agent-panel\",\n          \"media-grid\",\n          \"panel\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.mixed-media.assets\",\n        \"title\": \"Assets\",\n        \"component\": \"media-grid\",\n        \"stateExamples\": [\n          \"empty\",\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.mixed-media.metadata\",\n        \"title\": \"Asset metadata\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.mixed-media.pipeline\",\n        \"title\": \"Pipeline runs\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.mixed-media.review-agent\",\n        \"title\": \"Review agent\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"media-grid\",\n      \"panel\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\",\n      \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n      \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
-          "hash": "sha256:ffad0375320e8da8a30e0786f5952000d3bc7f68292b4b5bffd65471c70f3571"
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/mixed-media-suite\",\n  \"lane\": \"mixed-media\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"data-list\",\n    \"agent-panel\",\n    \"media-grid\",\n    \"mixed-media-library-page\",\n    \"mixed-media-pipeline-page\",\n    \"mixed-media-assets-block\",\n    \"mixed-media-metadata-block\",\n    \"mixed-media-pipeline-block\",\n    \"mixed-media-review-agent-block\"\n  ],\n  \"installGraph\": {\n    \"root\": \"mixed-media-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"data-list\",\n      \"agent-panel\",\n      \"media-grid\",\n      \"mixed-media-library-page\",\n      \"mixed-media-pipeline-page\",\n      \"mixed-media-assets-block\",\n      \"mixed-media-metadata-block\",\n      \"mixed-media-pipeline-block\",\n      \"mixed-media-review-agent-block\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"assets\",\n    \"generation\",\n    \"editing\",\n    \"pipelines\",\n    \"review\",\n    \"publishing\",\n    \"library\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Mixed Media\",\n    \"summary\": \"A production shell for assets, generation, editing, pipelines, review, publishing, and media libraries.\",\n    \"appShell\": {\n      \"id\": \"app.mixed-media.shell\",\n      \"layout\": \"media-production\",\n      \"navigation\": [\n        {\n          \"label\": \"Library\",\n          \"route\": \"/mixed-media/library\"\n        },\n        {\n          \"label\": \"Pipeline\",\n          \"route\": \"/mixed-media/pipeline\"\n        },\n        {\n          \"label\": \"Review\",\n          \"route\": \"/mixed-media/review\"\n        },\n        {\n          \"label\": \"Publishing\",\n          \"route\": \"/mixed-media/publishing\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/mixed-media/library\",\n        \"page\": \"page.mixed-media.library\",\n        \"title\": \"Asset library\",\n        \"blocks\": [\n          \"block.mixed-media.assets\",\n          \"block.mixed-media.metadata\"\n        ]\n      },\n      {\n        \"path\": \"/mixed-media/pipeline\",\n        \"page\": \"page.mixed-media.pipeline\",\n        \"title\": \"Generation pipeline\",\n        \"blocks\": [\n          \"block.mixed-media.pipeline\",\n          \"block.mixed-media.review-agent\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.mixed-media.library\",\n        \"title\": \"Asset library\",\n        \"description\": \"Media-grid library with asset metadata, long captions, and empty collection states.\",\n        \"components\": [\n          \"media-grid\",\n          \"data-list\",\n          \"panel\",\n          \"button\"\n        ]\n      },\n      {\n        \"id\": \"page.mixed-media.pipeline\",\n        \"title\": \"Generation pipeline\",\n        \"description\": \"Pipeline status, review queue, publishing readiness, and display-only agent state.\",\n        \"components\": [\n          \"data-list\",\n          \"agent-panel\",\n          \"media-grid\",\n          \"panel\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.mixed-media.assets\",\n        \"title\": \"Assets\",\n        \"component\": \"media-grid\",\n        \"stateExamples\": [\n          \"empty\",\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.mixed-media.metadata\",\n        \"title\": \"Asset metadata\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.mixed-media.pipeline\",\n        \"title\": \"Pipeline runs\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.mixed-media.review-agent\",\n        \"title\": \"Review agent\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"media-grid\",\n      \"panel\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\",\n      \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n      \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
+          "hash": "sha256:f3f256b9610754b1d0571bec6fe7a3164bbd8ed61e4ffa4310dbf8d79820bea1"
         }
       ],
       "meta": {
@@ -573,6 +1165,273 @@
       }
     },
     {
+      "name": "research-writing-agent-review-block",
+      "type": "registry:block",
+      "title": "Writing review",
+      "description": "Writing review block for the Research / Writing suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "agent-panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/research-writing/blocks/research-writing-agent-review-block.block.json",
+          "target": "studio-ui/suites/research-writing/blocks/research-writing-agent-review-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"block\": {\n    \"id\": \"block.research-writing.agent-review\",\n    \"title\": \"Writing review\",\n    \"component\": \"agent-panel\",\n    \"stateExamples\": [\n      \"error\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/brief\",\n      \"page\": \"page.research-writing.brief\",\n      \"title\": \"Brief drafting\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.research-writing.brief\",\n      \"title\": \"Brief drafting\"\n    }\n  ],\n  \"component\": \"agent-panel\",\n  \"stateFixtures\": {\n    \"error\": \"Review-agent errors are presented as inert status without executing actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:cbb7efd4db613456dc25aadb1c5b97eee58e050fcb6a86a995aceb997ed588c7"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/research-writing-agent-review-block",
+        "suite": "research-writing",
+        "lifecycle": {
+          "id": "block.research-writing.agent-review",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:f998289a1fc7b967cf2326908e091c586fc9c425c1211abc454563bd7bc05b78",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/research-writing/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "research-writing-brief-page",
+      "type": "registry:page",
+      "title": "Brief drafting",
+      "description": "Outline, notes, document state, and display-only writing-agent review.",
+      "dependencies": [],
+      "registryDependencies": [
+        "research-writing-outline-block",
+        "research-writing-agent-review-block",
+        "docs-source-panel",
+        "text-field",
+        "agent-panel",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/research-writing/pages/research-writing-brief-page.page.json",
+          "target": "studio-ui/suites/research-writing/pages/research-writing-brief-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"page\": {\n    \"id\": \"page.research-writing.brief\",\n    \"title\": \"Brief drafting\",\n    \"description\": \"Outline, notes, document state, and display-only writing-agent review.\",\n    \"components\": [\n      \"docs-source-panel\",\n      \"text-field\",\n      \"agent-panel\",\n      \"button\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/brief\",\n      \"page\": \"page.research-writing.brief\",\n      \"title\": \"Brief drafting\",\n      \"blocks\": [\n        \"block.research-writing.outline\",\n        \"block.research-writing.agent-review\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.research-writing.outline\",\n      \"title\": \"Outline\",\n      \"component\": \"text-field\",\n      \"stateExamples\": [\n        \"invalid\"\n      ]\n    },\n    {\n      \"id\": \"block.research-writing.agent-review\",\n      \"title\": \"Writing review\",\n      \"component\": \"agent-panel\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"agent-panel\",\n    \"button\",\n    \"docs-source-panel\",\n    \"text-field\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"Long source names, citation strings, and outline sections wrap inside the writing shell.\",\n    \"empty\": \"No citations selected is displayed as an empty table/list state.\",\n    \"error\": \"Review-agent errors are presented as inert status without executing actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:1097634d1fdda56a512ef22a4a46da9816c6ae7ccc2010c400be339220fbaa6b"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/research-writing-brief-page",
+        "suite": "research-writing",
+        "lifecycle": {
+          "id": "page.research-writing.brief",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:0b8d437d764823541eab19ccd83e659fa946f11f4cee276ecfda0b261d8c7e54",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/research-writing/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "research-writing-citations-block",
+      "type": "registry:block",
+      "title": "Citations",
+      "description": "Citations block for the Research / Writing suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/research-writing/blocks/research-writing-citations-block.block.json",
+          "target": "studio-ui/suites/research-writing/blocks/research-writing-citations-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"block\": {\n    \"id\": \"block.research-writing.citations\",\n    \"title\": \"Citations\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"empty\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/sources\",\n      \"page\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"empty\": \"No citations selected is displayed as an empty table/list state.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:c3f55638e4dc3bac8a7cc67dd0f5f485f8267df17772959f9cc1dd749101b1f5"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/research-writing-citations-block",
+        "suite": "research-writing",
+        "lifecycle": {
+          "id": "block.research-writing.citations",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:764c157886c50b641741b8e7a1ba887558f2c8109cbf75ab08be987a9d943a3a",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/research-writing/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "research-writing-outline-block",
+      "type": "registry:block",
+      "title": "Outline",
+      "description": "Outline block for the Research / Writing suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "text-field"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/research-writing/blocks/research-writing-outline-block.block.json",
+          "target": "studio-ui/suites/research-writing/blocks/research-writing-outline-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"block\": {\n    \"id\": \"block.research-writing.outline\",\n    \"title\": \"Outline\",\n    \"component\": \"text-field\",\n    \"stateExamples\": [\n      \"invalid\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/brief\",\n      \"page\": \"page.research-writing.brief\",\n      \"title\": \"Brief drafting\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.research-writing.brief\",\n      \"title\": \"Brief drafting\"\n    }\n  ],\n  \"component\": \"text-field\",\n  \"stateFixtures\": {\n    \"invalid\": \"Outline includes the invalid state.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:fd29e5f1eb4f3fae038a6b43d4576492d8bf79ccdabd8db5e1be94920e54283a"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/research-writing-outline-block",
+        "suite": "research-writing",
+        "lifecycle": {
+          "id": "block.research-writing.outline",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:521f2a703d9aa7e70fc6926dda0f6281e7c22354b73b5ddfdf0c14e4859b5f57",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/research-writing/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "research-writing-sources-block",
+      "type": "registry:block",
+      "title": "Sources",
+      "description": "Sources block for the Research / Writing suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "docs-source-panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/research-writing/blocks/research-writing-sources-block.block.json",
+          "target": "studio-ui/suites/research-writing/blocks/research-writing-sources-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"block\": {\n    \"id\": \"block.research-writing.sources\",\n    \"title\": \"Sources\",\n    \"component\": \"docs-source-panel\",\n    \"stateExamples\": [\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/sources\",\n      \"page\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\"\n    }\n  ],\n  \"component\": \"docs-source-panel\",\n  \"stateFixtures\": {\n    \"long-content\": \"Long source names, citation strings, and outline sections wrap inside the writing shell.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:df22f2ffb3b748e25b72dbe5bf58c923a4307a782c5a9fa00cf56ed13e9569da"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/research-writing-sources-block",
+        "suite": "research-writing",
+        "lifecycle": {
+          "id": "block.research-writing.sources",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:24715fb5ba810cb5d87c4bfbb709cfac126551e59a69057fba9781bf08c1becf",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/research-writing/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "research-writing-sources-page",
+      "type": "registry:page",
+      "title": "Sources and citations",
+      "description": "Source display, citation lists, redaction-aware references, and long document titles.",
+      "dependencies": [],
+      "registryDependencies": [
+        "research-writing-sources-block",
+        "research-writing-citations-block",
+        "docs-source-panel",
+        "data-list",
+        "panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/research-writing/pages/research-writing-sources-page.page.json",
+          "target": "studio-ui/suites/research-writing/pages/research-writing-sources-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"research-writing\",\n  \"page\": {\n    \"id\": \"page.research-writing.sources\",\n    \"title\": \"Sources and citations\",\n    \"description\": \"Source display, citation lists, redaction-aware references, and long document titles.\",\n    \"components\": [\n      \"docs-source-panel\",\n      \"data-list\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/research-writing/sources\",\n      \"page\": \"page.research-writing.sources\",\n      \"title\": \"Sources and citations\",\n      \"blocks\": [\n        \"block.research-writing.sources\",\n        \"block.research-writing.citations\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.research-writing.sources\",\n      \"title\": \"Sources\",\n      \"component\": \"docs-source-panel\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.research-writing.citations\",\n      \"title\": \"Citations\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"empty\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"data-list\",\n    \"docs-source-panel\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"Long source names, citation strings, and outline sections wrap inside the writing shell.\",\n    \"empty\": \"No citations selected is displayed as an empty table/list state.\",\n    \"error\": \"Review-agent errors are presented as inert status without executing actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/research-writing/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:481bf2e52832e07cc633b31d4c572ad473da71ef72335da425d9e52c749a1648"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/research-writing-sources-page",
+        "suite": "research-writing",
+        "lifecycle": {
+          "id": "page.research-writing.sources",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:98f2253cff68469f199e9425c025bf8f61cc5bb410643c421e02a3a0336ffeae",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/research-writing/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
       "name": "research-writing-suite",
       "type": "registry:suite",
       "title": "Research Writing Suite",
@@ -585,15 +1444,21 @@
         "text-field",
         "data-list",
         "agent-panel",
-        "docs-source-panel"
+        "docs-source-panel",
+        "research-writing-sources-page",
+        "research-writing-brief-page",
+        "research-writing-sources-block",
+        "research-writing-citations-block",
+        "research-writing-outline-block",
+        "research-writing-agent-review-block"
       ],
       "files": [
         {
           "path": "packages/registry/generated/suites/research-writing.suite.json",
           "target": "studio-ui/suites/research-writing.suite.json",
           "type": "registry:suite",
-          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/research-writing-suite\",\n  \"lane\": \"research-writing\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"text-field\",\n    \"data-list\",\n    \"agent-panel\",\n    \"docs-source-panel\"\n  ],\n  \"installGraph\": {\n    \"root\": \"research-writing-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"text-field\",\n      \"data-list\",\n      \"agent-panel\",\n      \"docs-source-panel\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"sources\",\n    \"notes\",\n    \"citations\",\n    \"briefs\",\n    \"documents\",\n    \"outlines\",\n    \"knowledge\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Research / Writing\",\n    \"summary\": \"A research and writing shell for sources, notes, citations, briefs, documents, outlines, and knowledge workflows.\",\n    \"appShell\": {\n      \"id\": \"app.research-writing.shell\",\n      \"layout\": \"document-workbench\",\n      \"navigation\": [\n        {\n          \"label\": \"Sources\",\n          \"route\": \"/research-writing/sources\"\n        },\n        {\n          \"label\": \"Notes\",\n          \"route\": \"/research-writing/notes\"\n        },\n        {\n          \"label\": \"Brief\",\n          \"route\": \"/research-writing/brief\"\n        },\n        {\n          \"label\": \"Outline\",\n          \"route\": \"/research-writing/outline\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/research-writing/sources\",\n        \"page\": \"page.research-writing.sources\",\n        \"title\": \"Sources and citations\",\n        \"blocks\": [\n          \"block.research-writing.sources\",\n          \"block.research-writing.citations\"\n        ]\n      },\n      {\n        \"path\": \"/research-writing/brief\",\n        \"page\": \"page.research-writing.brief\",\n        \"title\": \"Brief drafting\",\n        \"blocks\": [\n          \"block.research-writing.outline\",\n          \"block.research-writing.agent-review\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.research-writing.sources\",\n        \"title\": \"Sources and citations\",\n        \"description\": \"Source display, citation lists, redaction-aware references, and long document titles.\",\n        \"components\": [\n          \"docs-source-panel\",\n          \"data-list\",\n          \"panel\"\n        ]\n      },\n      {\n        \"id\": \"page.research-writing.brief\",\n        \"title\": \"Brief drafting\",\n        \"description\": \"Outline, notes, document state, and display-only writing-agent review.\",\n        \"components\": [\n          \"docs-source-panel\",\n          \"text-field\",\n          \"agent-panel\",\n          \"button\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.research-writing.sources\",\n        \"title\": \"Sources\",\n        \"component\": \"docs-source-panel\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.research-writing.citations\",\n        \"title\": \"Citations\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"empty\"\n        ]\n      },\n      {\n        \"id\": \"block.research-writing.outline\",\n        \"title\": \"Outline\",\n        \"component\": \"text-field\",\n        \"stateExamples\": [\n          \"invalid\"\n        ]\n      },\n      {\n        \"id\": \"block.research-writing.agent-review\",\n        \"title\": \"Writing review\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"docs-source-panel\",\n      \"panel\",\n      \"text-field\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"Long source names, citation strings, and outline sections wrap inside the writing shell.\",\n      \"empty\": \"No citations selected is displayed as an empty table/list state.\",\n      \"error\": \"Review-agent errors are presented as inert status without executing actions.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/research-writing/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
-          "hash": "sha256:7f5c4b35699128780033fcf7cf703755c0b71550786fe4639ca44e7e72c2a477"
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/research-writing-suite\",\n  \"lane\": \"research-writing\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"text-field\",\n    \"data-list\",\n    \"agent-panel\",\n    \"docs-source-panel\",\n    \"research-writing-sources-page\",\n    \"research-writing-brief-page\",\n    \"research-writing-sources-block\",\n    \"research-writing-citations-block\",\n    \"research-writing-outline-block\",\n    \"research-writing-agent-review-block\"\n  ],\n  \"installGraph\": {\n    \"root\": \"research-writing-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"text-field\",\n      \"data-list\",\n      \"agent-panel\",\n      \"docs-source-panel\",\n      \"research-writing-sources-page\",\n      \"research-writing-brief-page\",\n      \"research-writing-sources-block\",\n      \"research-writing-citations-block\",\n      \"research-writing-outline-block\",\n      \"research-writing-agent-review-block\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"sources\",\n    \"notes\",\n    \"citations\",\n    \"briefs\",\n    \"documents\",\n    \"outlines\",\n    \"knowledge\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Research / Writing\",\n    \"summary\": \"A research and writing shell for sources, notes, citations, briefs, documents, outlines, and knowledge workflows.\",\n    \"appShell\": {\n      \"id\": \"app.research-writing.shell\",\n      \"layout\": \"document-workbench\",\n      \"navigation\": [\n        {\n          \"label\": \"Sources\",\n          \"route\": \"/research-writing/sources\"\n        },\n        {\n          \"label\": \"Notes\",\n          \"route\": \"/research-writing/notes\"\n        },\n        {\n          \"label\": \"Brief\",\n          \"route\": \"/research-writing/brief\"\n        },\n        {\n          \"label\": \"Outline\",\n          \"route\": \"/research-writing/outline\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/research-writing/sources\",\n        \"page\": \"page.research-writing.sources\",\n        \"title\": \"Sources and citations\",\n        \"blocks\": [\n          \"block.research-writing.sources\",\n          \"block.research-writing.citations\"\n        ]\n      },\n      {\n        \"path\": \"/research-writing/brief\",\n        \"page\": \"page.research-writing.brief\",\n        \"title\": \"Brief drafting\",\n        \"blocks\": [\n          \"block.research-writing.outline\",\n          \"block.research-writing.agent-review\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.research-writing.sources\",\n        \"title\": \"Sources and citations\",\n        \"description\": \"Source display, citation lists, redaction-aware references, and long document titles.\",\n        \"components\": [\n          \"docs-source-panel\",\n          \"data-list\",\n          \"panel\"\n        ]\n      },\n      {\n        \"id\": \"page.research-writing.brief\",\n        \"title\": \"Brief drafting\",\n        \"description\": \"Outline, notes, document state, and display-only writing-agent review.\",\n        \"components\": [\n          \"docs-source-panel\",\n          \"text-field\",\n          \"agent-panel\",\n          \"button\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.research-writing.sources\",\n        \"title\": \"Sources\",\n        \"component\": \"docs-source-panel\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.research-writing.citations\",\n        \"title\": \"Citations\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"empty\"\n        ]\n      },\n      {\n        \"id\": \"block.research-writing.outline\",\n        \"title\": \"Outline\",\n        \"component\": \"text-field\",\n        \"stateExamples\": [\n          \"invalid\"\n        ]\n      },\n      {\n        \"id\": \"block.research-writing.agent-review\",\n        \"title\": \"Writing review\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"docs-source-panel\",\n      \"panel\",\n      \"text-field\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"Long source names, citation strings, and outline sections wrap inside the writing shell.\",\n      \"empty\": \"No citations selected is displayed as an empty table/list state.\",\n      \"error\": \"Review-agent errors are presented as inert status without executing actions.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/research-writing/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
+          "hash": "sha256:df4570d5a8cd1fae86a93cba56887d9907d621daa55761b5dee4ee6449cccdd6"
         }
       ],
       "meta": {
@@ -631,6 +1496,226 @@
       }
     },
     {
+      "name": "solo-agenda-block",
+      "type": "registry:block",
+      "title": "Agenda",
+      "description": "Agenda block for the Solo / General Workflow suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/solo/blocks/solo-agenda-block.block.json",
+          "target": "studio-ui/suites/solo/blocks/solo-agenda-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.agenda\",\n    \"title\": \"Agenda\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/today\",\n      \"page\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"long-content\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:98b3d3a363fa0bf55780b77a91dbb497763a2fcfcd45d6ac2233214419735d2a"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/solo-agenda-block",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "block.solo.agenda",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:cb18f0892187a579bc1599f45b2b9c62b15d636bcc070c8558dad27897a2bae0",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/solo/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "solo-agent-status-block",
+      "type": "registry:block",
+      "title": "Agent status",
+      "description": "Agent status block for the Solo / General Workflow suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "agent-panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/solo/blocks/solo-agent-status-block.block.json",
+          "target": "studio-ui/suites/solo/blocks/solo-agent-status-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.agent-status\",\n    \"title\": \"Agent status\",\n    \"component\": \"agent-panel\",\n    \"stateExamples\": [\n      \"error\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/today\",\n      \"page\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"component\": \"agent-panel\",\n  \"stateFixtures\": {\n    \"error\": \"Agent status is displayed as an error panel with no executable action wiring.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:123a4edd48e4d54d26c03ccf3bfdf61b51641625282f2974239d2c37c879a5b8"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/solo-agent-status-block",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "block.solo.agent-status",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:4f0f8848727c4011f5cb9f341f599eb703d3e78e935ab540be0c6388cb0a5d25",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/solo/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "solo-docs-page",
+      "type": "registry:page",
+      "title": "Docs and sources",
+      "description": "Documents, citations, lightweight forms, and long reference notes.",
+      "dependencies": [],
+      "registryDependencies": [
+        "solo-docs-sources-block",
+        "solo-forms-block",
+        "docs-source-panel",
+        "text-field",
+        "data-list",
+        "panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/solo/pages/solo-docs-page.page.json",
+          "target": "studio-ui/suites/solo/pages/solo-docs-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"page\": {\n    \"id\": \"page.solo.docs\",\n    \"title\": \"Docs and sources\",\n    \"description\": \"Documents, citations, lightweight forms, and long reference notes.\",\n    \"components\": [\n      \"docs-source-panel\",\n      \"text-field\",\n      \"data-list\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/docs\",\n      \"page\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\",\n      \"blocks\": [\n        \"block.solo.docs-sources\",\n        \"block.solo.forms\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.solo.docs-sources\",\n      \"title\": \"Docs sources\",\n      \"component\": \"docs-source-panel\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.solo.forms\",\n      \"title\": \"Quick form\",\n      \"component\": \"text-field\",\n      \"stateExamples\": [\n        \"invalid\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"data-list\",\n    \"docs-source-panel\",\n    \"panel\",\n    \"text-field\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\",\n    \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\",\n    \"error\": \"Agent status is displayed as an error panel with no executable action wiring.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:c400fc7d5d8c7756922d46959ef3628990cc735a1c04ec2cece38c1b06ddf7d5"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/solo-docs-page",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "page.solo.docs",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:80f64cc246e149eedac53feb72e27cdd20bfed067a8634df6bcbeeed717c16ad",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/solo/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "solo-docs-sources-block",
+      "type": "registry:block",
+      "title": "Docs sources",
+      "description": "Docs sources block for the Solo / General Workflow suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "docs-source-panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/solo/blocks/solo-docs-sources-block.block.json",
+          "target": "studio-ui/suites/solo/blocks/solo-docs-sources-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.docs-sources\",\n    \"title\": \"Docs sources\",\n    \"component\": \"docs-source-panel\",\n    \"stateExamples\": [\n      \"long-content\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/docs\",\n      \"page\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"component\": \"docs-source-panel\",\n  \"stateFixtures\": {\n    \"long-content\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:c0bda320c0f238e8905dbe6435d044ccbdd89d93148ae98b5fa187af5fdef6f6"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/solo-docs-sources-block",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "block.solo.docs-sources",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:0ec97c3a4e3ff5ee9e2b5f3b754d89949bb09bc2a2477b2e2c19c1f38d584c87",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/solo/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "solo-forms-block",
+      "type": "registry:block",
+      "title": "Quick form",
+      "description": "Quick form block for the Solo / General Workflow suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "text-field"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/solo/blocks/solo-forms-block.block.json",
+          "target": "studio-ui/suites/solo/blocks/solo-forms-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.forms\",\n    \"title\": \"Quick form\",\n    \"component\": \"text-field\",\n    \"stateExamples\": [\n      \"invalid\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/docs\",\n      \"page\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.docs\",\n      \"title\": \"Docs and sources\"\n    }\n  ],\n  \"component\": \"text-field\",\n  \"stateFixtures\": {\n    \"invalid\": \"Quick form includes the invalid state.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:dbb6aeee3a3b674945d3a95f77afc2e492ee151428d20d7089340c104367eea0"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/solo-forms-block",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "block.solo.forms",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:2bb83c3cf2f58d7086230196bdaf2dfc5867c0da59cb5ffa1bb13fa0998624da",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/solo/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
       "name": "solo-suite",
       "type": "registry:suite",
       "title": "Solo Suite",
@@ -643,15 +1728,22 @@
         "text-field",
         "data-list",
         "agent-panel",
-        "docs-source-panel"
+        "docs-source-panel",
+        "solo-today-page",
+        "solo-docs-page",
+        "solo-agenda-block",
+        "solo-task-queue-block",
+        "solo-agent-status-block",
+        "solo-docs-sources-block",
+        "solo-forms-block"
       ],
       "files": [
         {
           "path": "packages/registry/generated/suites/solo.suite.json",
           "target": "studio-ui/suites/solo.suite.json",
           "type": "registry:suite",
-          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/solo-suite\",\n  \"lane\": \"solo\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"text-field\",\n    \"data-list\",\n    \"agent-panel\",\n    \"docs-source-panel\"\n  ],\n  \"installGraph\": {\n    \"root\": \"solo-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"text-field\",\n      \"data-list\",\n      \"agent-panel\",\n      \"docs-source-panel\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"calendar\",\n    \"forms\",\n    \"docs\",\n    \"agent\",\n    \"tasks\",\n    \"crm\",\n    \"content\",\n    \"admin\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Solo / General Workflow\",\n    \"summary\": \"A compact personal operations shell for calendar, tasks, docs, forms, CRM, content, admin, and display-only agent status.\",\n    \"appShell\": {\n      \"id\": \"app.solo.shell\",\n      \"layout\": \"workspace-with-rail\",\n      \"navigation\": [\n        {\n          \"label\": \"Today\",\n          \"route\": \"/solo/today\"\n        },\n        {\n          \"label\": \"Tasks\",\n          \"route\": \"/solo/tasks\"\n        },\n        {\n          \"label\": \"Docs\",\n          \"route\": \"/solo/docs\"\n        },\n        {\n          \"label\": \"Admin\",\n          \"route\": \"/solo/admin\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/solo/today\",\n        \"page\": \"page.solo.today\",\n        \"title\": \"Today command center\",\n        \"blocks\": [\n          \"block.solo.agenda\",\n          \"block.solo.task-queue\",\n          \"block.solo.agent-status\"\n        ]\n      },\n      {\n        \"path\": \"/solo/docs\",\n        \"page\": \"page.solo.docs\",\n        \"title\": \"Docs and sources\",\n        \"blocks\": [\n          \"block.solo.docs-sources\",\n          \"block.solo.forms\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.solo.today\",\n        \"title\": \"Today command center\",\n        \"description\": \"Calendar, task queue, and non-executable agent status for a solo operator.\",\n        \"components\": [\n          \"data-list\",\n          \"agent-panel\",\n          \"button\",\n          \"panel\"\n        ]\n      },\n      {\n        \"id\": \"page.solo.docs\",\n        \"title\": \"Docs and sources\",\n        \"description\": \"Documents, citations, lightweight forms, and long reference notes.\",\n        \"components\": [\n          \"docs-source-panel\",\n          \"text-field\",\n          \"data-list\",\n          \"panel\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.solo.agenda\",\n        \"title\": \"Agenda\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.task-queue\",\n        \"title\": \"Task queue\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"empty\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.agent-status\",\n        \"title\": \"Agent status\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.docs-sources\",\n        \"title\": \"Docs sources\",\n        \"component\": \"docs-source-panel\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.forms\",\n        \"title\": \"Quick form\",\n        \"component\": \"text-field\",\n        \"stateExamples\": [\n          \"invalid\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"docs-source-panel\",\n      \"panel\",\n      \"text-field\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\",\n      \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\",\n      \"error\": \"Agent status is displayed as an error panel with no executable action wiring.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/solo/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
-          "hash": "sha256:7436caf10efc9b59e05e483057f7de75ddb944c88c1572e73a62a4e1534cafbe"
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/solo-suite\",\n  \"lane\": \"solo\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\",\n    \"panel\",\n    \"text-field\",\n    \"data-list\",\n    \"agent-panel\",\n    \"docs-source-panel\",\n    \"solo-today-page\",\n    \"solo-docs-page\",\n    \"solo-agenda-block\",\n    \"solo-task-queue-block\",\n    \"solo-agent-status-block\",\n    \"solo-docs-sources-block\",\n    \"solo-forms-block\"\n  ],\n  \"installGraph\": {\n    \"root\": \"solo-suite\",\n    \"dependencies\": [\n      \"jami-theme\",\n      \"button\",\n      \"panel\",\n      \"text-field\",\n      \"data-list\",\n      \"agent-panel\",\n      \"docs-source-panel\",\n      \"solo-today-page\",\n      \"solo-docs-page\",\n      \"solo-agenda-block\",\n      \"solo-task-queue-block\",\n      \"solo-agent-status-block\",\n      \"solo-docs-sources-block\",\n      \"solo-forms-block\"\n    ]\n  },\n  \"plannedSurfaces\": [\n    \"calendar\",\n    \"forms\",\n    \"docs\",\n    \"agent\",\n    \"tasks\",\n    \"crm\",\n    \"content\",\n    \"admin\"\n  ],\n  \"shell\": {\n    \"sourceSchemaVersion\": \"2026-06-09.suite-shell\",\n    \"title\": \"Solo / General Workflow\",\n    \"summary\": \"A compact personal operations shell for calendar, tasks, docs, forms, CRM, content, admin, and display-only agent status.\",\n    \"appShell\": {\n      \"id\": \"app.solo.shell\",\n      \"layout\": \"workspace-with-rail\",\n      \"navigation\": [\n        {\n          \"label\": \"Today\",\n          \"route\": \"/solo/today\"\n        },\n        {\n          \"label\": \"Tasks\",\n          \"route\": \"/solo/tasks\"\n        },\n        {\n          \"label\": \"Docs\",\n          \"route\": \"/solo/docs\"\n        },\n        {\n          \"label\": \"Admin\",\n          \"route\": \"/solo/admin\"\n        }\n      ]\n    },\n    \"routes\": [\n      {\n        \"path\": \"/solo/today\",\n        \"page\": \"page.solo.today\",\n        \"title\": \"Today command center\",\n        \"blocks\": [\n          \"block.solo.agenda\",\n          \"block.solo.task-queue\",\n          \"block.solo.agent-status\"\n        ]\n      },\n      {\n        \"path\": \"/solo/docs\",\n        \"page\": \"page.solo.docs\",\n        \"title\": \"Docs and sources\",\n        \"blocks\": [\n          \"block.solo.docs-sources\",\n          \"block.solo.forms\"\n        ]\n      }\n    ],\n    \"pages\": [\n      {\n        \"id\": \"page.solo.today\",\n        \"title\": \"Today command center\",\n        \"description\": \"Calendar, task queue, and non-executable agent status for a solo operator.\",\n        \"components\": [\n          \"data-list\",\n          \"agent-panel\",\n          \"button\",\n          \"panel\"\n        ]\n      },\n      {\n        \"id\": \"page.solo.docs\",\n        \"title\": \"Docs and sources\",\n        \"description\": \"Documents, citations, lightweight forms, and long reference notes.\",\n        \"components\": [\n          \"docs-source-panel\",\n          \"text-field\",\n          \"data-list\",\n          \"panel\"\n        ]\n      }\n    ],\n    \"blocks\": [\n      {\n        \"id\": \"block.solo.agenda\",\n        \"title\": \"Agenda\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.task-queue\",\n        \"title\": \"Task queue\",\n        \"component\": \"data-list\",\n        \"stateExamples\": [\n          \"empty\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.agent-status\",\n        \"title\": \"Agent status\",\n        \"component\": \"agent-panel\",\n        \"stateExamples\": [\n          \"error\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.docs-sources\",\n        \"title\": \"Docs sources\",\n        \"component\": \"docs-source-panel\",\n        \"stateExamples\": [\n          \"long-content\"\n        ]\n      },\n      {\n        \"id\": \"block.solo.forms\",\n        \"title\": \"Quick form\",\n        \"component\": \"text-field\",\n        \"stateExamples\": [\n          \"invalid\"\n        ]\n      }\n    ],\n    \"componentParts\": [\n      \"agent-panel\",\n      \"button\",\n      \"data-list\",\n      \"docs-source-panel\",\n      \"panel\",\n      \"text-field\"\n    ],\n    \"stateFixtures\": {\n      \"longContent\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\",\n      \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\",\n      \"error\": \"Agent status is displayed as an error panel with no executable action wiring.\"\n    },\n    \"provenance\": {\n      \"source\": \"registry/suites/solo/suite-shell.json\",\n      \"copiedSource\": false\n    }\n  }\n}\n",
+          "hash": "sha256:8c4003f7675b3a267f0cf251d056f4399c9655214f1079e29f0a582a4ef799fc"
         }
       ],
       "meta": {
@@ -686,6 +1778,98 @@
           "content",
           "admin"
         ],
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "solo-task-queue-block",
+      "type": "registry:block",
+      "title": "Task queue",
+      "description": "Task queue block for the Solo / General Workflow suite shell.",
+      "dependencies": [],
+      "registryDependencies": [
+        "data-list"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/solo/blocks/solo-task-queue-block.block.json",
+          "target": "studio-ui/suites/solo/blocks/solo-task-queue-block.block.json",
+          "type": "registry:block",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-block.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"block\": {\n    \"id\": \"block.solo.task-queue\",\n    \"title\": \"Task queue\",\n    \"component\": \"data-list\",\n    \"stateExamples\": [\n      \"empty\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/today\",\n      \"page\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"pages\": [\n    {\n      \"id\": \"page.solo.today\",\n      \"title\": \"Today command center\"\n    }\n  ],\n  \"component\": \"data-list\",\n  \"stateFixtures\": {\n    \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:e667aed837951f35cddc76af74f7b4713a40256be310341b3ed05b462e16410b"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/solo-task-queue-block",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "block.solo.task-queue",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:37a694b2b52feedd4c8bb69aab7c31ac29ad7895426a9f13d8696b0e2fb5759d",
+          "migrationNotes": "Generated standalone block descriptor from the authored suite shell; full React block implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/solo/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
+        "agentManifest": null
+      }
+    },
+    {
+      "name": "solo-today-page",
+      "type": "registry:page",
+      "title": "Today command center",
+      "description": "Calendar, task queue, and non-executable agent status for a solo operator.",
+      "dependencies": [],
+      "registryDependencies": [
+        "solo-agenda-block",
+        "solo-task-queue-block",
+        "solo-agent-status-block",
+        "data-list",
+        "agent-panel",
+        "button",
+        "panel"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/generated/suites/solo/pages/solo-today-page.page.json",
+          "target": "studio-ui/suites/solo/pages/solo-today-page.page.json",
+          "type": "registry:page",
+          "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"solo\",\n  \"page\": {\n    \"id\": \"page.solo.today\",\n    \"title\": \"Today command center\",\n    \"description\": \"Calendar, task queue, and non-executable agent status for a solo operator.\",\n    \"components\": [\n      \"data-list\",\n      \"agent-panel\",\n      \"button\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/solo/today\",\n      \"page\": \"page.solo.today\",\n      \"title\": \"Today command center\",\n      \"blocks\": [\n        \"block.solo.agenda\",\n        \"block.solo.task-queue\",\n        \"block.solo.agent-status\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.solo.agenda\",\n      \"title\": \"Agenda\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"long-content\"\n      ]\n    },\n    {\n      \"id\": \"block.solo.task-queue\",\n      \"title\": \"Task queue\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"empty\"\n      ]\n    },\n    {\n      \"id\": \"block.solo.agent-status\",\n      \"title\": \"Agent status\",\n      \"component\": \"agent-panel\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"agent-panel\",\n    \"button\",\n    \"data-list\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"A long source title, task description, or calendar note wraps inside the shell without horizontal overflow.\",\n    \"empty\": \"No tasks are due; the data-list announces an empty status instead of hiding the section.\",\n    \"error\": \"Agent status is displayed as an error panel with no executable action wiring.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/solo/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+          "hash": "sha256:41acf741727f0c7c38a854c48ccb76c0c3592e27014744dd19fe8e9511489969"
+        }
+      ],
+      "meta": {
+        "packageName": "@jami-studio/solo-today-page",
+        "suite": "solo",
+        "lifecycle": {
+          "id": "page.solo.today",
+          "version": "0.0.0-contract.20260609",
+          "schemaVersion": "2026-06-09.registry-foundation",
+          "sourceHash": "sha256:684a0f1aff3c573fc52240c8baf78d3dc3c8d58ea44d3b9dff0b0819b6052385",
+          "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+        },
+        "tokenRequirements": [],
+        "provenance": {
+          "source": "registry/suites/solo/suite-shell.json",
+          "license": "MIT",
+          "reviewedAt": "2026-06-09",
+          "copiedSource": false
+        },
+        "compatibility": {
+          "shadcn": "4.x source-lock required before generated output",
+          "tailwind": "4.x source-lock required before generated output",
+          "react": ">=19"
+        },
         "agentManifest": null
       }
     },

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-page.generated.json",
+  "schemaVersion": "2026-06-09.suite-shell",
+  "lane": "research-writing",
+  "page": {
+    "id": "page.research-writing.brief",
+    "title": "Brief drafting",
+    "description": "Outline, notes, document state, and display-only writing-agent review.",
+    "components": [
+      "docs-source-panel",
+      "text-field",
+      "agent-panel",
+      "button"
+    ]
+  },
+  "routes": [
+    {
+      "path": "/research-writing/brief",
+      "page": "page.research-writing.brief",
+      "title": "Brief drafting",
+      "blocks": [
+        "block.research-writing.outline",
+        "block.research-writing.agent-review"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block.research-writing.outline",
+      "title": "Outline",
+      "component": "text-field",
+      "stateExamples": [
+        "invalid"
+      ]
+    },
+    {
+      "id": "block.research-writing.agent-review",
+      "title": "Writing review",
+      "component": "agent-panel",
+      "stateExamples": [
+        "error"
+      ]
+    }
+  ],
+  "components": [
+    "agent-panel",
+    "button",
+    "docs-source-panel",
+    "text-field"
+  ],
+  "stateFixtures": {
+    "longContent": "Long source names, citation strings, and outline sections wrap inside the writing shell.",
+    "empty": "No citations selected is displayed as an empty table/list state.",
+    "error": "Review-agent errors are presented as inert status without executing actions."
+  },
+  "provenance": {
+    "source": "registry/suites/research-writing/suite-shell.json",
+    "copiedSource": false
+  }
+}

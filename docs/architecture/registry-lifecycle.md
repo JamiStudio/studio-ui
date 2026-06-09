@@ -43,7 +43,9 @@ provenance, compatibility ranges, token requirement shape, and install file pres
 The missing-provenance fixture proves that registry items cannot pass with anonymous
 or unreviewed source metadata. The check also enforces deterministic `sourceHash`
 metadata and generated artifact drift for the local shadcn-shaped `registry.json`
-and per-item output.
+and per-item output. Generated suite page/block items are checked for exact
+counts, dependency presence, installable content hashes, resident component
+references, and nested manifest schemas.
 
 ## Source Items
 
@@ -62,9 +64,15 @@ items are:
   outputs, so real install content and per-file hashes are embedded.
 - `solo-suite`, `business-ops-suite`, `mixed-media-suite`,
   `research-writing-suite` (`suite`) — install-graph descriptors. Each declares
-  its member items in `registryDependencies` and a `plannedSurfaces` list (the
-  per-lane vocabulary that is pending), and ships a generated suite manifest as
-  its single file.
+  its member items in `registryDependencies`, including the generated standalone
+  page and block items for that lane, and ships a generated suite manifest as its
+  single file.
+- Eight standalone suite page items (`page`) and eighteen standalone suite block
+  items (`block`) are derived from the authored `registry/suites/*/suite-shell.json`
+  source descriptors. Each item installs a generated JSON manifest under
+  `studio-ui/suites/<lane>/pages/` or `studio-ui/suites/<lane>/blocks/`, carries
+  authored MIT provenance, and depends on the lower-level resident vocabulary it
+  needs.
 
 ## Generated Outputs
 
@@ -73,6 +81,10 @@ The current generated outputs are local contract artifacts:
 - `packages/registry/generated/registry.json`
 - `packages/registry/generated/items/<name>.registry-item.json` for every source item
 - `packages/registry/generated/suites/<lane>.suite.json` install-graph manifests
+- `packages/registry/generated/suites/<lane>/pages/*.page.json` standalone page
+  manifests
+- `packages/registry/generated/suites/<lane>/blocks/*.block.json` standalone
+  block manifests
 
 They preserve the shadcn-shaped distribution fields plus Jami lifecycle, token,
 provenance, compatibility, and agent manifest metadata under `meta`. For files
@@ -84,8 +96,8 @@ install path consumes these embedded contents and hashes directly (see
 ## Not Yet Claimed
 
 This pass does not publish official hosted registry files, generate cache/revision
-names, or ship full React/Radix implementations for every vocabulary item. The CLI
-install path is exercised by temp-project smoke tests against the local generated
-registry, not a hosted endpoint. Later registry implementation must validate
+names, or ship full React/Radix implementations for every vocabulary, page, or block
+item. The CLI install path is exercised by temp-project smoke tests against the local
+generated registry, not a hosted endpoint. Later registry implementation must validate
 generated output against the current official shadcn schema before public publishing
 and preserve the Jami metadata contract here.

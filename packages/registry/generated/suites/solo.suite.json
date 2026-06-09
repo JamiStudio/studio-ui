@@ -10,7 +10,14 @@
     "text-field",
     "data-list",
     "agent-panel",
-    "docs-source-panel"
+    "docs-source-panel",
+    "solo-today-page",
+    "solo-docs-page",
+    "solo-agenda-block",
+    "solo-task-queue-block",
+    "solo-agent-status-block",
+    "solo-docs-sources-block",
+    "solo-forms-block"
   ],
   "installGraph": {
     "root": "solo-suite",
@@ -21,7 +28,14 @@
       "text-field",
       "data-list",
       "agent-panel",
-      "docs-source-panel"
+      "docs-source-panel",
+      "solo-today-page",
+      "solo-docs-page",
+      "solo-agenda-block",
+      "solo-task-queue-block",
+      "solo-agent-status-block",
+      "solo-docs-sources-block",
+      "solo-forms-block"
     ]
   },
   "plannedSurfaces": [

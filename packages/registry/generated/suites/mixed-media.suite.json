@@ -9,7 +9,13 @@
     "panel",
     "data-list",
     "agent-panel",
-    "media-grid"
+    "media-grid",
+    "mixed-media-library-page",
+    "mixed-media-pipeline-page",
+    "mixed-media-assets-block",
+    "mixed-media-metadata-block",
+    "mixed-media-pipeline-block",
+    "mixed-media-review-agent-block"
   ],
   "installGraph": {
     "root": "mixed-media-suite",
@@ -19,7 +25,13 @@
       "panel",
       "data-list",
       "agent-panel",
-      "media-grid"
+      "media-grid",
+      "mixed-media-library-page",
+      "mixed-media-pipeline-page",
+      "mixed-media-assets-block",
+      "mixed-media-metadata-block",
+      "mixed-media-pipeline-block",
+      "mixed-media-review-agent-block"
     ]
   },
   "plannedSurfaces": [

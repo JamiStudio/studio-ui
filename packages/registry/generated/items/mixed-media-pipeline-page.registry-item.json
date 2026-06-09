@@ -1,0 +1,49 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mixed-media-pipeline-page",
+  "type": "registry:page",
+  "title": "Generation pipeline",
+  "description": "Pipeline status, review queue, publishing readiness, and display-only agent state.",
+  "dependencies": [],
+  "registryDependencies": [
+    "mixed-media-pipeline-block",
+    "mixed-media-review-agent-block",
+    "data-list",
+    "agent-panel",
+    "media-grid",
+    "panel"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/mixed-media/pages/mixed-media-pipeline-page.page.json",
+      "target": "studio-ui/suites/mixed-media/pages/mixed-media-pipeline-page.page.json",
+      "type": "registry:page",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-page.generated.json\",\n  \"schemaVersion\": \"2026-06-09.suite-shell\",\n  \"lane\": \"mixed-media\",\n  \"page\": {\n    \"id\": \"page.mixed-media.pipeline\",\n    \"title\": \"Generation pipeline\",\n    \"description\": \"Pipeline status, review queue, publishing readiness, and display-only agent state.\",\n    \"components\": [\n      \"data-list\",\n      \"agent-panel\",\n      \"media-grid\",\n      \"panel\"\n    ]\n  },\n  \"routes\": [\n    {\n      \"path\": \"/mixed-media/pipeline\",\n      \"page\": \"page.mixed-media.pipeline\",\n      \"title\": \"Generation pipeline\",\n      \"blocks\": [\n        \"block.mixed-media.pipeline\",\n        \"block.mixed-media.review-agent\"\n      ]\n    }\n  ],\n  \"blocks\": [\n    {\n      \"id\": \"block.mixed-media.pipeline\",\n      \"title\": \"Pipeline runs\",\n      \"component\": \"data-list\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    },\n    {\n      \"id\": \"block.mixed-media.review-agent\",\n      \"title\": \"Review agent\",\n      \"component\": \"agent-panel\",\n      \"stateExamples\": [\n        \"error\"\n      ]\n    }\n  ],\n  \"components\": [\n    \"agent-panel\",\n    \"data-list\",\n    \"media-grid\",\n    \"panel\"\n  ],\n  \"stateFixtures\": {\n    \"longContent\": \"Generated asset filenames, prompt excerpts, and publishing notes wrap inside the media shell.\",\n    \"empty\": \"An empty asset collection keeps a visible media-grid state.\",\n    \"error\": \"Pipeline errors render as status panels without invoking provider or harness actions.\"\n  },\n  \"provenance\": {\n    \"source\": \"registry/suites/mixed-media/suite-shell.json\",\n    \"copiedSource\": false\n  }\n}\n",
+      "hash": "sha256:58fd74b9d7c0e0c385a77a8131a612ac2d9e0d5717fc237e69699cc6ce07d9c9"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/mixed-media-pipeline-page",
+    "suite": "mixed-media",
+    "lifecycle": {
+      "id": "page.mixed-media.pipeline",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:2cd339efa9e43961500fa93224497c69a298382710bbd7200eb19b9cf8b25d14",
+      "migrationNotes": "Generated standalone page descriptor from the authored suite shell; full React page implementation remains pending."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "registry/suites/mixed-media/suite-shell.json",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "agentManifest": null
+  }
+}
