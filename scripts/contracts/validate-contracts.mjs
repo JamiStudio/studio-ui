@@ -161,6 +161,23 @@ function validateRegistryFixture(path, shouldPass) {
 }
 
 const allowedComponents = new Set(["action-slot", "artifact-card", "button", "inline-notice", "text"]);
+
+// Every fixture kind maps to exactly one renderer state. The renderer state is the
+// display contract: a denied action must display denied, an approval/display reference
+// must stay display-only, and a payload must not silently claim a more permissive state
+// than its kind allows. Mislabeling here would let a harness-owned policy decision
+// (denied / pending approval) present as a renderable surface.
+const expectedStateByKind = new Map([
+  ["uiPayload", "renderable"],
+  ["unsupportedComponent", "unsupported"],
+  ["invalidPayload", "invalid"],
+  ["deniedAction", "denied"],
+  ["actionRef", "display-only"],
+  ["artifactView", "display-only"],
+  ["themeRef", "display-only"],
+  ["suiteRef", "display-only"],
+  ["rendererError", "error"],
+]);
 const expectedHarnessSchemaIds = new Map([
   ["uiPayload", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
   ["unsupportedComponent", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
@@ -200,8 +217,12 @@ function scanUnsafePayload(value, localFailures) {
     for (const item of value) scanUnsafePayload(item, localFailures);
   } else if (isObject(value)) {
     for (const [key, item] of Object.entries(value)) {
+      // Reject every event-handler-shaped prop. React-style camelCase (`onClick`) and
+      // bare HTML attribute casing (`onclick`, `onerror`, `onload`) both reach the DOM as
+      // executable handlers, so the `on` prefix is matched case-insensitively. Event
+      // wiring in this contract flows through allowlisted actionRefs, never inline props.
       if (
-        /^on[A-Z]/.test(key) ||
+        /^on[a-z]/i.test(key) ||
         key === "dangerouslySetInnerHTML" ||
         key === "packageImport" ||
         key === "$$typeof" ||
@@ -272,12 +293,13 @@ function validateRendererFixture(path, shouldPass) {
   if (expectedHarnessSchemaId && fixture.harnessSchemaId !== expectedHarnessSchemaId) {
     localFailures.push(`harnessSchemaId must be ${expectedHarnessSchemaId}`);
   }
+  const expectedState = expectedStateByKind.get(fixture.kind);
+  if (expectedState && fixture.expectedRendererState !== expectedState) {
+    localFailures.push(`kind ${fixture.kind} must declare expectedRendererState ${expectedState}`);
+  }
 
   if (fixture.kind === "uiPayload") {
     validateHarnessUiPayload(fixture.payload, localFailures);
-  }
-  if (fixture.kind === "unsupportedComponent" && fixture.expectedRendererState !== "unsupported") {
-    localFailures.push("unsupported component fixture must expect unsupported state");
   }
   if (fixture.kind === "unsupportedComponent") {
     validateHarnessUiPayload(fixture.payload, localFailures, { allowUnsupported: true });
@@ -333,9 +355,6 @@ function validateRendererFixture(path, shouldPass) {
     const runEvent = fixture.rendererError?.runEvent;
     if (runEvent?.eventType !== "renderer.error") localFailures.push("rendererError fixture must carry renderer.error runEvent");
     if (runEvent?.rendererState !== "error_state") localFailures.push("rendererError runEvent must carry error_state");
-  }
-  if (fixture.kind === "invalidPayload" && fixture.expectedRendererState !== "invalid") {
-    localFailures.push("invalid payload fixture must expect invalid state");
   }
   if (fixture.kind === "invalidPayload") {
     validateHarnessUiPayload(fixture.payload, localFailures);

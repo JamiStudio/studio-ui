@@ -42,14 +42,20 @@ allowlist, fails closed rather than rendering.
 `pnpm contracts:check` currently enforces:
 
 - fixture schema URL, id, kind, and expected renderer state.
+- each fixture kind maps to exactly one required renderer state (`uiPayload` ->
+  renderable, denied actions -> denied, approval/`actionRef`/`artifactView`/`themeRef`/
+  `suiteRef` display references -> display-only, unsupported components -> unsupported,
+  invalid payloads -> invalid, renderer errors -> error). A kind cannot claim a more
+  permissive state than it owns.
 - harness mirror schema IDs for `uiPayload`, `artifactView`, `actionRef`,
   `themeRef`, `suiteRef`, and renderer error run events.
 - stable shared reference IDs: `uip_*`, `act_*`, `artv_*`, `art_*`, `theme_*`,
   `suite_*`, and `harness://actions/*`.
 - allowlisted component names for renderable `uiPayload` fixtures.
-- rejection of HTML-like strings, `javascript:` URLs, event-handler props,
-  `dangerouslySetInnerHTML`, serialized React element markers (`$$typeof`, `__html`,
-  `_owner`), and package import props.
+- rejection of HTML-like strings, `javascript:` URLs, event-handler props (both
+  React-style `onClick` and bare HTML `onclick`/`onerror`/`onload` casing, since each
+  reaches the DOM as an executable handler), `dangerouslySetInnerHTML`, serialized React
+  element markers (`$$typeof`, `__html`, `_owner`), and package import props.
 - rejection of payloads whose component is outside the resident `@jami-studio/ui`
   allowlist or namespace.
 - rejection of inline secret-bearing props (`authorization`, `token`, `password`, and

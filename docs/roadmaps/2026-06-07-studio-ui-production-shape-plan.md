@@ -60,6 +60,13 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   inline secret-bearing props, and it adds a non-executable `pending_approval` action-display
   fixture. This stays consumer-side contract validation only: Studio UI displays typed denied
   and approval states but does not execute harness policy or tool side effects.
+- 2026-06-09 Stream 3 pass 2 closed two fail-open gaps in the same contract check without
+  widening the resident vocabulary or claiming any runtime renderer. Each fixture kind is now
+  pinned to its required renderer state, so a denied or pending-approval action can no longer
+  be mislabeled as a renderable surface, and the event-handler guard now rejects lowercase
+  HTML handler attributes (`onclick`/`onerror`/`onload`) in addition to React-style casing.
+  This remains consumer-side fixture validation; no React renderer, browser surface, or
+  harness execution is implemented.
 
 ## Locked Decisions
 
