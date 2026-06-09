@@ -2,9 +2,15 @@
   "name": "@jami-studio/renderer",
   "private": true,
   "version": "0.0.0",
-  "description": "Studio UI resident renderer compatibility fixture foundations.",
+  "description": "Studio UI minimal resident renderer and compatibility fixture foundations.",
   "type": "module",
+  "main": "./src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./safe-payload": "./src/safe-payload.mjs"
+  },
   "scripts": {
-    "test": "pnpm --dir ../.. contracts:check"
+    "test": "node --test test/render.test.mjs",
+    "test:contracts": "pnpm --dir ../.. contracts:check"
   }
 }

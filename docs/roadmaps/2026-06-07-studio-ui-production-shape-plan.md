@@ -67,6 +67,17 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   HTML handler attributes (`onclick`/`onerror`/`onload`) in addition to React-style casing.
   This remains consumer-side fixture validation; no React renderer, browser surface, or
   harness execution is implemented.
+- 2026-06-09 Stream 3 pass 3 added the smallest real resident renderer surface in
+  `packages/renderer/src`. It is a dependency-free, framework-agnostic render core that turns
+  a validated payload into an inert, JSON-serializable render tree from the resident allowlist:
+  valid `uiPayload`s render to resident components; denied/pending-approval/`artifactView`/
+  `themeRef`/`suiteRef` references render display-only with no executable capability; unknown
+  components degrade to `unsupported`; unsafe or malformed payloads fail closed to `invalid`;
+  renderer faults render `error`. The allowlist, secret-key set, and unsafe-payload scan now
+  live in one shared `safe-payload.mjs` guard imported by both the renderer and
+  `validate-contracts.mjs`, so the fixture gate and the renderer cannot drift. `node --test`
+  unit/fixture tests prove inert output, fail-closed negatives, and no executable callbacks.
+  This is still not a React renderer, browser surface, or workbench app.
 
 ## Locked Decisions
 
@@ -448,19 +459,24 @@ Implementation tasks:
 
 - [~] Define payload schema for component, props, children, action refs, and vocabulary generation.
 - [~] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-harness` without importing harness runtime ownership into this repo.
-- [ ] Add per-component prop validation.
-- [ ] Add fallback rendering for unknown components and invalid props.
-- [x] Add no-HTML/no-code injection guards (HTML strings, `javascript:` URLs, event-handler props, `dangerouslySetInnerHTML`, serialized React-element markers, package imports, inline secrets, and foreign component namespaces) enforced by `pnpm contracts:check`.
+- [~] Add per-component prop validation. The resident render core validates payload shape,
+  reference id patterns, namespace, and the allowlist, and sanitizes props; per-component
+  prop schemas remain pending.
+- [x] Add fallback rendering for unknown components and invalid props. The resident renderer
+  degrades unknown components to `unsupported` and unsafe/malformed payloads to `invalid` with
+  renderer-owned fallback copy.
+- [x] Add no-HTML/no-code injection guards (HTML strings, `javascript:` URLs, event-handler props, `dangerouslySetInnerHTML`, serialized React-element markers, package imports, inline secrets, and foreign component namespaces) enforced by `pnpm contracts:check` and by the resident renderer, which share one `safe-payload.mjs` guard.
 - [ ] Add handshake/version rules for vocabulary generation.
 - [x] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, malformed harness reference ids, and unsupported renderer states.
 - [~] Add denied-action fixtures that display the harness-owned policy decision without carrying executable UI state, plus a non-executable `pending_approval` action-display fixture.
 
 Exit criteria:
 
-- [ ] Valid payloads render resident components.
-- [ ] Invalid payloads never crash the app or execute code.
-- [ ] Harness-facing fixtures prove the renderer can consume typed references while leaving policy/tool execution to the harness.
-- [ ] Renderer compatibility fixtures pass against the shared harness contract set.
+- [x] Valid payloads render resident components (resident render core in `packages/renderer/src`).
+- [x] Invalid payloads never crash the renderer or execute code; they fail closed to inert
+  display-only fallback states, proven by `node --test` fixture smoke tests.
+- [x] Harness-facing fixtures prove the renderer can consume typed references while leaving policy/tool execution to the harness.
+- [x] Renderer compatibility fixtures pass against the shared harness contract set.
 
 Suggested verification:
 

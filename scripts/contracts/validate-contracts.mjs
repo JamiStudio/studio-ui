@@ -1,6 +1,10 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { generateAllArtifacts, registrySourceHash } from "./generate-contract-artifacts.mjs";
+// The resident renderer owns the security-critical primitives (allowlist,
+// unsafe-payload scan, secret-key set). The contract check imports them so the
+// fixture gate and the runtime renderer can never enforce different rules.
+import { allowedComponents, scanUnsafePayload } from "../../packages/renderer/src/safe-payload.mjs";
 
 const root = process.cwd();
 const failures = [];
@@ -160,8 +164,6 @@ function validateRegistryFixture(path, shouldPass) {
   if (!shouldPass && localFailures.length === 0) fail(path, "expected invalid registry fixture to fail");
 }
 
-const allowedComponents = new Set(["action-slot", "artifact-card", "button", "inline-notice", "text"]);
-
 // Every fixture kind maps to exactly one renderer state. The renderer state is the
 // display contract: a denied action must display denied, an approval/display reference
 // must stay display-only, and a payload must not silently claim a more permissive state
@@ -190,59 +192,12 @@ const expectedHarnessSchemaIds = new Map([
   ["rendererError", "https://jami.studio/schemas/harness/run-event.schema.json"],
 ]);
 
-// Renderer payload props are display data. Credentials never travel inline; the
-// harness exposes them only as resolved secret references the renderer can display.
-const secretBearingPropKeys = new Set([
-  "password",
-  "secret",
-  "token",
-  "apikey",
-  "api_key",
-  "authorization",
-  "credential",
-  "credentials",
-  "accesstoken",
-  "access_token",
-  "privatekey",
-  "private_key",
-  "clientsecret",
-  "client_secret",
-]);
-
-function scanUnsafePayload(value, localFailures) {
-  if (typeof value === "string") {
-    if (/<\/?[a-z][\s\S]*>/i.test(value)) localFailures.push("HTML-like string is not allowed");
-    if (/javascript:/i.test(value)) localFailures.push("javascript: URL is not allowed");
-  } else if (Array.isArray(value)) {
-    for (const item of value) scanUnsafePayload(item, localFailures);
-  } else if (isObject(value)) {
-    for (const [key, item] of Object.entries(value)) {
-      // Reject every event-handler-shaped prop. React-style camelCase (`onClick`) and
-      // bare HTML attribute casing (`onclick`, `onerror`, `onload`) both reach the DOM as
-      // executable handlers, so the `on` prefix is matched case-insensitively. Event
-      // wiring in this contract flows through allowlisted actionRefs, never inline props.
-      if (
-        /^on[a-z]/i.test(key) ||
-        key === "dangerouslySetInnerHTML" ||
-        key === "packageImport" ||
-        key === "$$typeof" ||
-        key === "__html" ||
-        key === "_owner"
-      ) {
-        localFailures.push(`unsafe prop ${key}`);
-      }
-      if (
-        secretBearingPropKeys.has(key.toLowerCase()) &&
-        typeof item === "string" &&
-        item.length > 0 &&
-        !item.startsWith("harness://secrets/")
-      ) {
-        localFailures.push(`secret-bearing prop ${key} must be a harness secret reference`);
-      }
-      scanUnsafePayload(item, localFailures);
-    }
-  }
-}
+// Renderer payload props are display data. The unsafe-payload scan, resident
+// allowlist, and secret-bearing key set are imported from the renderer's
+// safe-payload guard so the fixture gate and the runtime renderer stay in lock
+// step. Event-handler props (`onClick`/`onclick`/`onerror`/...), escape-hatch
+// markers, package imports, HTML-like strings, `javascript:` URLs, and inline
+// secrets are all rejected there.
 
 function validateHarnessUiPayload(payload, localFailures, { allowUnsupported = false } = {}) {
   if (!payload) {

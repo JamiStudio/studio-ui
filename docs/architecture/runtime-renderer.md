@@ -5,9 +5,11 @@ Last updated: 2026-06-09
 
 ## Purpose
 
-`packages/renderer` now owns Studio UI's first machine-readable compatibility
-fixture spine for harness-originated UI payloads and display references. This is a
-renderer contract foundation, not a React renderer implementation.
+`packages/renderer` owns Studio UI's machine-readable compatibility fixture spine
+for harness-originated UI payloads and display references, plus a minimal resident
+renderer that turns a validated payload into an inert structured render tree. This
+is a renderer contract foundation and a small resident render core; it is not a
+React renderer, a browser surface, or a workbench app.
 
 ## Contract Source
 
@@ -71,6 +73,47 @@ allowlist, fails closed rather than rendering.
 - renderer errors must carry an explicit error code plus a renderer error run-event
   mirror.
 
+## Resident Renderer Core
+
+`packages/renderer/src` is the smallest real renderer that proves the safe-rendering
+contract. It is dependency-free, framework-agnostic, and produces inert,
+JSON-serializable output. It does not render React, mount a DOM, run a browser, or
+ship an app surface.
+
+- `safe-payload.mjs` owns the security-critical primitives: the resident component
+  allowlist, the secret-bearing key set, and the recursive unsafe-payload scan.
+  `scripts/contracts/validate-contracts.mjs` imports the same module, so the fixture
+  gate (`pnpm contracts:check`) and the runtime renderer enforce one identical
+  allowlist and one identical unsafe-payload scan rather than two copies that could
+  drift.
+- `render.mjs` exposes `renderFixture` plus per-kind functions (`renderUiPayload`,
+  `renderActionRef`, `renderArtifactView`, `renderThemeRef`, `renderSuiteRef`,
+  `renderRendererError`). Each returns `{ state, node, reasons }` where `node` is an
+  inert descriptor tree (`element` / `text` / `reference`), never a component
+  instance or callback.
+
+Renderer behavior:
+
+- A valid `uiPayload` whose component is allowlisted renders to an `element` node
+  using the resident component name, with sanitized props and text-only children.
+- Action references render display-only. The renderer drops any `execution` block on
+  the input (including a forged `execution.canExecute: true`) and always emits a
+  non-executable `{ executable: false }` reference. A denied action renders the
+  `denied` state with its denial reason and audit ref; it never carries an
+  executable shortcut.
+- Pending-approval, `artifactView`, `themeRef`, and `suiteRef` references render the
+  `display-only` state with their validated metadata and no executable capability.
+- Unknown component names degrade to `unsupported`; malformed, unsafe, or
+  foreign-namespace payloads fail closed to `invalid`; renderer faults render the
+  `error` state. Rejected and error paths use renderer-owned fallback copy and never
+  echo untrusted payload free text.
+
+The renderer computes its display state independently from each fixture's declared
+`expectedRendererState`. `packages/renderer/test/render.test.mjs` (run with
+`node --test`) asserts the two agree for every fixture, that the output of every
+fixture is JSON-inert, carries no callbacks or executable capability, and contains
+no unsafe values, and that rejected payloads never reach a renderable state.
+
 ## Ownership Boundary
 
 Studio UI renders or displays the typed data. Jami Harness owns policy decisions,
@@ -79,6 +122,10 @@ records. A denied action is a display state here, not an executable UI shortcut.
 
 ## Not Yet Claimed
 
-This pass does not render React components, map AG-UI event streams, import harness
-types, or execute actions. The concurrent harness lane owns its canonical schemas;
-Studio UI mirrors the schema IDs and fixture categories for consumer validation.
+The resident render core produces inert structured output only. It does not render
+React components, mount a DOM, run a browser or workbench app, map AG-UI event
+streams, import harness types, or execute actions. There is no app/browser surface in
+this repo yet, so no browser, screenshot, or accessibility smoke applies. The
+concurrent harness lane owns its canonical schemas; Studio UI mirrors the schema IDs
+and fixture categories for consumer validation and renders the validated data with
+resident allowlisted, non-executable output.
