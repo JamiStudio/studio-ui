@@ -84,6 +84,29 @@ test("exposes source-owned vocabulary handshake and prop schemas", () => {
   assert.ok(page.includes("prop variant must be one of primary, secondary, ghost, danger"), "invalid enum fixture reason is visible");
 });
 
+test("renders the scoped Radix/React wrapper implementation evidence", () => {
+  assert.deepEqual(data.implementedRadixReactWrapperNames, ["button", "panel", "text-field"]);
+  assert.equal(data.radixReactWrapperExamples.length, 4);
+  assert.ok(page.includes('id="radix-wrappers"'), "wrapper evidence section rendered");
+  assert.ok(page.includes("Radix/React wrapper slice"), "wrapper slice heading visible");
+  assert.ok(page.includes("packages/ui/src/radix-react-wrappers.mjs"), "wrapper source surfaced");
+  assert.ok(page.includes("JamiButton"), "button wrapper export surfaced");
+  assert.ok(page.includes("JamiPanel"), "panel wrapper export surfaced");
+  assert.ok(page.includes("JamiTextField"), "text-field wrapper export surfaced");
+  assert.ok(page.includes("@radix-ui/react-slot@1.2.5"), "Radix Slot dependency surfaced");
+  assert.ok(page.includes("@radix-ui/react-label@2.1.9"), "Radix Label dependency surfaced");
+  assert.ok(page.includes('class="jami-button"'), "server-rendered button wrapper markup visible");
+  assert.ok(page.includes('class="jami-panel"'), "server-rendered panel wrapper markup visible");
+  assert.ok(page.includes('class="jami-field"'), "server-rendered text-field wrapper markup visible");
+  assert.ok(page.includes("data-list wrapper pending"), "unimplemented wrapper gap remains labelled");
+  assert.ok(page.includes("media-grid wrapper pending"), "full wrapper vocabulary is not overclaimed");
+  for (const example of data.radixReactWrapperExamples) {
+    assert.equal(/<script/i.test(example.html), false, `${example.id} has no script`);
+    assert.equal(/<[^>]+\son[a-z]+\s*=/i.test(example.html), false, `${example.id} has no inline handler`);
+    assert.equal(/javascript:/i.test(example.html), false, `${example.id} has no javascript URL`);
+  }
+});
+
 test("all four lanes render generated suite shell routes without claiming React runtime", () => {
   for (const lane of ["solo", "business-ops", "mixed-media", "research-writing"]) {
     assert.ok(page.includes(`id="suite-${lane}"`), `${lane} section present`);

@@ -103,4 +103,6 @@ surface, decide a final brand identity, or execute harness actions. Suite items 
 descriptor, and generated page/block descriptors. These are installable
 manifests, not full React page or block implementations. Resident UI items now
 ship framework-neutral component factory source with inert child-slot handling,
-but not Radix wrappers or a runtime React renderer.
+and the first authored Radix/React wrapper slice for `button`, `panel`, and
+`text-field`. They do not ship a full resident wrapper library or a runtime React
+renderer.

@@ -12,9 +12,9 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 36
+- Total fragments: 37
 - Typed fragments: 19
-- Unclassified legacy fragments: 17
+- Unclassified legacy fragments: 18
 
 ## Notes By Surface
 
@@ -95,6 +95,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 - `2026-06-09-contract-spine-foundation.md` - Stream 2 contract foundation: add token, registry, and renderer compatibility schemas, fixtures, package scaffolds, docs, and `pnpm contracts:check` wired into `pnpm verify`.
 - `2026-06-09-contract-spine-gate-hardening.md` - Hardened the Stream 2 contract spine by aligning renderer compatibility fixtures with harness schema IDs and shared reference ID patterns while keeping runtime rendering, action execution, generated token output, and shadcn registry output pending.
 - `2026-06-09-crossflow-audit-status.md` - Recorded the fresh Studio UI crossflow audit result, separating verified Stream 1-6 foundation evidence from the roadmap acceptance criteria that remain open.
+- `2026-06-09-radix-react-wrapper-slice.md` - Added the first authored Radix/React wrapper slice for `button`, `panel`, and `text-field`, including source-lock evidence, package dependencies, registry install content, workbench wrapper evidence, and renderer package-import negative coverage. The remaining resident components are still readiness-only and not claimed as implemented wrappers.
 - `2026-06-09-renderer-invalid-enum-fixture.md` - renderer: add compatibility coverage proving resident prop-schema enum mismatches fail closed to `invalid` and surface through workbench evidence.
 - `2026-06-09-suite-implementation-artifacts.md` - Generated suite implementation artifacts for all four lanes.
 - `2026-06-09-suite-page-block-registry-items.md` - Derived standalone page and block registry items from the authored suite shell descriptors for all four suite lanes.

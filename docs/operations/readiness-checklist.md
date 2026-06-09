@@ -38,9 +38,14 @@ setup before specific workstreams begin. It is an operations map, not a product 
   `docs/generated/sbom.cdx.json` plus `docs/generated/release-notes.md`; it
   publishes nothing and executes no attestation.
 - `pnpm sbom:check` and `pnpm release:notes:check` exist for targeted checks.
-- `packages/ui/src/radix-wrapper-readiness.mjs` records official-source-backed
-  readiness metadata for future Radix/React wrappers while keeping every current
-  wrapper claim explicitly unsupported.
+- `packages/ui/src/radix-react-wrappers.mjs` implements the first Radix/React
+  primitive wrapper slice for `button`, `panel`, and `text-field`; readiness
+  metadata keeps `data-list`, `agent-panel`, `docs-source-panel`, and
+  `media-grid` explicitly unsupported as wrappers.
+- `packages/ui` declares `@radix-ui/react-slot@1.2.5` and
+  `@radix-ui/react-label@2.1.9` as dependencies, React `>=19 <20` as a peer,
+  and `react@19.2.7` / `react-dom@19.2.7` as local server-render evidence
+  dev dependencies.
 - Root MIT `LICENSE` exists and root/package `license` fields match item provenance.
 - Release/publishing readiness docs exist: `registry-publishing.md`,
   `release-and-supply-chain.md`, `release-notes.md`, `public-claims-evidence.md`.
@@ -115,9 +120,11 @@ npm whoami
 
 - `docs/architecture/workbench-overlay.md`
 - `docs/operations/registry-install.md`
-- Additional repo-local source-lock records and drift checks for each adopted drift-prone
-  dependency or copied/recomposed source surface, using the registry-root source-lock
-  record as intake evidence.
+- Additional repo-local source-lock records and drift checks for each newly adopted
+  drift-prone dependency or copied/recomposed source surface, using the registry-root
+  source-lock record as intake evidence. The current Radix Slot/Label and React
+  package evidence for the first wrapper slice is recorded in
+  `docs/operations/source-lock-records.md`.
 - Harness-side compatibility fixture export or mirror for `uiPayload`, `artifactView`,
   `actionRef`, `themeRef`, `suiteRef`, unsupported renderer states, invalid payloads,
   denied actions, and renderer error states.

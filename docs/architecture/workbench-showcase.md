@@ -171,6 +171,7 @@ audit plus the rendered screenshots.
 
 This surface does not implement hosted/full React suite applications, hosted/persisted
 editing, backend package registration, a runtime React renderer, a remote
-registry fetch, Radix wrappers, a provider runtime, or any harness execution. It
-renders, displays, and locally edits accepted, generated, authored-source,
-primitive-factory implementation, and fixture data only.
+registry fetch, a full resident Radix wrapper library, a provider runtime, or any
+harness execution. It renders, displays, and locally edits accepted, generated,
+authored-source, primitive-factory implementation, first wrapper-slice evidence,
+and fixture data only.

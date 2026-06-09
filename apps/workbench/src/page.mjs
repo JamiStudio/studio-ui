@@ -31,10 +31,13 @@ const SUITE_TITLE = {
 
 // --- styles (token-driven) ---------------------------------------------------
 
-function styles(tokenCss) {
+function styles(tokenCss, uiCss) {
   return `
 /* Generated token output, consumed verbatim. */
 ${tokenCss}
+
+/* Source-owned resident primitive styles, consumed verbatim for wrapper evidence. */
+${uiCss}
 
 /* Theme channel: map the active theme to the generated semantic tokens. */
 html[data-theme="light"], html[data-theme="factory"] {
@@ -303,6 +306,30 @@ section.ju-section { margin: 36px 0; }
 .ju-brand-card {
   display: grid;
   gap: 12px;
+}
+.ju-wrapper-preview {
+  align-items: start;
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  display: grid;
+  gap: 10px;
+  min-height: 72px;
+  padding: 12px;
+}
+.ju-wrapper-preview .jami-field,
+.ju-wrapper-preview .jami-panel {
+  max-width: 100%;
+}
+.ju-wrapper-source {
+  background: var(--ju-surface-2);
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 8px;
+  max-height: 140px;
+  overflow: auto;
+  padding: 8px;
 }
 .ju-brand-actions {
   align-items: center;
@@ -576,6 +603,7 @@ function nav(suites) {
     ${suiteLinks}
     <li><a href="#brand-options">Default kit options</a></li>
     <li><a href="#vocabulary">Vocabulary schema</a></li>
+    <li><a href="#radix-wrappers">Radix wrappers</a></li>
     <li><a href="#renderer">Resident renderer</a></li>
     <li><a href="#workbench">Workbench panels</a></li>
     <li><a href="#tokens">Theme tokens</a></li>
@@ -777,6 +805,52 @@ function suitesSection(suites) {
 </section>`;
 }
 
+function wrapperExampleCard(example) {
+  const evidence = example.evidence ?? {};
+  const packages = (evidence.radixPackages ?? [])
+    .map((pkg) => `<span class="ju-chip"><code>${escapeHtml(pkg)}</code></span>`)
+    .join("");
+  return `
+<article class="ju-card">
+  <header class="ju-card-head">
+    <h4>${escapeHtml(evidence.exportName ?? example.component)}</h4>
+    <span class="ju-badge" data-status="ready">${escapeHtml(example.component)}</span>
+    <span class="ju-chip">${escapeHtml(evidence.implementationStatus ?? "missing evidence")}</span>
+  </header>
+  <div class="ju-wrapper-preview" aria-label="${escapeAttr(example.id)} wrapper preview">${example.html}</div>
+  <dl class="ju-kv-grid">
+    <div class="ju-kv"><dt>example</dt><dd><code>${escapeHtml(example.id)}</code></dd></div>
+    <div class="ju-kv"><dt>source</dt><dd><code>${escapeHtml(evidence.source ?? "")}</code></dd></div>
+    <div class="ju-kv"><dt>role</dt><dd>${escapeHtml(evidence.wrapperRole ?? "")}</dd></div>
+    <div class="ju-kv"><dt>renderer execution</dt><dd><code>${escapeHtml(evidence.rendererPayloadExecution)}</code></dd></div>
+  </dl>
+  <div class="ju-chips" aria-label="${escapeAttr(example.id)} packages">${packages || '<span class="ju-chip">React wrapper</span>'}</div>
+  <details class="ju-reasons"><summary>Rendered HTML</summary><code class="ju-wrapper-source">${escapeHtml(example.html)}</code></details>
+</article>`;
+}
+
+function radixWrappersSection(data) {
+  const implemented = new Set(data.implementedRadixReactWrapperNames ?? []);
+  const pending = data.componentVocabulary
+    .filter((definition) => !implemented.has(definition.name))
+    .map((definition) => `<span class="ju-pending">${escapeHtml(definition.name)} wrapper pending</span>`)
+    .join(" ");
+  return `
+<section class="ju-section" id="radix-wrappers" aria-labelledby="ju-radix-wrapper-h">
+  <h2 id="ju-radix-wrapper-h">Radix/React wrapper slice</h2>
+  <p class="ju-lead">Server-rendered React output from the first implemented primitive wrapper slice. Button uses Radix Slot for <code>asChild</code>; text-field uses Radix Label; panel is a React ref-forwarding region wrapper. The remaining resident components stay pending and the renderer still rejects package imports.</p>
+  <dl class="ju-kv-grid ju-card">
+    <div class="ju-kv"><dt>implemented</dt><dd>${data.implementedRadixReactWrapperNames
+      .map((name) => `<code>${escapeHtml(name)}</code>`)
+      .join(" ")}</dd></div>
+    <div class="ju-kv"><dt>source</dt><dd><code>packages/ui/src/radix-react-wrappers.mjs</code></dd></div>
+    <div class="ju-kv"><dt>full vocabulary</dt><dd><code>false</code> · this section claims only the primitive slice</dd></div>
+    <div class="ju-kv"><dt>pending wrappers</dt><dd>${pending}</dd></div>
+  </dl>
+  <div class="ju-grid" style="margin-top:16px">${data.radixReactWrapperExamples.map(wrapperExampleCard).join("")}</div>
+</section>`;
+}
+
 function rendererSection(compatFixtures) {
   // Order: renderable first, then display-only references, then fail-closed.
   const order = { renderable: 0, "display-only": 1, denied: 2, unsupported: 3, invalid: 4, error: 5 };
@@ -925,6 +999,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
     suitesSection(data.suites),
     brandOptionsSection(data.brandOptions),
     vocabularyEvidenceSection(data),
+    radixWrappersSection(data),
     rendererSection(data.compatFixtures),
     workbenchSection(data.presentationPanels),
     tokensSection(data.tokens),
@@ -946,7 +1021,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Studio UI Workbench Showcase</title>
-<style>${styles(data.tokenCss)}</style>
+<style>${styles(data.tokenCss, data.uiCss)}</style>
 </head>
 <body>
 ${withFocus}

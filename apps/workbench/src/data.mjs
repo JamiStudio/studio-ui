@@ -24,10 +24,13 @@ import {
 } from "../../../packages/renderer/src/index.mjs";
 import {
   componentVocabulary,
+  implementedRadixReactWrapperNames,
   primitiveComponentImplementations,
   primitiveDescriptors,
+  radixReactWrapperEvidence,
   vocabularyHandshake,
 } from "../../../packages/ui/src/index.mjs";
+import { renderRadixReactWrapperExamples } from "../../../packages/ui/src/radix-react-wrapper-examples.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const repoRoot = join(here, "..", "..", "..");
@@ -93,6 +96,7 @@ function implementationFromItem(item) {
 // Assemble everything the page needs from real generated/fixture sources.
 export function loadShowcaseData() {
   const tokenCss = readText("packages/tokens/generated/jami.css");
+  const uiCss = readText("packages/ui/src/styles.css");
   const registry = readJson("packages/registry/generated/registry.json");
   const itemsByName = new Map(registry.items.map((item) => [item.name, item]));
 
@@ -159,11 +163,15 @@ export function loadShowcaseData() {
 
   return {
     tokenCss,
+    uiCss,
     tokens: parseTokenCss(tokenCss),
     registry,
     suites,
     brandOptions,
     componentVocabulary,
+    implementedRadixReactWrapperNames,
+    radixReactWrapperEvidence,
+    radixReactWrapperExamples: renderRadixReactWrapperExamples(),
     compatFixtures,
     presentationPanels,
     primitiveComponentImplementations,

@@ -170,7 +170,7 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `pnpm contracts:check`, `pnpm registry:publish:check`, and
   `pnpm --filter @jami-studio/workbench smoke` all exit 0; `.env` remains ignored.
   This does not close the full roadmap acceptance criteria. Open product gaps remain:
-  full Radix/React `packages/ui` primitive implementations, hosted/persisted workbench
+  full resident-vocabulary Radix/React `packages/ui` implementations, hosted/persisted workbench
   editing and backend registration, full suite app shells/full React page-block implementations,
   hosted registry URL install smoke, automated release-note generation, SBOM/attestation
   execution at publish time, and npm/static-host publish actions.
@@ -294,6 +294,18 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   evidence exist. This does not implement Radix wrappers, add React/Radix packages,
   change generated registry output, enable hosted persistence/backend registration,
   or weaken the data-only resident renderer.
+- 2026-06-09 Radix/React wrapper implementation pass 1 moved readiness metadata into
+  a real but scoped wrapper slice for `button`, `panel`, and `text-field`. `@jami-studio/ui`
+  now declares `@radix-ui/react-slot@1.2.5`, `@radix-ui/react-label@2.1.9`, a React
+  `>=19 <20` peer, and React/React DOM `19.2.7` dev dependencies; authored wrapper
+  source and evidence metadata; UI server-render tests; generated registry output that
+  embeds wrapper source and Radix dependencies only for those three items; workbench
+  server-rendered wrapper evidence; and an invalid renderer fixture rejecting wrapper
+  package imports. This does not implement wrappers for `data-list`, `agent-panel`,
+  `docs-source-panel`, or `media-grid`, enable a runtime React renderer, claim full
+  suite React apps, claim hosted registry URL smoke, publish npm/static registry
+  artifacts, add backend persistence/registration, execute attestations, finalize
+  brand canon, or weaken the data-only resident renderer.
 
 ## Locked Decisions
 
@@ -584,13 +596,15 @@ Implementation tasks:
   first source-owned resident vocabulary metadata and package exports for `button`,
   `panel`, `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
   `media-grid`, plus React-style primitive metadata and framework-neutral component
-  factories, plus a source-locked Radix wrapper readiness contract; full Radix
-  wrapper implementation remains pending.)
+  factories, plus a source-locked Radix wrapper readiness contract and authored
+  Radix/React wrapper source for `button`, `panel`, and `text-field`; composed
+  component wrappers remain pending.)
 - [~] Add tokenized primitive implementations. (Initial authored CSS uses generated
   `--jami-*` variables for the resident vocabulary, and the component factories
   emit those classes without executable action handlers while treating caller
-  children as inert display data; Radix wrappers and browser visual regression
-  remain pending.)
+  children as inert display data; Radix/React wrappers exist for `button`, `panel`,
+  and `text-field`, while wrappers for `data-list`, `agent-panel`,
+  `docs-source-panel`, `media-grid`, and browser visual regression remain pending.)
 - [~] Add composed components for agent panel, data display, forms, calendar shell, docs shell, media grid, source board, and command/action surfaces. (`agent-panel`, `data-list`,
   `text-field`, `docs-source-panel`, `media-grid`, and `button` metadata/styles/factories exist;
   calendar shell and source-board composition remain pending.)
@@ -600,7 +614,9 @@ Implementation tasks:
 - [~] Add accessibility, interaction, and visual regression checks for critical primitives.
   (`packages/ui/test/ui.test.mjs` checks ARIA/state metadata, tokenized CSS, importable
   non-executable component factories, inert child-slot handling, and invalid-prop
-  fail-closed behavior; browser visual regression for the primitives remains pending.)
+  fail-closed behavior; `packages/ui/test/radix-react-wrappers.test.mjs` checks the
+  first Radix/React wrapper slice through server-rendered React evidence; browser
+  visual regression for the primitives remains pending.)
 - [~] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior. (The state matrix is recorded and tested in vocabulary metadata; per-component browser fixtures remain pending.)
 - [x] Add per-component prop schemas for the resident vocabulary. (`packages/ui`
   exports structured prop schemas and tests for valid, unsupported, wrong-type,
@@ -613,11 +629,13 @@ Exit criteria:
 
 - [~] Primitive and component vocabulary is tokenized and registry-addressable. (Initial
   metadata/styles, React-style descriptor metadata, framework-neutral component
-  factories, and registry items exist; full Radix wrappers remain pending.)
+  factories, first Radix/React wrapper source, and registry items exist; the full
+  resident wrapper library remains pending.)
 - [x] Component-local hardcoded colors are rejected by tests or lint rules.
 - [~] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
-  (Metadata, CSS guards, and Radix wrapper readiness evidence exist; browser visual/a11y
-  evidence per primitive and per wrapper remains pending.)
+  (Metadata, CSS guards, Radix wrapper readiness evidence, and server-rendered
+  wrapper evidence exist; dedicated browser visual/a11y evidence per primitive and
+  per wrapper remains pending.)
 
 Suggested verification:
 

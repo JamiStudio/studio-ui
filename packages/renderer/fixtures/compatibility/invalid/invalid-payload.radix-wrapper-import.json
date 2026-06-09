@@ -1,0 +1,26 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.invalid.radix-wrapper-import",
+  "kind": "invalidPayload",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
+  "expectedRendererState": "invalid",
+  "payload": {
+    "schemaVersion": "2026-06-09",
+    "vocabularyHandshakeVersion": "2026-06-09.vocabulary-handshake",
+    "payloadId": "uip_invalid_radix_wrapper_import",
+    "componentRef": {
+      "namespace": "@jami-studio/ui",
+      "name": "button",
+      "version": "0.0.0",
+      "allowlisted": true
+    },
+    "props": {
+      "packageImport": "@jami-studio/ui/radix-react-wrappers",
+      "label": "Mount wrapper"
+    },
+    "fallback": {
+      "mode": "invalid_payload",
+      "message": "Radix/React wrappers are install-time code, not renderer payload imports."
+    }
+  }
+}

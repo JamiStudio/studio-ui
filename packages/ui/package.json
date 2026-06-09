@@ -8,10 +8,23 @@
     ".": "./src/index.mjs",
     "./primitive-components": "./src/primitive-components.mjs",
     "./primitive-descriptors": "./src/primitive-descriptors.mjs",
+    "./radix-react-wrappers": "./src/radix-react-wrappers.mjs",
+    "./radix-wrapper-evidence": "./src/radix-wrapper-evidence.mjs",
     "./vocabulary": "./src/vocabulary.mjs",
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "test": "node --test test/ui.test.mjs"
+    "test": "node --test test/ui.test.mjs test/radix-react-wrappers.test.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "2.1.9",
+    "@radix-ui/react-slot": "1.2.5"
+  },
+  "peerDependencies": {
+    "react": ">=19 <20"
+  },
+  "devDependencies": {
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
   }
 }

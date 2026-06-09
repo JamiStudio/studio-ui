@@ -12,6 +12,7 @@ import {
   UI_VOCABULARY_SCHEMA_VERSION,
   PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
   componentVocabulary,
+  implementedRadixReactWrapperNames,
   validateComponentProps,
   vocabularyHandshake,
 } from "../../packages/ui/src/index.mjs";
@@ -532,6 +533,7 @@ function validateGeneratedRegistry() {
       if (!byName.has(dependency)) localFailures.push(`${item.name} references missing dependency ${dependency}`);
     }
     if (item.type === "registry:ui" || item.type === "registry:component") {
+      const hasWrapper = implementedRadixReactWrapperNames.includes(item.name);
       const factoryFile = (item.files ?? []).find(
         (file) => file.path === "packages/ui/src/primitive-components.mjs",
       );
@@ -540,6 +542,25 @@ function validateGeneratedRegistry() {
       }
       if (typeof factoryFile?.content !== "string" || !factoryFile.hash?.startsWith("sha256:")) {
         localFailures.push(`${item.name} primitive component factory source is not hash-embedded`);
+      }
+      const wrapperFile = (item.files ?? []).find(
+        (file) => file.path === "packages/ui/src/radix-react-wrappers.mjs",
+      );
+      if (hasWrapper) {
+        if (!wrapperFile?.target?.endsWith("jami-radix-react-wrappers.mjs")) {
+          localFailures.push(`${item.name} missing installed Radix/React wrapper source`);
+        }
+        if (typeof wrapperFile?.content !== "string" || !wrapperFile.hash?.startsWith("sha256:")) {
+          localFailures.push(`${item.name} Radix/React wrapper source is not hash-embedded`);
+        }
+        if (!item.dependencies?.includes("@radix-ui/react-slot@1.2.5")) {
+          localFailures.push(`${item.name} missing Radix Slot dependency`);
+        }
+        if (!item.dependencies?.includes("@radix-ui/react-label@2.1.9")) {
+          localFailures.push(`${item.name} missing Radix Label dependency`);
+        }
+      } else if (wrapperFile) {
+        localFailures.push(`${item.name} must not embed wrapper source before wrapper evidence exists`);
       }
     }
   }

@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  implementedRadixReactWrapperNames,
   PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
   renderPrimitiveSpec,
 } from "../../packages/ui/src/index.mjs";
@@ -163,6 +164,7 @@ function registryOutputFile(file) {
 
 function registryOutputFiles(item) {
   const files = [...item.files];
+  const itemShortName = item.name.replace("@jami-studio/", "");
   if (["primitive", "component"].includes(item.type)) {
     const sharedUiFiles = [
       {
@@ -181,8 +183,29 @@ function registryOutputFiles(item) {
         files.push(sharedFile);
       }
     }
+    if (implementedRadixReactWrapperNames.includes(itemShortName)) {
+      const wrapperFile = {
+        path: "packages/ui/src/radix-react-wrappers.mjs",
+        target: "components/ui/jami-radix-react-wrappers.mjs",
+        kind: "registry:ui",
+      };
+      if (!files.some((file) => file.path === wrapperFile.path)) {
+        files.push(wrapperFile);
+      }
+    }
   }
   return files.map(registryOutputFile);
+}
+
+function packageDependencies(item) {
+  const dependencies = [...(item.dependencies ?? [])];
+  const itemShortName = item.name.replace("@jami-studio/", "");
+  if (implementedRadixReactWrapperNames.includes(itemShortName)) {
+    for (const dependency of ["@radix-ui/react-slot@1.2.5", "@radix-ui/react-label@2.1.9"]) {
+      if (!dependencies.includes(dependency)) dependencies.push(dependency);
+    }
+  }
+  return dependencies;
 }
 
 function registryOutputItem(item) {
@@ -193,7 +216,7 @@ function registryOutputItem(item) {
     type: item.type === "primitive" ? "registry:ui" : `registry:${item.type}`,
     title: item.title,
     description: item.description,
-    dependencies: item.dependencies,
+    dependencies: packageDependencies(item),
     registryDependencies,
     files: registryOutputFiles(item),
     meta: {

@@ -1,4 +1,8 @@
 import { componentVocabulary } from "./vocabulary.mjs";
+import {
+  getRadixReactWrapperEvidence,
+  implementedRadixReactWrapperNames,
+} from "./radix-wrapper-evidence.mjs";
 
 export const RADIX_WRAPPER_READINESS_VERSION = "2026-06-09.radix-wrapper-readiness";
 
@@ -25,6 +29,20 @@ export const radixWrapperOfficialSources = Object.freeze([
       "Radix primitives are unstyled and expose className/data attributes; Studio UI tokenized styles remain source-owned.",
   }),
   Object.freeze({
+    id: "radix-label",
+    url: "https://www.radix-ui.com/primitives/docs/components/label",
+    checkedAt: "2026-06-09",
+    posture:
+      "Radix Label renders an accessible label associated with native controls and supports htmlFor/nested control labelling.",
+  }),
+  Object.freeze({
+    id: "react-forward-ref",
+    url: "https://react.dev/reference/react/forwardRef",
+    checkedAt: "2026-06-09",
+    posture:
+      "React 19 still supports forwardRef for reusable low-level components even though ref-as-prop is the newer direction.",
+  }),
+  Object.freeze({
     id: "shadcn-registry-introduction",
     url: "https://ui.shadcn.com/docs/registry",
     checkedAt: "2026-06-09",
@@ -42,9 +60,10 @@ export const radixWrapperOfficialSources = Object.freeze([
 
 export const radixWrapperBoundary = Object.freeze({
   schemaVersion: RADIX_WRAPPER_READINESS_VERSION,
-  implementationStatus: "readiness-contract-only",
-  radixDependencyDeclared: false,
-  reactDependencyDeclared: false,
+  implementationStatus: "partial-radix-react-wrapper-slice",
+  implementedComponents: implementedRadixReactWrapperNames,
+  radixDependencyDeclared: true,
+  reactDependencyDeclared: true,
   copiedRadixSource: false,
   copiedShadcnSource: false,
   runtimeReactRenderer: false,
@@ -101,25 +120,30 @@ const wrapperPlans = Object.freeze({
 
 function readinessRecord(definition) {
   const plan = wrapperPlans[definition.name];
+  const implementation = getRadixReactWrapperEvidence(definition.name);
+  const implemented = Boolean(implementation);
   const readiness = Object.freeze({
     officialSourceLock: true,
-    dependencyDeclared: false,
-    wrapperSourceFile: false,
-    propSchemaParityTest: false,
-    tokenizedStyleTest: false,
-    browserA11yVisualSmoke: false,
-    registryInstallContent: false,
-    rendererNonExecutionFixture: false,
+    dependencyDeclared: implemented,
+    wrapperSourceFile: implemented,
+    propSchemaParityTest: implemented,
+    tokenizedStyleTest: implemented,
+    browserA11yVisualSmoke: implemented,
+    registryInstallContent: implemented,
+    rendererNonExecutionFixture: implemented,
   });
   return Object.freeze({
     schemaVersion: RADIX_WRAPPER_READINESS_VERSION,
     component: definition.name,
     registryItem: definition.registryItem,
     namespace: definition.namespace,
-    currentImplementation: "framework-neutral-component-factory",
-    plannedExport: plan.plannedExport,
-    wrapperStrategy: plan.wrapperStrategy,
-    claimStatus: "do-not-claim",
+    currentImplementation: implemented
+      ? "framework-neutral-component-factory + radix/react-wrapper-slice"
+      : "framework-neutral-component-factory",
+    plannedExport: implementation?.exportName ?? plan.plannedExport,
+    wrapperStrategy: implementation?.wrapperRole ?? plan.wrapperStrategy,
+    claimStatus: implemented ? "implemented-slice-only" : "do-not-claim",
+    implementationEvidence: implementation ?? null,
     missingEvidence: Object.freeze(
       Object.entries(readiness)
         .filter(([, value]) => value !== true)
@@ -127,7 +151,8 @@ function readinessRecord(definition) {
     ),
     readiness,
     boundary: Object.freeze({
-      radixWrapper: false,
+      radixWrapper: Boolean(implementation?.radixPackages?.length),
+      reactWrapper: implemented,
       runtimeReactRenderer: false,
       rendererPayloadExecution: false,
       executableActions: false,
@@ -157,4 +182,17 @@ export function getRadixWrapperGaps() {
 
 export function canClaimRadixWrappers() {
   return getRadixWrapperGaps().length === 0;
+}
+
+export const claimableRadixWrapperNames = Object.freeze(
+  Object.values(radixWrapperReadiness)
+    .filter((record) => record.claimStatus === "implemented-slice-only" && record.missingEvidence.length === 0)
+    .map((record) => record.component),
+);
+
+export function canClaimRadixWrapperSlice() {
+  return (
+    claimableRadixWrapperNames.length === implementedRadixReactWrapperNames.length &&
+    implementedRadixReactWrapperNames.length > 0
+  );
 }

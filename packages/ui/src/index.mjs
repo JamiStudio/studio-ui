@@ -28,6 +28,8 @@ export {
 export {
   RADIX_WRAPPER_READINESS_VERSION,
   canClaimRadixWrappers,
+  canClaimRadixWrapperSlice,
+  claimableRadixWrapperNames,
   getRadixWrapperGaps,
   getRadixWrapperReadiness,
   radixWrapperBoundary,
@@ -35,3 +37,12 @@ export {
   radixWrapperReadiness,
   requiredRadixWrapperEvidence,
 } from "./radix-wrapper-readiness.mjs";
+
+export {
+  RADIX_REACT_WRAPPER_VERSION,
+  getRadixReactWrapperEvidence,
+  hasRadixReactWrapperEvidence,
+  implementedRadixReactWrapperNames,
+  radixReactWrapperEvidence,
+  radixReactWrapperPackageEvidence,
+} from "./radix-wrapper-evidence.mjs";
