@@ -5,10 +5,12 @@ Last updated: 2026-06-09
 
 ## Current Shape
 
-The repo has documentation, roadmap, workspace scaffold, and the first checked contract
-foundations for tokens, registry metadata, and renderer compatibility fixtures. It does
-not yet contain production UI components, generated token outputs, registry publishing
-output, CLI install flows, or workbench apps.
+The repo has documentation, roadmap, workspace scaffold, checked contract foundations for
+tokens, registry metadata, and renderer compatibility fixtures, deterministic generated
+token and registry artifacts, a minimal resident renderer with a workbench presentation
+seam, and the `@jami-studio/cli` install/config lifecycle that operates on the real
+generated registry. It does not yet contain production UI components, a workbench app, a
+browser surface, or hosted registry publishing.
 
 ## Root
 
@@ -24,15 +26,17 @@ output, CLI install flows, or workbench apps.
 ## Source Areas
 
 - `apps/workbench` - always-live workbench overlay and showcase app.
-- `packages/tokens` - DTCG-compatible token schema and fixture foundations; generated
-  outputs are not implemented yet.
-- `packages/registry` - registry item metadata and package graph fixture foundations;
-  generated shadcn output is not implemented yet.
-- `packages/ui` - resident Radix-first shadcn primitives, components, blocks, pages, and suite shells.
-- `packages/renderer` - structured UI payload compatibility fixtures and renderer
-  schema foundation; React rendering is not implemented yet.
-- `packages/cli` - install/config CLI for registry items and suites.
-- `registry/` - authored registry item source.
+- `packages/tokens` - DTCG-compatible token schema, fixtures, and deterministic generated
+  CSS/Tailwind/TypeScript/shadcn outputs.
+- `packages/registry` - registry item metadata, source items, and deterministic generated
+  shadcn-shaped output (with embedded install content/hashes and suite manifests).
+- `packages/ui` - resident Radix-first shadcn primitives, components, blocks, pages, and suite shells (not implemented yet).
+- `packages/renderer` - structured UI payload compatibility fixtures, the minimal resident
+  render core, and the workbench presentation seam; React rendering is not implemented yet.
+- `packages/cli` - dependency-free install/config CLI for registry items, themes, and
+  suite descriptors, with temp-project smoke tests (`docs/operations/registry-install.md`).
+- `registry/` - reserved for authored registry item source (current source items live under
+  `packages/registry/fixtures/valid`).
 - `tools/` - local helper tooling that does not belong in published packages.
 
 ## Docs

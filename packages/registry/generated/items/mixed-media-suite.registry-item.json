@@ -1,0 +1,54 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mixed-media-suite",
+  "type": "registry:suite",
+  "title": "Mixed Media Suite",
+  "description": "Mixed-media suite foundation: install-graph descriptor for the assets, generation, editing, pipelines, review, publishing, and media-library lane.",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/mixed-media.suite.json",
+      "target": "studio-ui/suites/mixed-media.suite.json",
+      "type": "registry:suite",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/mixed-media-suite\",\n  \"lane\": \"mixed-media\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\"\n  ],\n  \"plannedSurfaces\": [\n    \"assets\",\n    \"generation\",\n    \"editing\",\n    \"pipelines\",\n    \"review\",\n    \"publishing\",\n    \"library\"\n  ]\n}\n",
+      "hash": "sha256:56130382e1bbb9a8b47d06334bd595c61949dfa0fbd84c9ca294ad735031ebb0"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/mixed-media-suite",
+    "suite": "mixed-media",
+    "lifecycle": {
+      "id": "suite.mixed-media",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:32e16ebb8da7d27931d09e2672b00f834ea6a2942edeaafa9417c14802941d78",
+      "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "authored",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "plannedSurfaces": [
+      "assets",
+      "generation",
+      "editing",
+      "pipelines",
+      "review",
+      "publishing",
+      "library"
+    ],
+    "agentManifest": null
+  }
+}

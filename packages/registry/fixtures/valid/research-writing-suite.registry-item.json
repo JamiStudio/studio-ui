@@ -1,0 +1,48 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
+  "name": "@jami-studio/research-writing-suite",
+  "type": "suite",
+  "title": "Research Writing Suite",
+  "description": "Research / writing suite foundation: install-graph descriptor for the sources, notes, citations, briefs, documents, outlines, and knowledge-work lane.",
+  "suite": "research-writing",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "button"
+  ],
+  "plannedSurfaces": [
+    "sources",
+    "notes",
+    "citations",
+    "briefs",
+    "documents",
+    "outlines",
+    "knowledge"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/research-writing.suite.json",
+      "target": "studio-ui/suites/research-writing.suite.json",
+      "kind": "registry:suite"
+    }
+  ],
+  "lifecycle": {
+    "id": "suite.research-writing",
+    "version": "0.0.0-contract.20260609",
+    "schemaVersion": "2026-06-09.registry-foundation",
+    "sourceHash": "sha256:6a25dcfd5ae7711f2663d5448e63795dedcc4522e02308c3a2a8c49b17a6246c",
+    "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+  },
+  "tokenRequirements": [],
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "reviewedAt": "2026-06-09",
+    "copiedSource": false
+  },
+  "compatibility": {
+    "shadcn": "4.x source-lock required before generated output",
+    "tailwind": "4.x source-lock required before generated output",
+    "react": ">=19"
+  }
+}

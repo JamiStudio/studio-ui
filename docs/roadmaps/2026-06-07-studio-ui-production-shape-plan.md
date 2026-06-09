@@ -106,6 +106,23 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `missing-source`. The presentation fixture corpus, fixture schema, and
   `validate-contracts.mjs` were updated to cover both contracts. Still not a React
   renderer, browser surface, or workbench app; no browser/accessibility evidence claimed.
+- 2026-06-09 Stream 5 pass 1 made the registry install path real and added the
+  `@jami-studio/cli` lifecycle surface. A `jami-theme` registry item now ships the
+  generated token outputs as install content; the contract generator embeds real
+  file `content` plus a `sha256` hash for any file whose source resolves on disk and
+  records source-pending files (for example the `button` primitive) as descriptors
+  without fabricating source. Four suite foundation items (`solo-suite`,
+  `business-ops-suite`, `mixed-media-suite`, `research-writing-suite`) are install-graph
+  descriptors with generated suite manifests and pending per-lane surfaces. The
+  dependency-free CLI implements `init`, `list`, `inspect`, `add`, `remove`, `update`,
+  `migrate`, `pin`/`unpin`, `lock`, `doctor`, and `provenance` over an inspectable
+  `studio-ui.config.json`/`studio-ui.lock.json`, with hash-based, non-destructive
+  conflict handling and rollback guidance. Remote registry fetch resolves to an explicit
+  unsupported state. 15 deterministic temp-project smoke tests
+  (`packages/cli/test/cli.test.mjs`) run against the real generated registry and are part
+  of `pnpm verify`. No browser, workbench app, or suite app shell exists yet; suite
+  page/block/component vocabulary is surfaced as planned, not installed, and no
+  browser/accessibility evidence is claimed.
 
 ## Locked Decisions
 
@@ -347,7 +364,7 @@ Implementation tasks:
 - [~] Define registry item metadata for item type, suite, token requirements, dependencies, docs, version generation, and agent manifest.
 - [~] Add lifecycle and provenance metadata for item id, version, suite membership, schema version, source hash, install paths, dependencies, compatibility ranges, and migration notes.
 - [~] Generate valid `registry.json` and `registry-item.json` outputs.
-- [~] Add item types for primitives, components, blocks, pages, themes, fonts, apps, and suites.
+- [~] Add item types for primitives, components, blocks, pages, themes, fonts, apps, and suites. (primitive, theme, and suite items exist; components, blocks, pages, fonts, and apps are pending.)
 - [ ] Add cache/revision naming policy.
 - [~] Add schema validation and sample items.
 
@@ -535,17 +552,17 @@ Primary areas:
 
 Implementation tasks:
 
-- [ ] Add CLI commands for init, add item, add suite, apply theme, list, inspect, doctor, update, remove, migrate, lock/pin, and provenance inspect.
-- [ ] Add configuration prompts for app title, suite, theme, registry URL, package manager, and optional defaults.
-- [ ] Add dry-run and diff behavior before writing files.
-- [ ] Add rollback/restore guidance and conflict handling for locally modified installed files.
-- [ ] Add install, update, remove, migrate, and provenance smoke tests in temporary projects.
+- [x] Add CLI commands for init, add item, add suite, apply theme, list, inspect, doctor, update, remove, migrate, lock/pin, and provenance inspect. (Theme/suite apply is `add <item>`; all commands implemented in `packages/cli`.)
+- [~] Add configuration for app title, suite, theme, registry URL, package manager, and optional defaults. (Flag-driven `init` today; interactive prompts pending.)
+- [~] Add dry-run and diff behavior before writing files. (`--dry-run` reports the per-file action plan; per-line file diffs are pending.)
+- [x] Add rollback/restore guidance and conflict handling for locally modified installed files.
+- [x] Add install, update, remove, migrate, and provenance smoke tests in temporary projects.
 
 Exit criteria:
 
-- [ ] A clean project can install a sample theme, primitive, page, and suite.
-- [ ] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
-- [ ] CLI reports missing auth/tooling with exact next commands.
+- [~] A clean project can install a sample theme, primitive, and suite. (Theme installs real content; primitive and suite install as descriptors with source-pending vocabulary; page items do not exist yet.)
+- [x] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
+- [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; remote registry is an explicit unsupported state; account/auth tooling integration is pending.)
 
 Suggested verification:
 
@@ -586,7 +603,7 @@ Implementation tasks:
 - [ ] Build `business-ops` suite for staff, scheduling, forms, training, compliance, and operational dashboards.
 - [ ] Build `mixed-media` suite for assets, generation, editing, pipelines, review, publishing, and media libraries.
 - [ ] Build `research-writing` suite for sources, notes, citations, briefs, documents, outlines, and knowledge workflows.
-- [ ] Add suite install metadata and page/block/component dependency graphs.
+- [~] Add suite install metadata and page/block/component dependency graphs. (Four suite items exist as install-graph descriptors with `registryDependencies` and generated manifests; per-lane page/block/component vocabulary is pending the primitive workstream and listed as planned surfaces.)
 - [ ] Add showcase routing for the `solo` suite through the workbench/demo app.
 - [ ] Add suite-level accessibility, responsive, long-content, empty/error state, and visual smoke fixtures.
 - [ ] Add source/license provenance for any recomposed reference corpus material before redistribution.

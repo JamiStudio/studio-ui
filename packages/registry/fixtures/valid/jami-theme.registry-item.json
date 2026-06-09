@@ -1,0 +1,58 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/registry-item.schema.json",
+  "name": "@jami-studio/jami-theme",
+  "type": "theme",
+  "title": "Jami Factory Theme",
+  "description": "Warm Jami factory theme: generated CSS variables, Tailwind @theme variables, TypeScript token names, and shadcn cssVars derived from the DTCG token source.",
+  "suite": "solo",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "packages/tokens/generated/jami.css",
+      "target": "studio-ui/jami.css",
+      "kind": "registry:theme"
+    },
+    {
+      "path": "packages/tokens/generated/jami.tailwind.css",
+      "target": "studio-ui/jami.tailwind.css",
+      "kind": "registry:theme"
+    },
+    {
+      "path": "packages/tokens/generated/jami-tokens.ts",
+      "target": "studio-ui/jami-tokens.ts",
+      "kind": "registry:lib"
+    },
+    {
+      "path": "packages/tokens/generated/jami.shadcn.json",
+      "target": "studio-ui/jami.shadcn.json",
+      "kind": "registry:file"
+    }
+  ],
+  "lifecycle": {
+    "id": "theme.jami-factory",
+    "version": "0.0.0-contract.20260609",
+    "schemaVersion": "2026-06-09.registry-foundation",
+    "sourceHash": "sha256:cb84e0ea6e73434aa45e33b3e956d34eb2a52ec1c4134f4621d80090776d1146",
+    "migrationNotes": "Initial theme item. Files are the generated token outputs; regenerate with pnpm contracts:generate when the token source changes."
+  },
+  "tokenRequirements": [
+    "semantic.light.background",
+    "semantic.light.foreground",
+    "semantic.light.accent",
+    "semantic.dark.background",
+    "semantic.dark.foreground",
+    "componentState.focusRing"
+  ],
+  "provenance": {
+    "source": "authored",
+    "license": "MIT",
+    "reviewedAt": "2026-06-09",
+    "copiedSource": false
+  },
+  "compatibility": {
+    "shadcn": "4.x source-lock required before generated output",
+    "tailwind": "4.x source-lock required before generated output",
+    "react": ">=19"
+  }
+}

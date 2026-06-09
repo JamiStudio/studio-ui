@@ -1,0 +1,55 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "solo-suite",
+  "type": "registry:suite",
+  "title": "Solo Suite",
+  "description": "Solo / general-workflow suite foundation: install-graph descriptor for the calendar, forms, docs, agent, tasks, and simple CRM/content/admin lane.",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/solo.suite.json",
+      "target": "studio-ui/suites/solo.suite.json",
+      "type": "registry:suite",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/solo-suite\",\n  \"lane\": \"solo\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\"\n  ],\n  \"plannedSurfaces\": [\n    \"calendar\",\n    \"forms\",\n    \"docs\",\n    \"agent\",\n    \"tasks\",\n    \"crm\",\n    \"content\",\n    \"admin\"\n  ]\n}\n",
+      "hash": "sha256:72dc3622956951095a00bde4cdb6d5098db3f3c05dc3110acebe1a342c8af7cd"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/solo-suite",
+    "suite": "solo",
+    "lifecycle": {
+      "id": "suite.solo",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:e83a294641ffa820181ea08e5ea3d86995aac76f34b77514b65ccc44f5769da0",
+      "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "authored",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "plannedSurfaces": [
+      "calendar",
+      "forms",
+      "docs",
+      "agent",
+      "tasks",
+      "crm",
+      "content",
+      "admin"
+    ],
+    "agentManifest": null
+  }
+}

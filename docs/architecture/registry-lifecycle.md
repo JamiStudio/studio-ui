@@ -45,19 +45,41 @@ or unreviewed source metadata. The check also enforces deterministic `sourceHash
 metadata and generated artifact drift for the local shadcn-shaped `registry.json`
 and per-item output.
 
+## Source Items
+
+The generator reads every `*.registry-item.json` under
+`packages/registry/fixtures/valid` (sorted for determinism). The current source
+items are:
+
+- `button` (`primitive`) — source-pending: its `.tsx` source lands in the
+  primitive/component workstream, so no install content is generated.
+- `jami-theme` (`theme`) — installable: its files are the generated token
+  outputs, so real install content and per-file hashes are embedded.
+- `solo-suite`, `business-ops-suite`, `mixed-media-suite`,
+  `research-writing-suite` (`suite`) — install-graph descriptors. Each declares
+  its member items in `registryDependencies` and a `plannedSurfaces` list (the
+  per-lane vocabulary that is pending), and ships a generated suite manifest as
+  its single file.
+
 ## Generated Outputs
 
 The current generated outputs are local contract artifacts:
 
 - `packages/registry/generated/registry.json`
-- `packages/registry/generated/items/button.registry-item.json`
+- `packages/registry/generated/items/<name>.registry-item.json` for every source item
+- `packages/registry/generated/suites/<lane>.suite.json` install-graph manifests
 
 They preserve the shadcn-shaped distribution fields plus Jami lifecycle, token,
-provenance, compatibility, and agent manifest metadata under `meta`.
+provenance, compatibility, and agent manifest metadata under `meta`. For files
+whose source resolves on disk, the generator embeds the real `content` and a
+`sha256` `hash`; files whose source is pending carry neither. The `@jami-studio/cli`
+install path consumes these embedded contents and hashes directly (see
+`docs/operations/registry-install.md`).
 
 ## Not Yet Claimed
 
-This pass does not publish official hosted registry files, run install smokes, or
-generate cache/revision names. Later registry implementation must validate generated
-output against the current official shadcn schema before public publishing and
-preserve the Jami metadata contract here.
+This pass does not publish official hosted registry files or generate
+cache/revision names. The CLI install path is exercised by temp-project smoke
+tests against the local generated registry, not a hosted endpoint. Later registry
+implementation must validate generated output against the current official shadcn
+schema before public publishing and preserve the Jami metadata contract here.

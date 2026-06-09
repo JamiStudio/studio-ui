@@ -1,0 +1,53 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "business-ops-suite",
+  "type": "registry:suite",
+  "title": "Business Ops Suite",
+  "description": "Business-operations suite foundation: install-graph descriptor for the staff, scheduling, forms, training, compliance, and operational-dashboard lane.",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/business-ops.suite.json",
+      "target": "studio-ui/suites/business-ops.suite.json",
+      "type": "registry:suite",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/business-ops-suite\",\n  \"lane\": \"business-ops\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\"\n  ],\n  \"plannedSurfaces\": [\n    \"staff\",\n    \"scheduling\",\n    \"forms\",\n    \"training\",\n    \"compliance\",\n    \"operations-dashboard\"\n  ]\n}\n",
+      "hash": "sha256:e2a0ed395df86cb0a9cd98b48a17d92634460dddb9ad1c77b8a5ad5475832870"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/business-ops-suite",
+    "suite": "business-ops",
+    "lifecycle": {
+      "id": "suite.business-ops",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:0f2285ad756a97c7e0050167ebaa3810e18eac4fe20ca18c6dd9622f8e852ce3",
+      "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "authored",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "plannedSurfaces": [
+      "staff",
+      "scheduling",
+      "forms",
+      "training",
+      "compliance",
+      "operations-dashboard"
+    ],
+    "agentManifest": null
+  }
+}

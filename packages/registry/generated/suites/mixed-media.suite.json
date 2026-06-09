@@ -1,0 +1,19 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-manifest.generated.json",
+  "name": "@jami-studio/mixed-media-suite",
+  "lane": "mixed-media",
+  "schemaVersion": "2026-06-09.registry-foundation",
+  "items": [
+    "jami-theme",
+    "button"
+  ],
+  "plannedSurfaces": [
+    "assets",
+    "generation",
+    "editing",
+    "pipelines",
+    "review",
+    "publishing",
+    "library"
+  ]
+}

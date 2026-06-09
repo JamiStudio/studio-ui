@@ -1,0 +1,20 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-manifest.generated.json",
+  "name": "@jami-studio/solo-suite",
+  "lane": "solo",
+  "schemaVersion": "2026-06-09.registry-foundation",
+  "items": [
+    "jami-theme",
+    "button"
+  ],
+  "plannedSurfaces": [
+    "calendar",
+    "forms",
+    "docs",
+    "agent",
+    "tasks",
+    "crm",
+    "content",
+    "admin"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://jami.studio/schemas/registry/suite-manifest.generated.json",
+  "name": "@jami-studio/research-writing-suite",
+  "lane": "research-writing",
+  "schemaVersion": "2026-06-09.registry-foundation",
+  "items": [
+    "jami-theme",
+    "button"
+  ],
+  "plannedSurfaces": [
+    "sources",
+    "notes",
+    "citations",
+    "briefs",
+    "documents",
+    "outlines",
+    "knowledge"
+  ]
+}

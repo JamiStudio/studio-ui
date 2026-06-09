@@ -19,6 +19,7 @@ const requiredFiles = [
   "docs/operations/changelog.md",
   "docs/operations/development-workflow.md",
   "docs/operations/readiness-checklist.md",
+  "docs/operations/registry-install.md",
   "docs/operations/source-lock-records.md",
   "docs/engineering/agents/goal.md",
   "docs/engineering/agents/orchestration-reliability.md",

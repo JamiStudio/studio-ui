@@ -1,0 +1,17 @@
+{
+  "name": "@jami-studio/cli",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Studio UI install/config CLI: registry-driven lifecycle for themes, primitives, and suite descriptors.",
+  "type": "module",
+  "bin": {
+    "studio-ui": "./bin/studio-ui.mjs"
+  },
+  "main": "./src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/cli.test.mjs"
+  }
+}

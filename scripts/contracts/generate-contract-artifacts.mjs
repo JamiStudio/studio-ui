@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -132,6 +132,26 @@ export function registrySourceHash(item) {
   return `sha256:${createHash("sha256").update(`${JSON.stringify(normalized, null, 2)}\n`).digest("hex")}`;
 }
 
+function contentHash(content) {
+  return `sha256:${createHash("sha256").update(content).digest("hex")}`;
+}
+
+// Embed real install content + a content hash for any file whose source path
+// resolves on disk (generated token outputs, generated suite manifests). Files
+// whose source does not exist yet (for example a primitive whose `.tsx` source
+// is pending Workstream 4) carry no content: the CLI reports them as
+// source-pending rather than fabricating an installable file.
+function registryOutputFile(file) {
+  const out = { path: file.path, target: file.target, type: file.kind };
+  const absolute = join(root, file.path);
+  if (existsSync(absolute)) {
+    const content = readFileSync(absolute, "utf8");
+    out.content = content;
+    out.hash = contentHash(content);
+  }
+  return out;
+}
+
 function registryOutputItem(item) {
   return {
     name: item.name.replace("@jami-studio/", ""),
@@ -139,12 +159,8 @@ function registryOutputItem(item) {
     title: item.title,
     description: item.description,
     dependencies: item.dependencies,
-    registryDependencies: [],
-    files: item.files.map((file) => ({
-      path: file.path,
-      target: file.target,
-      type: file.kind,
-    })),
+    registryDependencies: item.registryDependencies ?? [],
+    files: item.files.map(registryOutputFile),
     meta: {
       packageName: item.name,
       suite: item.suite ?? null,
@@ -152,8 +168,23 @@ function registryOutputItem(item) {
       tokenRequirements: item.tokenRequirements,
       provenance: item.provenance,
       compatibility: item.compatibility,
+      ...(item.plannedSurfaces ? { plannedSurfaces: item.plannedSurfaces } : {}),
       agentManifest: item.agentManifest ?? null,
     },
+  };
+}
+
+// A suite registry item ships an install-graph manifest as its single file. The
+// manifest is generated from the source item so the suite descriptor cannot
+// drift from the item graph it claims to install.
+function suiteManifest(item) {
+  return {
+    $schema: "https://jami.studio/schemas/registry/suite-manifest.generated.json",
+    name: item.name,
+    lane: item.suite ?? null,
+    schemaVersion: item.lifecycle.schemaVersion,
+    items: item.registryDependencies ?? [],
+    plannedSurfaces: item.plannedSurfaces ?? [],
   };
 }
 
@@ -172,8 +203,25 @@ function generateTokenArtifacts({ check }) {
 }
 
 function generateRegistryArtifacts({ check }) {
-  const itemPaths = ["button.registry-item.json"];
+  const itemPaths = readdirSync(join(root, registrySourceDir))
+    .filter((name) => name.endsWith(".registry-item.json"))
+    .sort();
   const sourceItems = itemPaths.map((name) => readJson(`${registrySourceDir}/${name}`));
+  const failures = [];
+
+  // Pass 1: emit suite install-graph manifests so suite items can embed real
+  // generated content (and so --check drift-checks them) before items build.
+  for (const item of sourceItems) {
+    if (item.type !== "suite") continue;
+    failures.push(
+      ...compareOrWrite(
+        `packages/registry/generated/suites/${item.suite}.suite.json`,
+        `${JSON.stringify(suiteManifest(item), null, 2)}\n`,
+        { check },
+      ),
+    );
+  }
+
   const generatedItems = sourceItems.map(registryOutputItem);
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
@@ -181,9 +229,11 @@ function generateRegistryArtifacts({ check }) {
     homepage: "https://registry.jami.studio",
     items: generatedItems,
   };
-  const failures = compareOrWrite("packages/registry/generated/registry.json", `${JSON.stringify(registry, null, 2)}\n`, {
-    check,
-  });
+  failures.push(
+    ...compareOrWrite("packages/registry/generated/registry.json", `${JSON.stringify(registry, null, 2)}\n`, {
+      check,
+    }),
+  );
 
   for (const item of generatedItems) {
     failures.push(

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "research-writing-suite",
+  "type": "registry:suite",
+  "title": "Research Writing Suite",
+  "description": "Research / writing suite foundation: install-graph descriptor for the sources, notes, citations, briefs, documents, outlines, and knowledge-work lane.",
+  "dependencies": [],
+  "registryDependencies": [
+    "jami-theme",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "packages/registry/generated/suites/research-writing.suite.json",
+      "target": "studio-ui/suites/research-writing.suite.json",
+      "type": "registry:suite",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/registry/suite-manifest.generated.json\",\n  \"name\": \"@jami-studio/research-writing-suite\",\n  \"lane\": \"research-writing\",\n  \"schemaVersion\": \"2026-06-09.registry-foundation\",\n  \"items\": [\n    \"jami-theme\",\n    \"button\"\n  ],\n  \"plannedSurfaces\": [\n    \"sources\",\n    \"notes\",\n    \"citations\",\n    \"briefs\",\n    \"documents\",\n    \"outlines\",\n    \"knowledge\"\n  ]\n}\n",
+      "hash": "sha256:db4e5c88f0f2a35de2f155d28baf2d1726b8e693221b5b0110037085406113dd"
+    }
+  ],
+  "meta": {
+    "packageName": "@jami-studio/research-writing-suite",
+    "suite": "research-writing",
+    "lifecycle": {
+      "id": "suite.research-writing",
+      "version": "0.0.0-contract.20260609",
+      "schemaVersion": "2026-06-09.registry-foundation",
+      "sourceHash": "sha256:6a25dcfd5ae7711f2663d5448e63795dedcc4522e02308c3a2a8c49b17a6246c",
+      "migrationNotes": "Initial suite foundation descriptor. Installable members are the theme and button items; the planned per-lane page/block/component vocabulary is pending Workstream 4."
+    },
+    "tokenRequirements": [],
+    "provenance": {
+      "source": "authored",
+      "license": "MIT",
+      "reviewedAt": "2026-06-09",
+      "copiedSource": false
+    },
+    "compatibility": {
+      "shadcn": "4.x source-lock required before generated output",
+      "tailwind": "4.x source-lock required before generated output",
+      "react": ">=19"
+    },
+    "plannedSurfaces": [
+      "sources",
+      "notes",
+      "citations",
+      "briefs",
+      "documents",
+      "outlines",
+      "knowledge"
+    ],
+    "agentManifest": null
+  }
+}
