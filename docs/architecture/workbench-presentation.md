@@ -26,14 +26,21 @@ schema ids; it does not own or redefine them.
 - `evidencePacket` (`evidence-packet.schema.json`) — evidence with freshness and
   redaction state.
 - trace (`run-event.schema.json`) — a run-event timeline carrying `traceRef`.
+- `memoryRecord` (`memory-record.schema.json`) — a scoped, retention- and
+  redaction-aware memory row with freshness and citation.
+- `contextPack` (`context-pack.schema.json`) — a deterministic, cited
+  context-assembly record with included and dropped items.
 - `actionRef` (`action-ref.schema.json`) — delegated to the resident renderer's
   display-only action node so there is no second, divergent action path.
 
-Memory/context references are intentionally **not** synthesized. The harness
-contract surface does not yet model a memory/context ref, so the seam fails
-closed to `missing-source` and records the gap rather than inventing a parallel
-shape. When the harness adds a memory/context schema, `presentMemoryContext`
-becomes a real presenter mirroring it.
+Memory and context are mirrored, not synthesized. The harness now models both
+contracts, so `presentMemoryContext` discriminates on the ref's own identifier
+(`memoryId` → `memoryRecord`, `contextPackId` → `contextPack`) and presents the
+matching shape behind a single `memoryContext` panel kind. A ref that validates
+as neither fails closed to `missing-source` rather than inventing a shape.
+Scope, retention, redaction, freshness, and inclusion stay harness-owned; the
+seam only displays them. A redacted/private memory record surfaces its redaction
+state and never echoes the gated `content`.
 
 ## Operational States
 
@@ -61,15 +68,16 @@ all.
 - **Inert and display-only.** Every descriptor survives a JSON round-trip,
   carries no callback, and exposes no `executable`/`canExecute: true` capability.
   Action presentation reuses the resident renderer, which already drops any
-  forged execution block.
+  forged execution block. A memory record's `content` is gated on the harness
+  redaction decision and dropped when the record is redacted or private.
 - **No secret leakage.** All echoed values pass through a sanitizer that strips
   unsafe prop keys, drops inline secret-bearing keys, and refuses to echo
   HTML-like or `javascript:` free text from a ref. Evidence redaction state is
   surfaced; secret values are never displayed.
 - **No invented data.** Presented identifiers (`artifactViewId`, `artifactId`,
-  `evidenceId`, `runId`, `traceId`) are echoed from the source ref, never
-  fabricated. Missing or mismatched source data fails closed to an explicit
-  operational state instead of a synthesized placeholder.
+  `evidenceId`, `runId`, `traceId`, `memoryId`, `contextPackId`) are echoed from
+  the source ref, never fabricated. Missing or mismatched source data fails
+  closed to an explicit operational state instead of a synthesized placeholder.
 - **Display configuration, not execution.** `selectRenderer` picks a renderer
   mode the resident vocabulary can show (preferring a resident `studio_ui`
   renderer that points at `@jami-studio/ui`) and reports `unsupported` when none
@@ -89,12 +97,12 @@ displayed here, never decided here.
 - Contract gate: `pnpm contracts:check`
 
 `pnpm contracts:check` runs every presentation fixture through the seam and
-enforces that each fixture points at the correct harness schema id for its kind
-(memory/context excepted, since the harness does not model it), that a ref-backed
-kind actually carries a harness ref, that the seam produces exactly the declared
-operational status, and that the descriptor leaks no unsafe value. The check and
-the package test import the same seam, so the fixture corpus cannot drift from
-the code that consumes it.
+enforces that each fixture points at a correct harness schema id for its kind
+(the `memoryContext` kind accepts either the `memoryRecord` or the `contextPack`
+schema id), that a ref-backed kind actually carries a harness ref, that the seam
+produces exactly the declared operational status, and that the descriptor leaks
+no unsafe value. The check and the package test import the same seam, so the
+fixture corpus cannot drift from the code that consumes it.
 
 ## Not Yet Claimed
 

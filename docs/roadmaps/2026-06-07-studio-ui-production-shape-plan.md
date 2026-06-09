@@ -94,6 +94,18 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `packages/renderer/test/presentation.test.mjs` proves inert, display-only, secret-safe,
   no-invented-data behavior. This is still not a React renderer, browser surface, or
   workbench app, and no browser/accessibility evidence is claimed.
+- 2026-06-09 Stream 4 pass 2 reconciled the presentation seam with the harness memory
+  and context contracts. The harness now models them as `memoryRecord`
+  (`memory-record.schema.json`) and `contextPack` (`context-pack.schema.json`), so
+  `presentMemoryContext` became a real presenter mirroring both behind the single
+  `memoryContext` panel kind (discriminating on `memoryId` vs `contextPackId`) instead
+  of failing closed because they were unmodeled. Scope, retention, redaction, freshness,
+  and inclusion stay harness-owned and display-only here; a redacted/private memory
+  record gates its `content`, a stale record maps to `stale`, and an empty context pack
+  maps to `empty`. A ref whose source identifiers do not validate still fails closed to
+  `missing-source`. The presentation fixture corpus, fixture schema, and
+  `validate-contracts.mjs` were updated to cover both contracts. Still not a React
+  renderer, browser surface, or workbench app; no browser/accessibility evidence claimed.
 
 ## Locked Decisions
 

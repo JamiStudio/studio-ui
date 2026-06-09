@@ -2,10 +2,10 @@
 //
 // This is the smallest real workbench presentation foundation. It turns
 // harness-originated reference data (artifact views, evidence packets, run-event
-// traces, action refs) into inert, JSON-serializable *presentation descriptors*
-// annotated with the operational states a dense workbench surface must show:
-// empty, loading, denied, redacted, stale, missing-source, unsupported, error,
-// and ready.
+// traces, memory records, context packs, action refs) into inert,
+// JSON-serializable *presentation descriptors* annotated with the operational
+// states a dense workbench surface must show: empty, loading, denied, redacted,
+// stale, missing-source, unsupported, error, and ready.
 //
 // What this is NOT:
 //   - It is not a browser, React, or app surface. There is no workbench app
@@ -13,15 +13,17 @@
 //     could render, and nothing here mounts a DOM or runs an event loop.
 //   - It does not own execution, policy, approval, provenance, memory, or audit
 //     decisions. Those stay in Jami Harness. A denied action, a redaction
-//     policy, or a freshness class is displayed here, never decided here.
-//   - It does not invent parallel artifact/trace/evidence data. Every descriptor
-//     is derived strictly from the harness ref it is given; identifiers are
-//     echoed, never fabricated, and unknown/missing source data fails closed to
-//     an explicit operational state rather than a synthesized placeholder.
+//     policy, a retention window, or a freshness class is displayed here, never
+//     decided here.
+//   - It does not invent parallel artifact/trace/evidence/memory/context data.
+//     Every descriptor is derived strictly from the harness ref it is given;
+//     identifiers are echoed, never fabricated, and unknown/missing source data
+//     fails closed to an explicit operational state rather than a synthesized
+//     placeholder.
 //
-// Memory/context references are intentionally not synthesized: the harness
-// contract surface does not yet model a memory/context ref, so this seam reports
-// `missing-source` for them instead of inventing a shape. See
+// The harness now models memory and context as two contracts — memoryRecord
+// (memory-record.schema.json) and contextPack (context-pack.schema.json) — so
+// the seam mirrors them instead of failing closed. See
 // docs/architecture/workbench-presentation.md.
 
 import {
@@ -36,6 +38,9 @@ const ARTIFACT_VIEW_ID_PATTERN = /^artv_[a-z0-9][a-z0-9_-]*$/;
 const ARTIFACT_ID_PATTERN = /^art_[a-z0-9][a-z0-9_-]*$/;
 const EVIDENCE_ID_PATTERN = /^ev_[a-z0-9][a-z0-9_-]*$/;
 const RUN_ID_PATTERN = /^run_[a-z0-9][a-z0-9_-]*$/;
+const MEMORY_ID_PATTERN = /^mem_[a-z0-9][a-z0-9_-]*$/;
+const CONTEXT_PACK_ID_PATTERN = /^ctx_[a-z0-9][a-z0-9_-]*$/;
+const PROJECT_ID_PATTERN = /^proj_[a-z0-9][a-z0-9_-]*$/;
 
 // Harness schema IDs this seam consumes. The presentation layer is consumer-side
 // only: it mirrors the canonical harness schemas, it does not own them.
@@ -43,6 +48,8 @@ export const harnessSchemaIds = Object.freeze({
   artifactView: "https://jami.studio/schemas/harness/artifact-view.schema.json",
   evidencePacket: "https://jami.studio/schemas/harness/evidence-packet.schema.json",
   runEvent: "https://jami.studio/schemas/harness/run-event.schema.json",
+  memoryRecord: "https://jami.studio/schemas/harness/memory-record.schema.json",
+  contextPack: "https://jami.studio/schemas/harness/context-pack.schema.json",
   actionRef: "https://jami.studio/schemas/harness/action-ref.schema.json",
 });
 
@@ -322,20 +329,168 @@ export function presentTrace(trace, { lifecycle } = {}) {
   return descriptor("trace", primaryStatus(flags), flags, body, reasons);
 }
 
-// --- memory / context (not yet modeled by the harness) -----------------------
+// --- memory / context (harness memoryRecord + contextPack) -------------------
 
-// The harness contract surface does not yet define a memory/context ref. Rather
-// than invent a parallel shape, this seam fails closed to `missing-source` and
-// records the gap. When the harness adds a memory/context schema, this becomes a
-// real presenter mirroring it.
-export function presentMemoryContext(_ref, { lifecycle } = {}) {
+// Whether the harness marked a memory record's payload as gated. Redaction is a
+// harness decision; the seam reflects it and never echoes the gated content.
+function memoryIsRedacted(redaction) {
+  if (!isPlainObject(redaction)) return false;
+  return (
+    (redaction.mode ?? "none") !== "none" ||
+    redaction.classification === "private" ||
+    redaction.classification === "secret_adjacent"
+  );
+}
+
+// memoryRecord: a scoped, retention- and redaction-aware memory row. Scope,
+// retention, redaction, and freshness are harness-owned and only displayed here.
+function presentMemoryRecord(record) {
+  const flags = [];
+  const reasons = [];
+
+  const scope = record.scope;
+  const source = record.source;
+  const hasSource =
+    MEMORY_ID_PATTERN.test(record.memoryId ?? "") &&
+    isPlainObject(scope) &&
+    PROJECT_ID_PATTERN.test(scope.projectId ?? "") &&
+    isPlainObject(source) &&
+    RUN_ID_PATTERN.test(source.runId ?? "") &&
+    Boolean(source.recordedAt);
+  if (!hasSource) {
+    flags.push("missing-source");
+    reasons.push("memory record is missing memoryId, scope.projectId, or source runId/recordedAt");
+  }
+
+  const redaction = record.redaction;
+  const redacted = memoryIsRedacted(redaction);
+  if (redacted) {
+    flags.push("redacted");
+    reasons.push("harness marked this memory record as private/secret-adjacent or redacted");
+  }
+
+  const freshness = record.freshness;
+  if (isPlainObject(freshness) && freshness.class === "stale") {
+    flags.push("stale");
+    reasons.push("harness marked this memory record freshness as stale");
+  }
+
+  const summary = typeof record.summary === "string" ? record.summary : null;
+  const content = typeof record.content === "string" ? record.content : null;
+  if (!summary && !content && flags.length === 0) {
+    flags.push("empty");
+  }
+  if (flags.length === 0) flags.push("ready");
+
+  const body = {
+    subkind: "memoryRecord",
+    memoryId: record.memoryId ?? null,
+    memoryKind: record.kind ?? null,
+    summary,
+    // Content is gated on the harness redaction decision: a redacted/private
+    // record surfaces its redaction state, never the payload.
+    content: redacted ? null : content,
+    scope: isPlainObject(scope)
+      ? {
+          projectId: scope.projectId ?? null,
+          allowedActorIds: Array.isArray(scope.allowedActorIds) ? [...scope.allowedActorIds] : [],
+          allowedScopes: Array.isArray(scope.allowedScopes) ? [...scope.allowedScopes] : [],
+        }
+      : null,
+    source: hasSource
+      ? { runId: source.runId, recordedAt: source.recordedAt, artifactRef: source.artifactRef ?? null }
+      : null,
+    freshness: isPlainObject(freshness)
+      ? { class: freshness.class ?? null, asOf: freshness.asOf ?? null }
+      : null,
+    retention: isPlainObject(record.retention)
+      ? { policy: record.retention.policy ?? null, forgetAfter: record.retention.forgetAfter ?? null }
+      : null,
+    redaction: isPlainObject(redaction)
+      ? {
+          classification: redaction.classification ?? null,
+          mode: redaction.mode ?? "none",
+          redactedFields: Array.isArray(redaction.redactedFields) ? [...redaction.redactedFields] : [],
+        }
+      : null,
+    citation: isPlainObject(record.citation)
+      ? {
+          citationId: record.citation.citationId ?? null,
+          label: record.citation.label ?? null,
+          freshnessClass: record.citation.freshnessClass ?? null,
+        }
+      : null,
+  };
+  return descriptor("memoryContext", primaryStatus(flags), flags, body, reasons);
+}
+
+// contextPack: a deterministic, cited context-assembly record. Inclusion and
+// drop decisions are harness-owned; the seam displays them, it never re-decides.
+function presentContextPack(pack) {
+  const flags = [];
+  const reasons = [];
+
+  const hasSource =
+    CONTEXT_PACK_ID_PATTERN.test(pack.contextPackId ?? "") &&
+    RUN_ID_PATTERN.test(pack.runId ?? "") &&
+    Boolean(pack.assembledAt) &&
+    Boolean(pack.deterministicHash);
+  if (!hasSource) {
+    flags.push("missing-source");
+    reasons.push("context pack is missing contextPackId, runId, assembledAt, or deterministicHash");
+  }
+
+  const items = Array.isArray(pack.items) ? pack.items : [];
+  const droppedItems = Array.isArray(pack.droppedItems) ? pack.droppedItems : [];
+  if (items.length === 0 && flags.length === 0) {
+    flags.push("empty");
+  }
+  if (flags.length === 0) flags.push("ready");
+
+  const body = {
+    subkind: "contextPack",
+    contextPackId: pack.contextPackId ?? null,
+    runId: pack.runId ?? null,
+    assembledAt: pack.assembledAt ?? null,
+    deterministicHash: pack.deterministicHash ?? null,
+    itemCount: items.length,
+    // Inclusion reason, priority, citation, and freshness are echoed for display.
+    items: items.map((item) => ({
+      sourceRef: item?.sourceRef ?? null,
+      kind: item?.kind ?? null,
+      priority: item?.priority ?? null,
+      inclusionReason: item?.inclusionReason ?? null,
+      citationId: item?.citationId ?? null,
+      freshnessClass: item?.freshnessClass ?? null,
+      tokenEstimate: item?.tokenEstimate ?? null,
+    })),
+    // Drop reasons (permission_denied, retention_expired, token_budget,
+    // redacted, duplicate) are harness-owned; the workbench badges them.
+    droppedItems: droppedItems.map((item) => ({
+      sourceRef: item?.sourceRef ?? null,
+      reason: item?.reason ?? null,
+    })),
+  };
+  return descriptor("memoryContext", primaryStatus(flags), flags, body, reasons);
+}
+
+// The harness models memory and context as two contracts behind the single
+// `memoryContext` workbench panel kind. The seam discriminates on the ref's own
+// identifier and mirrors whichever shape it is. A ref that matches neither shape
+// fails closed to `missing-source` rather than synthesizing data.
+export function presentMemoryContext(ref, { lifecycle } = {}) {
   if (lifecycle === "loading") return descriptor("memoryContext", "loading", ["loading"], {});
+  if (!isPlainObject(ref)) {
+    return descriptor("memoryContext", "missing-source", ["missing-source"], {}, ["missing memory/context ref"]);
+  }
+  if ("contextPackId" in ref || "items" in ref) return presentContextPack(ref);
+  if ("memoryId" in ref || "citation" in ref) return presentMemoryRecord(ref);
   return descriptor(
     "memoryContext",
     "missing-source",
     ["missing-source"],
-    { modeled: false },
-    ["memory/context refs are not yet modeled by the harness contract surface"],
+    {},
+    ["memory/context ref matches neither the memoryRecord nor contextPack shape"],
   );
 }
 

@@ -89,14 +89,14 @@ imports, and malformed reference IDs), and renderer error states.
 Studio UI's consumer-side workbench presentation seam
 (`packages/renderer/src/presentation.mjs`, documented in
 `docs/architecture/workbench-presentation.md`) consumes the `artifactView`,
-`evidencePacket`, run-event trace, and `actionRef` families and renders them as
-inert, display-only operational descriptors. It is consumer-side only: it mirrors
-the harness schema ids, does not import harness internals, and does not change any
-shared contract. One gap is recorded here for cross-repo coordination rather than
-resolved unilaterally: the harness does not yet model a **memory/context** ref,
-so the seam fails closed to `missing-source` for it instead of inventing a shape.
-A future memory/context contract belongs to the harness; Studio UI will mirror it
-when it lands.
+`evidencePacket`, run-event trace, `memoryRecord`, `contextPack`, and `actionRef`
+families and renders them as inert, display-only operational descriptors. It is
+consumer-side only: it mirrors the harness schema ids, does not import harness
+internals, and does not change any shared contract. The earlier **memory/context**
+gap is now closed: the harness models memory and context as the `memoryRecord`
+and `contextPack` contracts (harness commit `8b5d76c`), and the seam mirrors both
+behind the `memoryContext` panel kind. Scope, retention, redaction, freshness,
+and inclusion remain harness-owned; the seam only displays them.
 
 ## Integration Direction
 

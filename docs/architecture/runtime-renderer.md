@@ -119,12 +119,14 @@ no unsafe values, and that rejected payloads never reach a renderable state.
 `packages/renderer/src/presentation.mjs` builds on this render core to present
 harness refs in a dense operational workbench. It turns `artifactView` (including
 the `trace` and `evidence` artifact kinds), `evidencePacket`, run-event traces,
-and `actionRef` data into inert display-only descriptors annotated with workbench
-operational states: empty, loading, denied, redacted, stale, missing-source,
-unsupported, error, and ready. Memory/context refs are not modeled by the harness
-yet, so the seam fails closed to `missing-source` rather than inventing a shape.
-`pnpm contracts:check` runs the presentation fixtures
-(`packages/renderer/fixtures/presentation/`) through the seam. See
+`memoryRecord` and `contextPack` refs, and `actionRef` data into inert
+display-only descriptors annotated with workbench operational states: empty,
+loading, denied, redacted, stale, missing-source, unsupported, error, and ready.
+The harness now models memory and context, so the seam mirrors both behind the
+single `memoryContext` panel kind (discriminating on `memoryId` vs
+`contextPackId`) and fails closed to `missing-source` only when a ref's source
+identifiers do not validate. `pnpm contracts:check` runs the presentation
+fixtures (`packages/renderer/fixtures/presentation/`) through the seam. See
 `docs/architecture/workbench-presentation.md`.
 
 ## Ownership Boundary

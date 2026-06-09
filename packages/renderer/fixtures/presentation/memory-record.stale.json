@@ -1,0 +1,41 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "memoryRecord.stale",
+  "kind": "memoryContext",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/memory-record.schema.json",
+  "expectedPresentationStatus": "stale",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "memoryId": "mem_stale_project_note",
+    "kind": "project",
+    "summary": "Earlier foundation note superseded by a newer run.",
+    "content": "Kept for provenance; freshness is stale.",
+    "scope": {
+      "projectId": "proj_jami_harness",
+      "allowedActorIds": ["actor_developer"],
+      "allowedScopes": ["memory:read"]
+    },
+    "source": {
+      "runId": "run_earlier_foundation",
+      "recordedAt": "2026-01-02T12:00:00.000Z"
+    },
+    "freshness": {
+      "class": "stale",
+      "asOf": "2026-01-02T12:00:00.000Z"
+    },
+    "retention": {
+      "policy": "project",
+      "forgetAfter": "2026-07-09T12:00:00.000Z"
+    },
+    "redaction": {
+      "classification": "internal",
+      "mode": "none",
+      "redactedFields": []
+    },
+    "citation": {
+      "citationId": "cit_stale_project_note",
+      "label": "Stale project note",
+      "freshnessClass": "stale"
+    }
+  }
+}

@@ -8,8 +8,9 @@
 //      exposes no executable capability — display-only, never execution.
 //   3. The seam never leaks a secret value and never echoes unsafe free text.
 //   4. The seam only consumes shared harness refs: presented identifiers are
-//      echoed from the source ref, never fabricated, and memory/context (which
-//      the harness does not model) fails closed to missing-source.
+//      echoed from the source ref, never fabricated, the memoryRecord and
+//      contextPack contracts are mirrored (not invented), and any ref whose
+//      source identifiers do not validate fails closed to missing-source.
 
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
@@ -147,10 +148,63 @@ test("a trace with mismatched runIds fails closed to missing-source", () => {
   assert.equal(result.status, "missing-source");
 });
 
-test("memory/context is not invented: it always fails closed to missing-source", () => {
-  const result = presentMemoryContext({ anything: "ignored" });
+test("a valid memory record presents ready and echoes its id, never fabricated", () => {
+  const result = presentMemoryContext({
+    schemaVersion: "2026-06-09",
+    memoryId: "mem_note",
+    kind: "project",
+    summary: "a note",
+    content: "body text",
+    scope: { projectId: "proj_x", allowedActorIds: ["actor_dev"], allowedScopes: ["memory:read"] },
+    source: { runId: "run_x", recordedAt: "2026-06-09T00:00:00.000Z" },
+    freshness: { class: "current_run", asOf: "2026-06-09T00:00:00.000Z" },
+    retention: { policy: "project", forgetAfter: "2026-07-09T00:00:00.000Z" },
+    redaction: { classification: "internal", mode: "none", redactedFields: [] },
+    citation: { citationId: "cit_note", label: "note", freshnessClass: "current_run" },
+  });
+  assert.equal(result.status, "ready");
+  assert.equal(result.descriptor.body.subkind, "memoryRecord");
+  assert.equal(result.descriptor.body.memoryId, "mem_note");
+  assert.equal(result.descriptor.body.content, "body text");
+});
+
+test("a redacted memory record reports redacted and never echoes gated content", () => {
+  const result = presentMemoryContext({
+    schemaVersion: "2026-06-09",
+    memoryId: "mem_secret",
+    kind: "tool_output",
+    summary: "credentials note",
+    content: "do-not-leak-token-value",
+    scope: { projectId: "proj_x", allowedActorIds: ["actor_dev"], allowedScopes: ["memory:read"] },
+    source: { runId: "run_x", recordedAt: "2026-06-09T00:00:00.000Z" },
+    freshness: { class: "current_run", asOf: "2026-06-09T00:00:00.000Z" },
+    retention: { policy: "session", forgetAfter: "2026-06-10T00:00:00.000Z" },
+    redaction: { classification: "secret_adjacent", mode: "redacted", redactedFields: ["content"] },
+    citation: { citationId: "cit_secret", label: "secret", freshnessClass: "current_run" },
+  });
+  assert.equal(result.status, "redacted");
+  assert.equal(result.descriptor.body.content, null);
+  assert.equal(JSON.stringify(result.descriptor).includes("do-not-leak-token-value"), false);
+});
+
+test("a context pack with no items reports empty and echoes drop reasons", () => {
+  const result = presentMemoryContext({
+    schemaVersion: "2026-06-09",
+    contextPackId: "ctx_x",
+    runId: "run_x",
+    assembledAt: "2026-06-09T00:00:00.000Z",
+    deterministicHash: "sha256:x",
+    items: [],
+    droppedItems: [{ sourceRef: "mem_y", reason: "token_budget" }],
+  });
+  assert.equal(result.status, "empty");
+  assert.equal(result.descriptor.body.subkind, "contextPack");
+  assert.equal(result.descriptor.body.droppedItems[0].reason, "token_budget");
+});
+
+test("a memory ref whose identifiers do not validate fails closed to missing-source", () => {
+  const result = presentMemoryContext({ memoryId: "not_valid", citation: { label: "x" } });
   assert.equal(result.status, "missing-source");
-  assert.equal(result.descriptor.body.modeled, false);
 });
 
 test("an HTML-like title from a harness ref is dropped, not echoed", () => {

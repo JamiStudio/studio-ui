@@ -326,16 +326,23 @@ function validateRendererFixture(path, shouldPass) {
 }
 
 // The presentation seam consumes only shared harness refs. Each presentation
-// fixture must point at a real harness schema id for its kind (memory/context is
-// the exception: the harness does not model it yet, so it carries no schema id
-// and must fail closed to missing-source), and the seam must produce the exact
-// operational status the fixture declares. This keeps the workbench presentation
-// from drifting into a parallel artifact/trace data shape.
+// fixture must point at a real harness schema id for its kind, and the seam must
+// produce the exact operational status the fixture declares. memoryContext
+// mirrors two harness contracts (memoryRecord and contextPack), so it accepts
+// either schema id. This keeps the workbench presentation from drifting into a
+// parallel artifact/trace/memory/context data shape.
 const presentationHarnessSchemaIds = new Map([
-  ["artifactView", "https://jami.studio/schemas/harness/artifact-view.schema.json"],
-  ["evidencePacket", "https://jami.studio/schemas/harness/evidence-packet.schema.json"],
-  ["trace", "https://jami.studio/schemas/harness/run-event.schema.json"],
-  ["actionRef", "https://jami.studio/schemas/harness/action-ref.schema.json"],
+  ["artifactView", ["https://jami.studio/schemas/harness/artifact-view.schema.json"]],
+  ["evidencePacket", ["https://jami.studio/schemas/harness/evidence-packet.schema.json"]],
+  ["trace", ["https://jami.studio/schemas/harness/run-event.schema.json"]],
+  [
+    "memoryContext",
+    [
+      "https://jami.studio/schemas/harness/memory-record.schema.json",
+      "https://jami.studio/schemas/harness/context-pack.schema.json",
+    ],
+  ],
+  ["actionRef", ["https://jami.studio/schemas/harness/action-ref.schema.json"]],
 ]);
 
 function validatePresentationFixture(path) {
@@ -348,18 +355,16 @@ function validatePresentationFixture(path) {
   if (!fixture.panelId || !fixture.kind || !fixture.expectedPresentationStatus) {
     localFailures.push("missing panelId, kind, or expectedPresentationStatus");
   }
-  const expectedSchemaId = presentationHarnessSchemaIds.get(fixture.kind);
-  if (expectedSchemaId) {
-    if (fixture.harnessSchemaId !== expectedSchemaId) {
-      localFailures.push(`harnessSchemaId must be ${expectedSchemaId}`);
+  const allowedSchemaIds = presentationHarnessSchemaIds.get(fixture.kind);
+  if (allowedSchemaIds) {
+    if (!allowedSchemaIds.includes(fixture.harnessSchemaId)) {
+      localFailures.push(`harnessSchemaId must be one of ${allowedSchemaIds.join(", ")}`);
     }
     // A ref-backed kind must actually carry a harness ref (unless it is a
     // lifecycle-only loading panel), proving the seam consumes shared data.
     if (fixture.lifecycle !== "loading" && fixture.ref == null) {
       localFailures.push(`${fixture.kind} fixture must carry a harness ref`);
     }
-  } else if (fixture.kind === "memoryContext" && fixture.harnessSchemaId) {
-    localFailures.push("memoryContext is not modeled by the harness and must not claim a harness schema id");
   }
   // The seam must compute exactly the declared operational status.
   const result = presentWorkbenchPanel(fixture);

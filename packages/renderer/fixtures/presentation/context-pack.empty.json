@@ -1,0 +1,21 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "contextPack.empty",
+  "kind": "memoryContext",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/context-pack.schema.json",
+  "expectedPresentationStatus": "empty",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "contextPackId": "ctx_empty_assembly",
+    "runId": "run_stream4_foundation",
+    "assembledAt": "2026-06-09T12:00:00.000Z",
+    "deterministicHash": "sha256:empty",
+    "items": [],
+    "droppedItems": [
+      {
+        "sourceRef": "mem_secret_adjacent_note",
+        "reason": "token_budget"
+      }
+    ]
+  }
+}

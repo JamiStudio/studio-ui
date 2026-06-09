@@ -15,6 +15,8 @@
         "https://jami.studio/schemas/harness/artifact-view.schema.json",
         "https://jami.studio/schemas/harness/evidence-packet.schema.json",
         "https://jami.studio/schemas/harness/run-event.schema.json",
+        "https://jami.studio/schemas/harness/memory-record.schema.json",
+        "https://jami.studio/schemas/harness/context-pack.schema.json",
         "https://jami.studio/schemas/harness/action-ref.schema.json"
       ]
     },

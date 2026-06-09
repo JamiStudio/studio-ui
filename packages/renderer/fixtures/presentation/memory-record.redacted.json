@@ -1,0 +1,41 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "memoryRecord.redacted",
+  "kind": "memoryContext",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/memory-record.schema.json",
+  "expectedPresentationStatus": "redacted",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "memoryId": "mem_secret_adjacent_note",
+    "kind": "tool_output",
+    "summary": "Deploy credentials note",
+    "content": "redacted by harness",
+    "scope": {
+      "projectId": "proj_jami_harness",
+      "allowedActorIds": ["actor_developer"],
+      "allowedScopes": ["memory:read"]
+    },
+    "source": {
+      "runId": "run_stream4_foundation",
+      "recordedAt": "2026-06-09T12:00:00.000Z"
+    },
+    "freshness": {
+      "class": "current_run",
+      "asOf": "2026-06-09T12:00:00.000Z"
+    },
+    "retention": {
+      "policy": "session",
+      "forgetAfter": "2026-06-10T12:00:00.000Z"
+    },
+    "redaction": {
+      "classification": "secret_adjacent",
+      "mode": "redacted",
+      "redactedFields": ["content"]
+    },
+    "citation": {
+      "citationId": "cit_secret_adjacent_note",
+      "label": "Secret adjacent note",
+      "freshnessClass": "current_run"
+    }
+  }
+}

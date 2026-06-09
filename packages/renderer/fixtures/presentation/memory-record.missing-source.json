@@ -1,0 +1,40 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/presentation-fixture.schema.json",
+  "panelId": "memoryRecord.missing-source",
+  "kind": "memoryContext",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/memory-record.schema.json",
+  "expectedPresentationStatus": "missing-source",
+  "ref": {
+    "schemaVersion": "2026-06-09",
+    "memoryId": "not_a_valid_memory_id",
+    "kind": "project",
+    "summary": "Memory ref whose identifiers do not validate.",
+    "scope": {
+      "projectId": "proj_jami_harness",
+      "allowedActorIds": ["actor_developer"],
+      "allowedScopes": ["memory:read"]
+    },
+    "source": {
+      "runId": "run_stream4_foundation",
+      "recordedAt": "2026-06-09T12:00:00.000Z"
+    },
+    "freshness": {
+      "class": "current_run",
+      "asOf": "2026-06-09T12:00:00.000Z"
+    },
+    "retention": {
+      "policy": "project",
+      "forgetAfter": "2026-07-09T12:00:00.000Z"
+    },
+    "redaction": {
+      "classification": "internal",
+      "mode": "none",
+      "redactedFields": []
+    },
+    "citation": {
+      "citationId": "cit_invalid_note",
+      "label": "Invalid note",
+      "freshnessClass": "current_run"
+    }
+  }
+}
