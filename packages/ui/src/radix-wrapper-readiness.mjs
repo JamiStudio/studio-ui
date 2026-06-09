@@ -55,17 +55,18 @@ export const radixWrapperBoundary = Object.freeze({
   backendRegistration: false,
 });
 
-export const requiredRadixWrapperEvidence = Object.freeze([
-  "repo-local official Radix and shadcn source-lock record",
-  "pinned React and Radix dependency declarations with lockfile resolution",
-  "source-owned React wrapper files under packages/ui",
-  "prop spreading and ref forwarding for leaf wrapper components",
-  "prop schema parity with the resident vocabulary",
-  "tokenized className/data-state styling with no component color literals",
-  "browser keyboard focus accessibility visual smoke for wrapper examples",
-  "registry item install content and content hash for wrapper files",
-  "negative renderer fixture proving wrappers are not runtime payload execution",
-]);
+const readinessEvidenceLabels = Object.freeze({
+  officialSourceLock: "repo-local official Radix and shadcn source-lock record",
+  dependencyDeclared: "pinned React and Radix dependency declarations with lockfile resolution",
+  wrapperSourceFile: "source-owned React wrapper files under packages/ui",
+  propSchemaParityTest: "prop schema parity with the resident vocabulary",
+  tokenizedStyleTest: "tokenized className/data-state styling with no component color literals",
+  browserA11yVisualSmoke: "browser keyboard focus accessibility visual smoke for wrapper examples",
+  registryInstallContent: "registry item install content and content hash for wrapper files",
+  rendererNonExecutionFixture: "negative renderer fixture proving wrappers are not runtime payload execution",
+});
+
+export const requiredRadixWrapperEvidence = Object.freeze(Object.values(readinessEvidenceLabels));
 
 const wrapperPlans = Object.freeze({
   button: Object.freeze({
@@ -100,6 +101,16 @@ const wrapperPlans = Object.freeze({
 
 function readinessRecord(definition) {
   const plan = wrapperPlans[definition.name];
+  const readiness = Object.freeze({
+    officialSourceLock: true,
+    dependencyDeclared: false,
+    wrapperSourceFile: false,
+    propSchemaParityTest: false,
+    tokenizedStyleTest: false,
+    browserA11yVisualSmoke: false,
+    registryInstallContent: false,
+    rendererNonExecutionFixture: false,
+  });
   return Object.freeze({
     schemaVersion: RADIX_WRAPPER_READINESS_VERSION,
     component: definition.name,
@@ -109,17 +120,12 @@ function readinessRecord(definition) {
     plannedExport: plan.plannedExport,
     wrapperStrategy: plan.wrapperStrategy,
     claimStatus: "do-not-claim",
-    missingEvidence: requiredRadixWrapperEvidence,
-    readiness: Object.freeze({
-      officialSourceLock: true,
-      dependencyDeclared: false,
-      wrapperSourceFile: false,
-      propSchemaParityTest: false,
-      tokenizedStyleTest: false,
-      browserA11yVisualSmoke: false,
-      registryInstallContent: false,
-      rendererNonExecutionFixture: false,
-    }),
+    missingEvidence: Object.freeze(
+      Object.entries(readiness)
+        .filter(([, value]) => value !== true)
+        .map(([key]) => readinessEvidenceLabels[key]),
+    ),
+    readiness,
     boundary: Object.freeze({
       radixWrapper: false,
       runtimeReactRenderer: false,

@@ -243,6 +243,17 @@ test("Radix wrapper readiness is source-locked but not claimed as implemented", 
     assert.equal(readiness.currentImplementation, implementation.implementationStatus);
     assert.equal(readiness.claimStatus, "do-not-claim");
     assert.equal(readiness.readiness.officialSourceLock, true);
+    assert.equal(
+      readiness.missingEvidence.includes("repo-local official Radix and shadcn source-lock record"),
+      false,
+    );
+    assert.ok(
+      readiness.missingEvidence.includes("pinned React and Radix dependency declarations with lockfile resolution"),
+    );
+    assert.equal(
+      readiness.missingEvidence.length,
+      Object.values(readiness.readiness).filter((value) => value !== true).length,
+    );
     assert.equal(readiness.readiness.dependencyDeclared, false);
     assert.equal(readiness.readiness.wrapperSourceFile, false);
     assert.equal(readiness.readiness.browserA11yVisualSmoke, false);
