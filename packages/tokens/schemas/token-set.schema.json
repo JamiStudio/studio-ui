@@ -4,9 +4,69 @@
   "title": "Studio UI DTCG token set",
   "type": "object",
   "required": ["$schema", "$extensions", "tokens"],
+  "additionalProperties": false,
   "properties": {
     "$schema": { "const": "https://jami.studio/schemas/tokens/token-set.schema.json" },
-    "$extensions": { "type": "object" },
-    "tokens": { "type": "object" }
+    "$extensions": {
+      "type": "object",
+      "required": ["studio-ui"],
+      "properties": {
+        "studio-ui": {
+          "type": "object",
+          "required": ["schemaVersion", "migration", "generatedOutputs"],
+          "properties": {
+            "schemaVersion": { "type": "string" },
+            "migration": {
+              "type": "object",
+              "required": ["current", "compatibleFrom"],
+              "properties": {
+                "current": { "type": "string" },
+                "compatibleFrom": { "type": "string" }
+              }
+            },
+            "generatedOutputs": {
+              "type": "object",
+              "required": ["cssVariables", "tailwindTheme", "typescriptTypes", "shadcnCssVars"],
+              "properties": {
+                "cssVariables": { "type": "string" },
+                "tailwindTheme": { "type": "string" },
+                "typescriptTypes": { "type": "string" },
+                "shadcnCssVars": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z][a-zA-Z0-9-]*$": { "$ref": "#/$defs/tokenGroup" }
+      }
+    }
+  },
+  "$defs": {
+    "tokenGroup": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          { "$ref": "#/$defs/token" },
+          { "$ref": "#/$defs/tokenGroup" }
+        ]
+      }
+    },
+    "token": {
+      "type": "object",
+      "required": ["$type", "$value"],
+      "properties": {
+        "$type": {
+          "enum": ["color", "dimension", "duration", "fontFamily", "fontWeight", "number", "shadow", "typography"]
+        },
+        "$value": {},
+        "$description": { "type": "string" },
+        "$deprecated": { "type": ["boolean", "string"] },
+        "$extensions": { "type": "object" }
+      }
+    }
   }
 }

@@ -1,12 +1,24 @@
 {
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "uiPayload.invalid.html",
-  "kind": "uiPayload",
-  "expectedRendererState": "renderable",
+  "kind": "invalidPayload",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
+  "expectedRendererState": "invalid",
   "payload": {
-    "component": "Text",
+    "schemaVersion": "2026-06-09",
+    "payloadId": "uip_invalid_html",
+    "componentRef": {
+      "namespace": "@jami-studio/ui",
+      "name": "text",
+      "version": "0.0.0",
+      "allowlisted": true
+    },
     "props": {
       "children": "<script>alert('no')</script>"
+    },
+    "fallback": {
+      "mode": "invalid_payload",
+      "message": "HTML-like payload content is not accepted."
     }
   }
 }

@@ -2,16 +2,17 @@
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "actionRef.invalid.denied-executable",
   "kind": "deniedAction",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/action-ref.schema.json",
   "expectedRendererState": "denied",
   "actionRef": {
-    "id": "action.delete-artifact",
+    "schemaVersion": "2026-06-09",
+    "actionId": "act_delete_artifact",
     "label": "Delete artifact",
-    "policyDecision": {
-      "state": "denied"
-    },
-    "execution": {
-      "canExecute": true,
-      "owner": "studio-ui"
-    }
+    "route": "harness://actions/delete-artifact",
+    "risk": "destructive",
+    "policyScope": "artifact.lifecycle",
+    "confirmationMode": "approval_required",
+    "state": "denied",
+    "execution": { "canExecute": true }
   }
 }

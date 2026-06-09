@@ -2,10 +2,21 @@
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "renderer.error.invalid-props",
   "kind": "rendererError",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/run-event.schema.json",
   "expectedRendererState": "error",
   "rendererError": {
     "code": "invalid_props",
     "recoverable": true,
-    "displayComponent": "InlineNotice"
+    "displayComponent": "InlineNotice",
+    "runEvent": {
+      "schemaVersion": "2026-06-09",
+      "eventId": "evt_renderer_error",
+      "runId": "run_contract_spine",
+      "sequence": 3,
+      "occurredAt": "2026-06-09T04:00:00.000Z",
+      "eventType": "renderer.error",
+      "rendererState": "error_state",
+      "message": "Invalid props were rejected by the resident renderer."
+    }
   }
 }

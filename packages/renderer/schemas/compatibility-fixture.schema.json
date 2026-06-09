@@ -3,13 +3,116 @@
   "$id": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "title": "Studio UI renderer compatibility fixture",
   "type": "object",
-  "required": ["$schema", "fixtureId", "kind", "expectedRendererState"],
+  "required": ["$schema", "fixtureId", "kind", "harnessSchemaId", "expectedRendererState"],
+  "additionalProperties": true,
   "properties": {
     "$schema": { "const": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json" },
-    "fixtureId": { "type": "string" },
+    "fixtureId": { "type": "string", "pattern": "^[a-zA-Z0-9._-]+$" },
     "kind": {
       "enum": ["uiPayload", "artifactView", "actionRef", "themeRef", "suiteRef", "unsupportedComponent", "deniedAction", "invalidPayload", "rendererError"]
     },
-    "expectedRendererState": { "enum": ["renderable", "display-only", "denied", "unsupported", "invalid", "error"] }
+    "harnessSchemaId": {
+      "enum": [
+        "https://jami.studio/schemas/harness/ui-payload.schema.json",
+        "https://jami.studio/schemas/harness/artifact-view.schema.json",
+        "https://jami.studio/schemas/harness/action-ref.schema.json",
+        "https://jami.studio/schemas/harness/theme-ref.schema.json",
+        "https://jami.studio/schemas/harness/suite-ref.schema.json",
+        "https://jami.studio/schemas/harness/run-event.schema.json"
+      ]
+    },
+    "expectedRendererState": { "enum": ["renderable", "display-only", "denied", "unsupported", "invalid", "error"] },
+    "payload": { "$ref": "#/$defs/uiPayload" },
+    "actionRef": { "$ref": "#/$defs/actionRef" },
+    "artifactView": { "$ref": "#/$defs/artifactView" },
+    "themeRef": { "$ref": "#/$defs/themeRef" },
+    "suiteRef": { "$ref": "#/$defs/suiteRef" }
+  },
+  "$defs": {
+    "componentRef": {
+      "type": "object",
+      "required": ["namespace", "name", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "namespace": { "const": "@jami-studio/ui" },
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "version": { "type": "string" },
+        "allowlisted": { "type": "boolean" }
+      }
+    },
+    "uiPayload": {
+      "type": "object",
+      "required": ["schemaVersion", "payloadId", "componentRef", "props", "fallback"],
+      "properties": {
+        "schemaVersion": { "const": "2026-06-09" },
+        "payloadId": { "type": "string", "pattern": "^uip_[a-z0-9][a-z0-9_-]*$" },
+        "componentRef": { "$ref": "#/$defs/componentRef" },
+        "props": { "type": "object" },
+        "children": { "type": "array", "items": { "type": "string" } },
+        "actionRefs": { "type": "array", "items": { "type": "string", "pattern": "^act_[a-z0-9][a-z0-9_-]*$" } },
+        "artifactViewRefs": { "type": "array", "items": { "type": "string", "pattern": "^artv_[a-z0-9][a-z0-9_-]*$" } },
+        "themeRef": { "type": "string", "pattern": "^theme_[a-z0-9][a-z0-9_-]*$" },
+        "suiteRef": { "type": "string", "pattern": "^suite_[a-z0-9][a-z0-9_-]*$" },
+        "fallback": {
+          "type": "object",
+          "required": ["mode", "message"],
+          "properties": {
+            "mode": { "enum": ["text", "artifact_link", "unsupported_component", "invalid_payload", "renderer_error"] },
+            "message": { "type": "string" }
+          }
+        }
+      }
+    },
+    "actionRef": {
+      "type": "object",
+      "required": ["schemaVersion", "actionId", "label", "route", "risk", "policyScope", "confirmationMode", "state"],
+      "properties": {
+        "schemaVersion": { "const": "2026-06-09" },
+        "actionId": { "type": "string", "pattern": "^act_[a-z0-9][a-z0-9_-]*$" },
+        "label": { "type": "string" },
+        "route": { "type": "string", "pattern": "^harness://actions/[a-z0-9][a-z0-9-]*$" },
+        "risk": { "enum": ["read", "write", "destructive", "external", "secret_adjacent"] },
+        "policyScope": { "type": "string" },
+        "confirmationMode": { "enum": ["none", "confirm", "approval_required", "owner_required"] },
+        "state": { "enum": ["available", "disabled", "denied", "pending_approval", "executed", "failed"] },
+        "denial": { "type": "object" }
+      }
+    },
+    "artifactView": {
+      "type": "object",
+      "required": ["schemaVersion", "artifactViewId", "artifactId", "kind", "promotionState", "renderers", "provenance"],
+      "properties": {
+        "schemaVersion": { "const": "2026-06-09" },
+        "artifactViewId": { "type": "string", "pattern": "^artv_[a-z0-9][a-z0-9_-]*$" },
+        "artifactId": { "type": "string", "pattern": "^art_[a-z0-9][a-z0-9_-]*$" },
+        "kind": { "enum": ["report", "patch", "document", "image", "trace", "evidence", "release_packet"] },
+        "promotionState": { "enum": ["draft", "reviewed", "accepted", "rejected", "promoted"] },
+        "renderers": { "type": "array", "minItems": 1 },
+        "provenance": { "type": "object" }
+      }
+    },
+    "themeRef": {
+      "type": "object",
+      "required": ["schemaVersion", "themeId", "tokenSchemaVersion", "source", "restoreTarget"],
+      "properties": {
+        "schemaVersion": { "const": "2026-06-09" },
+        "themeId": { "type": "string", "pattern": "^theme_[a-z0-9][a-z0-9_-]*$" },
+        "tokenSchemaVersion": { "type": "string" },
+        "source": { "type": "object" },
+        "restoreTarget": { "type": "object" }
+      }
+    },
+    "suiteRef": {
+      "type": "object",
+      "required": ["schemaVersion", "suiteId", "lane", "installedItems", "routeMap", "optionalHarnessCapabilities"],
+      "properties": {
+        "schemaVersion": { "const": "2026-06-09" },
+        "suiteId": { "type": "string", "pattern": "^suite_[a-z0-9][a-z0-9_-]*$" },
+        "lane": { "enum": ["workspace", "docs", "ops", "governance", "custom"] },
+        "installedItems": { "type": "array" },
+        "routeMap": { "type": "array" },
+        "optionalHarnessCapabilities": { "type": "array" }
+      }
+    }
   }
 }

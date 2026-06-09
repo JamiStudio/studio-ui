@@ -2,21 +2,20 @@
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "actionRef.denied.delete-artifact",
   "kind": "deniedAction",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/action-ref.schema.json",
   "expectedRendererState": "denied",
   "actionRef": {
-    "id": "action.delete-artifact",
+    "schemaVersion": "2026-06-09",
+    "actionId": "act_delete_artifact",
     "label": "Delete artifact",
+    "route": "harness://actions/delete-artifact",
     "risk": "destructive",
     "policyScope": "artifact.lifecycle",
-    "confirmationMode": "harness-approval",
-    "harnessRoute": "jami-harness://actions/delete-artifact",
-    "policyDecision": {
-      "state": "denied",
-      "reasonCode": "missing_approval"
-    },
-    "execution": {
-      "canExecute": false,
-      "owner": "jami-harness"
+    "confirmationMode": "approval_required",
+    "state": "denied",
+    "denial": {
+      "reason": "missing_approval",
+      "auditRef": "aud_denied_delete_artifact"
     }
   }
 }

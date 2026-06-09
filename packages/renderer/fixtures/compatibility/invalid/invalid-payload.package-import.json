@@ -1,13 +1,25 @@
 {
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "uiPayload.invalid.package-import",
-  "kind": "uiPayload",
-  "expectedRendererState": "renderable",
+  "kind": "invalidPayload",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
+  "expectedRendererState": "invalid",
   "payload": {
-    "component": "Button",
+    "schemaVersion": "2026-06-09",
+    "payloadId": "uip_invalid_package_import",
+    "componentRef": {
+      "namespace": "@jami-studio/ui",
+      "name": "button",
+      "version": "0.0.0",
+      "allowlisted": true
+    },
     "props": {
       "packageImport": "left-pad",
-      "children": "Install code"
+      "label": "Install code"
+    },
+    "fallback": {
+      "mode": "invalid_payload",
+      "message": "Package imports are not accepted in renderer payloads."
     }
   }
 }

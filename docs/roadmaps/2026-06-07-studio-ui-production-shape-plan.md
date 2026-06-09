@@ -45,6 +45,11 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   denied `actionRef`, `themeRef`, `suiteRef`, unsupported components, invalid payloads, and renderer
   error states. Generated token outputs, public shadcn registry output, React renderer code, and CLI
   install flows are still pending.
+- 2026-06-09 Stream 2 pass 2 hardened the renderer fixture mirror against the concurrent harness
+  contract spine by adding harness schema IDs, shared reference ID patterns, denied-action
+  non-execution checks, renderer-error run-event mirrors, and malformed-reference negative coverage.
+  This remains consumer-side contract validation only; Studio UI still does not import harness
+  implementation internals or claim harness runtime execution.
 
 ## Locked Decisions
 
@@ -428,8 +433,8 @@ Implementation tasks:
 - [ ] Add fallback rendering for unknown components and invalid props.
 - [~] Add no-HTML/no-code injection guards.
 - [ ] Add handshake/version rules for vocabulary generation.
-- [~] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, and unsupported renderer states.
-- [~] Add denied-action fixtures that render the harness-owned policy decision without executing it.
+- [~] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, malformed harness reference ids, and unsupported renderer states.
+- [~] Add denied-action fixtures that display the harness-owned policy decision without carrying executable UI state.
 
 Exit criteria:
 

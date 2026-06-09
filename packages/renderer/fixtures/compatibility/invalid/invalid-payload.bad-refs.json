@@ -1,12 +1,12 @@
 {
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
-  "fixtureId": "uiPayload.basic.button",
-  "kind": "uiPayload",
+  "fixtureId": "uiPayload.invalid.bad-refs",
+  "kind": "invalidPayload",
   "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
-  "expectedRendererState": "renderable",
+  "expectedRendererState": "invalid",
   "payload": {
     "schemaVersion": "2026-06-09",
-    "payloadId": "uip_save_theme",
+    "payloadId": "payload.bad.refs",
     "componentRef": {
       "namespace": "@jami-studio/ui",
       "name": "button",
@@ -17,16 +17,11 @@
       "variant": "primary"
     },
     "children": ["Save"],
-    "actionRefs": ["act_save_theme"],
+    "actionRefs": ["action.save-theme"],
+    "artifactViewRefs": ["artifact.theme-report"],
     "fallback": {
-      "mode": "text",
-      "message": "Save theme action is available."
-    },
-    "provenance": {
-      "runId": "run_contract_spine",
-      "emittedBy": "harness",
-      "evidenceRef": "ev_contract_validation"
+      "mode": "invalid_payload",
+      "message": "Malformed harness reference IDs are rejected."
     }
-  },
-  "vocabularyVersion": "2026-06-09.renderer-foundation"
+  }
 }

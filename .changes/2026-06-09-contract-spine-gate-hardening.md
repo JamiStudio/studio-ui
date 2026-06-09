@@ -1,0 +1,1 @@
+Hardened the Stream 2 contract spine by aligning renderer compatibility fixtures with harness schema IDs and shared reference ID patterns while keeping runtime rendering, action execution, generated token output, and shadcn registry output pending.

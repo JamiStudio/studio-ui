@@ -2,12 +2,18 @@
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "suiteRef.solo.minimum",
   "kind": "suiteRef",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/suite-ref.schema.json",
   "expectedRendererState": "display-only",
   "suiteRef": {
-    "suiteLane": "solo",
+    "schemaVersion": "2026-06-09",
+    "suiteId": "suite_solo",
+    "lane": "custom",
     "appShellId": "@jami-studio/solo-suite",
-    "routeMap": ["/", "/tasks"],
-    "itemGraph": ["@jami-studio/button"],
+    "installedItems": ["@jami-studio/button"],
+    "routeMap": [
+      { "routeId": "home", "path": "/" },
+      { "routeId": "tasks", "path": "/tasks" }
+    ],
     "optionalHarnessCapabilities": ["actionRef", "artifactView"]
   }
 }

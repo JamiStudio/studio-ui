@@ -2,15 +2,23 @@
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "artifactView.basic.document",
   "kind": "artifactView",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/artifact-view.schema.json",
   "expectedRendererState": "display-only",
   "artifactView": {
-    "artifactId": "artifact.theme-report.001",
+    "schemaVersion": "2026-06-09",
+    "artifactViewId": "artv_theme_report",
+    "artifactId": "art_theme_report_001",
     "kind": "document",
-    "promotedState": "accepted",
-    "availableRenderers": ["ArtifactCard", "Text"],
+    "title": "Theme report",
+    "promotionState": "accepted",
+    "renderers": [
+      { "rendererId": "studio-ui.artifact-card", "mode": "studio_ui", "componentRef": "@jami-studio/ui/artifact-card" },
+      { "rendererId": "plain-text", "mode": "text" }
+    ],
     "provenance": {
-      "sourceRepo": "jami-harness",
-      "evidenceRefs": ["evidence.contract-fixture.001"]
+      "runId": "run_contract_spine",
+      "sourceCommit": "contract-fixture",
+      "evidenceRef": "ev_contract_validation"
     }
   }
 }

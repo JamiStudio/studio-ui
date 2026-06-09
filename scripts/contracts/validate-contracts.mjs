@@ -153,7 +153,17 @@ function validateRegistryFixture(path, shouldPass) {
   if (!shouldPass && localFailures.length === 0) fail(path, "expected invalid registry fixture to fail");
 }
 
-const allowedComponents = new Set(["ActionSlot", "ArtifactCard", "Button", "InlineNotice", "Text"]);
+const allowedComponents = new Set(["action-slot", "artifact-card", "button", "inline-notice", "text"]);
+const expectedHarnessSchemaIds = new Map([
+  ["uiPayload", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
+  ["unsupportedComponent", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
+  ["invalidPayload", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
+  ["deniedAction", "https://jami.studio/schemas/harness/action-ref.schema.json"],
+  ["artifactView", "https://jami.studio/schemas/harness/artifact-view.schema.json"],
+  ["themeRef", "https://jami.studio/schemas/harness/theme-ref.schema.json"],
+  ["suiteRef", "https://jami.studio/schemas/harness/suite-ref.schema.json"],
+  ["rendererError", "https://jami.studio/schemas/harness/run-event.schema.json"],
+]);
 
 function scanUnsafePayload(value, localFailures) {
   if (typeof value === "string") {
@@ -171,6 +181,41 @@ function scanUnsafePayload(value, localFailures) {
   }
 }
 
+function validateHarnessUiPayload(payload, localFailures, { allowUnsupported = false } = {}) {
+  if (!payload) {
+    localFailures.push("missing payload");
+    return;
+  }
+  if (payload.schemaVersion !== "2026-06-09") localFailures.push("payload schemaVersion must be 2026-06-09");
+  if (!/^uip_[a-z0-9][a-z0-9_-]*$/.test(payload.payloadId ?? "")) localFailures.push("payloadId must use uip_ prefix");
+  const component = payload.componentRef;
+  if (component?.namespace !== "@jami-studio/ui") localFailures.push("componentRef namespace must be @jami-studio/ui");
+  if (!/^[a-z][a-z0-9-]*$/.test(component?.name ?? "")) localFailures.push("componentRef name must be kebab-case");
+  if (!component?.version) localFailures.push("componentRef version is required");
+  if (!allowUnsupported && !allowedComponents.has(component?.name)) {
+    localFailures.push(`component ${component?.name} is not allowlisted`);
+  }
+  if (allowUnsupported && component?.allowlisted !== false) {
+    localFailures.push("unsupported component fixture must mark componentRef.allowlisted false");
+  }
+  for (const actionRef of payload.actionRefs ?? []) {
+    if (!/^act_[a-z0-9][a-z0-9_-]*$/.test(actionRef)) localFailures.push(`actionRef ${actionRef} must use act_ prefix`);
+  }
+  for (const artifactViewRef of payload.artifactViewRefs ?? []) {
+    if (!/^artv_[a-z0-9][a-z0-9_-]*$/.test(artifactViewRef)) {
+      localFailures.push(`artifactViewRef ${artifactViewRef} must use artv_ prefix`);
+    }
+  }
+  if (payload.themeRef && !/^theme_[a-z0-9][a-z0-9_-]*$/.test(payload.themeRef)) localFailures.push("themeRef must use theme_ prefix");
+  if (payload.suiteRef && !/^suite_[a-z0-9][a-z0-9_-]*$/.test(payload.suiteRef)) localFailures.push("suiteRef must use suite_ prefix");
+  if (!payload.fallback?.mode || !payload.fallback?.message) localFailures.push("payload fallback mode and message are required");
+  if (payload.provenance && !/^run_[a-z0-9][a-z0-9_-]*$/.test(payload.provenance.runId ?? "")) {
+    localFailures.push("payload provenance runId must use run_ prefix");
+  }
+  scanUnsafePayload(payload.props, localFailures);
+  scanUnsafePayload(payload.children, localFailures);
+}
+
 function validateRendererFixture(path, shouldPass) {
   const fixture = readJson(path);
   if (!fixture) return;
@@ -181,34 +226,69 @@ function validateRendererFixture(path, shouldPass) {
   if (!fixture.fixtureId || !fixture.kind || !fixture.expectedRendererState) {
     localFailures.push("missing fixture id, kind, or expectedRendererState");
   }
+  const expectedHarnessSchemaId = expectedHarnessSchemaIds.get(fixture.kind);
+  if (expectedHarnessSchemaId && fixture.harnessSchemaId !== expectedHarnessSchemaId) {
+    localFailures.push(`harnessSchemaId must be ${expectedHarnessSchemaId}`);
+  }
 
   if (fixture.kind === "uiPayload") {
-    if (!allowedComponents.has(fixture.payload?.component)) {
-      localFailures.push(`component ${fixture.payload?.component} is not allowlisted`);
-    }
-    scanUnsafePayload(fixture.payload?.props, localFailures);
+    validateHarnessUiPayload(fixture.payload, localFailures);
   }
   if (fixture.kind === "unsupportedComponent" && fixture.expectedRendererState !== "unsupported") {
     localFailures.push("unsupported component fixture must expect unsupported state");
   }
+  if (fixture.kind === "unsupportedComponent") {
+    validateHarnessUiPayload(fixture.payload, localFailures, { allowUnsupported: true });
+    if (fixture.payload?.fallback?.mode !== "unsupported_component") {
+      localFailures.push("unsupported component fixture must carry unsupported_component fallback");
+    }
+  }
   if (fixture.kind === "deniedAction") {
-    if (fixture.actionRef?.policyDecision?.state !== "denied") localFailures.push("denied action fixture must carry denied policyDecision");
-    if (fixture.actionRef?.execution?.canExecute !== false) localFailures.push("denied action fixture must be non-executable");
+    const actionRef = fixture.actionRef;
+    if (actionRef?.schemaVersion !== "2026-06-09") localFailures.push("actionRef schemaVersion must be 2026-06-09");
+    if (!/^act_[a-z0-9][a-z0-9_-]*$/.test(actionRef?.actionId ?? "")) localFailures.push("actionId must use act_ prefix");
+    if (!/^harness:\/\/actions\/[a-z0-9][a-z0-9-]*$/.test(actionRef?.route ?? "")) localFailures.push("actionRef route must use harness://actions/");
+    if (actionRef?.state !== "denied") localFailures.push("denied action fixture must carry denied state");
+    if (!actionRef?.denial?.auditRef) localFailures.push("denied action fixture must carry denial auditRef");
+    if (actionRef?.execution?.canExecute !== undefined) localFailures.push("denied action fixture must not carry executable UI state");
   }
-  if (fixture.kind === "artifactView" && !fixture.artifactView?.provenance?.evidenceRefs?.length) {
-    localFailures.push("artifactView fixture must carry evidence refs");
+  if (fixture.kind === "artifactView") {
+    const artifactView = fixture.artifactView;
+    if (artifactView?.schemaVersion !== "2026-06-09") localFailures.push("artifactView schemaVersion must be 2026-06-09");
+    if (!/^artv_[a-z0-9][a-z0-9_-]*$/.test(artifactView?.artifactViewId ?? "")) localFailures.push("artifactViewId must use artv_ prefix");
+    if (!/^art_[a-z0-9][a-z0-9_-]*$/.test(artifactView?.artifactId ?? "")) localFailures.push("artifactId must use art_ prefix");
+    if (!artifactView?.renderers?.length) localFailures.push("artifactView fixture must carry renderers");
+    if (!artifactView?.provenance?.evidenceRef) localFailures.push("artifactView fixture must carry evidenceRef");
   }
-  if (fixture.kind === "themeRef" && !fixture.themeRef?.tokenVersion) {
-    localFailures.push("themeRef fixture must carry tokenVersion");
+  if (fixture.kind === "themeRef") {
+    const themeRef = fixture.themeRef;
+    if (themeRef?.schemaVersion !== "2026-06-09") localFailures.push("themeRef schemaVersion must be 2026-06-09");
+    if (!/^theme_[a-z0-9][a-z0-9_-]*$/.test(themeRef?.themeId ?? "")) localFailures.push("themeId must use theme_ prefix");
+    if (!themeRef?.tokenSchemaVersion) localFailures.push("themeRef fixture must carry tokenSchemaVersion");
+    if (themeRef?.source?.owner !== "studio-ui") localFailures.push("themeRef source owner must be studio-ui");
+    if (themeRef?.restoreTarget?.packageName !== "@jami-studio/ui") localFailures.push("themeRef restoreTarget packageName must be @jami-studio/ui");
   }
-  if (fixture.kind === "suiteRef" && !fixture.suiteRef?.itemGraph?.length) {
-    localFailures.push("suiteRef fixture must carry itemGraph");
+  if (fixture.kind === "suiteRef") {
+    const suiteRef = fixture.suiteRef;
+    if (suiteRef?.schemaVersion !== "2026-06-09") localFailures.push("suiteRef schemaVersion must be 2026-06-09");
+    if (!/^suite_[a-z0-9][a-z0-9_-]*$/.test(suiteRef?.suiteId ?? "")) localFailures.push("suiteId must use suite_ prefix");
+    if (!suiteRef?.installedItems?.length) localFailures.push("suiteRef fixture must carry installedItems");
+    if (!suiteRef?.routeMap?.length) localFailures.push("suiteRef fixture must carry routeMap");
   }
-  if (fixture.kind === "rendererError" && !fixture.rendererError?.code) {
-    localFailures.push("rendererError fixture must carry code");
+  if (fixture.kind === "rendererError") {
+    if (!fixture.rendererError?.code) localFailures.push("rendererError fixture must carry code");
+    const runEvent = fixture.rendererError?.runEvent;
+    if (runEvent?.eventType !== "renderer.error") localFailures.push("rendererError fixture must carry renderer.error runEvent");
+    if (runEvent?.rendererState !== "error_state") localFailures.push("rendererError runEvent must carry error_state");
   }
   if (fixture.kind === "invalidPayload" && fixture.expectedRendererState !== "invalid") {
     localFailures.push("invalid payload fixture must expect invalid state");
+  }
+  if (fixture.kind === "invalidPayload") {
+    validateHarnessUiPayload(fixture.payload, localFailures);
+    if (fixture.payload?.fallback?.mode !== "invalid_payload") {
+      localFailures.push("invalid payload fixture must carry invalid_payload fallback");
+    }
   }
 
   if (shouldPass && localFailures.length > 0) fail(path, localFailures.join("; "));

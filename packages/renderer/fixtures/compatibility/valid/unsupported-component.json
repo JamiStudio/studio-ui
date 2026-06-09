@@ -2,15 +2,28 @@
   "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
   "fixtureId": "uiPayload.unsupported.component",
   "kind": "unsupportedComponent",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
   "expectedRendererState": "unsupported",
   "payload": {
-    "component": "UnknownChart",
+    "schemaVersion": "2026-06-09",
+    "payloadId": "uip_unknown_chart",
+    "componentRef": {
+      "namespace": "@jami-studio/ui",
+      "name": "unknown-chart",
+      "version": "0.0.0",
+      "allowlisted": false
+    },
     "props": {
       "title": "Unsupported component"
+    },
+    "fallback": {
+      "mode": "unsupported_component",
+      "message": "This component is not supported by the resident renderer."
+    },
+    "provenance": {
+      "runId": "run_contract_spine",
+      "emittedBy": "harness",
+      "evidenceRef": "ev_contract_validation"
     }
-  },
-  "fallback": {
-    "component": "InlineNotice",
-    "message": "This component is not supported by the resident renderer."
   }
 }
