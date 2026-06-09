@@ -123,6 +123,26 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   of `pnpm verify`. No browser, workbench app, or suite app shell exists yet; suite
   page/block/component vocabulary is surfaced as planned, not installed, and no
   browser/accessibility evidence is claimed.
+- 2026-06-09 Stream 5 pass 3 added the first browser-renderable surface, the
+  dependency-free `apps/workbench` static showcase
+  (`docs/architecture/workbench-showcase.md`). It consumes the generated token theme,
+  the generated registry items and suite descriptors, the resident renderer, and the
+  workbench presentation seam — no duplicated data, remote fetch, package-manager
+  install, provider runtime, or harness execution. It renders the `solo` lane as a live
+  route over its generated manifest and the other three lanes as honest descriptor-only
+  states with pending surfaces labelled, serializes the resident renderer output
+  (display-only action refs, fail-closed invalid payloads) and the presentation seam's
+  operational-status panels into inert, escaped HTML, gates redacted memory content, and
+  drives `factory`/`light`/`dark` theme states from the generated semantic tokens. A
+  `node --test` gate (`apps/workbench/test/workbench.test.mjs`, wired into `pnpm verify`)
+  proves real-data consumption, inertness, honest installed-vs-pending states, accessible
+  structure, responsive/reduced-motion affordances, long-content wrapping, and computed
+  WCAG contrast. A separate dependency-free headless-Edge/Chrome smoke
+  (`apps/workbench/smoke/a11y-visual-smoke.mjs`) captures per-theme, focus, and
+  narrow-viewport screenshots plus a structural a11y + contrast report under
+  `apps/workbench/output/`. This is not a full suite app shell, the per-lane suite
+  vocabulary (pending Workstream 4), an interactive workbench editing app, a runtime React
+  renderer, or any harness runtime.
 
 ## Locked Decisions
 
@@ -462,8 +482,8 @@ Implementation tasks:
 - [ ] Preserve draft state across close/reopen.
 - [ ] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows.
 - [ ] Add inspector focus if it can be done without destabilizing the first overlay.
-- [ ] Gate workbench expansion on an early vertical slice: one token family, one primitive, one registry item, one CLI temp install, one renderer payload, one harness-compatible action/error fixture, and one screenshot/accessibility check.
-- [ ] Add workbench visual/a11y fixtures across light, dark, factory theme, and suite-theme states.
+- [~] Gate workbench expansion on an early vertical slice: one token family, one primitive, one registry item, one CLI temp install, one renderer payload, one harness-compatible action/error fixture, and one screenshot/accessibility check. (The `apps/workbench` static showcase proves the token theme -> registry/suite descriptor -> resident renderer -> presentation seam loop end to end with screenshot and accessibility evidence; the interactive editing overlay remains pending.)
+- [~] Add workbench visual/a11y fixtures across light, dark, factory theme, and suite-theme states. (The showcase builds `factory`/`light`/`dark` theme states with per-theme screenshots and a structural a11y + contrast smoke; a dedicated suite-theme state and the editing overlay remain pending.)
 
 Exit criteria:
 
@@ -604,7 +624,7 @@ Implementation tasks:
 - [ ] Build `mixed-media` suite for assets, generation, editing, pipelines, review, publishing, and media libraries.
 - [ ] Build `research-writing` suite for sources, notes, citations, briefs, documents, outlines, and knowledge workflows.
 - [~] Add suite install metadata and page/block/component dependency graphs. (Four suite items exist as install-graph descriptors with `registryDependencies` and generated manifests; per-lane page/block/component vocabulary is pending the primitive workstream and listed as planned surfaces.)
-- [ ] Add showcase routing for the `solo` suite through the workbench/demo app.
+- [~] Add showcase routing for the `solo` suite through the workbench/demo app. (The `apps/workbench` static showcase renders the `solo` lane as a live route over its generated manifest and the other three lanes as honest descriptor-only states; full per-lane app shells remain pending.)
 - [ ] Add suite-level accessibility, responsive, long-content, empty/error state, and visual smoke fixtures.
 - [ ] Add source/license provenance for any recomposed reference corpus material before redistribution.
 

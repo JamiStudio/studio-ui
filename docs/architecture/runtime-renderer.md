@@ -138,9 +138,12 @@ records. A denied action is a display state here, not an executable UI shortcut.
 ## Not Yet Claimed
 
 The resident render core produces inert structured output only. It does not render
-React components, mount a DOM, run a browser or workbench app, map AG-UI event
-streams, import harness types, or execute actions. There is no app/browser surface in
-this repo yet, so no browser, screenshot, or accessibility smoke applies. The
-concurrent harness lane owns its canonical schemas; Studio UI mirrors the schema IDs
-and fixture categories for consumer validation and renders the validated data with
-resident allowlisted, non-executable output.
+React components, mount a DOM, run a browser, map AG-UI event streams, import harness
+types, or execute actions. As of 2026-06-09 the dependency-free `apps/workbench` static
+showcase (`docs/architecture/workbench-showcase.md`) serializes this render core's
+output and the presentation seam's descriptors into inert, escaped HTML and produces
+browser screenshot and accessibility evidence; that surface is a static, read-only
+display only and adds no runtime React renderer, interactive editing app, or harness
+execution. The concurrent harness lane owns its canonical schemas; Studio UI mirrors the
+schema IDs and fixture categories for consumer validation and renders the validated data
+with resident allowlisted, non-executable output.

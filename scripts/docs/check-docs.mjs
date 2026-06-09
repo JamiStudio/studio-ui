@@ -14,6 +14,7 @@ const requiredFiles = [
   "docs/architecture/registry-lifecycle.md",
   "docs/architecture/runtime-renderer.md",
   "docs/architecture/workbench-presentation.md",
+  "docs/architecture/workbench-showcase.md",
   "docs/architecture/compatibility-contract.md",
   "docs/operations/account-and-env-lanes.md",
   "docs/operations/changelog.md",

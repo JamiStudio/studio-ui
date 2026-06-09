@@ -9,6 +9,9 @@ build/
 out/
 coverage/
 
+# local smoke/evidence output (screenshots, reports)
+output/
+
 # logs
 *.log
 npm-debug.log*

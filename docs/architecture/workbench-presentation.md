@@ -104,9 +104,22 @@ produces exactly the declared operational status, and that the descriptor leaks
 no unsafe value. The check and the package test import the same seam, so the
 fixture corpus cannot drift from the code that consumes it.
 
+## Consumed By The Showcase Surface
+
+The seam itself still produces structured descriptors only — it does not render
+React, mount a DOM, map AG-UI event streams, import harness types, define a
+memory/context contract, or execute actions. As of 2026-06-09 the dependency-free
+`apps/workbench` static showcase (`docs/architecture/workbench-showcase.md`) is
+the first surface to consume these descriptors: it serializes them to inert,
+escaped HTML with their operational status badges and produces browser
+screenshot and accessibility evidence. Consuming the descriptors changes nothing
+about this seam's ownership boundary — redaction, freshness, denial, and
+provenance remain harness-owned and display-only, and a redacted record's gated
+content is never echoed.
+
 ## Not Yet Claimed
 
-There is no browser, screenshot, or accessibility evidence because there is no
-app or workbench surface in this repo yet. The seam produces structured
-descriptors only. It does not render React, mount a DOM, map AG-UI event streams,
-import harness types, define a memory/context contract, or execute actions.
+The seam does not execute actions, own policy, or render its own DOM. The
+showcase that consumes it is a static, read-only display surface; there is no
+interactive workbench editing app, no runtime React renderer, and no harness
+execution in this repo yet.
