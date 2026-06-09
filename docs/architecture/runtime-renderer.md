@@ -17,19 +17,25 @@ renderer contract foundation, not a React renderer implementation.
 
 ## Fixture Families
 
-The first fixture set covers:
+The fixture set covers:
 
 - `uiPayload` for resident allowlisted component rendering.
 - `artifactView` display metadata with harness evidence references.
 - `actionRef` denied-action display state.
+- `actionRef` non-executable approval display state (`pending_approval`).
 - `themeRef` factory theme reference.
 - `suiteRef` suite item graph reference.
 - unsupported component display state.
-- invalid payload rejection.
+- invalid payload rejection across event-handler props, `dangerouslySetInnerHTML`,
+  `javascript:` URLs, foreign component namespaces, serialized React elements,
+  inline secret-bearing props, HTML-like strings, package imports, and malformed
+  harness reference IDs.
 - renderer error state.
 
 The allowed resident vocabulary for this foundation check is deliberately small:
-`ActionSlot`, `ArtifactCard`, `Button`, `InlineNotice`, and `Text`.
+`ActionSlot`, `ArtifactCard`, `Button`, `InlineNotice`, and `Text`. A payload whose
+`componentRef.namespace` is not `@jami-studio/ui`, or whose `name` is outside that
+allowlist, fails closed rather than rendering.
 
 ## Validation Behavior
 
@@ -42,9 +48,17 @@ The allowed resident vocabulary for this foundation check is deliberately small:
   `suite_*`, and `harness://actions/*`.
 - allowlisted component names for renderable `uiPayload` fixtures.
 - rejection of HTML-like strings, `javascript:` URLs, event-handler props,
-  `dangerouslySetInnerHTML`, and package import props.
+  `dangerouslySetInnerHTML`, serialized React element markers (`$$typeof`, `__html`,
+  `_owner`), and package import props.
+- rejection of payloads whose component is outside the resident `@jami-studio/ui`
+  allowlist or namespace.
+- rejection of inline secret-bearing props (`authorization`, `token`, `password`, and
+  similar keys); secrets must arrive as harness secret references, never inline literals.
 - denied action fixtures must carry a denied harness state and denial audit ref,
   without any executable UI state.
+- approval-display action fixtures must carry a non-executable state
+  (`available`, `disabled`, or `pending_approval`) and a policy scope, without any
+  executable UI state.
 - artifact views must carry renderers and an evidence ref.
 - theme refs must carry a token schema version and Studio UI source/restore data.
 - suite refs must carry installed items and route maps.

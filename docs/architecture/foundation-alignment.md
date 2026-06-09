@@ -79,8 +79,11 @@ Initial shared contract families:
 
 Studio UI's first machine-readable mirror for these families lives under
 `packages/renderer/fixtures/compatibility/` and is checked by `pnpm contracts:check`.
-The fixture set covers `uiPayload`, `artifactView`, denied `actionRef`, `themeRef`,
-`suiteRef`, unsupported components, invalid payloads, and renderer error states.
+The fixture set covers `uiPayload`, `artifactView`, denied `actionRef`, non-executable
+approval-display `actionRef`, `themeRef`, `suiteRef`, unsupported components, invalid
+payloads (event handlers, `dangerouslySetInnerHTML`, `javascript:` URLs, foreign
+component namespaces, serialized React elements, inline secrets, HTML strings, package
+imports, and malformed reference IDs), and renderer error states.
 `docs/architecture/compatibility-contract.md` records the expected harness handshake.
 
 ## Integration Direction

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.invalid.dangerous-html",
+  "kind": "invalidPayload",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
+  "expectedRendererState": "invalid",
+  "payload": {
+    "schemaVersion": "2026-06-09",
+    "payloadId": "uip_invalid_dangerous_html",
+    "componentRef": {
+      "namespace": "@jami-studio/ui",
+      "name": "text",
+      "version": "0.0.0",
+      "allowlisted": true
+    },
+    "props": {
+      "dangerouslySetInnerHTML": {
+        "__html": "<img src=x onerror=alert(1)>"
+      }
+    },
+    "fallback": {
+      "mode": "invalid_payload",
+      "message": "dangerouslySetInnerHTML is not accepted in renderer payloads."
+    }
+  }
+}

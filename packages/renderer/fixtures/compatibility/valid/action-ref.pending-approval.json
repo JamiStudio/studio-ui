@@ -1,0 +1,17 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "actionRef.pending-approval.publish-release",
+  "kind": "actionRef",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/action-ref.schema.json",
+  "expectedRendererState": "display-only",
+  "actionRef": {
+    "schemaVersion": "2026-06-09",
+    "actionId": "act_publish_release",
+    "label": "Publish release",
+    "route": "harness://actions/publish-release",
+    "risk": "external",
+    "policyScope": "release.publish",
+    "confirmationMode": "approval_required",
+    "state": "pending_approval"
+  }
+}

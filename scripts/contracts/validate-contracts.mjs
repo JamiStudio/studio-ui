@@ -166,10 +166,30 @@ const expectedHarnessSchemaIds = new Map([
   ["unsupportedComponent", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
   ["invalidPayload", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
   ["deniedAction", "https://jami.studio/schemas/harness/action-ref.schema.json"],
+  ["actionRef", "https://jami.studio/schemas/harness/action-ref.schema.json"],
   ["artifactView", "https://jami.studio/schemas/harness/artifact-view.schema.json"],
   ["themeRef", "https://jami.studio/schemas/harness/theme-ref.schema.json"],
   ["suiteRef", "https://jami.studio/schemas/harness/suite-ref.schema.json"],
   ["rendererError", "https://jami.studio/schemas/harness/run-event.schema.json"],
+]);
+
+// Renderer payload props are display data. Credentials never travel inline; the
+// harness exposes them only as resolved secret references the renderer can display.
+const secretBearingPropKeys = new Set([
+  "password",
+  "secret",
+  "token",
+  "apikey",
+  "api_key",
+  "authorization",
+  "credential",
+  "credentials",
+  "accesstoken",
+  "access_token",
+  "privatekey",
+  "private_key",
+  "clientsecret",
+  "client_secret",
 ]);
 
 function scanUnsafePayload(value, localFailures) {
@@ -180,8 +200,23 @@ function scanUnsafePayload(value, localFailures) {
     for (const item of value) scanUnsafePayload(item, localFailures);
   } else if (isObject(value)) {
     for (const [key, item] of Object.entries(value)) {
-      if (/^on[A-Z]/.test(key) || key === "dangerouslySetInnerHTML" || key === "packageImport") {
+      if (
+        /^on[A-Z]/.test(key) ||
+        key === "dangerouslySetInnerHTML" ||
+        key === "packageImport" ||
+        key === "$$typeof" ||
+        key === "__html" ||
+        key === "_owner"
+      ) {
         localFailures.push(`unsafe prop ${key}`);
+      }
+      if (
+        secretBearingPropKeys.has(key.toLowerCase()) &&
+        typeof item === "string" &&
+        item.length > 0 &&
+        !item.startsWith("harness://secrets/")
+      ) {
+        localFailures.push(`secret-bearing prop ${key} must be a harness secret reference`);
       }
       scanUnsafePayload(item, localFailures);
     }
@@ -249,6 +284,17 @@ function validateRendererFixture(path, shouldPass) {
     if (fixture.payload?.fallback?.mode !== "unsupported_component") {
       localFailures.push("unsupported component fixture must carry unsupported_component fallback");
     }
+  }
+  if (fixture.kind === "actionRef") {
+    const actionRef = fixture.actionRef;
+    if (actionRef?.schemaVersion !== "2026-06-09") localFailures.push("actionRef schemaVersion must be 2026-06-09");
+    if (!/^act_[a-z0-9][a-z0-9_-]*$/.test(actionRef?.actionId ?? "")) localFailures.push("actionId must use act_ prefix");
+    if (!/^harness:\/\/actions\/[a-z0-9][a-z0-9-]*$/.test(actionRef?.route ?? "")) localFailures.push("actionRef route must use harness://actions/");
+    if (!["available", "disabled", "pending_approval"].includes(actionRef?.state)) {
+      localFailures.push("actionRef display fixture state must be available, disabled, or pending_approval");
+    }
+    if (!actionRef?.policyScope) localFailures.push("actionRef display fixture must carry policyScope");
+    if (actionRef?.execution?.canExecute !== undefined) localFailures.push("actionRef display fixture must not carry executable UI state");
   }
   if (fixture.kind === "deniedAction") {
     const actionRef = fixture.actionRef;

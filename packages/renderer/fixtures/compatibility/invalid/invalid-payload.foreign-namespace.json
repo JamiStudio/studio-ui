@@ -1,0 +1,24 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.invalid.foreign-namespace",
+  "kind": "invalidPayload",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
+  "expectedRendererState": "invalid",
+  "payload": {
+    "schemaVersion": "2026-06-09",
+    "payloadId": "uip_invalid_foreign_namespace",
+    "componentRef": {
+      "namespace": "react-dom",
+      "name": "button",
+      "version": "0.0.0",
+      "allowlisted": true
+    },
+    "props": {
+      "label": "Run"
+    },
+    "fallback": {
+      "mode": "invalid_payload",
+      "message": "Only resident @jami-studio/ui components may render."
+    }
+  }
+}

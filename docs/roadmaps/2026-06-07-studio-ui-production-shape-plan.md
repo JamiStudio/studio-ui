@@ -54,6 +54,12 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   Tailwind `@theme`, TypeScript token-name exports, shadcn `cssVars`, and local shadcn-shaped
   registry output under `packages/*/generated`. `pnpm contracts:check` now drift-checks those
   artifacts and enforces real SHA-256 source hashes on registry source items.
+- 2026-06-09 Stream 3 pass 1 hardened the renderer-safe payload boundary. The renderer
+  compatibility check now fails closed on event-handler props, `dangerouslySetInnerHTML`,
+  `javascript:` URLs, foreign component namespaces, serialized React-element markers, and
+  inline secret-bearing props, and it adds a non-executable `pending_approval` action-display
+  fixture. This stays consumer-side contract validation only: Studio UI displays typed denied
+  and approval states but does not execute harness policy or tool side effects.
 
 ## Locked Decisions
 
@@ -437,10 +443,10 @@ Implementation tasks:
 - [~] Align payload, action ref, artifact view, theme ref, and suite ref contracts with `jami-harness` without importing harness runtime ownership into this repo.
 - [ ] Add per-component prop validation.
 - [ ] Add fallback rendering for unknown components and invalid props.
-- [~] Add no-HTML/no-code injection guards.
+- [x] Add no-HTML/no-code injection guards (HTML strings, `javascript:` URLs, event-handler props, `dangerouslySetInnerHTML`, serialized React-element markers, package imports, inline secrets, and foreign component namespaces) enforced by `pnpm contracts:check`.
 - [ ] Add handshake/version rules for vocabulary generation.
-- [~] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, malformed harness reference ids, and unsupported renderer states.
-- [~] Add denied-action fixtures that display the harness-owned policy decision without carrying executable UI state.
+- [x] Add unsafe payload fixtures for arbitrary React, HTML, scripts, package imports, prop injection, unknown component names, invalid props, malformed harness reference ids, and unsupported renderer states.
+- [~] Add denied-action fixtures that display the harness-owned policy decision without carrying executable UI state, plus a non-executable `pending_approval` action-display fixture.
 
 Exit criteria:
 

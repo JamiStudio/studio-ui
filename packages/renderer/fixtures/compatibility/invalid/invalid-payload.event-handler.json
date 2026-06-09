@@ -1,0 +1,25 @@
+{
+  "$schema": "https://jami.studio/schemas/renderer/compatibility-fixture.schema.json",
+  "fixtureId": "uiPayload.invalid.event-handler",
+  "kind": "invalidPayload",
+  "harnessSchemaId": "https://jami.studio/schemas/harness/ui-payload.schema.json",
+  "expectedRendererState": "invalid",
+  "payload": {
+    "schemaVersion": "2026-06-09",
+    "payloadId": "uip_invalid_event_handler",
+    "componentRef": {
+      "namespace": "@jami-studio/ui",
+      "name": "button",
+      "version": "0.0.0",
+      "allowlisted": true
+    },
+    "props": {
+      "label": "Run",
+      "onClick": "doDelete()"
+    },
+    "fallback": {
+      "mode": "invalid_payload",
+      "message": "Event-handler props are not accepted in renderer payloads."
+    }
+  }
+}
