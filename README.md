@@ -17,9 +17,21 @@ Current foundation:
 - Account/env lanes: `docs/operations/account-and-env-lanes.md`
 - Readiness checklist: `docs/operations/readiness-checklist.md`
 - Changelog rules: `docs/operations/changelog.md`
+- Registry publishing runbook: `docs/operations/registry-publishing.md`
+- Release and supply chain: `docs/operations/release-and-supply-chain.md`
+- Release notes: `docs/operations/release-notes.md`
+- Public claims evidence: `docs/operations/public-claims-evidence.md`
+
+License: MIT (`LICENSE`).
 
 Run verification:
 
 ```powershell
 pnpm verify
+```
+
+Static registry publish readiness (read-only, publishes nothing):
+
+```powershell
+pnpm registry:publish:check
 ```

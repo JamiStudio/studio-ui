@@ -143,6 +143,24 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `apps/workbench/output/`. This is not a full suite app shell, the per-lane suite
   vocabulary (pending Workstream 4), an interactive workbench editing app, a runtime React
   renderer, or any harness runtime.
+- 2026-06-09 Stream 6 pass 1 added release/publishing/supply-chain readiness over the
+  accepted Stream 5 surfaces without expanding product scope. A root MIT `LICENSE`
+  and root/package `license` fields now back the existing item provenance claims
+  (every item is `source: authored`, `copiedSource: false`). A read-only static
+  publish dry-run (`scripts/release/publish-dry-run.mjs`, `pnpm registry:publish:check`,
+  wired into `pnpm verify`) re-verifies every embedded registry content hash, scans the
+  served bundle for secret-shaped content, classifies installable vs source-pending
+  items from real generated content, and lists the human/account actions it cannot
+  perform; current status is `ready-to-stage`, secret-clean, no copied source. Four
+  operations docs were added — `registry-publishing.md` (runbook + readiness),
+  `release-and-supply-chain.md` (release flow, SBOM, source/license provenance,
+  registry hashes, package provenance, attestation policy), `release-notes.md`
+  (foundation notes compiled from `.changes/` fragments with an explicit Not-Yet-Claimed
+  section), and `public-claims-evidence.md` (claim -> reproducible-evidence register).
+  Verification gates were strengthened, not weakened: nothing is published, no hosted
+  registry or npm publish is claimed, npm auth and the static host remain pending human
+  actions, and the workbench a11y/visual smoke was re-run (14/14 structural a11y, 4/4
+  contrast, 5/5 screenshots on Microsoft Edge).
 
 ## Locked Decisions
 
@@ -664,19 +682,19 @@ Primary areas:
 
 Implementation tasks:
 
-- [~] Add `pnpm verify` covering lint, typecheck, tests, build, registry validation, and docs checks.
-- [~] Add `pnpm verify` coverage for token schema fixtures, registry provenance, renderer unsafe payloads, CLI lifecycle smokes, and accessibility/visual checks once those surfaces exist.
-- [ ] Add release/changelog flow.
-- [ ] Add registry publishing runbook.
-- [ ] Add package publishing runbook after npm auth is confirmed.
-- [ ] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution.
+- [~] Add `pnpm verify` covering lint, typecheck, tests, build, registry validation, and docs checks. (Runs docs, contract, artifact-drift, publish-dry-run, and package tests; lint/typecheck/build land with the product packages.)
+- [~] Add `pnpm verify` coverage for token schema fixtures, registry provenance, renderer unsafe payloads, CLI lifecycle smokes, and accessibility/visual checks once those surfaces exist. (All present except browser a11y/visual, which stays a separate dependency-free smoke by design.)
+- [~] Add release/changelog flow. (Release flow + notes compiled from `.changes/` fragments in `release-and-supply-chain.md` and `release-notes.md`; automated fragment-to-notes generation is pending release tooling.)
+- [x] Add registry publishing runbook. (`docs/operations/registry-publishing.md` + `pnpm registry:publish:check`.)
+- [~] Add package publishing runbook after npm auth is confirmed. (Policy + steps in `release-and-supply-chain.md`; gated on npm auth and a trusted CI publish workflow.)
+- [~] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution. (Documented in `release-and-supply-chain.md`; SBOM generation + attestation run at publish time. No third-party source is currently lifted.)
 
 Exit criteria:
 
-- [ ] Full verification passes.
-- [ ] Registry publish path is documented and smoke-tested.
-- [ ] Changelog fragments and release notes are generated from the same source.
-- [ ] Public registry/package claims map to source, license, generated output, and verification evidence.
+- [x] Full verification passes. (`pnpm verify` exit 0, including `registry:publish:check`.)
+- [~] Registry publish path is documented and smoke-tested. (Documented + a read-only publish dry-run passes against the generated bundle; a hosted-URL install smoke is pending host provisioning.)
+- [~] Changelog fragments and release notes are generated from the same source. (`release-notes.md` is compiled from `.changes/` fragments; automated generation is pending tooling.)
+- [~] Public registry/package claims map to source, license, generated output, and verification evidence. (`docs/operations/public-claims-evidence.md` maps every current claim to a reproducible command/artifact.)
 
 Suggested verification:
 

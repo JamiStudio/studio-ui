@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "Studio UI install/config CLI: registry-driven lifecycle for themes, primitives, and suite descriptors.",
+  "license": "MIT",
   "type": "module",
   "bin": {
     "studio-ui": "./bin/studio-ui.mjs"

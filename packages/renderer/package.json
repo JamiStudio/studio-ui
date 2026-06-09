@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "Studio UI minimal resident renderer and compatibility fixture foundations.",
+  "license": "MIT",
   "type": "module",
   "main": "./src/index.mjs",
   "exports": {

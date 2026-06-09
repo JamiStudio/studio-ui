@@ -28,7 +28,13 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - `pnpm docs:check` exists and passes.
 - `pnpm contracts:check` exists for token, registry, and renderer compatibility
   fixture foundations.
-- `pnpm verify` runs docs and contract checks.
+- `pnpm verify` runs docs and contract checks, the static registry publish
+  readiness dry-run, and the tokens/registry/renderer/cli/workbench package tests.
+- `pnpm registry:publish:check` exists (read-only static publish dry-run; current
+  status `ready-to-stage`, secret-clean, no copied source). It publishes nothing.
+- Root MIT `LICENSE` exists and root/package `license` fields match item provenance.
+- Release/publishing readiness docs exist: `registry-publishing.md`,
+  `release-and-supply-chain.md`, `release-notes.md`, `public-claims-evidence.md`.
 - `.env.example` exists; `.env` and local secret variants are ignored.
 - Changelog fragment system exists under `.changes/`.
 - Local-first development workflow exists under `docs/operations/development-workflow.md`.
@@ -42,7 +48,11 @@ setup before specific workstreams begin. It is an operations map, not a product 
 
 - npm is not authenticated. `npm whoami` returns `ENEEDAUTH`.
 - Confirm package access policy for `@jami-studio/*`.
-- Add package publishing runbook once package names and release tooling exist.
+- The package publishing + provenance/attestation policy is documented in
+  `docs/operations/release-and-supply-chain.md`; npm auth and a trusted CI publish
+  workflow are still required before it can run.
+- Generate a machine-readable SBOM at publish time (current footprint is zero
+  third-party dependencies; see `release-and-supply-chain.md`).
 
 Commands:
 
@@ -53,13 +63,19 @@ npm whoami
 
 ## Missing Before Hosted Registry Publishing
 
-- Add `registry.jami.studio` as the static registry distribution endpoint.
-- Publish generated registry output to a static host. Preferred first target:
-  Cloudflare Pages or equivalent Cloudflare static hosting under the existing
+- The registry publishing runbook exists (`docs/operations/registry-publishing.md`)
+  and the publish dry-run passes; the remaining work is host/account-level.
+- Provision the static host and DNS for `registry.jami.studio`. Preferred first
+  target: Cloudflare Pages or equivalent Cloudflare static hosting under the existing
   `jami-studio` account.
-- Add registry publish runbook after `packages/registry` can generate output.
+- Validate the generated output against the official shadcn registry schema URL
+  before the first real publish.
+- Add a repo-local shadcn/Tailwind source-lock record before public generated-source
+  compatibility claims.
 - Add cache/revision policy to the registry lifecycle doc.
-- Add clean install smoke against the hosted registry URL.
+- Add a clean install smoke against the hosted registry URL (today the CLI smoke runs
+  against the local generated directory; remote fetch is an explicit unsupported
+  state).
 
 ## Missing Before App Deployment
 

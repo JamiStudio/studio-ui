@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "DTCG-compatible Studio UI token contract fixtures and validation foundations.",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "generate": "pnpm --dir ../.. contracts:generate",

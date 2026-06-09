@@ -25,6 +25,10 @@ publishing.
 - `.gitignore` - dependency, build, env, and generated-registry ignore rules.
 - `.changes/` - changelog fragments.
 - `scripts/contracts/validate-contracts.mjs` - local contract fixture validator.
+- `scripts/release/publish-dry-run.mjs` - read-only static registry publish
+  readiness dry-run (`pnpm registry:publish:check`): hash re-verification, secret
+  scan, installable-vs-pending classification. Publishes nothing.
+- `LICENSE` - root MIT license matching item provenance.
 
 ## Source Areas
 
@@ -52,6 +56,8 @@ publishing.
 - `docs/roadmaps/` - active implementation plans.
 - `docs/architecture/` - durable product and technical contracts.
 - `docs/operations/` - setup, release, account, env, registry publish, and verification guidance.
+  Release/publishing readiness lives in `registry-publishing.md`,
+  `release-and-supply-chain.md`, `release-notes.md`, and `public-claims-evidence.md`.
 - `docs/engineering/` - reusable engineering standards and orchestration prompts.
 - `docs/decisions/` - durable decision records once choices are promoted from reports/plans.
 

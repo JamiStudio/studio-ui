@@ -1,0 +1,230 @@
+// Static registry publish dry-run.
+//
+// Read-only readiness check over the generated, shadcn-shaped registry bundle in
+// `packages/registry/generated`. It never publishes, fetches, or mutates anything.
+// It proves the bundle is internally consistent and safe to serve from a static
+// host (the planned `registry.jami.studio` endpoint) and reports, honestly:
+//
+//   - which items are publishable now (all install files carry content),
+//   - which are source-pending (no fabricated source),
+//   - that every embedded file content hash recomputes exactly,
+//   - that no secret-shaped string is present in any served byte,
+//   - the static files that would be served, with size and a byte hash,
+//   - the human/account actions a script cannot perform.
+//
+// Exit code is non-zero only on integrity failures (hash mismatch, secret-shaped
+// content, missing/inconsistent generated file, structural problem). Source-pending
+// items and unresolved account actions are honest readiness states, not failures.
+
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+
+const root = process.cwd();
+const generatedDir = "packages/registry/generated";
+const itemsDir = join(generatedDir, "items");
+const suitesDir = join(generatedDir, "suites");
+
+const args = process.argv.slice(2);
+const asJson = args.includes("--json");
+
+const failures = [];
+const fail = (code, message) => failures.push({ code, message });
+
+function readText(relPath) {
+  return readFileSync(join(root, relPath), "utf8");
+}
+
+function sha256(text) {
+  return `sha256:${createHash("sha256").update(text).digest("hex")}`;
+}
+
+// High-signal secret shapes only. The served bundle is generated token CSS,
+// TypeScript token names, shadcn cssVars, and suite descriptors, so this is a
+// defense-in-depth scan, not a substitute for the tracked-file secret review.
+// Matched values are NEVER echoed; only the pattern name and location are reported.
+const SECRET_PATTERNS = [
+  ["private-key-block", /-----BEGIN (?:RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----/],
+  ["aws-access-key-id", /\bAKIA[0-9A-Z]{16}\b/],
+  ["slack-token", /\bxox[baprs]-[0-9A-Za-z-]{10,}\b/],
+  ["github-token", /\bgh[pousr]_[0-9A-Za-z]{30,}\b/],
+  ["openai-style-key", /\bsk-[A-Za-z0-9]{20,}\b/],
+  ["generic-secret-assignment",
+    /\b(?:secret|token|password|api[_-]?key|authorization)\b\s*[:=]\s*["'][^"'\s]{8,}["']/i],
+];
+
+function scanSecrets(label, text) {
+  for (const [name, pattern] of SECRET_PATTERNS) {
+    if (pattern.test(text)) fail("secret-shaped-content", `${label}: matched secret pattern "${name}"`);
+  }
+}
+
+function listJson(dirRel) {
+  const abs = join(root, dirRel);
+  if (!existsSync(abs)) return [];
+  return readdirSync(abs).filter((f) => f.endsWith(".json")).sort();
+}
+
+// --- Load the registry index --------------------------------------------------
+
+const registryPath = join(generatedDir, "registry.json");
+if (!existsSync(join(root, registryPath))) {
+  const result = {
+    command: "publish-dry-run",
+    ok: false,
+    status: "missing-registry",
+    summary: "No generated registry.json. Run `pnpm contracts:generate` first.",
+    failures: [{ code: "missing-registry", message: `${registryPath} not found` }],
+  };
+  console.log(asJson ? JSON.stringify(result, null, 2) : result.summary);
+  process.exit(1);
+}
+
+const registryText = readText(registryPath);
+scanSecrets(registryPath, registryText);
+
+let registry;
+try {
+  registry = JSON.parse(registryText);
+} catch (error) {
+  console.log(`Cannot parse ${registryPath}: ${error.message}`);
+  process.exit(1);
+}
+
+if (registry.$schema !== "https://ui.shadcn.com/schema/registry.json") {
+  fail("registry-schema", "registry.json is missing the shadcn registry $schema URL");
+}
+if (typeof registry.name !== "string" || !registry.name) fail("registry-name", "registry.json has no name");
+if (typeof registry.homepage !== "string" || !registry.homepage) fail("registry-homepage", "registry.json has no homepage");
+if (!Array.isArray(registry.items) || registry.items.length === 0) fail("registry-items", "registry.json has no items");
+
+// --- Per-item integrity + classification --------------------------------------
+
+const items = [];
+for (const item of registry.items ?? []) {
+  const name = item.name ?? "(unnamed)";
+  if (!item.type) fail("item-type", `${name}: missing type`);
+  if (!Array.isArray(item.files) || item.files.length === 0) fail("item-files", `${name}: no files`);
+
+  const files = item.files ?? [];
+  const withContent = files.filter((f) => typeof f.content === "string");
+  let sourceState = "source-pending";
+  if (withContent.length === files.length && files.length > 0) sourceState = "installable";
+  else if (withContent.length > 0) sourceState = "partial";
+
+  for (const file of files) {
+    if (typeof file.content !== "string") continue;
+    if (typeof file.hash !== "string") {
+      fail("missing-hash", `${name} -> ${file.target}: content present but no hash`);
+      continue;
+    }
+    const recomputed = sha256(file.content);
+    if (recomputed !== file.hash) {
+      fail("hash-mismatch", `${name} -> ${file.target}: embedded hash does not match content`);
+    }
+  }
+
+  // Every item must have a generated per-item artifact; suites must have a manifest.
+  const itemFile = `${name}.registry-item.json`;
+  if (!existsSync(join(root, itemsDir, itemFile))) {
+    fail("missing-item-artifact", `${name}: no generated/items/${itemFile}`);
+  }
+  if (item.type === "registry:suite") {
+    const lane = item.meta?.suite ?? name.replace(/-suite$/, "");
+    const manifest = `${lane}.suite.json`;
+    if (!existsSync(join(root, suitesDir, manifest))) {
+      fail("missing-suite-manifest", `${name}: no generated/suites/${manifest}`);
+    }
+  }
+
+  items.push({
+    name,
+    type: item.type,
+    suite: item.meta?.suite ?? null,
+    license: item.meta?.provenance?.license ?? null,
+    copiedSource: item.meta?.provenance?.copiedSource ?? null,
+    sourceState,
+    fileCount: files.length,
+    filesWithContent: withContent.length,
+  });
+}
+
+// --- Secret scan + byte hash over every served file ----------------------------
+
+const servedFiles = [];
+function recordServed(relPath) {
+  const text = readText(relPath);
+  scanSecrets(relPath, text);
+  servedFiles.push({
+    path: relPath.replaceAll("\\", "/"),
+    bytes: Buffer.byteLength(text, "utf8"),
+    hash: sha256(text),
+  });
+}
+recordServed(registryPath);
+for (const f of listJson(itemsDir)) recordServed(join(itemsDir, f));
+for (const f of listJson(suitesDir)) recordServed(join(suitesDir, f));
+
+// --- Provenance honesty: license declared but is there a LICENSE file? ----------
+
+if (!existsSync(join(root, "LICENSE"))) {
+  fail("missing-license-file", "items declare a license but the repo has no LICENSE file");
+}
+const undeclaredLicense = items.filter((i) => !i.license);
+if (undeclaredLicense.length > 0) {
+  fail("missing-item-license", `items without provenance license: ${undeclaredLicense.map((i) => i.name).join(", ")}`);
+}
+const copied = items.filter((i) => i.copiedSource === true);
+
+// --- Readiness summary ----------------------------------------------------------
+
+const publishableNow = items.filter((i) => i.sourceState === "installable");
+const pending = items.filter((i) => i.sourceState !== "installable");
+
+// Actions a script cannot verify or perform; surfaced as honest reminders.
+const humanActions = [
+  "Authenticate npm (`npm whoami` returns ENEEDAUTH today) before any package publish.",
+  "Confirm `@jami-studio` package scope/access policy.",
+  "Provision the static host for `registry.jami.studio` (preferred: Cloudflare Pages under the `jami-studio` account) and its DNS.",
+  "Add the shadcn/Tailwind source-lock record before any public generated-source compatibility claim.",
+  "Validate generated output against the official shadcn registry schema URL before the first real publish.",
+];
+
+const ok = failures.length === 0;
+const result = {
+  command: "publish-dry-run",
+  ok,
+  status: ok ? "ready-to-stage" : "blocked",
+  summary: ok
+    ? `Registry bundle is internally consistent and secret-clean: ${publishableNow.length} item(s) publishable now, ${pending.length} source-pending.`
+    : `Registry bundle has ${failures.length} integrity issue(s); not safe to stage.`,
+  registry: { name: registry.name, homepage: registry.homepage, itemCount: items.length },
+  publishableNow: publishableNow.map((i) => i.name),
+  sourcePending: pending.map((i) => ({ name: i.name, sourceState: i.sourceState })),
+  copiedSourceItems: copied.map((i) => i.name),
+  items,
+  servedFiles,
+  humanActions,
+  failures,
+};
+
+if (asJson) {
+  console.log(JSON.stringify(result, null, 2));
+} else {
+  console.log(`publish dry-run: ${result.status}`);
+  console.log(`  registry: ${result.registry.name} -> ${result.registry.homepage}`);
+  console.log(`  items: ${result.registry.itemCount} (${publishableNow.length} publishable now, ${pending.length} source-pending)`);
+  console.log(`  publishable now: ${publishableNow.map((i) => i.name).join(", ") || "(none)"}`);
+  console.log(`  source-pending: ${pending.map((i) => i.name).join(", ") || "(none)"}`);
+  console.log(`  copied third-party source items: ${copied.length === 0 ? "none" : copied.map((i) => i.name).join(", ")}`);
+  console.log(`  served files: ${servedFiles.length}`);
+  console.log(`  secret-shaped content: ${failures.some((f) => f.code === "secret-shaped-content") ? "FOUND" : "none"}`);
+  if (!ok) {
+    console.log("  failures:");
+    for (const f of failures) console.log(`    - [${f.code}] ${f.message}`);
+  }
+  console.log("  human/account actions (not script-verifiable):");
+  for (const a of humanActions) console.log(`    - ${a}`);
+}
+
+process.exit(ok ? 0 : 1);

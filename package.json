@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "Jami.Studio UI foundation: token system, primitive registry, workbench overlay, CLI, renderer, and suite packs.",
+  "license": "MIT",
   "packageManager": "pnpm@10.33.2",
   "type": "module",
   "scripts": {
@@ -10,7 +11,8 @@
     "contracts:artifacts:check": "node scripts/contracts/generate-contract-artifacts.mjs --check",
     "contracts:check": "node scripts/contracts/validate-contracts.mjs",
     "docs:check": "node scripts/docs/check-docs.mjs",
-    "verify": "pnpm docs:check && pnpm contracts:check && pnpm contracts:artifacts:check && pnpm --filter @jami-studio/tokens test && pnpm --filter @jami-studio/registry test && pnpm --filter @jami-studio/renderer test && pnpm --filter @jami-studio/cli test && pnpm --filter @jami-studio/workbench test"
+    "registry:publish:check": "node scripts/release/publish-dry-run.mjs",
+    "verify": "pnpm docs:check && pnpm contracts:check && pnpm contracts:artifacts:check && pnpm registry:publish:check && pnpm --filter @jami-studio/tokens test && pnpm --filter @jami-studio/registry test && pnpm --filter @jami-studio/renderer test && pnpm --filter @jami-studio/cli test && pnpm --filter @jami-studio/workbench test"
   },
   "engines": {
     "node": ">=24.0.0",
