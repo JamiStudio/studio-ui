@@ -86,9 +86,10 @@ Policy target for the first real package publish (none performed yet):
 - For the static registry, treat the per-file `sha256` hashes as the integrity
   attestation; document any host-level signing if the static host adds it.
 
-These require account and CI setup that is not done:
+These require package-publish setup that is not done:
 
-- npm is not authenticated (`npm whoami` returns `ENEEDAUTH`).
+- Local npm auth currently returns `jamesnavinhill`; that is operator access, not
+  package publishing readiness.
 - The `@jami-studio` package scope/access policy is unconfirmed.
 - No trusted CI publish workflow exists; CI is manual `workflow_dispatch` fallback
   only (`docs/operations/development-workflow.md`).

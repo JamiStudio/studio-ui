@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 33
-- Typed fragments: 16
+- Total fragments: 34
+- Typed fragments: 17
 - Unclassified legacy fragments: 17
 
 ## Notes By Surface
@@ -28,7 +28,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 #### fix
 
-- `2026-06-09-registry-publishing-brand-counts.md` - Reconciled the registry publishing runbook with the generated registry after the selectable brand/template option descriptors landed: 41 publishable items, 72 served files, and no final brand canon claim.
+- `2026-06-09-registry-publishing-brand-counts.md` - Reconciled the registry publishing runbook with the generated registry after the selectable brand/template option descriptors landed, while preserving the no final brand canon claim. Current item/file counts are owned by the publish dry-run and the operations evidence docs rather than this historical fragment.
 
 #### unclassified
 
@@ -58,6 +58,10 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 #### docs
 
 - `2026-06-07-repo-readiness-docs.md` - Established Studio UI Registry feasibility, roadmap, operating docs, changelog rules, account/env lanes, readiness checklist, repository map, docs-check automation, and repo-readiness scaffold.
+
+#### fix
+
+- `2026-06-09-release-artifacts-audit.md` - Correct the local release-artifacts lane after a fresh audit: remove stale hardcoded npm-auth text from the publish dry-run and release docs, keep package publish readiness gated on `@jami-studio` scope confirmation plus a trusted CI provenance workflow, and make generated release-note source fragments avoid obsolete registry item/file counts. No npm publish, static-host publish, hosted registry, release attestation, hosted persistence, backend registration, final brand canon, or harness runtime behavior is claimed.
 
 #### ops
 

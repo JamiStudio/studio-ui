@@ -18,15 +18,17 @@ high-signal secret-shaped-content scan over every served byte (never echoing a
 match), confirms each item has a generated artifact and each suite a manifest,
 confirms a LICENSE file and per-item license exist, classifies items installable vs
 source-pending from real generated content, and lists the human/account actions it
-cannot perform. Current status after the suite page/block registry item pass:
-`ready-to-stage`, 38 items (38 publishable now, 0 source-pending), 69 served
-files, secret-clean, no copied third-party source.
+cannot perform. Current readiness snapshots are owned by
+`docs/operations/registry-publishing.md`, `docs/operations/public-claims-evidence.md`,
+and `pnpm registry:publish:check` so obsolete item/file counts do not leak into
+generated release notes.
 
 Adds four operations docs: `registry-publishing.md` (static publishing runbook and
 readiness, with the dry-run status and pending host/DNS/source-lock actions),
 `release-and-supply-chain.md` (release flow, SBOM policy for the zero-dependency
 footprint, source/license provenance, registry item hashes, and package
-provenance/attestation policy gated on npm auth and trusted CI), `release-notes.md`
+provenance/attestation policy gated on package-scope confirmation and trusted CI),
+`release-notes.md`
 (foundation notes compiled from `.changes/` fragments with an explicit Not-Yet-Claimed
 section), and `public-claims-evidence.md` (claim → reproducible-evidence register).
 Registers the new docs in `docs:check`, links them from the README and repository
@@ -34,8 +36,9 @@ map, and updates the readiness checklist and the Workstream 9 statuses.
 
 Honest scope: nothing is published. No hosted registry, no npm publish, no remote
 CLI install, no runtime React renderer, no interactive workbench editing, no full
-suite app shells, no harness runtime, and no branding are claimed. npm auth and the
-`registry.jami.studio` static host remain pending human/account actions. Verification
+suite app shells, no harness runtime, and no branding are claimed. Package-scope
+confirmation, a trusted publish/provenance workflow, and the `registry.jami.studio`
+static host remain pending human/account actions. Verification
 gates were strengthened, not weakened.
 
 Verification: `pnpm verify` (full gate, exit 0, including the new

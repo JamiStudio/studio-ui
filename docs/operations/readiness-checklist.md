@@ -52,11 +52,12 @@ setup before specific workstreams begin. It is an operations map, not a product 
 
 ## Missing Before Package Publishing
 
-- npm is not authenticated. `npm whoami` returns `ENEEDAUTH`.
+- Local npm auth exists (`npm whoami` returns `jamesnavinhill`), but package
+  publish readiness still needs a trusted publish/provenance path.
 - Confirm package access policy for `@jami-studio/*`.
 - The package publishing + provenance/attestation policy is documented in
-  `docs/operations/release-and-supply-chain.md`; npm auth and a trusted CI publish
-  workflow are still required before it can run.
+  `docs/operations/release-and-supply-chain.md`; scoped access and a trusted CI
+  publish workflow are still required before it can run.
 - Re-run and review the local machine-readable SBOM before release. Current
   footprint is zero third-party dependencies; see
   `docs/generated/sbom.cdx.json` and `release-and-supply-chain.md`.

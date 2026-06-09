@@ -154,16 +154,16 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   wired into `pnpm verify`) re-verifies every embedded registry content hash, scans the
   served bundle for secret-shaped content, classifies installable vs source-pending
   items from real generated content, and lists the human/account actions it cannot
-  perform; current status is `ready-to-stage`, 38 publishable generated items, 0
-  source-pending, 69 served files, secret-clean, no copied source. Four operations docs were added —
+  perform; the then-current status was `ready-to-stage`, with all generated items
+  installable, 0 source-pending, secret-clean, and no copied source. Four operations docs were added —
   `registry-publishing.md` (runbook + readiness),
   `release-and-supply-chain.md` (release flow, SBOM, source/license provenance,
   registry hashes, package provenance, attestation policy), `release-notes.md`
   (foundation notes compiled from `.changes/` fragments with an explicit Not-Yet-Claimed
   section), and `public-claims-evidence.md` (claim -> reproducible-evidence register).
   Verification gates were strengthened, not weakened: nothing is published, no hosted
-  registry or npm publish is claimed, npm auth and the static host remain pending human
-  actions, and the workbench a11y/visual smoke was re-run (14/14 structural a11y, 4/4
+  registry or npm publish is claimed, package-scope/trusted-publish setup and the
+  static host remain pending human actions, and the workbench a11y/visual smoke was re-run (14/14 structural a11y, 4/4
   contrast, 5/5 screenshots on Microsoft Edge).
 - 2026-06-09 fresh Studio UI audit confirmed the root crossflow Stream 1-6 foundation
   claims are proven for the surfaces that exist: `pnpm verify`, `pnpm docs:check`,
@@ -194,7 +194,7 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   registry items, and harness runtime behavior remain open.
 - 2026-06-09 Workstream 8 pass 2 derived standalone page and block registry
   items from the authored suite shell descriptors for all four lanes. The
-  generated registry now exposes 38 publishable items: the original token,
+  generated registry exposed publishable items for the original token,
   resident vocabulary, and suite roots plus 8 page items and 18 block items with
   generated install manifests, authored MIT provenance, dependency graphs, and
   content hashes. Suite install graphs include those lower-level parts
@@ -278,6 +278,13 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `pnpm release:notes:check` are available. This still does not attach a release
   SBOM, execute attestations, publish npm packages, publish the static registry,
   claim a hosted registry URL, or claim hosted persistence/backend registration.
+- 2026-06-09 Workstream 9 release-artifacts audit pass 2 corrected stale release-lane
+  auth/count wording without broadening scope: local `npm whoami` returns
+  `jamesnavinhill`, but package publishing still needs `@jami-studio` scope
+  confirmation and a trusted CI provenance workflow; generated release-note source
+  fragments now avoid obsolete registry item/file counts, while current counts stay
+  owned by `pnpm registry:publish:check`, `docs/operations/registry-publishing.md`,
+  and `docs/operations/public-claims-evidence.md`.
 
 ## Locked Decisions
 
@@ -857,7 +864,7 @@ Implementation tasks:
   rollup from `.changes/` fragments lives at `docs/generated/release-notes.md`
   and is enforced by `pnpm release:notes:check` / `pnpm verify`.)
 - [x] Add registry publishing runbook. (`docs/operations/registry-publishing.md` + `pnpm registry:publish:check`.)
-- [~] Add package publishing runbook after npm auth is confirmed. (Policy + steps in `release-and-supply-chain.md`; gated on npm auth and a trusted CI publish workflow.)
+- [~] Add package publishing runbook after package-scope and trusted publish workflow are confirmed. (Policy + steps in `release-and-supply-chain.md`; local npm auth exists, but scoped access and trusted CI provenance remain pending.)
 - [~] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution. (Documented in `release-and-supply-chain.md`; local SBOM generation/check now exists at `docs/generated/sbom.cdx.json` and `pnpm sbom:check`. Release attachment, npm provenance, and attestation execution remain pending publish workflow/account setup. No third-party source is currently lifted.)
 
 Exit criteria:

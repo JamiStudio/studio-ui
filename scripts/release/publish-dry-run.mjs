@@ -199,7 +199,7 @@ const pending = items.filter((i) => i.sourceState !== "installable");
 
 // Actions a script cannot verify or perform; surfaced as honest reminders.
 const humanActions = [
-  "Authenticate npm (`npm whoami` returns ENEEDAUTH today) before any package publish.",
+  "Confirm current npm auth with `npm whoami` and use a trusted CI provenance workflow before any package publish.",
   "Confirm `@jami-studio` package scope/access policy.",
   "Provision the static host for `registry.jami.studio` (preferred: Cloudflare Pages under the `jami-studio` account) and its DNS.",
   "Add the shadcn/Tailwind source-lock record before any public generated-source compatibility claim.",

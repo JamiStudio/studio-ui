@@ -123,8 +123,9 @@ Microsoft Edge. This pass was verified on Node 24.16.0 via
 - No hosted registry: `registry.jami.studio` is a declared target, not a live
   endpoint. The CLI does not fetch a remote registry, run a package manager, or
   install from a hosted URL.
-- No published npm packages; npm is not authenticated and `@jami-studio` scope
-  access is unconfirmed.
+- No published npm packages; `@jami-studio` scope access and the trusted
+  publish/provenance workflow are unconfirmed. Local npm auth alone is not a
+  publish claim.
 - No release attestation has been executed. The SBOM is a checked local artifact,
   not an attached release asset.
 - No runtime React renderer, Radix wrapper library, hosted/persisted workbench
