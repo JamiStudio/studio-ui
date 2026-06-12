@@ -1,7 +1,7 @@
 # Readiness Checklist
 
 Status: Active
-Last updated: 2026-06-09
+Last updated: 2026-06-12
 
 ## Purpose
 
@@ -38,10 +38,13 @@ setup before specific workstreams begin. It is an operations map, not a product 
   `docs/generated/sbom.cdx.json` plus `docs/generated/release-notes.md`; it
   publishes nothing and executes no attestation.
 - `pnpm sbom:check` and `pnpm release:notes:check` exist for targeted checks.
-- `packages/ui/src/radix-react-wrappers.mjs` implements the first Radix/React
-  primitive wrapper slice for `button`, `panel`, and `text-field`; readiness
-  metadata keeps `data-list`, `agent-panel`, `docs-source-panel`, and
-  `media-grid` explicitly unsupported as wrappers.
+- `packages/ui/src/radix-react-wrappers.mjs` implements the local Radix/React
+  wrapper slice for all current resident vocabulary items: `button`, `panel`,
+  `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
+  `media-grid`. Only `button` and `text-field` declare Radix Slot/Label package
+  dependencies; the other wrappers are plain React display wrappers. This does
+  not claim a runtime React renderer, hosted runtime, backend persistence,
+  backend registration, or renderer payload execution.
 - `packages/ui` declares `@radix-ui/react-slot@1.2.5` and
   `@radix-ui/react-label@2.1.9` as dependencies, React `>=19 <20` as a peer,
   and `react@19.2.7` / `react-dom@19.2.7` as local server-render evidence
