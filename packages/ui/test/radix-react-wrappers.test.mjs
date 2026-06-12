@@ -126,6 +126,9 @@ test("JamiButton strips unsafe asChild element props before Radix Slot render", 
           dangerouslySetInnerHTML: { __html: "<script>alert(1)</script>" },
           "data-executable": "true",
           "data-can-execute": "true",
+          srcSet: "/safe.png 1x, java\nscript:alert(1) 2x",
+          formAction: " java\tscript:alert(3)",
+          poster: "javascript:alert(4)",
           xlinkHref: "javascript:alert(2)",
         },
         "Open",
@@ -134,7 +137,10 @@ test("JamiButton strips unsafe asChild element props before Radix Slot render", 
   );
   assert.match(html, /^<a /);
   assert.match(html, />Open<\/a>$/);
-  assert.doesNotMatch(html, /href=|xlink:href|dangerouslySetInnerHTML|data-executable|data-can-execute|javascript:/);
+  assert.doesNotMatch(
+    html,
+    /href=|srcSet=|srcset=|formAction=|formaction=|poster=|xlink:href|dangerouslySetInnerHTML|data-executable|data-can-execute|javascript:/,
+  );
   assertSafeStaticMarkup(html);
 });
 

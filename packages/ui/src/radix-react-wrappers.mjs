@@ -42,6 +42,32 @@ function normalizeVariant(value, fallback, allowed) {
   return allowed.includes(value) ? value : fallback;
 }
 
+const URL_PROP_NAMES = new Set([
+  "action",
+  "background",
+  "cite",
+  "data",
+  "formaction",
+  "href",
+  "manifest",
+  "poster",
+  "src",
+  "srcset",
+  "xlinkhref",
+]);
+
+function containsJavaScriptUrl(value) {
+  if (typeof value !== "string") return false;
+  return value
+    .split(",")
+    .some((part) =>
+      part
+        .replace(/[\u0000-\u001f\u007f\s]+/g, "")
+        .toLowerCase()
+        .startsWith("javascript:"),
+    );
+}
+
 function isUnsafeProp(key, value) {
   const normalizedKey = key.replace(/[-_]/g, "").toLowerCase();
   if (/^on[A-Za-z]/.test(key)) return true;
@@ -62,8 +88,8 @@ function isUnsafeProp(key, value) {
   ) {
     return true;
   }
-  if (["href", "src", "action", "formaction", "xlinkhref"].includes(normalizedKey) && typeof value === "string") {
-    return value.trim().toLowerCase().startsWith("javascript:");
+  if (URL_PROP_NAMES.has(normalizedKey)) {
+    return containsJavaScriptUrl(value);
   }
   return false;
 }
