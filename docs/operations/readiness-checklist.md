@@ -70,7 +70,7 @@ setup before specific workstreams begin. It is an operations map, not a product 
   `docs/operations/release-and-supply-chain.md`; scoped access and a trusted CI
   publish workflow are still required before it can run.
 - Re-run and review the local machine-readable SBOM before release. Current
-  footprint is zero third-party dependencies; see
+  package graph includes the authored Radix/React wrapper dependencies; see
   `docs/generated/sbom.cdx.json` and `release-and-supply-chain.md`.
 
 Commands:

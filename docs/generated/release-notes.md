@@ -12,9 +12,9 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 47
+- Total fragments: 48
 - Typed fragments: 24
-- Unclassified legacy fragments: 23
+- Unclassified legacy fragments: 24
 
 ## Notes By Surface
 
@@ -122,6 +122,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 - `2026-06-09-vocabulary-prop-schema-handshake.md` - Added source-owned per-component prop schemas, a vocabulary handshake, and descriptor-only React-style primitive metadata under `packages/ui`.
 - `2026-06-09-workbench-overlay-pass-1.md` - Added the first always-live workbench overlay to `apps/workbench`: compact status bar, docked Theme/Color/Typography/Layout/Surfaces/Components/Charts/Motion/ Assets/Registry panels, immediate generated-token CSS variable updates, and local close/reopen draft state.
 - `2026-06-12-group-c-pass-2-readiness-status.md` - Corrected the operations readiness checklist after the Group C wrapper expansion: all current resident vocabulary items now have local Radix/React wrapper source, while runtime React rendering, hosted runtime, backend persistence, backend registration, and renderer payload execution remain unclaimed.
+- `2026-06-12-group-c-wrapper-aschild-hardening.md` - Harden the Group C Radix/React wrapper safety pass after fresh adversarial review.
 - `2026-06-12-group-c-wrapper-workbench-cli-pass-1.md` - Expanded the local Radix/React wrapper slice to every current resident UI vocabulary item, regenerated wrapper-bearing registry artifacts, added local workbench discard/rename/import/inspector/offline state flows, and added `studio-ui diff` for no-write install/update/file-drift planning.
 - `2026-06-12-publish-provenance-output-map-gate.md` - Hardened the registry publish and contract checks so Jami theme token provenance must embed every expected generated output path and match each output hash on disk.
 - `2026-06-12-publish-provenance-source-gate.md` - Hardened the registry publish dry-run so embedded token provenance must match the token source hash, generator identity, and exact generated output set.

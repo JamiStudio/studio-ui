@@ -43,10 +43,26 @@ function normalizeVariant(value, fallback, allowed) {
 }
 
 function isUnsafeProp(key, value) {
+  const normalizedKey = key.replace(/[-_]/g, "").toLowerCase();
   if (/^on[A-Za-z]/.test(key)) return true;
-  if (key === "dangerouslySetInnerHTML" || key === "__html") return true;
-  if ((key === "executable" || key === "canExecute") && value === true) return true;
-  if (/^(href|src|action|formAction)$/i.test(key) && typeof value === "string") {
+  if (
+    normalizedKey === "dangerouslysetinnerhtml" ||
+    normalizedKey === "innerhtml" ||
+    normalizedKey === "outerhtml" ||
+    normalizedKey === "srcdoc" ||
+    normalizedKey === "html"
+  ) {
+    return true;
+  }
+  if (
+    normalizedKey === "executable" ||
+    normalizedKey === "canexecute" ||
+    normalizedKey.includes("canexecute") ||
+    normalizedKey.endsWith("executable")
+  ) {
+    return true;
+  }
+  if (["href", "src", "action", "formaction", "xlinkhref"].includes(normalizedKey) && typeof value === "string") {
     return value.trim().toLowerCase().startsWith("javascript:");
   }
   return false;
@@ -67,6 +83,22 @@ function compactProps(props) {
     if (value !== undefined && value !== null && value !== false) out[key] = value;
   }
   return out;
+}
+
+function sanitizedCloneProps(props) {
+  const out = {};
+  for (const [key, value] of Object.entries(props)) {
+    out[key] = isUnsafeProp(key, value) ? undefined : value;
+  }
+  return out;
+}
+
+function sanitizeReactNode(node) {
+  if (Array.isArray(node)) return node.map((child) => sanitizeReactNode(child));
+  if (!React.isValidElement(node)) return node;
+
+  const { children, ...props } = node.props ?? {};
+  return React.cloneElement(node, sanitizedCloneProps(props), sanitizeReactNode(children));
 }
 
 export const JamiButton = React.forwardRef(function JamiButton(
@@ -94,7 +126,7 @@ export const JamiButton = React.forwardRef(function JamiButton(
     "danger",
   ]);
   const normalizedSize = normalizeVariant(size, "regular", ["compact", "regular"]);
-  const content = children ?? fallbackText(label ?? ariaLabel, loading ? "Loading" : "Action");
+  const content = sanitizeReactNode(children ?? fallbackText(label ?? ariaLabel, loading ? "Loading" : "Action"));
   return h(
     Comp,
     compactProps({

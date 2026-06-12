@@ -102,13 +102,39 @@ test("wrappers strip unsafe passthrough DOM props", () => {
       onclick: "alert(1)",
       dangerouslySetInnerHTML: { __html: "<script>alert(1)</script>" },
       href: "javascript:alert(1)",
+      "data-can-execute": "true",
       canExecute: true,
       executable: true,
     }),
   );
   assert.match(html, /^<button /);
   assert.match(html, />Open<\/button>$/);
-  assert.doesNotMatch(html, /dangerouslySetInnerHTML|canExecute|executable|javascript:/);
+  assert.doesNotMatch(html, /dangerouslySetInnerHTML|canExecute|can-execute|executable|javascript:/);
+  assertSafeStaticMarkup(html);
+});
+
+test("JamiButton strips unsafe asChild element props before Radix Slot render", () => {
+  const html = renderToStaticMarkup(
+    h(
+      JamiButton,
+      { asChild: true, variant: "secondary", ariaLabel: "Open" },
+      h(
+        "a",
+        {
+          href: "javascript:alert(1)",
+          onClick: () => "execute",
+          dangerouslySetInnerHTML: { __html: "<script>alert(1)</script>" },
+          "data-executable": "true",
+          "data-can-execute": "true",
+          xlinkHref: "javascript:alert(2)",
+        },
+        "Open",
+      ),
+    ),
+  );
+  assert.match(html, /^<a /);
+  assert.match(html, />Open<\/a>$/);
+  assert.doesNotMatch(html, /href=|xlink:href|dangerouslySetInnerHTML|data-executable|data-can-execute|javascript:/);
   assertSafeStaticMarkup(html);
 });
 
