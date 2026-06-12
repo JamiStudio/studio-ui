@@ -19,6 +19,27 @@ import { THEMES, buildPage, buildStaticInfoPage, buildSuiteRoutePage } from "./s
 const here = dirname(fileURLToPath(import.meta.url));
 const distDir = join(here, "dist");
 
+const HOSTED_ROUTE_SOURCE_LOCKS = [
+  {
+    id: "cloudflare-pages-direct-upload",
+    title: "Cloudflare Pages Direct Upload",
+    url: "https://developers.cloudflare.com/pages/get-started/direct-upload/",
+    checkedOn: "2026-06-12",
+  },
+  {
+    id: "cloudflare-pages-headers",
+    title: "Cloudflare Pages custom headers",
+    url: "https://developers.cloudflare.com/pages/configuration/headers/",
+    checkedOn: "2026-06-12",
+  },
+  {
+    id: "cloudflare-pages-serving",
+    title: "Cloudflare Pages serving static assets",
+    url: "https://developers.cloudflare.com/pages/configuration/serving-pages/",
+    checkedOn: "2026-06-12",
+  },
+];
+
 export function build() {
   const data = loadShowcaseData();
   mkdirSync(distDir, { recursive: true });
@@ -108,6 +129,7 @@ export function build() {
     status: "preview-artifacts-only",
     externalHostingClaimed: false,
     targetHost: "registry.jami.studio",
+    sourceLocks: HOSTED_ROUTE_SOURCE_LOCKS,
     routes: [
       {
         id: "registry-index",

@@ -60,7 +60,7 @@ These must not be stated as fact publicly until evidence exists (see
 
 - A live hosted registry at `registry.jami.studio` or any remote CLI install.
 - Any published npm package, or `@jami-studio` scope availability.
-- A runtime React renderer, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests and local resident wrapper source exist, but mounted React applications do not.
+- A runtime React renderer, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests, local mounted React suite route artifacts, and local resident wrapper source exist, but no public hosted or full runtime suite application is deployed.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
 - A release-attached SBOM, SLSA/npm provenance, or any executed release

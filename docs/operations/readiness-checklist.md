@@ -105,6 +105,9 @@ npm whoami
   state).
 - Deploy the preview artifacts checked by `pnpm hosted:routes:check` and smoke
   the live registry/docs/workbench/showcase/suite route URLs.
+- Keep the repo-local Cloudflare/static-host source-lock row in
+  `docs/operations/source-lock-records.md` current before changing hosted route
+  generation or route smoke behavior.
 
 ## Missing Before App Deployment
 
@@ -136,7 +139,8 @@ npm whoami
 - Additional repo-local source-lock records and drift checks for each newly adopted
   drift-prone dependency or copied/recomposed source surface, using the registry-root
   source-lock record as intake evidence. The current Radix Slot/Label and React
-  package evidence for the resident wrapper slice is recorded in
+  package evidence for the resident wrapper slice and the Cloudflare/static-host
+  evidence for hosted route preview artifacts are recorded in
   `docs/operations/source-lock-records.md`.
 - Harness-side compatibility fixture export or mirror for `uiPayload`, `artifactView`,
   `actionRef`, `themeRef`, `suiteRef`, unsupported renderer states, invalid payloads,

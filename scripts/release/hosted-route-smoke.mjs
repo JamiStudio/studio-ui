@@ -43,9 +43,25 @@ function scanSecrets(label, text) {
 }
 
 const result = build();
+const sourceLockPath = "docs/operations/source-lock-records.md";
 const manifestPath = "apps/workbench/dist/hosted-route-manifest.json";
 if (!existsSync(join(root, manifestPath))) {
   fail(`${manifestPath} was not generated`);
+}
+
+const REQUIRED_SOURCE_LOCK_URLS = [
+  "https://developers.cloudflare.com/pages/get-started/direct-upload/",
+  "https://developers.cloudflare.com/pages/configuration/headers/",
+  "https://developers.cloudflare.com/pages/configuration/serving-pages/",
+];
+
+if (!existsSync(join(root, sourceLockPath))) {
+  fail(`${sourceLockPath} missing`);
+} else {
+  const sourceLockText = readText(sourceLockPath);
+  for (const url of REQUIRED_SOURCE_LOCK_URLS) {
+    if (!sourceLockText.includes(url)) fail(`${sourceLockPath} missing hosted-route source lock ${url}`);
+  }
 }
 
 const manifest = existsSync(join(root, manifestPath)) ? readJson(manifestPath) : null;
@@ -55,6 +71,12 @@ if (manifest) {
   if (manifest.targetHost !== "registry.jami.studio") fail("hosted manifest target host drifted");
   if (!Array.isArray(manifest.missingHumanActions) || manifest.missingHumanActions.length < 4) {
     fail("hosted manifest must record remaining human/account/DNS actions");
+  }
+  if (!Array.isArray(manifest.sourceLocks)) fail("hosted manifest missing sourceLocks");
+  for (const url of REQUIRED_SOURCE_LOCK_URLS) {
+    if (!manifest.sourceLocks?.some((entry) => entry.url === url)) {
+      fail(`hosted manifest missing source lock ${url}`);
+    }
   }
 
   const routes = manifest.routes ?? [];
