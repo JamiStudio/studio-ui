@@ -322,7 +322,7 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
 The complete Studio UI product is the public, installable, hosted shadcn-compatible
 registry and UI foundation for Jami.Studio. It must work from public packages and a hosted
 registry, not only from a source checkout. The following routes are the definition of the
-end state unless explicitly removed from shipped scope by a recorded product decision.
+end state.
 
 ### Tokens
 
@@ -356,8 +356,8 @@ end state unless explicitly removed from shipped scope by a recorded product dec
   keyboard/focus behavior, loading, disabled, invalid, empty, error, long-content,
   responsive, and reduced-motion states.
 - [ ] Browser visual and accessibility evidence exists for every primitive and wrapper.
-- [ ] Runtime React renderer shipped scope is either fully implemented or public claims are
-  removed; data-only resident rendering remains the safe harness boundary.
+- [ ] Runtime React suite/app renderer is implemented for installed UI and suite surfaces;
+  data-only resident rendering remains the safe harness boundary.
 - [ ] Safe renderer fixtures cover every shared harness ref and every valid, invalid,
   unsupported, denied, pending, stale, redacted, missing-source, expired, replayed, and
   error state.
@@ -367,7 +367,7 @@ end state unless explicitly removed from shipped scope by a recorded product dec
 ### Workbench
 
 - [ ] Workbench supports save, discard, rename, duplicate, restore, register, export,
-  import if accepted, inspector focus, persisted backend registration, package
+  import, inspector focus, persisted backend registration, package
   registration, offline/online state, conflict recovery, and hosted state.
 - [ ] Hosted workbench/showcase deploys and passes browser, accessibility, visual,
   responsive, keyboard, focus, reduced-motion, long-content, empty, error, disabled,
@@ -433,7 +433,7 @@ end state unless explicitly removed from shipped scope by a recorded product dec
 - The first primitive base is Radix-first shadcn. Base UI remains a later compatible family, not the first default.
 - Token source is DTCG-compatible JSON, generated into CSS variables, Tailwind theme variables, TypeScript types, shadcn `cssVars`, docs, and workbench control schemas.
 - Theme editing is always live. There is no staged apply flow and no preview/live toggle.
-- The theme workbench is an overlay over the real app/page: compact status bar, collapsible docked panels, optional inspector focus, retained navigation, close/reopen behavior, and explicit Save.
+- The theme workbench is an overlay over the real app/page: compact status bar, collapsible docked panels, inspector focus, retained navigation, close/reopen behavior, and explicit Save.
 - The Jami factory theme family uses soft warm muted tones, warm backgrounds, `#C14D84` as the likely anchor accent, and rich blue-green support ranges instead of lime/yellow-green.
 - Suite lanes are `solo`, `business-ops`, `mixed-media`, and `research-writing`.
 - Builder.io / Agent-Native templates are a reference corpus to recompose, not untouched apps to redistribute.
@@ -469,7 +469,7 @@ end state unless explicitly removed from shipped scope by a recorded product dec
 - `packages/registry` owns registry item metadata, dependency graphs, shadcn item generation, package manifests, and registry JSON output.
 - `packages/ui` owns resident primitives, components, blocks, page building blocks, and suite shell components.
 - `packages/renderer` owns runtime payload schema validation, vocabulary generation handling, allowlist lookup, graceful fallback, and action references.
-- `packages/cli` owns install/config flows for app title, selected suite, theme, registry URL, and optional defaults.
+- `packages/cli` owns install/config flows for app title, selected suite, theme, registry URL, and defaults.
 - `apps/workbench` owns the always-live overlay, status bar, docked control panels, inspector focus, save/register/export flows, and the showcase experience.
 - `registry/` owns authored registry item source.
 - `docs/architecture/` owns durable contract explanations.
@@ -492,7 +492,7 @@ Shared integration is contract-first:
 - `artifactView` for harness artifacts rendered through trusted UI components.
 - `actionRef` for policy-gated agent/tool actions exposed by UI slots.
 - `themeRef` for factory/custom theme references.
-- `suiteRef` for suite install graphs and optional harness capabilities.
+- `suiteRef` for suite install graphs and harness capabilities.
 
 Do not duplicate the harness roadmap in this repo. Link to the sibling plan and update
 shared contract docs when integration decisions change.
@@ -530,8 +530,8 @@ active plan, not optional research notes.
   unsafe payload, secret-redaction, and no-side-effect fixtures that preserve harness-owned policy
   decisions.
 - `adapter-lock`: AG-UI and any registry/CLI/provider adapter claims must document support,
-  unsupported states, denial behavior, trace/evidence mapping, auth expectations, and cancellation or
-  streaming limitations where applicable.
+  unsupported states, denial behavior, trace/evidence mapping, auth expectations, cancellation,
+  streaming behavior, and verification evidence.
 - `token-lock`: token fixtures must cover schema version, aliases, invalid references, deprecation,
   composite tokens, dark/light parity, contrast, and generated output determinism.
 - `renderer-lock`: runtime rendering is data-only, resident, allowlisted, validated, and failing-closed.
@@ -889,7 +889,7 @@ Primary areas:
 Implementation tasks:
 
 - [x] Add CLI commands for init, add item, add suite, apply theme, list, inspect, doctor, update, remove, migrate, lock/pin, and provenance inspect. (Theme/suite apply is `add <item>`; all commands implemented in `packages/cli`.)
-- [~] Add configuration for app title, suite, theme, registry URL, package manager, and optional defaults. (Flag-driven `init` today; interactive prompts pending.)
+- [~] Add configuration for app title, suite, theme, registry URL, package manager, and defaults. (Flag-driven `init` today; interactive prompts pending.)
 - [~] Add dry-run and diff behavior before writing files. (`--dry-run` reports the per-file action plan; per-line file diffs are pending.)
 - [x] Add rollback/restore guidance and conflict handling for locally modified installed files.
 - [x] Add install, update, remove, migrate, and provenance smoke tests in temporary projects.
