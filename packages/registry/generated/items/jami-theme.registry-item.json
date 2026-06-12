@@ -34,6 +34,13 @@
       "type": "registry:file",
       "content": "{\n  \"$schema\": \"https://jami.studio/schemas/tokens/shadcn-css-vars.generated.json\",\n  \"schemaVersion\": \"2026-06-09.token-foundation\",\n  \"cssVars\": {\n    \"light\": {\n      \"background\": \"var(--jami-semantic-light-background)\",\n      \"foreground\": \"var(--jami-semantic-light-foreground)\",\n      \"accent\": \"var(--jami-semantic-light-accent)\",\n      \"ring\": \"var(--jami-componentState-focusRing)\"\n    },\n    \"dark\": {\n      \"background\": \"var(--jami-semantic-dark-background)\",\n      \"foreground\": \"var(--jami-semantic-dark-foreground)\",\n      \"accent\": \"var(--jami-semantic-dark-accent)\",\n      \"ring\": \"var(--jami-componentState-focusRing)\"\n    }\n  }\n}\n",
       "hash": "sha256:76cc1f474912a843156d20c72d9584ccbed0f6788c784c051017b99aae83c58d"
+    },
+    {
+      "path": "packages/tokens/generated/jami-token-provenance.json",
+      "target": "studio-ui/jami-token-provenance.json",
+      "type": "registry:file",
+      "content": "{\n  \"$schema\": \"https://jami.studio/schemas/tokens/token-provenance.generated.json\",\n  \"schemaVersion\": \"2026-06-09.token-foundation\",\n  \"generatedBy\": \"scripts/contracts/generate-contract-artifacts.mjs\",\n  \"generatedFrom\": {\n    \"path\": \"packages/tokens/fixtures/valid/jami-factory.tokens.json\",\n    \"sha256\": \"sha256:406db335470c192c5c633d92038dacb7ea4af6c42f8dd2d8e98a06ac824110f4\"\n  },\n  \"hostedRegistryClaimed\": false,\n  \"packagePublishClaimed\": false,\n  \"outputs\": [\n    {\n      \"id\": \"cssVariables\",\n      \"path\": \"packages/tokens/generated/jami.css\",\n      \"sha256\": \"sha256:1e2861921ed3f83fd8e932a4ce716178cb6c9c271308ee595ec354f1e22d323a\"\n    },\n    {\n      \"id\": \"tailwindTheme\",\n      \"path\": \"packages/tokens/generated/jami.tailwind.css\",\n      \"sha256\": \"sha256:9c6e07c7793c005f73e5e759484eaa1ccbc74a1415e7ce8ae516c4b36834eb25\"\n    },\n    {\n      \"id\": \"typescriptTypes\",\n      \"path\": \"packages/tokens/generated/jami-tokens.ts\",\n      \"sha256\": \"sha256:0389f4fe5e830d3f76b0b7eb983bb0c80a97a46ed1e12a3fe4f681ee19fe5817\"\n    },\n    {\n      \"id\": \"shadcnCssVars\",\n      \"path\": \"packages/tokens/generated/jami.shadcn.json\",\n      \"sha256\": \"sha256:76cc1f474912a843156d20c72d9584ccbed0f6788c784c051017b99aae83c58d\"\n    }\n  ]\n}\n",
+      "hash": "sha256:473365e8e7f18d168721f03053d04ffc3789ab2287f7707c7dd3e5d30a42f21f"
     }
   ],
   "meta": {
@@ -43,7 +50,7 @@
       "id": "theme.jami-factory",
       "version": "0.0.0-contract.20260609",
       "schemaVersion": "2026-06-09.registry-foundation",
-      "sourceHash": "sha256:cb84e0ea6e73434aa45e33b3e956d34eb2a52ec1c4134f4621d80090776d1146",
+      "sourceHash": "sha256:bf2adea14822eab1d092018d0767b31de75e3a19410905549576f5273f9c49ab",
       "migrationNotes": "Initial theme item. Files are the generated token outputs; regenerate with pnpm contracts:generate when the token source changes."
     },
     "tokenRequirements": [

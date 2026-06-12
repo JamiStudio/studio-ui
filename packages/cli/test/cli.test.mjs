@@ -81,14 +81,18 @@ test("add installs real theme files and records provenance in the lock", () => {
   assert.equal(r.code, 0);
   assert.equal(r.result.status, "installed");
 
-  for (const f of ["jami.css", "jami.tailwind.css", "jami-tokens.ts", "jami.shadcn.json"]) {
+  for (const f of ["jami.css", "jami.tailwind.css", "jami-tokens.ts", "jami.shadcn.json", "jami-token-provenance.json"]) {
     assert.ok(existsSync(join(dir, "studio-ui", f)), `${f} installed`);
   }
+  const tokenProvenance = readJson(join("studio-ui", "jami-token-provenance.json"));
+  assert.equal(tokenProvenance.hostedRegistryClaimed, false);
+  assert.equal(tokenProvenance.packagePublishClaimed, false);
+  assert.equal(tokenProvenance.outputs.length, 4);
 
   const lock = readJson("studio-ui.lock.json");
   const entry = lock.items.find((i) => i.name === "jami-theme");
   assert.equal(entry.sourceState, "installable");
-  assert.equal(entry.files.length, 4);
+  assert.equal(entry.files.length, 5);
   assert.ok(entry.sourceHash.startsWith("sha256:"));
   assert.ok(entry.files.every((f) => f.hash.startsWith("sha256:")));
   assert.equal(entry.provenance.license, "MIT");

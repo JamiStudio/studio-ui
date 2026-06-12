@@ -135,7 +135,7 @@ function validateTokenFixture(path, shouldPass) {
     }
   }
   const generated = meta?.generatedOutputs;
-  for (const output of ["cssVariables", "tailwindTheme", "typescriptTypes", "shadcnCssVars"]) {
+  for (const output of ["cssVariables", "tailwindTheme", "typescriptTypes", "shadcnCssVars", "provenanceManifest"]) {
     if (!generated?.[output]) localFailures.push(`missing generated output target ${output}`);
   }
 
@@ -901,6 +901,27 @@ function validateGeneratedRegistry() {
         }
       } else if (wrapperFile) {
         localFailures.push(`${item.name} must not embed wrapper source before wrapper evidence exists`);
+      }
+    }
+    if (item.name === "jami-theme") {
+      const provenanceFile = (item.files ?? []).find(
+        (file) => file.path === "packages/tokens/generated/jami-token-provenance.json",
+      );
+      if (!provenanceFile?.hash?.startsWith("sha256:")) {
+        localFailures.push("jami-theme missing generated token provenance manifest hash");
+      } else {
+        const provenance = JSON.parse(provenanceFile.content ?? "{}");
+        if (provenance.hostedRegistryClaimed !== false || provenance.packagePublishClaimed !== false) {
+          localFailures.push("jami-theme token provenance manifest must keep hosted/package claims false");
+        }
+        const generatedPaths = new Map((provenance.outputs ?? []).map((output) => [output.path, output.sha256]));
+        for (const file of item.files ?? []) {
+          if (file.path?.startsWith("packages/tokens/generated/") && file.path !== provenanceFile.path) {
+            if (generatedPaths.get(file.path) !== file.hash) {
+              localFailures.push(`jami-theme token provenance hash drift for ${file.path}`);
+            }
+          }
+        }
       }
     }
   }

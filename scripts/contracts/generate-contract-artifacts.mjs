@@ -146,6 +146,10 @@ function contentHash(content) {
   return `sha256:${createHash("sha256").update(content).digest("hex")}`;
 }
 
+function fileDigest(path) {
+  return contentHash(readFileSync(join(root, path), "utf8"));
+}
+
 // Embed real install content + a content hash for any file whose source path
 // resolves on disk (generated token outputs, generated suite manifests). Files
 // whose source does not exist yet (for example a primitive whose `.tsx` source
@@ -795,12 +799,35 @@ function generateTokenArtifacts({ check }) {
   const tokenMap = flattenTokens(source.tokens);
   const schemaVersion = source.$extensions["studio-ui"].schemaVersion;
   const outputs = source.$extensions["studio-ui"].generatedOutputs;
+  const generatedContents = {
+    cssVariables: toCssVariables(tokenMap),
+    tailwindTheme: toTailwindTheme(tokenMap),
+    typescriptTypes: toTypescriptTypes(tokenMap, schemaVersion),
+    shadcnCssVars: toShadcnCssVars(tokenMap, schemaVersion),
+  };
+  const provenanceManifest = {
+    $schema: "https://jami.studio/schemas/tokens/token-provenance.generated.json",
+    schemaVersion,
+    generatedBy: "scripts/contracts/generate-contract-artifacts.mjs",
+    generatedFrom: {
+      path: tokenSourcePath,
+      sha256: fileDigest(tokenSourcePath),
+    },
+    hostedRegistryClaimed: false,
+    packagePublishClaimed: false,
+    outputs: Object.entries(generatedContents).map(([id, content]) => ({
+      id,
+      path: outputs[id],
+      sha256: contentHash(content),
+    })),
+  };
 
   return [
-    ...compareOrWrite(outputs.cssVariables, toCssVariables(tokenMap), { check }),
-    ...compareOrWrite(outputs.tailwindTheme, toTailwindTheme(tokenMap), { check }),
-    ...compareOrWrite(outputs.typescriptTypes, toTypescriptTypes(tokenMap, schemaVersion), { check }),
-    ...compareOrWrite(outputs.shadcnCssVars, toShadcnCssVars(tokenMap, schemaVersion), { check }),
+    ...compareOrWrite(outputs.cssVariables, generatedContents.cssVariables, { check }),
+    ...compareOrWrite(outputs.tailwindTheme, generatedContents.tailwindTheme, { check }),
+    ...compareOrWrite(outputs.typescriptTypes, generatedContents.typescriptTypes, { check }),
+    ...compareOrWrite(outputs.shadcnCssVars, generatedContents.shadcnCssVars, { check }),
+    ...compareOrWrite(outputs.provenanceManifest, `${JSON.stringify(provenanceManifest, null, 2)}\n`, { check }),
   ];
 }
 

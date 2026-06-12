@@ -27,13 +27,18 @@
       "path": "packages/tokens/generated/jami.shadcn.json",
       "target": "studio-ui/jami.shadcn.json",
       "kind": "registry:file"
+    },
+    {
+      "path": "packages/tokens/generated/jami-token-provenance.json",
+      "target": "studio-ui/jami-token-provenance.json",
+      "kind": "registry:file"
     }
   ],
   "lifecycle": {
     "id": "theme.jami-factory",
     "version": "0.0.0-contract.20260609",
     "schemaVersion": "2026-06-09.registry-foundation",
-    "sourceHash": "sha256:cb84e0ea6e73434aa45e33b3e956d34eb2a52ec1c4134f4621d80090776d1146",
+    "sourceHash": "sha256:bf2adea14822eab1d092018d0767b31de75e3a19410905549576f5273f9c49ab",
     "migrationNotes": "Initial theme item. Files are the generated token outputs; regenerate with pnpm contracts:generate when the token source changes."
   },
   "tokenRequirements": [

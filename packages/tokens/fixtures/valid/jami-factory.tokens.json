@@ -13,7 +13,8 @@
         "cssVariables": "packages/tokens/generated/jami.css",
         "tailwindTheme": "packages/tokens/generated/jami.tailwind.css",
         "typescriptTypes": "packages/tokens/generated/jami-tokens.ts",
-        "shadcnCssVars": "packages/tokens/generated/jami.shadcn.json"
+        "shadcnCssVars": "packages/tokens/generated/jami.shadcn.json",
+        "provenanceManifest": "packages/tokens/generated/jami-token-provenance.json"
       }
     }
   },

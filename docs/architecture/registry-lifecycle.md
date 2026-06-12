@@ -61,7 +61,8 @@ items are:
   installable resident component vocabulary items backed by the same authored
   metadata and tokenized style source.
 - `jami-theme` (`theme`) — installable: its files are the generated token
-  outputs, so real install content and per-file hashes are embedded.
+  outputs plus `jami-token-provenance.json`, so real install content, per-file
+  hashes, source token hash, and generated-output provenance are embedded.
 - `studio-console-brand`, `editorial-studio-brand`, and `command-grid-brand`
   (`theme`) — installable brand/template option descriptors under
   `registry/branding/`. They express selectable token deltas and default-kit

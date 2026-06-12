@@ -1,0 +1,33 @@
+{
+  "$schema": "https://jami.studio/schemas/tokens/token-provenance.generated.json",
+  "schemaVersion": "2026-06-09.token-foundation",
+  "generatedBy": "scripts/contracts/generate-contract-artifacts.mjs",
+  "generatedFrom": {
+    "path": "packages/tokens/fixtures/valid/jami-factory.tokens.json",
+    "sha256": "sha256:406db335470c192c5c633d92038dacb7ea4af6c42f8dd2d8e98a06ac824110f4"
+  },
+  "hostedRegistryClaimed": false,
+  "packagePublishClaimed": false,
+  "outputs": [
+    {
+      "id": "cssVariables",
+      "path": "packages/tokens/generated/jami.css",
+      "sha256": "sha256:1e2861921ed3f83fd8e932a4ce716178cb6c9c271308ee595ec354f1e22d323a"
+    },
+    {
+      "id": "tailwindTheme",
+      "path": "packages/tokens/generated/jami.tailwind.css",
+      "sha256": "sha256:9c6e07c7793c005f73e5e759484eaa1ccbc74a1415e7ce8ae516c4b36834eb25"
+    },
+    {
+      "id": "typescriptTypes",
+      "path": "packages/tokens/generated/jami-tokens.ts",
+      "sha256": "sha256:0389f4fe5e830d3f76b0b7eb983bb0c80a97a46ed1e12a3fe4f681ee19fe5817"
+    },
+    {
+      "id": "shadcnCssVars",
+      "path": "packages/tokens/generated/jami.shadcn.json",
+      "sha256": "sha256:76cc1f474912a843156d20c72d9584ccbed0f6788c784c051017b99aae83c58d"
+    }
+  ]
+}

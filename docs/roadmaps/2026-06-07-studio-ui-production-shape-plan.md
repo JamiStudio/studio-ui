@@ -66,6 +66,12 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   Tailwind `@theme`, TypeScript token-name exports, shadcn `cssVars`, and local shadcn-shaped
   registry output under `packages/*/generated`. `pnpm contracts:check` now drift-checks those
   artifacts and enforces real SHA-256 source hashes on registry source items.
+- 2026-06-12 Group B / Studio UI pass 1 added `jami-token-provenance.json` as a generated
+  token-output provenance manifest. The `jami-theme` registry item now embeds it alongside
+  generated token outputs, and `pnpm contracts:check` fails if the manifest omits source/output
+  hashes, drifts from embedded registry file hashes, or claims hosted/package publication.
+  This is local provenance hardening only; hosted registry smoke and public package publish
+  remain open.
 - 2026-06-09 Stream 3 pass 1 hardened the renderer-safe payload boundary. The renderer
   compatibility check now fails closed on event-handler props, `dangerouslySetInnerHTML`,
   `javascript:` URLs, foreign component namespaces, serialized React-element markers, and
@@ -632,7 +638,7 @@ Implementation tasks:
 - [~] Record the current DTCG source-lock, schema version, and migration posture before token schemas are treated as durable.
 - [~] Add factory theme definitions for the warm Jami family anchored around `#C14D84`.
 - [ ] Add rich blue-green support ramps and explicitly exclude lime/yellow-green factory ranges.
-- [x] Generate CSS variables, Tailwind `@theme` variables, TypeScript types, and shadcn `cssVars` payloads.
+- [x] Generate CSS variables, Tailwind `@theme` variables, TypeScript types, shadcn `cssVars` payloads, and token-output provenance manifest.
 - [~] Add validation for token completeness, references, contrast, and dark/light parity.
 - [~] Add fixtures for aliases, invalid references, deprecated tokens, composite tokens, contrast failures, and deterministic generated outputs.
 

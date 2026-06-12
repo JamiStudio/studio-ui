@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 40
-- Typed fragments: 21
+- Total fragments: 41
+- Typed fragments: 22
 - Unclassified legacy fragments: 19
 
 ## Notes By Surface
@@ -86,6 +86,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 - `2026-06-08-studio-ui-rename.md` - Rename the canonical repository and product references from Studio UI Registry to Studio UI, keeping registry language scoped to the package, item graph, CLI lifecycle, and static distribution endpoint.
 - `2026-06-12-phase-2-shared-seam-coverage.md` - Add the Phase 2 shared seam coverage matrix for Studio UI and wire it into `pnpm contracts:check` / `pnpm verify`, including registry metadata drift checks for the matrix path and coverage id.
+- `2026-06-12-token-provenance-manifest.md` - Generate and verify a token-output provenance manifest for the `jami-theme` registry item. The manifest records the source token fixture hash, every generated token output hash, and keeps hosted registry/package publish claims explicit false.
 
 #### security
 
