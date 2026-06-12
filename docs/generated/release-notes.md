@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 38
-- Typed fragments: 20
+- Total fragments: 39
+- Typed fragments: 21
 - Unclassified legacy fragments: 18
 
 ## Notes By Surface
@@ -86,6 +86,10 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 - `2026-06-08-studio-ui-rename.md` - Rename the canonical repository and product references from Studio UI Registry to Studio UI, keeping registry language scoped to the package, item graph, CLI lifecycle, and static distribution endpoint.
 - `2026-06-12-phase-2-shared-seam-coverage.md` - Add the Phase 2 shared seam coverage matrix for Studio UI and wire it into `pnpm contracts:check` / `pnpm verify`, including registry metadata drift checks for the matrix path and coverage id.
+
+#### security
+
+- `2026-06-12-shared-seam-sample-status-hardening.md` - Harden `pnpm contracts:check` so Phase 2 shared-seam matrix rows without a dedicated renderer or presentation fixture must still carry machine-readable sample evidence for their declared expected status.
 
 #### unclassified
 

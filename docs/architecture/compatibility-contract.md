@@ -50,8 +50,9 @@ for every shared seam family, maps existing renderer or presentation fixtures
 where they exist, and carries safe sample refs for matrix-only cases. The
 contract gate fails when a required family/case is missing, when a referenced
 fixture drifts from the matrix status, when a sample contains unsafe or
-secret-shaped values, or when the generated registry metadata no longer points
-at the manifest.
+secret-shaped values, when a matrix-only sample lacks machine-readable evidence
+for its declared status, or when the generated registry metadata no longer
+points at the manifest.
 
 ## Expected Harness Handshake
 

@@ -629,6 +629,32 @@ const allowedSharedStatuses = new Set([
   "missing-source",
 ]);
 
+const sampleStatusSignals = new Map([
+  ["renderable", /renderable|payloadId|componentRef|children|empty/i],
+  ["display-only", /display-only|available|disabled|pending_approval|approved|expired|replayed|themeId|suiteId|kind|rendererMode|optionalHarnessCapabilities|auth-required/i],
+  ["denied", /denied|permission_denied|audit.*denied/i],
+  ["unsupported", /unsupported|unsupported family|unsupported suite|not-claimed/i],
+  ["invalid", /invalid|secret-shaped|bad|unsafe/i],
+  ["error", /error|invalid_alias|contrast_failure|failure|failed/i],
+  ["ready", /runId|eventId|evidenceId|capabilityId|registryItem|dependency|acceptedContracts|source|command|result|timestamp|supported|local-only/i],
+  ["empty", /empty|items":\[\]|content":null|summary":null/i],
+  ["loading", /loading/i],
+  ["redacted", /redacted|private|permission_filtered|permission-filtered|permission_denied|content_redacted/i],
+  ["stale", /stale|deprecated|migration|replayed/i],
+  ["missing-source", /missing|missing-source|missing-source-lock/i],
+]);
+
+function sampleSupportsExpectedStatus(item) {
+  if (!isObject(item.sampleRef)) return false;
+  const serialized = JSON.stringify(item.sampleRef);
+  const signal = sampleStatusSignals.get(item.expectedStatus);
+  if (!signal?.test(serialized)) return false;
+  if (item.expectedStatus === "display-only" && item.seam === "actionRef" && item.displayOnly !== true) {
+    return false;
+  }
+  return true;
+}
+
 function validatePresentationFixture(path) {
   const fixture = readJson(path);
   if (!fixture) return;
@@ -721,6 +747,8 @@ function validateSharedSeamCoverage() {
       }
     } else if (!isObject(item.sampleRef)) {
       localFailures.push(`${key}: cases without fixturePath must carry sampleRef`);
+    } else if (!sampleSupportsExpectedStatus(item)) {
+      localFailures.push(`${key}: sampleRef must carry machine-readable evidence for expectedStatus ${item.expectedStatus}`);
     }
     if (item.seam === "actionRef" && item.displayOnly !== true) {
       localFailures.push(`${key}: actionRef cases must be marked displayOnly true`);
