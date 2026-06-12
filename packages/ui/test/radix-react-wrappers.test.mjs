@@ -158,6 +158,27 @@ test("JamiPanel renders a labelled low-radius region with tokenized classes", ()
   assertSafeStaticMarkup(html);
 });
 
+test("JamiPanel strips unsafe child element props before render", () => {
+  const html = renderToStaticMarkup(
+    h(
+      JamiPanel,
+      { title: "Wrapper evidence" },
+      h("span", {
+        dangerouslySetInnerHTML: { __html: "<script>alert(1)</script>" },
+        onClick: () => "execute",
+        "data-executable": "true",
+        "xlink:href": "javascript:alert(1)",
+      }),
+    ),
+  );
+  assert.match(html, /^<section /);
+  assert.doesNotMatch(
+    html,
+    /<script|dangerouslySetInnerHTML|onclick|data-executable|xlink:href|javascript:/i,
+  );
+  assertSafeStaticMarkup(html);
+});
+
 test("JamiTextField uses Radix Label and emits a labelled native input", () => {
   assert.deepEqual(validateComponentProps("text-field", { label: "Search sources", helperText: "Find records" }), []);
   const html = renderToStaticMarkup(

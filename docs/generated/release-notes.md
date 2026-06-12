@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 49
-- Typed fragments: 24
+- Total fragments: 50
+- Typed fragments: 25
 - Unclassified legacy fragments: 25
 
 ## Notes By Surface
@@ -88,6 +88,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 #### security
 
+- `2026-06-12-group-c-wrapper-child-prop-hardening.md` - Harden the Group C Radix/React wrapper child-prop sanitizer so resident wrapper child surfaces cannot preserve unsafe React element props, dangerous HTML, forged executable flags, or namespaced JavaScript URL attributes.
 - `2026-06-12-group-c-wrapper-prop-hardening.md` - Hardened the authored Radix/React wrapper slice so unsafe passthrough DOM props are stripped before rendering. The wrappers now drop event-handler props, `dangerouslySetInnerHTML`, forged executable flags, and `javascript:` URL props while preserving the local wrapper/package boundary: renderer payload execution, hosted runtime, backend persistence, backend registration, and harness action execution remain unclaimed.
 
 ### unclassified

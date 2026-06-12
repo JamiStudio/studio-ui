@@ -69,7 +69,7 @@ function containsJavaScriptUrl(value) {
 }
 
 function isUnsafeProp(key, value) {
-  const normalizedKey = key.replace(/[-_]/g, "").toLowerCase();
+  const normalizedKey = key.replace(/[-_:]/g, "").toLowerCase();
   if (/^on[A-Za-z]/.test(key)) return true;
   if (
     normalizedKey === "dangerouslysetinnerhtml" ||
@@ -190,7 +190,7 @@ export const JamiPanel = React.forwardRef(function JamiPanel(
     ? h("p", { role: "status" }, "No content yet.")
     : error
       ? h("p", { role: "alert" }, text(error))
-      : children;
+      : sanitizeReactNode(children);
   return h(
     "section",
     compactProps({
