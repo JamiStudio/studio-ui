@@ -131,6 +131,15 @@ for (const file of requiredFiles) {
   if (!existsSync(join(root, path))) fail(`${path} missing`);
 }
 
+for (const file of result.written) {
+  const path = `apps/workbench/dist/${file}`;
+  if (!existsSync(join(root, path))) {
+    fail(`${path} missing from generated preview output`);
+    continue;
+  }
+  scanSecrets(file, readText(path));
+}
+
 if (failures.length > 0) {
   console.error("hosted-route-smoke failed");
   for (const failure of failures) console.error(`- ${failure}`);

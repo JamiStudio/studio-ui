@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 52
-- Typed fragments: 25
+- Total fragments: 53
+- Typed fragments: 26
 - Unclassified legacy fragments: 27
 
 ## Notes By Surface
@@ -39,6 +39,12 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 #### unclassified
 
 - `2026-06-09-current-source-agent-rule.md` - Added an explicit June 2026 source-currentness warning to the Studio UI agent operating rules.
+
+### hosted,workbench
+
+#### security
+
+- `2026-06-12-group-d-hosted-preview-secret-scan.md` - Strengthen `pnpm hosted:routes:check` so the local hosted preview smoke scans every generated workbench preview artifact for secret-shaped content, including registry item copies and generated route files not listed as top-level hosted routes.
 
 ### registry,workbench,cli
 

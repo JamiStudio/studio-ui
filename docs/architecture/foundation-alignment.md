@@ -20,7 +20,7 @@ Path-lock evidence checked on 2026-06-09:
 - `studio-ui` is a Git worktree at `C:\Users\james\dev\orgs\oss\registry\studio-ui`
   with `origin` set to `https://github.com/studio-jami/studio-ui.git`.
 - `jami-harness` is a Git worktree at `C:\Users\james\dev\orgs\oss\registry\jami-harness`
-  with `origin` set to `https://github.com/JamiStudio/jami-harness.git`.
+  with `origin` set to `https://github.com/studio-jami/jami-harness.git`.
 - Active Studio UI boundary docs and roadmaps use these registry-root sibling paths.
 
 The repositories should remain separate until a later decision record proves that one
