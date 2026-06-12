@@ -7,6 +7,9 @@ import {
   implementedRadixReactWrapperNames,
   PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
   renderPrimitiveSpec,
+  suiteAppRouteFileName,
+  suitePageRouteFileName,
+  suiteReactMountEvidence,
 } from "../../packages/ui/src/index.mjs";
 
 const root = process.cwd();
@@ -274,8 +277,10 @@ function suiteManifest(item) {
       : null,
     implementation: shell
       ? {
-          status: "renderable-primitive-factory-implementation",
-          runtimeReactApp: false,
+          status: "mounted-react-suite-implementation",
+          runtimeReactApp: true,
+          hostedRuntime: false,
+          source: suiteReactMountEvidence.source,
           app: appImplementationFile(item.suite).target,
           pages: (shell.pages ?? []).map((page) => pageImplementationFile(item.suite, page).target),
           blocks: (shell.blocks ?? []).map((block) => blockImplementationFile(item.suite, block).target),
@@ -331,6 +336,25 @@ function primitiveFactoryEvidence() {
     source: "packages/ui/src/primitive-components.mjs",
     implementationStatus: "framework-neutral-component-factory",
     ...implementationRuntimeBoundary(),
+  };
+}
+
+function suiteReactRuntimeBoundary() {
+  return {
+    runtimeReactRenderer: true,
+    hostedRuntime: false,
+    harnessRuntimeExecution: false,
+    executableActions: false,
+    radixWrapper: true,
+  };
+}
+
+function suiteReactMount(lane, route = null) {
+  return {
+    ...suiteReactMountEvidence,
+    routeArtifact: route
+      ? `apps/workbench/dist/${suitePageRouteFileName(lane, route)}`
+      : `apps/workbench/dist/${suiteAppRouteFileName(lane)}`,
   };
 }
 
@@ -490,7 +514,7 @@ function suiteBlockImplementation(lane, shell, block) {
     $schema: "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
     schemaVersion: shell.schemaVersion,
     lane,
-    implementationStatus: "renderable-primitive-factory-block",
+    implementationStatus: "mounted-react-suite-block",
     source: sourceRef(lane),
     primitiveFactory: primitiveFactoryEvidence(),
     block,
@@ -507,7 +531,8 @@ function suiteBlockImplementation(lane, shell, block) {
       errorStateSafe: (block.stateExamples ?? []).includes("error"),
       displayOnly: true,
     },
-    runtime: implementationRuntimeBoundary(),
+    runtime: suiteReactRuntimeBoundary(),
+    reactMount: suiteReactMount(lane),
     provenance: {
       source: sourceRef(lane),
       copiedSource: false,
@@ -534,7 +559,7 @@ function suitePageImplementation(lane, shell, page) {
     $schema: "https://jami.studio/schemas/registry/suite-page-implementation.generated.json",
     schemaVersion: shell.schemaVersion,
     lane,
-    implementationStatus: "renderable-primitive-factory-page",
+    implementationStatus: "mounted-react-suite-page",
     source: sourceRef(lane),
     primitiveFactory: primitiveFactoryEvidence(),
     page,
@@ -549,11 +574,12 @@ function suitePageImplementation(lane, shell, page) {
     components: [...new Set([...(page.components ?? []), ...blocks.map((block) => block.component)])].sort(),
     evidence: {
       renderedBlockCount: blocks.length,
-      responsiveLayout: "single-column-safe generated composition",
-      a11yStructure: "page routes compose labelled resident block implementations",
+      responsiveLayout: "single-column-safe mounted React composition",
+      a11yStructure: "page routes compose labelled resident React block implementations",
       displayOnly: true,
     },
-    runtime: implementationRuntimeBoundary(),
+    runtime: suiteReactRuntimeBoundary(),
+    reactMount: suiteReactMount(lane, routes[0] ?? null),
     provenance: {
       source: sourceRef(lane),
       copiedSource: false,
@@ -575,7 +601,7 @@ function suiteAppImplementation(lane, shell) {
     $schema: "https://jami.studio/schemas/registry/suite-app-implementation.generated.json",
     schemaVersion: shell.schemaVersion,
     lane,
-    implementationStatus: "renderable-primitive-factory-app",
+    implementationStatus: "mounted-react-suite-app",
     source: sourceRef(lane),
     primitiveFactory: primitiveFactoryEvidence(),
     appShell: shell.appShell,
@@ -601,7 +627,8 @@ function suiteAppImplementation(lane, shell) {
       reducedMotion: true,
       displayOnly: true,
     },
-    runtime: implementationRuntimeBoundary(),
+    runtime: suiteReactRuntimeBoundary(),
+    reactMount: suiteReactMount(lane),
     provenance: {
       source: sourceRef(lane),
       copiedSource: false,
@@ -721,7 +748,7 @@ function suitePartItems(suiteItem) {
         schemaVersion: suiteItem.lifecycle.schemaVersion,
         sourceHash: "",
         migrationNotes:
-          "Generated standalone page descriptor and primitive-factory implementation from the authored suite shell; full React page runtime remains pending.",
+          "Generated standalone page descriptor plus mounted React page route evidence from the authored suite shell.",
       },
     };
     item.lifecycle.sourceHash = registrySourceHash(item);
@@ -750,7 +777,7 @@ function suitePartItems(suiteItem) {
         schemaVersion: suiteItem.lifecycle.schemaVersion,
         sourceHash: "",
         migrationNotes:
-          "Generated standalone block descriptor and primitive-factory implementation from the authored suite shell; full React block runtime remains pending.",
+          "Generated standalone block descriptor plus mounted React block route evidence from the authored suite shell.",
       },
     };
     item.lifecycle.sourceHash = registrySourceHash(item);
@@ -769,7 +796,7 @@ function suiteAppItems(suiteItem) {
     name: `@jami-studio/${name}`,
     type: "app",
     title: `${shell.title} App Implementation`,
-    description: `${shell.title} generated app implementation evidence composed from resident primitive factories.`,
+    description: `${shell.title} mounted React app implementation evidence composed from resident wrappers and suite shell source.`,
     suite: lane,
     dependencies: [],
     registryDependencies: (shell.pages ?? []).map((page) => suitePageItemName(lane, page)),
@@ -788,7 +815,7 @@ function suiteAppItems(suiteItem) {
       schemaVersion: suiteItem.lifecycle.schemaVersion,
       sourceHash: "",
       migrationNotes:
-        "Generated suite app implementation evidence from the authored suite shell and primitive factories; hosted or full React app runtime remains pending.",
+        "Generated suite app implementation evidence from the authored suite shell and mounted React suite source; hosted runtime remains pending.",
     },
   };
   item.lifecycle.sourceHash = registrySourceHash(item);

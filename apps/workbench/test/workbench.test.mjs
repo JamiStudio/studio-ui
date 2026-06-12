@@ -60,7 +60,7 @@ test("consumes real registry + generated suite shell descriptors", () => {
   assert.ok(page.includes("2026-06-09.registry-foundation"), "suite schema version echoed");
   assert.ok(page.includes("app.solo.shell"), "authored solo shell id rendered");
   assert.ok(page.includes("solo-app.implementation.json"), "solo app implementation evidence rendered");
-  assert.ok(page.includes("renderable-primitive-factory-app"), "generated app implementation status rendered");
+  assert.ok(page.includes("mounted-react-suite-app"), "mounted React app implementation status rendered");
   assert.ok(page.includes("/business-ops/dashboard"), "business ops route rendered from shell");
   assert.ok(page.includes("block.mixed-media.assets"), "mixed media block graph rendered");
   assert.ok(page.includes("page.research-writing.sources"), "research-writing page graph rendered");
@@ -122,7 +122,7 @@ test("renders the scoped Radix/React wrapper implementation evidence", () => {
   }
 });
 
-test("all four lanes render generated suite shell routes without claiming React runtime", () => {
+test("all four lanes render generated suite shell routes plus mounted React route artifacts without claiming hosted runtime", () => {
   for (const lane of ["solo", "business-ops", "mixed-media", "research-writing"]) {
     assert.ok(page.includes(`id="suite-${lane}"`), `${lane} section present`);
     assert.ok(data.suites.find((s) => s.lane === lane).manifest.shell, `${lane} generated shell present`);
@@ -132,19 +132,31 @@ test("all four lanes render generated suite shell routes without claiming React 
   }
   const liveRouteBadges = page.match(/generated shell route/g) ?? [];
   assert.equal(liveRouteBadges.length, 4, "all four lanes render generated shell routes");
-  assert.ok(page.includes("full React app runtime pending"), "runtime gap labelled");
+  assert.ok(page.includes("mounted React route artifacts emitted locally"), "local React route artifact state labelled");
+  assert.ok(page.includes('id="mounted-suites"'), "mounted suite route section rendered");
+  assert.equal(data.mountedSuiteRoutes.length, 4);
+  for (const suite of data.mountedSuiteRoutes) {
+    assert.ok(suite.app.html.includes("jami-suite-app"), `${suite.lane} React app markup rendered`);
+    assert.equal(suite.mountEvidence.hostedRuntime, false, `${suite.lane} mounted route keeps hosted false`);
+    assert.equal(suite.pages.length, 2, `${suite.lane} page route artifacts`);
+    for (const route of suite.pages) {
+      assert.ok(route.html.includes("jami-suite-page"), `${suite.lane} ${route.path} page markup rendered`);
+      assert.ok(page.includes(route.file), `${suite.lane} ${route.path} linked from showcase`);
+    }
+  }
 });
 
 test("does not fabricate runtime installs: generated shells and installable members are detected", () => {
-  assert.ok(page.includes("full hosted React suite runtime"), "runtime gap is explicit");
+  assert.ok(page.includes("external hosted runtime"), "hosted runtime gap is explicit");
   // Generated registry metadata is the source of truth for installability.
   for (const suite of data.suites) {
     assert.ok(suite.members.find((m) => m.name === "jami-theme"), `${suite.lane} theme member`);
     assert.ok(suite.members.find((m) => m.type === "registry:app"), `${suite.lane} app implementation member`);
     assert.ok(suite.members.every((m) => m.sourceState === "installable"), `${suite.lane} members installable`);
-    assert.equal(suite.implementationEvidence.app.manifest.runtime.runtimeReactRenderer, false, `${suite.lane} no React runtime claim`);
+    assert.equal(suite.implementationEvidence.app.manifest.runtime.runtimeReactRenderer, true, `${suite.lane} has local React runtime evidence`);
     assert.equal(suite.implementationEvidence.app.manifest.runtime.hostedRuntime, false, `${suite.lane} no hosted runtime claim`);
     assert.equal(suite.implementationEvidence.app.manifest.runtime.harnessRuntimeExecution, false, `${suite.lane} no harness execution claim`);
+    assert.equal(suite.implementationEvidence.app.manifest.reactMount.source, "packages/ui/src/suites.mjs", `${suite.lane} React mount source`);
   }
   assert.ok(page.includes("installable"), "installable state surfaced");
 });
@@ -153,11 +165,13 @@ test("suite implementation evidence is generated from primitive factories", () =
   const suite = data.suites.find((entry) => entry.lane === "solo");
   assert.equal(suite.implementationEvidence.app.manifest.primitiveFactory.source, "packages/ui/src/primitive-components.mjs");
   assert.equal(suite.implementationEvidence.app.manifest.primitiveFactory.runtimeReactRenderer, false);
+  assert.equal(suite.implementationEvidence.app.manifest.reactMount.source, "packages/ui/src/suites.mjs");
+  assert.equal(suite.implementationEvidence.app.manifest.runtime.runtimeReactRenderer, true);
   const block = suite.implementationEvidence.blocks.find((entry) =>
     entry.target.endsWith("solo-agenda-block.block.implementation.json"),
   );
   assert.ok(block, "solo agenda block implementation loaded from registry content");
-  assert.equal(block.manifest.implementationStatus, "renderable-primitive-factory-block");
+  assert.equal(block.manifest.implementationStatus, "mounted-react-suite-block");
   assert.equal(block.manifest.renderedStates.ready.rendererState, "renderable");
   assert.equal(block.manifest.renderedStates["long-content"].rendererState, "renderable");
   assert.ok(block.manifest.evidence.tokenizedClasses.includes("jami-data-list"));
@@ -352,11 +366,26 @@ test("displayed contrast ratios are computed correctly and meet their targets", 
 
 test("build() emits the page and per-theme files from real sources", () => {
   const result = build();
-  for (const file of ["index.html", "theme-factory.html", "theme-light.html", "theme-dark.html", "focus.html", "build-manifest.json"]) {
+  for (const file of [
+    "index.html",
+    "theme-factory.html",
+    "theme-light.html",
+    "theme-dark.html",
+    "focus.html",
+    "hosted-route-manifest.json",
+    "registry/registry.json",
+    "docs/registry.html",
+    "suites/solo/index.html",
+    "suites/business-ops/index.html",
+    "suites/mixed-media/index.html",
+    "suites/research-writing/index.html",
+    "build-manifest.json",
+  ]) {
     assert.ok(result.written.includes(file), `emitted ${file}`);
     assert.ok(existsSync(join(result.distDir, file)), `${file} exists on disk`);
   }
   assert.equal(result.counts.suites, 4);
+  assert.equal(result.counts.mountedSuiteRouteFiles, 12);
   assert.ok(result.counts.compatibilityFixtures >= 10);
   assert.ok(result.counts.presentationPanels >= 10);
 });

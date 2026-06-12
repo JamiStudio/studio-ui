@@ -31,7 +31,7 @@ const SUITE_TITLE = {
 
 // --- styles (token-driven) ---------------------------------------------------
 
-function styles(tokenCss, uiCss) {
+export function styles(tokenCss, uiCss) {
   return `
 /* Generated token output, consumed verbatim. */
 ${tokenCss}
@@ -363,6 +363,80 @@ section.ju-section { margin: 36px 0; }
 .ju-suite[data-suite] { border-left: 4px solid var(--ju-accent); }
 .ju-suite-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; justify-content: flex-start; min-width: 0; }
 .ju-suite-head h3 { margin: 0; min-width: 0; overflow-wrap: anywhere; font-size: 1.1rem; }
+.jami-suite-app, .jami-suite-page, .jami-suite-block {
+  min-width: 0;
+}
+.jami-suite-app {
+  display: grid;
+  gap: 18px;
+}
+.jami-suite-app-header, .jami-suite-page-header {
+  border-bottom: 1px solid var(--ju-border);
+  display: grid;
+  gap: 4px;
+  padding-bottom: 12px;
+}
+.jami-suite-eyebrow {
+  color: var(--ju-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+}
+.jami-suite-app h1, .jami-suite-page h2 {
+  margin: 0;
+}
+.jami-suite-route-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.jami-suite-route-nav a {
+  background: var(--ju-surface);
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  color: var(--ju-fg);
+  display: inline-block;
+  padding: 6px 10px;
+  text-decoration: none;
+}
+.jami-suite-pages {
+  display: grid;
+  gap: 20px;
+}
+.jami-suite-block-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.jami-suite-block {
+  background: var(--ju-bg);
+  border: 1px solid var(--ju-border);
+  border-radius: var(--ju-radius);
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+.jami-suite-block-label {
+  color: var(--ju-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.jami-suite-state {
+  border-top: 1px solid var(--ju-border);
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+}
+.jami-suite-state > span {
+  color: var(--ju-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
 .ju-route-list, .ju-block-list { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
 .ju-member-row { display: grid; gap: 2px; margin-bottom: 6px; min-width: 0; }
 .ju-member-meta { color: var(--ju-muted); font-size: 0.82rem; overflow-wrap: anywhere; }
@@ -793,7 +867,7 @@ function suiteSection({ lane, manifest, item, members, implementationEvidence })
   <ul class="ju-kv-list">${members.map(memberRow).join("")}</ul>
   ${renderShell({ manifest })}
   ${implementationEvidenceSection(implementationEvidence)}
-  <h4>Surface vocabulary <span class="ju-muted">(described in generated shell; full React app runtime pending)</span></h4>
+  <h4>Surface vocabulary <span class="ju-muted">(described in generated shell; mounted React route artifacts emitted locally)</span></h4>
   <div class="ju-chips">${planned}</div>
 </article>`;
 }
@@ -802,10 +876,44 @@ function suitesSection(suites) {
   return `
 <section class="ju-section" aria-labelledby="ju-suites-h">
   <h2 id="ju-suites-h">Suite lanes</h2>
-  <p class="ju-lead">Each lane renders from generated suite manifests and primitive-factory implementation artifacts: app-shell navigation, route maps, page/block/component parts, install graph metadata, and long-content/empty/error states. These are inert generated implementations, not a claim of a hosted React app runtime.</p>
+  <p class="ju-lead">Each lane renders from generated suite manifests, mounted React route artifacts, and primitive-factory state evidence: app-shell navigation, route maps, page/block/component parts, install graph metadata, and long-content/empty/error states. These are local server-rendered React implementations, not a claim of hosted runtime.</p>
   <div class="ju-grid">
     ${suites.map((s) => suiteSection(s)).join("")}
   </div>
+</section>`;
+}
+
+function mountedSuiteRoutesSection(data) {
+  const cards = data.mountedSuiteRoutes
+    .map((suite) => {
+      const pageLinks = suite.pages
+        .map(
+          (page) =>
+            `<li><a href="${escapeAttr(page.file)}">${escapeHtml(page.title)}</a> <code>${escapeHtml(page.path)}</code></li>`,
+        )
+        .join("");
+      return `
+<article class="ju-card">
+  <header class="ju-card-head">
+    <h4>${escapeHtml(suite.lane)}</h4>
+    <span class="ju-badge" data-status="ready">mounted React route</span>
+    <span class="ju-chip">${escapeHtml(suite.mountEvidence.schemaVersion)}</span>
+  </header>
+  <dl class="ju-kv-grid">
+    <div class="ju-kv"><dt>app route</dt><dd><a href="${escapeAttr(suite.app.file)}"><code>${escapeHtml(suite.app.file)}</code></a></dd></div>
+    <div class="ju-kv"><dt>source</dt><dd><code>${escapeHtml(suite.mountEvidence.source)}</code></dd></div>
+    <div class="ju-kv"><dt>hosted runtime</dt><dd><code>${escapeHtml(suite.mountEvidence.hostedRuntime)}</code></dd></div>
+    <div class="ju-kv"><dt>harness execution</dt><dd><code>${escapeHtml(suite.mountEvidence.harnessRuntimeExecution)}</code></dd></div>
+  </dl>
+  <ul class="ju-route-list">${pageLinks}</ul>
+</article>`;
+    })
+    .join("");
+  return `
+<section class="ju-section" id="mounted-suites" aria-labelledby="ju-mounted-suites-h">
+  <h2 id="ju-mounted-suites-h">Mounted React suite routes</h2>
+  <p class="ju-lead">Server-rendered React app/page/block routes from <code>packages/ui/src/suites.mjs</code>. These local preview artifacts use the resident wrappers and generated suite manifests; external hosting is still not claimed.</p>
+  <div class="ju-grid">${cards}</div>
 </section>`;
 }
 
@@ -989,7 +1097,7 @@ function footer(data) {
 <footer class="ju-footer">
   <p>Generated by <code>node apps/workbench/build.mjs</code> from generated artifacts and the checked fixture corpus. No remote registry fetch, package-manager install, provider runtime, or harness execution is performed.</p>
   <p>Sources: <code>packages/tokens/generated/jami.css</code> · <code>packages/registry/generated/registry.json</code> · <code>packages/registry/generated/suites/*.suite.json</code> · <code>packages/renderer/fixtures/compatibility/*</code> · <code>packages/renderer/fixtures/presentation/*</code>.</p>
-  <p>Pending: full hosted React suite runtime, hosted persistence, backend registration, and harness runtime — none are claimed here.</p>
+  <p>Pending: external hosted runtime, hosted persistence, backend registration, and harness runtime — none are claimed here.</p>
 </footer>`;
 }
 
@@ -1001,6 +1109,7 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
     nav(data.suites),
     `<main id="ju-main">`,
     suitesSection(data.suites),
+    mountedSuiteRoutesSection(data),
     brandOptionsSection(data.brandOptions),
     vocabularyEvidenceSection(data),
     radixWrappersSection(data),
@@ -1030,6 +1139,64 @@ export function buildPage(data, { theme = "factory", focusFirst = false } = {}) 
 <body>
 ${withFocus}
 <script>${buildWorkbenchClientScript(brandOptionMap(data.brandOptions))}</script>
+</body>
+</html>
+`;
+}
+
+export function buildSuiteRoutePage(data, route) {
+  const title = route.path
+    ? `Studio UI ${route.lane} ${route.path}`
+    : `Studio UI ${route.lane} suite`;
+  return `<!doctype html>
+<html lang="en" data-theme="factory">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${escapeHtml(title)}</title>
+<style>${styles(data.tokenCss, data.uiCss)}</style>
+</head>
+<body>
+<a class="ju-skip" href="#ju-main">Skip to content</a>
+<div class="ju-shell">
+<main id="ju-main">
+${route.html}
+<section class="ju-section">
+  <h2>Route Evidence</h2>
+  <dl class="ju-kv-grid ju-card">
+    <div class="ju-kv"><dt>suite</dt><dd><code>${escapeHtml(route.lane)}</code></dd></div>
+    <div class="ju-kv"><dt>route</dt><dd><code>${escapeHtml(route.path ?? "app")}</code></dd></div>
+    <div class="ju-kv"><dt>source</dt><dd><code>${escapeHtml(data.suiteReactMountEvidence.source)}</code></dd></div>
+    <div class="ju-kv"><dt>mount version</dt><dd><code>${escapeHtml(data.suiteReactMountEvidence.schemaVersion)}</code></dd></div>
+    <div class="ju-kv"><dt>hosted runtime</dt><dd><code>${escapeHtml(data.suiteReactMountEvidence.hostedRuntime)}</code></dd></div>
+    <div class="ju-kv"><dt>harness execution</dt><dd><code>${escapeHtml(data.suiteReactMountEvidence.harnessRuntimeExecution)}</code></dd></div>
+  </dl>
+</section>
+</main>
+</div>
+</body>
+</html>
+`;
+}
+
+export function buildStaticInfoPage(data, { title, heading, body }) {
+  return `<!doctype html>
+<html lang="en" data-theme="factory">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${escapeHtml(title)}</title>
+<style>${styles(data.tokenCss, data.uiCss)}</style>
+</head>
+<body>
+<div class="ju-shell">
+<main id="ju-main">
+<section class="ju-section">
+  <h1>${escapeHtml(heading)}</h1>
+  <div class="ju-card">${body}</div>
+</section>
+</main>
+</div>
 </body>
 </html>
 `;

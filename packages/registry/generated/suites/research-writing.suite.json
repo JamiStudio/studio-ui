@@ -169,8 +169,10 @@
     }
   },
   "implementation": {
-    "status": "renderable-primitive-factory-implementation",
-    "runtimeReactApp": false,
+    "status": "mounted-react-suite-implementation",
+    "runtimeReactApp": true,
+    "hostedRuntime": false,
+    "source": "packages/ui/src/suites.mjs",
     "app": "studio-ui/suites/research-writing/research-writing-app.implementation.json",
     "pages": [
       "studio-ui/suites/research-writing/pages/research-writing-sources-page.page.implementation.json",

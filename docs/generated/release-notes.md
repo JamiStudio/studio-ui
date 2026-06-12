@@ -12,9 +12,9 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 50
+- Total fragments: 51
 - Typed fragments: 25
-- Unclassified legacy fragments: 25
+- Unclassified legacy fragments: 26
 
 ## Notes By Surface
 
@@ -126,6 +126,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 - `2026-06-12-group-c-wrapper-aschild-hardening.md` - Harden the Group C Radix/React wrapper safety pass after fresh adversarial review.
 - `2026-06-12-group-c-wrapper-url-prop-hardening.md` - Harden the Group C Radix/React wrapper sanitizer for URL-equivalent props.
 - `2026-06-12-group-c-wrapper-workbench-cli-pass-1.md` - Expanded the local Radix/React wrapper slice to every current resident UI vocabulary item, regenerated wrapper-bearing registry artifacts, added local workbench discard/rename/import/inspector/offline state flows, and added `studio-ui diff` for no-write install/update/file-drift planning.
+- `2026-06-12-group-d-suite-hosted-route-readiness.md` - Added local mounted React suite app/page/block route source for all four suite lanes, regenerated suite registry implementation artifacts from that source, and added a hosted-route preview smoke for registry/docs/workbench/showcase and suite route artifacts.
 - `2026-06-12-publish-provenance-output-map-gate.md` - Hardened the registry publish and contract checks so Jami theme token provenance must embed every expected generated output path and match each output hash on disk.
 - `2026-06-12-publish-provenance-source-gate.md` - Hardened the registry publish dry-run so embedded token provenance must match the token source hash, generator identity, and exact generated output set.
 - `2026-06-12-shared-seam-exact-state-hardening.md` - Hardened the Phase 2 shared-seam coverage gate so matrix-only `runEvent` samples must use exact harness event types and matrix-only `actionRef` samples must prove their named lifecycle, replay, missing-source, secret-bearing, and display-only states.

@@ -189,7 +189,10 @@ test("standalone suite pages and blocks install independently with provenance", 
   assert.ok(pageManifest.components.includes("agent-panel"));
   const pageImplementation = readJson(join("studio-ui", "suites", "solo", "pages", "solo-today-page.page.implementation.json"));
   assert.equal(pageImplementation.$schema, "https://jami.studio/schemas/registry/suite-page-implementation.generated.json");
-  assert.equal(pageImplementation.runtime.runtimeReactRenderer, false);
+  assert.equal(pageImplementation.runtime.runtimeReactRenderer, true);
+  assert.equal(pageImplementation.runtime.hostedRuntime, false);
+  assert.equal(pageImplementation.runtime.harnessRuntimeExecution, false);
+  assert.equal(pageImplementation.reactMount.source, "packages/ui/src/suites.mjs");
   assert.equal(pageImplementation.evidence.displayOnly, true);
 
   const block = call("add", "mixed-media-assets-block");
@@ -237,11 +240,16 @@ test("each suite installs generated app-shell descriptors with route metadata", 
     assert.ok(manifest.shell.blocks.length >= 4, `${suite} blocks generated`);
     assert.ok(manifest.shell.componentParts.length >= 3, `${suite} component parts generated`);
     assert.ok(manifest.implementation.app.endsWith(`${suite}-app.implementation.json`), `${suite} app implementation ref`);
-    assert.equal(manifest.implementation.runtimeReactApp, false, `${suite} manifest does not claim React runtime`);
+    assert.equal(manifest.implementation.runtimeReactApp, true, `${suite} manifest claims local React route runtime`);
+    assert.equal(manifest.implementation.hostedRuntime, false, `${suite} manifest does not claim hosted runtime`);
+    assert.equal(manifest.implementation.source, "packages/ui/src/suites.mjs", `${suite} manifest records React suite source`);
     assert.ok(existsSync(join(dir, "studio-ui", "suites", suite, `${suite}-app.implementation.json`)), `${suite} app implementation installed`);
     const appImplementation = readJson(join("studio-ui", "suites", suite, `${suite}-app.implementation.json`));
     assert.equal(appImplementation.$schema, "https://jami.studio/schemas/registry/suite-app-implementation.generated.json");
+    assert.equal(appImplementation.runtime.runtimeReactRenderer, true, `${suite} local React runtime evidence`);
+    assert.equal(appImplementation.runtime.hostedRuntime, false, `${suite} no hosted runtime claim`);
     assert.equal(appImplementation.runtime.harnessRuntimeExecution, false, `${suite} no harness runtime claim`);
+    assert.equal(appImplementation.reactMount.source, "packages/ui/src/suites.mjs", `${suite} React suite source evidence`);
     assert.ok(appImplementation.evidence.renderedBlockCount >= 4, `${suite} app implementation records blocks`);
     assert.ok(manifest.shell.stateFixtures.longContent, `${suite} long-content fixture`);
     assert.ok(manifest.shell.stateFixtures.empty, `${suite} empty fixture`);

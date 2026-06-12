@@ -18,7 +18,8 @@
     "release:notes:check": "node scripts/release/generate-release-artifacts.mjs --only release-notes --check",
     "sbom:generate": "node scripts/release/generate-release-artifacts.mjs --only sbom",
     "sbom:check": "node scripts/release/generate-release-artifacts.mjs --only sbom --check",
-    "verify": "node scripts/docs/check-docs.mjs && node scripts/contracts/validate-contracts.mjs && node scripts/contracts/generate-contract-artifacts.mjs --check && node scripts/release/publish-dry-run.mjs && node scripts/release/generate-release-artifacts.mjs --check && node --test packages/ui/test/ui.test.mjs packages/ui/test/radix-react-wrappers.test.mjs && node --test packages/renderer/test/render.test.mjs packages/renderer/test/presentation.test.mjs && node --test packages/cli/test/cli.test.mjs && node --test apps/workbench/test/workbench.test.mjs"
+    "hosted:routes:check": "node scripts/release/hosted-route-smoke.mjs",
+    "verify": "node scripts/docs/check-docs.mjs && node scripts/contracts/validate-contracts.mjs && node scripts/contracts/generate-contract-artifacts.mjs --check && node scripts/release/publish-dry-run.mjs && node scripts/release/generate-release-artifacts.mjs --check && node scripts/release/hosted-route-smoke.mjs && node --test packages/ui/test/ui.test.mjs packages/ui/test/radix-react-wrappers.test.mjs packages/ui/test/suites.test.mjs && node --test packages/renderer/test/render.test.mjs packages/renderer/test/presentation.test.mjs && node --test packages/cli/test/cli.test.mjs && node --test apps/workbench/test/workbench.test.mjs"
   },
   "engines": {
     "node": ">=24.0.0",

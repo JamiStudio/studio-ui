@@ -56,6 +56,13 @@ the local CycloneDX SBOM (`docs/generated/sbom.cdx.json`) and generated
 `.changes` rollup (`docs/generated/release-notes.md`) have not drifted. It also is
 part of `pnpm verify`. It does not publish, upload, attach, or attest anything.
 
+`pnpm hosted:routes:check` builds `apps/workbench/dist/` and verifies local
+preview-hosted artifacts for the registry JSON route, docs pages, workbench/
+showcase page, and mounted suite app/page routes. It also validates
+`hosted-route-manifest.json`, scans served bytes for secret-shaped content, and
+fails if any route is marked externally deployed before Cloudflare/DNS work is
+actually complete. It is a preview-deployable artifact check, not public hosting.
+
 ### Current dry-run status (2026-06-09)
 
 ```
@@ -79,14 +86,15 @@ descriptor JSON with `canonicalBrand: false`; they are selectable default-kit op
 not final brand canon, and they do not redistribute logo source. The primitive and
 component vocabulary items ship the authored `packages/ui` vocabulary metadata and
 descriptor metadata, framework-neutral component factories with inert child-slot
-handling, and tokenized styles as real, hashed content. The four suite items ship complete, hashed
-suite manifests. The generated app/page/block items ship complete, hashed implementation
-and descriptor manifests derived from the authored suite shell sources and
-`packages/ui/src/primitive-components.mjs`. Resident UI items also embed authored
-Radix/React wrapper source; only wrappers that use Radix Slot or Label declare
-those package dependencies. "Publishable now" still does **not** assert a runtime
-React renderer, hosted/full React suite runtime, final visual identity, or
-hosted registry availability.
+handling, and tokenized styles as real, hashed content. The four suite items
+ship complete, hashed suite manifests. The generated app/page/block items ship
+complete, hashed implementation and descriptor manifests derived from the
+authored suite shell sources, `packages/ui/src/primitive-components.mjs`, and
+local mounted React suite source at `packages/ui/src/suites.mjs`. Resident UI
+items also embed authored Radix/React wrapper source; only wrappers that use
+Radix Slot or Label declare those package dependencies. "Publishable now" now
+includes local mounted React suite route evidence, but still does **not** assert
+external hosted runtime, final visual identity, or hosted registry availability.
 
 ## Provenance And Hashes
 
@@ -117,6 +125,8 @@ and cannot be performed or verified by the dry-run:
 - [ ] Add a clean-project install smoke against the live hosted URL (today the CLI
       smoke runs against the local generated directory; remote fetch resolves to an
       explicit `registry-unavailable` state).
+- [ ] Deploy the preview artifacts checked by `pnpm hosted:routes:check` and smoke
+      the live URLs before claiming hosted registry/docs/workbench/showcase routes.
 - [ ] Re-run `pnpm release:artifacts:check`, review the SBOM and generated release
       notes, and attach them only inside an actual release workflow.
 

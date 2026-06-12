@@ -13,15 +13,17 @@ to end:
 - the generated Jami factory theme (`packages/tokens/generated/jami.css`),
 - the generated registry items and suite descriptors
   (`packages/registry/generated/`),
+- mounted React suite route artifacts from `packages/ui/src/suites.mjs`,
 - the resident renderer (`packages/renderer/src/render.mjs`),
 - the workbench presentation seam (`packages/renderer/src/presentation.mjs`), and
 - the resident vocabulary handshake, prop schemas, React-style primitive
   descriptors, and framework-neutral component factories (`packages/ui/src`).
 
 It is the smallest real surface that lets the registry → renderer → presentation
-loop be inspected visually, edited through generated-token controls, and produce
-visual/accessibility evidence. It is not a full suite application, and it claims
-no harness runtime, hosted persistence, or backend package registration.
+loop be inspected visually, edited through generated-token controls, render the
+four suite lanes through local React route artifacts, and produce visual/
+accessibility evidence. It claims no external hosted runtime, harness runtime,
+hosted persistence, or backend package registration.
 
 ## What It Is
 
@@ -34,11 +36,12 @@ no harness runtime, hosted persistence, or backend package registration.
   deterministic, install-free way to consume the renderer.
 - The page renders:
   - all four lanes (`solo`, `business-ops`, `mixed-media`, and
-    `research-writing`) as generated suite shell routes that read their
+    `research-writing`) as generated suite shell routes plus local mounted React
+    app/page/block route artifacts that read their
     generated suite manifests, resolve each member to real registry metadata,
     and display the authored app shell, route map, pages, blocks, component
-    parts, install graph, primitive-factory implementation evidence, and
-    long-content/empty/error states;
+    parts, install graph, mounted React implementation evidence, primitive-
+    factory state evidence, and long-content/empty/error states;
   - selectable default-kit brand/template options (`studio-console`,
     `editorial-studio`, `command-grid`) from generated registry theme items and
     authored descriptors under `registry/branding/`, including token deltas,
@@ -86,6 +89,7 @@ checked fixture corpus. Nothing is hand-authored into the page:
 - `packages/registry/generated/registry.json`
 - `packages/registry/generated/suites/<lane>.suite.json`
 - `packages/registry/generated/suites/<lane>/**/*.implementation.json`
+- `packages/ui/src/suites.mjs`
 - `registry/suites/<lane>/suite-shell.json` through generated suite manifests
 - `registry/branding/*.brand-option.json` through generated registry theme items
 - `packages/ui/src/vocabulary.mjs`
@@ -112,17 +116,24 @@ checked fixture corpus. Nothing is hand-authored into the page:
   the browser's local state.
 - **Honest states.** Authored suite shell descriptors are labelled as generated
   shell routes, registry member installability is read from generated content,
-  app/page/block implementation manifests are labelled as generated primitive-factory
-  evidence rather than hosted runtime, brand options are labelled as selectable
-  but not final canon, and the page still states that a hosted/full React suite
-  runtime is pending.
+  app/page/block implementation manifests are labelled as local mounted React
+  route artifacts rather than external hosted runtime, brand options are labelled
+  as selectable but not final canon, and the page still states that external
+  hosted runtime is pending.
 
 ## Build And Verify
 
 - Build: `node apps/workbench/build.mjs` → `apps/workbench/dist/` (gitignored).
   Emits `index.html` (factory default, with the working theme switcher), one
   theme-locked `theme-<name>.html` per theme, a `focus.html` for focus-ring
-  evidence, and `build-manifest.json`.
+  evidence, per-suite `suites/<lane>/*.html` mounted React route artifacts,
+  preview registry/docs route files, `hosted-route-manifest.json`, and
+  `build-manifest.json`.
+- Hosted route preview check: `pnpm hosted:routes:check` rebuilds the static
+  output, checks the manifest, proves registry/docs/workbench/showcase/suite
+  preview artifacts exist, scans served bytes for secret-shaped content, and
+  fails if any route is marked externally deployed before Cloudflare/DNS work is
+  actually done.
 - Deterministic checks (part of `pnpm verify`):
   `pnpm --filter @jami-studio/workbench test` (`apps/workbench/test/workbench.test.mjs`,
   `node --test`). It asserts real-data consumption, generated shell rendering
@@ -133,8 +144,9 @@ checked fixture corpus. Nothing is hand-authored into the page:
   redacted-content gating, always-live overlay controls/panels, local draft state
   transitions, and that the displayed WCAG contrast ratios recompute correctly
   and meet their targets. It also asserts that generated suite implementation
-  manifests are loaded from registry item content and keep hosted/React/harness
-  runtime claims false, and that the vocabulary handshake, prop-schema version,
+  manifests are loaded from registry item content, carry mounted React route
+  evidence from `packages/ui/src/suites.mjs`, keep hosted/harness runtime claims
+  false, and that the vocabulary handshake, prop-schema version,
   component-factory status/source, and bad-prop fixture rejection are visible in
   the generated page.
 
@@ -170,9 +182,8 @@ audit plus the rendered screenshots.
 
 ## Not Yet Claimed
 
-This surface does not implement hosted/full React suite applications, hosted/persisted
-editing, backend package registration, a runtime React renderer, a remote
-registry fetch, a runtime React renderer, a provider runtime, or any
-harness execution. It renders, displays, and locally edits accepted, generated,
-authored-source, primitive-factory implementation, resident wrapper evidence,
-and fixture data only.
+This surface does not implement external hosted suite applications, hosted/
+persisted editing, backend package registration, a remote registry fetch, a
+provider runtime, or any harness execution. It renders, displays, and locally
+edits accepted, generated, authored-source, mounted React route, primitive-
+factory implementation, resident wrapper evidence, and fixture data only.

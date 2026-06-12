@@ -31,6 +31,13 @@ import {
   vocabularyHandshake,
 } from "../../../packages/ui/src/index.mjs";
 import { renderRadixReactWrapperExamples } from "../../../packages/ui/src/radix-react-wrapper-examples.mjs";
+import {
+  renderSuiteAppStaticMarkup,
+  renderSuitePageStaticMarkup,
+  suiteAppRouteFileName,
+  suitePageRouteFileName,
+  suiteReactMountEvidence,
+} from "../../../packages/ui/src/suites.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const repoRoot = join(here, "..", "..", "..");
@@ -93,6 +100,23 @@ function implementationFromItem(item) {
   };
 }
 
+function suiteReactRoutes(suite) {
+  return {
+    lane: suite.lane,
+    mountEvidence: suiteReactMountEvidence,
+    app: {
+      file: suiteAppRouteFileName(suite.lane),
+      html: renderSuiteAppStaticMarkup(suite),
+    },
+    pages: (suite.manifest.shell?.routes ?? []).map((route) => ({
+      path: route.path,
+      title: route.title,
+      file: suitePageRouteFileName(suite.lane, route),
+      html: renderSuitePageStaticMarkup(suite, route),
+    })),
+  };
+}
+
 // Assemble everything the page needs from real generated/fixture sources.
 export function loadShowcaseData() {
   const tokenCss = readText("packages/tokens/generated/jami.css");
@@ -138,6 +162,8 @@ export function loadShowcaseData() {
     .filter(Boolean)
     .sort((a, b) => a.descriptor.optionId.localeCompare(b.descriptor.optionId));
 
+  const mountedSuiteRoutes = suites.map(suiteReactRoutes);
+
   // Render the compatibility fixtures through the real resident renderer.
   const compatFixtures = [
     ...loadFixtureDir("packages/renderer/fixtures/compatibility/valid"),
@@ -168,6 +194,8 @@ export function loadShowcaseData() {
     registry,
     suites,
     brandOptions,
+    mountedSuiteRoutes,
+    suiteReactMountEvidence,
     componentVocabulary,
     implementedRadixReactWrapperNames,
     radixReactWrapperEvidence,

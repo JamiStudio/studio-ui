@@ -337,12 +337,20 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
 - 2026-06-12 reorientation: this roadmap is now aligned to the registry-root
   end-to-end completion roadmap at
   `C:\Users\james\dev\orgs\oss\registry\docs\roadmaps\2026-06-12-end-to-end-completion-roadmap.md`.
-  The current head `6c76228` is accepted as a local foundation checkpoint only. Studio UI is
+  The current Group C head `643d9a0` is accepted as a local foundation checkpoint only. Studio UI is
   not complete until tokens, registry, primitives, Radix/React wrappers, renderer,
   workbench, CLI, suite apps, hosted registry, hosted showcase, package publishing,
   release artifacts, attestations, public claims, and cross-repo harness seams all have
   executable evidence. Descriptor-only manifests, local dry-runs, and fail-closed
   unsupported routes are not final completion.
+- 2026-06-12 Group D pass 1 added local mounted React suite route source at
+  `packages/ui/src/suites.mjs`, generated app/page/block manifests that point at
+  that source, preview route files under `apps/workbench/dist/suites/<lane>/`,
+  and `pnpm hosted:routes:check` over local registry/docs/workbench/showcase/
+  suite artifacts. This materially advances mounted suite and hosted-route
+  readiness, but still does not claim Cloudflare/DNS deployment, live hosted URL
+  smoke, hosted persistence, npm publication, provenance attestations, or final
+  public clean-install acceptance.
 
 ## Complete Production Shape And Absolute Exit Criteria
 
@@ -416,18 +424,21 @@ end state.
 
 ### Suites
 
-- [ ] `solo` is a mounted React suite for calendar, forms, docs, agent, tasks, simple
+- [~] `solo` is a mounted React suite for calendar, forms, docs, agent, tasks, simple
   CRM/content/admin workflows.
-- [ ] `business-ops` is a mounted React suite for staff, scheduling, forms, training,
+- [~] `business-ops` is a mounted React suite for staff, scheduling, forms, training,
   compliance, and dashboards.
-- [ ] `mixed-media` is a mounted React suite for assets, generation, editing, pipelines,
+- [~] `mixed-media` is a mounted React suite for assets, generation, editing, pipelines,
   review, publishing, and media libraries.
-- [ ] `research-writing` is a mounted React suite for sources, notes, citations, briefs,
+- [~] `research-writing` is a mounted React suite for sources, notes, citations, briefs,
   documents, outlines, and knowledge workflows.
-- [ ] Every suite includes app shell, routes, pages, blocks, primitive dependencies, fixture
+- [~] Every suite includes app shell, routes, pages, blocks, primitive dependencies, fixture
   data, empty/loading/error/denied states, responsive/mobile layout, focus/keyboard,
   reduced motion, long content, visual smoke, accessibility smoke, CLI install smoke,
   hosted showcase route, source/license provenance, and harness ref compatibility.
+  (Local mounted React app/page/block route artifacts and hosted-route preview
+  manifest now exist; live hosted route smoke, hosted persistence, and final
+  public install acceptance remain open.)
 
 ### Hosted, Package, Release, And Public Trust
 
@@ -971,17 +982,20 @@ Implementation tasks:
   maps, pages, blocks, resident component parts, install graph metadata, and
   long-content/empty/error state fixtures for all four lanes. Standalone page
   and block registry items plus generated app implementation items are generated
-  from the same source descriptors and included in suite install graphs; hosted/full
-  React runtime remains pending.)
+  from the same source descriptors and included in suite install graphs; local
+  mounted React route artifacts now exist, while external hosted runtime remains
+  pending.)
 - [~] Add showcase routing for all four suites through the workbench/demo app.
   (The `apps/workbench` static showcase renders every lane from generated suite
-  manifests, surfaces primitive-factory app/page/block implementation evidence,
-  and labels the remaining hosted/full React runtime gap.)
+  manifests, surfaces mounted React app/page/block route artifacts plus
+  primitive-factory state evidence, and labels the remaining external hosted
+  runtime gap.)
 - [~] Add suite-level accessibility, responsive, long-content, empty/error state,
   and visual smoke fixtures. (The generated-shell showcase and smoke cover the
-  static suite shell route cards, resident component parts, primitive-factory
-  block render states, wrapping, empty/error state copy, responsive layout, and
-  screenshots; per-suite mounted React app visual regression remains pending.)
+  static suite shell route cards, mounted React route artifacts, resident
+  component parts, primitive-factory block render states, wrapping, empty/error
+  state copy, responsive layout, and screenshots; live hosted per-suite visual
+  regression remains pending.)
 - [x] Add source/license provenance for any recomposed reference corpus material
   before redistribution. (No Builder.io or Agent-Native source was lifted; the
   suite shells are authored MIT source with `copiedSource: false`.)
@@ -989,19 +1003,20 @@ Implementation tasks:
 Exit criteria:
 
 - [~] Each suite installs as a coherent full app shell descriptor. (CLI temp
-  smokes install generated suite shell manifests and app implementation manifests
-  for all four lanes; hosted/full React suite runtime remains pending.)
+  smokes install generated suite shell manifests and mounted React app
+  implementation manifests for all four lanes; external hosted suite runtime
+  remains pending.)
 - [~] Each suite also exposes pages, blocks, components, and primitives
   independently. (Generated manifests expose page/block/component metadata,
   standalone page/block registry items, install resident vocabulary dependencies,
-  and generated page/block implementation manifests; mounted React pages/blocks
-  remain pending.)
+  generated page/block implementation manifests, and local mounted React
+  pages/blocks.)
 - [~] Each suite can be installed, updated, inspected for provenance, and
   visually/a11y smoked in a temp app. (Install smoke exists per suite and
   standalone app/page/block item, provenance is authored MIT/no copied source, and
-  workbench visual/a11y smoke covers the static generated-shell and
-  primitive-factory implementation showcase; temp mounted React app visual smoke
-  remains pending.)
+  workbench visual/a11y smoke covers the static generated-shell, mounted React
+  route artifacts, and primitive-factory implementation showcase; live hosted
+  suite visual smoke remains pending.)
 
 Suggested verification:
 

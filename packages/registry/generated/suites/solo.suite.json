@@ -182,8 +182,10 @@
     }
   },
   "implementation": {
-    "status": "renderable-primitive-factory-implementation",
-    "runtimeReactApp": false,
+    "status": "mounted-react-suite-implementation",
+    "runtimeReactApp": true,
+    "hostedRuntime": false,
+    "source": "packages/ui/src/suites.mjs",
     "app": "studio-ui/suites/solo/solo-app.implementation.json",
     "pages": [
       "studio-ui/suites/solo/pages/solo-today-page.page.implementation.json",

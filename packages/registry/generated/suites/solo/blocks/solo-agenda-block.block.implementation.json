@@ -2,7 +2,7 @@
   "$schema": "https://jami.studio/schemas/registry/suite-block-implementation.generated.json",
   "schemaVersion": "2026-06-09.suite-shell",
   "lane": "solo",
-  "implementationStatus": "renderable-primitive-factory-block",
+  "implementationStatus": "mounted-react-suite-block",
   "source": "registry/suites/solo/suite-shell.json",
   "primitiveFactory": {
     "version": "2026-06-09.framework-neutral-component-factory",
@@ -268,11 +268,22 @@
     "displayOnly": true
   },
   "runtime": {
-    "runtimeReactRenderer": false,
+    "runtimeReactRenderer": true,
     "hostedRuntime": false,
     "harnessRuntimeExecution": false,
     "executableActions": false,
-    "radixWrapper": false
+    "radixWrapper": true
+  },
+  "reactMount": {
+    "schemaVersion": "2026-06-12.mounted-react-suite-routes",
+    "source": "packages/ui/src/suites.mjs",
+    "packageName": "@jami-studio/ui",
+    "rendererBoundary": "React suite components are install-time/app code, not harness-originated renderer payload execution.",
+    "hostedRuntime": false,
+    "harnessRuntimeExecution": false,
+    "executableActions": false,
+    "serverRenderedStaticRoutes": true,
+    "routeArtifact": "apps/workbench/dist/suites/solo/index.html"
   },
   "provenance": {
     "source": "registry/suites/solo/suite-shell.json",

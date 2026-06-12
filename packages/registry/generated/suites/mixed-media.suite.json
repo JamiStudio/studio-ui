@@ -168,8 +168,10 @@
     }
   },
   "implementation": {
-    "status": "renderable-primitive-factory-implementation",
-    "runtimeReactApp": false,
+    "status": "mounted-react-suite-implementation",
+    "runtimeReactApp": true,
+    "hostedRuntime": false,
+    "source": "packages/ui/src/suites.mjs",
     "app": "studio-ui/suites/mixed-media/mixed-media-app.implementation.json",
     "pages": [
       "studio-ui/suites/mixed-media/pages/mixed-media-library-page.page.implementation.json",

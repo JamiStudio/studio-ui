@@ -8,10 +8,11 @@ Last updated: 2026-06-12
 `packages/ui` now owns the first authored resident primitive and component
 vocabulary that Studio UI can reference from the renderer, registry, CLI, and
 workbench. It includes dependency-light metadata, tokenized styles,
-framework-neutral component factories, and a first Radix/React wrapper slice for
+framework-neutral component factories, a first Radix/React wrapper slice for
 the resident `button`, `panel`, `text-field`, `data-list`, `agent-panel`,
-`docs-source-panel`, and `media-grid` vocabulary. It is not a runtime React
-renderer and not a suite shell set.
+`docs-source-panel`, and `media-grid` vocabulary, and local mounted React suite
+route components built on those wrappers. It is not an external hosted React
+runtime and not harness-originated renderer payload execution.
 
 ## Source
 
@@ -22,6 +23,7 @@ renderer and not a suite shell set.
 - Radix/React wrapper evidence: `packages/ui/src/radix-wrapper-evidence.mjs`
 - Radix/React wrapper source: `packages/ui/src/radix-react-wrappers.mjs`
 - Server-rendered wrapper examples: `packages/ui/src/radix-react-wrapper-examples.mjs`
+- Mounted suite route components: `packages/ui/src/suites.mjs`
 - Tokenized resident styles: `packages/ui/src/styles.css`
 - Package entry point: `packages/ui/src/index.mjs`
 - Registry source items: `packages/registry/fixtures/valid/*.registry-item.json`
@@ -95,22 +97,24 @@ wrapper module. The invalid fixture
 keeps wrapper package imports rejected at the renderer boundary.
 
 The suite artifact generator also uses `renderPrimitiveSpec` from
-`packages/ui/src/primitive-components.mjs` to emit installable app/page/block
-implementation manifests under `packages/registry/generated/suites/<lane>/`.
-Those manifests prove the authored suite shells compose resident primitives into
-renderable, tokenized, display-only DOM specs. They are generated evidence, not a
-mounted React app runtime.
+`packages/ui/src/primitive-components.mjs` and the React suite route evidence in
+`packages/ui/src/suites.mjs` to emit installable app/page/block implementation
+manifests under `packages/registry/generated/suites/<lane>/`. Those manifests
+prove the authored suite shells compose resident primitives into renderable,
+tokenized, display-only DOM specs and local server-rendered React app/page/block
+route artifacts. They are local route evidence, not external hosted runtime.
 
 ## Not Yet Claimed
 
 This pass does not ship Storybook, visual regression tooling for every
-primitive, calendar/source-board shells, a runtime React renderer, hosted
-persistence, or full suite app shells. The React/Radix wrapper slice is
-install-time/package code only, not a runtime React renderer and not a suite
-application library. The foundation remains narrow: source-owned vocabulary
-metadata, prop schemas, descriptor metadata, component factories, local wrapper
-source, tokenized styles, registry items, generated suite implementation
-manifests, renderer allowlist/schema references, and tests that keep component
-colors, state metadata, handshake, prop schemas, inert child slots,
-non-executable factory output, wrapper claims, and renderer package-import
+primitive, calendar/source-board shells beyond the authored suite descriptors,
+external hosted runtime, or hosted persistence. The React/Radix wrapper slice
+and suite route components are install-time/package code and local static route
+evidence, not harness-originated renderer payload execution. The foundation
+remains narrow: source-owned vocabulary metadata, prop schemas, descriptor
+metadata, component factories, local wrapper source, mounted suite route source,
+tokenized styles, registry items, generated suite implementation manifests,
+renderer allowlist/schema references, and tests that keep component colors,
+state metadata, handshake, prop schemas, inert child slots, non-executable
+factory output, wrapper claims, mounted route claims, and renderer package-import
 rejection honest.

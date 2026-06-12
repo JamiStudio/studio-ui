@@ -37,14 +37,21 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - `pnpm release:artifacts:check` exists and validates
   `docs/generated/sbom.cdx.json` plus `docs/generated/release-notes.md`; it
   publishes nothing and executes no attestation.
+- `pnpm hosted:routes:check` exists and validates local preview-hosted route
+  artifacts for registry JSON, docs pages, workbench/showcase, and mounted suite
+  app/page routes. It publishes nothing, claims no external hosting, and records
+  remaining Cloudflare/DNS/live-smoke actions in `hosted-route-manifest.json`.
 - `pnpm sbom:check` and `pnpm release:notes:check` exist for targeted checks.
 - `packages/ui/src/radix-react-wrappers.mjs` implements the local Radix/React
   wrapper slice for all current resident vocabulary items: `button`, `panel`,
   `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
   `media-grid`. Only `button` and `text-field` declare Radix Slot/Label package
-  dependencies; the other wrappers are plain React display wrappers. This does
-  not claim a runtime React renderer, hosted runtime, backend persistence,
-  backend registration, or renderer payload execution.
+  dependencies; the other wrappers are plain React display wrappers.
+- `packages/ui/src/suites.mjs` implements local mounted React app/page/block
+  surfaces for `solo`, `business-ops`, `mixed-media`, and `research-writing`,
+  and `apps/workbench/build.mjs` emits static preview route artifacts for them.
+  This does not claim external hosted runtime, backend persistence, backend
+  registration, harness execution, or renderer payload execution.
 - `packages/ui` declares `@radix-ui/react-slot@1.2.5` and
   `@radix-ui/react-label@2.1.9` as dependencies, React `>=19 <20` as a peer,
   and `react@19.2.7` / `react-dom@19.2.7` as local server-render evidence
@@ -83,7 +90,8 @@ npm whoami
 ## Missing Before Hosted Registry Publishing
 
 - The registry publishing runbook exists (`docs/operations/registry-publishing.md`)
-  and the publish dry-run passes; the remaining work is host/account-level.
+  and the publish dry-run plus local hosted-route preview smoke pass; the
+  remaining work is host/account-level.
 - Provision the static host and DNS for `registry.jami.studio`. Preferred first
   target: Cloudflare Pages or equivalent Cloudflare static hosting under the existing
   `jami-studio` account.
@@ -95,6 +103,8 @@ npm whoami
 - Add a clean install smoke against the hosted registry URL (today the CLI smoke runs
   against the local generated directory; remote fetch is an explicit unsupported
   state).
+- Deploy the preview artifacts checked by `pnpm hosted:routes:check` and smoke
+  the live registry/docs/workbench/showcase/suite route URLs.
 
 ## Missing Before App Deployment
 

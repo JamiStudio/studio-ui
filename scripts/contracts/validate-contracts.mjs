@@ -15,6 +15,7 @@ import {
   componentVocabulary,
   getRadixReactWrapperEvidence,
   implementedRadixReactWrapperNames,
+  suiteReactMountEvidence,
   validateComponentProps,
   vocabularyHandshake,
 } from "../../packages/ui/src/index.mjs";
@@ -1011,8 +1012,14 @@ function validateGeneratedRegistry() {
     }
     const manifestFile = suite.files?.[0]?.path;
     const manifest = manifestFile ? readJson(manifestFile) : null;
-    if (manifest?.implementation?.runtimeReactApp !== false) {
-      localFailures.push(`${suite.name} implementation manifest must not claim a React app runtime`);
+    if (manifest?.implementation?.runtimeReactApp !== true) {
+      localFailures.push(`${suite.name} implementation manifest must claim the mounted React suite runtime now that packages/ui/src/suites.mjs exists`);
+    }
+    if (manifest?.implementation?.hostedRuntime !== false) {
+      localFailures.push(`${suite.name} implementation manifest must keep hosted runtime false`);
+    }
+    if (manifest?.implementation?.source !== suiteReactMountEvidence.source) {
+      localFailures.push(`${suite.name} implementation manifest missing React suite source evidence`);
     }
     if (!manifest?.implementation?.app || !manifest?.implementation?.pages?.length || !manifest?.implementation?.blocks?.length) {
       localFailures.push(`${suite.name} manifest missing app/page/block implementation evidence`);
@@ -1027,8 +1034,11 @@ function validateGeneratedRegistry() {
     if (implementation?.primitiveFactory?.version !== PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION) {
       localFailures.push(`${app.name} primitive factory version drift`);
     }
-    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== false) {
-      localFailures.push(`${app.name} must not claim hosted or React runtime`);
+    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== true) {
+      localFailures.push(`${app.name} must claim local React runtime and keep hosted runtime false`);
+    }
+    if (implementation?.reactMount?.source !== suiteReactMountEvidence.source || !implementation?.reactMount?.routeArtifact) {
+      localFailures.push(`${app.name} missing mounted React route artifact evidence`);
     }
     if (!implementation?.evidence?.renderedPageCount || !implementation?.evidence?.renderedBlockCount) {
       localFailures.push(`${app.name} missing rendered page/block implementation evidence`);
@@ -1057,8 +1067,11 @@ function validateGeneratedRegistry() {
     if (implementation?.primitiveFactory?.version !== PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION) {
       localFailures.push(`${page.name} primitive factory version drift`);
     }
-    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== false) {
-      localFailures.push(`${page.name} must not claim hosted or React runtime`);
+    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== true) {
+      localFailures.push(`${page.name} must claim local React runtime and keep hosted runtime false`);
+    }
+    if (implementation?.reactMount?.source !== suiteReactMountEvidence.source || !implementation?.reactMount?.routeArtifact) {
+      localFailures.push(`${page.name} missing mounted React route artifact evidence`);
     }
     if (!implementation?.blocks?.length || implementation.evidence?.displayOnly !== true) {
       localFailures.push(`${page.name} missing display-only block implementation evidence`);
@@ -1084,8 +1097,11 @@ function validateGeneratedRegistry() {
     if (implementation?.primitiveFactory?.version !== PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION) {
       localFailures.push(`${block.name} primitive factory version drift`);
     }
-    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== false) {
-      localFailures.push(`${block.name} must not claim hosted or React runtime`);
+    if (implementation?.runtime?.hostedRuntime !== false || implementation?.runtime?.runtimeReactRenderer !== true) {
+      localFailures.push(`${block.name} must claim local React runtime and keep hosted runtime false`);
+    }
+    if (implementation?.reactMount?.source !== suiteReactMountEvidence.source || !implementation?.reactMount?.routeArtifact) {
+      localFailures.push(`${block.name} missing mounted React route artifact evidence`);
     }
     const renderedStates = Object.entries(implementation?.renderedStates ?? {});
     if (renderedStates.length === 0) {

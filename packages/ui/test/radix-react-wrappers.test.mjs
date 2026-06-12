@@ -167,7 +167,7 @@ test("JamiPanel strips unsafe child element props before render", () => {
         dangerouslySetInnerHTML: { __html: "<script>alert(1)</script>" },
         onClick: () => "execute",
         "data-executable": "true",
-        "xlink:href": "javascript:alert(1)",
+        xlinkHref: "javascript:alert(1)",
       }),
     ),
   );

@@ -10,11 +10,12 @@
     "./primitive-descriptors": "./src/primitive-descriptors.mjs",
     "./radix-react-wrappers": "./src/radix-react-wrappers.mjs",
     "./radix-wrapper-evidence": "./src/radix-wrapper-evidence.mjs",
+    "./suites": "./src/suites.mjs",
     "./vocabulary": "./src/vocabulary.mjs",
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "test": "node --test test/ui.test.mjs test/radix-react-wrappers.test.mjs"
+    "test": "node --test test/ui.test.mjs test/radix-react-wrappers.test.mjs test/suites.test.mjs"
   },
   "dependencies": {
     "@radix-ui/react-label": "2.1.9",
