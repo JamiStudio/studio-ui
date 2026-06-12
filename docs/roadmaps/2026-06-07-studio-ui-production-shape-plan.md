@@ -1,7 +1,7 @@
 # Studio UI Production Shape Implementation Plan
 
 Date: 2026-06-07
-Status: Active - crossflow foundation verified; full product acceptance still open
+Status: Active end-to-end implementation; local foundation only
 Source reports: `docs/research/studio-ui-feasibility-report.md`; crossflow adversarial review at `C:\Users\james\dev\orgs\oss\registry\docs\research\2026-06-08-harness-ui-plan-adversarial-review.md`
 Owner: Jamie / Jami.Studio
 Surface: Jami.Studio Studio UI foundation: registry, token system, workbench overlay, CLI, suite packs, and runtime renderer
@@ -306,6 +306,126 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   suite React apps, claim hosted registry URL smoke, publish npm/static registry
   artifacts, add backend persistence/registration, execute attestations, finalize
   brand canon, or weaken the data-only resident renderer.
+
+- 2026-06-12 reorientation: this roadmap is now aligned to the registry-root
+  end-to-end completion roadmap at
+  `C:\Users\james\dev\orgs\oss\registry\docs\roadmaps\2026-06-12-end-to-end-completion-roadmap.md`.
+  The current head `6c76228` is accepted as a local foundation checkpoint only. Studio UI is
+  not complete until tokens, registry, primitives, Radix/React wrappers, renderer,
+  workbench, CLI, suite apps, hosted registry, hosted showcase, package publishing,
+  release artifacts, attestations, public claims, and cross-repo harness seams all have
+  executable evidence. Descriptor-only manifests, local dry-runs, and fail-closed
+  unsupported routes are not final completion.
+
+## Complete Production Shape And Absolute Exit Criteria
+
+The complete Studio UI product is the public, installable, hosted shadcn-compatible
+registry and UI foundation for Jami.Studio. It must work from public packages and a hosted
+registry, not only from a source checkout. The following routes are the definition of the
+end state unless explicitly removed from shipped scope by a recorded product decision.
+
+### Tokens
+
+- [ ] DTCG-compatible token source supports aliases, composites, modes, theme families,
+  migration metadata, invalid references, deprecations, and deterministic source hashing.
+- [ ] Generated outputs include CSS variables, Tailwind theme variables, TypeScript exports,
+  shadcn `cssVars`, docs, workbench control schemas, registry content, and output hashes.
+- [ ] Checks cover contrast, invalid references, missing semantics, stale migrations,
+  deprecated aliases, broken composites, mode overrides, and generated-output drift.
+- [ ] Visual evidence covers factory, light, dark, suite themes, long content, disabled,
+  focus, loading, empty, error, responsive, and reduced-motion states.
+
+### Registry
+
+- [ ] shadcn-compatible registry metadata covers names, lifecycle, compatibility,
+  dependencies, provenance, content hashes, source files, examples, docs refs, screenshots,
+  harness refs, migrations, deprecations, and replacement guidance.
+- [ ] Hosted registry bundle has URL layout, cache policy, revision naming, integrity
+  manifest, secret scan, and hosted install smoke.
+- [ ] Registry items cover themes, primitives, wrapper source, pages, blocks, suites,
+  workbench artifacts, docs panels, and harness compatibility fixtures.
+- [ ] Registry publish checks validate generated content, package provenance, no copied
+  source unless licensed, no secrets, and deterministic file hashes.
+
+### Primitives, Wrappers, And Renderer
+
+- [ ] Radix/React wrappers exist for `button`, `panel`, `text-field`, `data-list`,
+  `agent-panel`, `docs-source-panel`, `media-grid`, and every additional suite-required
+  primitive.
+- [ ] Every wrapper has prop schema, tokenized styles, accessibility metadata,
+  keyboard/focus behavior, loading, disabled, invalid, empty, error, long-content,
+  responsive, and reduced-motion states.
+- [ ] Browser visual and accessibility evidence exists for every primitive and wrapper.
+- [ ] Runtime React renderer shipped scope is either fully implemented or public claims are
+  removed; data-only resident rendering remains the safe harness boundary.
+- [ ] Safe renderer fixtures cover every shared harness ref and every valid, invalid,
+  unsupported, denied, pending, stale, redacted, missing-source, expired, replayed, and
+  error state.
+- [ ] UI rendering never executes harness-owned action, policy, provider, memory, or tool
+  side effects.
+
+### Workbench
+
+- [ ] Workbench supports save, discard, rename, duplicate, restore, register, export,
+  import if accepted, inspector focus, persisted backend registration, package
+  registration, offline/online state, conflict recovery, and hosted state.
+- [ ] Hosted workbench/showcase deploys and passes browser, accessibility, visual,
+  responsive, keyboard, focus, reduced-motion, long-content, empty, error, disabled,
+  loading, denied, and redacted-state evidence.
+- [ ] Workbench evidence panels display registry hashes, release artifacts, SBOM, hosted
+  status, public claims, and harness compatibility fixtures.
+- [ ] Workbench Save, Duplicate, Restore, Register, Export, Close, reopen, persisted draft,
+  and backend registration routes have tests and browser evidence.
+
+### CLI
+
+- [ ] CLI supports local and hosted registry add, update, remove, migrate, doctor, pin,
+  lock, diff, dry-run, provenance, package manager detection, app title, suite, theme,
+  registry URL, defaults, rollback, conflict recovery, and remote fetch.
+- [ ] Clean temp-project smokes cover theme, primitive, wrapper, page, block, suite, hosted
+  URL, update, remove, migrate, provenance, and conflict routes.
+- [ ] CLI reports missing tooling and account setup with exact next commands and does not
+  silently succeed on unsupported remote or hosted routes.
+
+### Suites
+
+- [ ] `solo` is a mounted React suite for calendar, forms, docs, agent, tasks, simple
+  CRM/content/admin workflows.
+- [ ] `business-ops` is a mounted React suite for staff, scheduling, forms, training,
+  compliance, and dashboards.
+- [ ] `mixed-media` is a mounted React suite for assets, generation, editing, pipelines,
+  review, publishing, and media libraries.
+- [ ] `research-writing` is a mounted React suite for sources, notes, citations, briefs,
+  documents, outlines, and knowledge workflows.
+- [ ] Every suite includes app shell, routes, pages, blocks, primitive dependencies, fixture
+  data, empty/loading/error/denied states, responsive/mobile layout, focus/keyboard,
+  reduced motion, long content, visual smoke, accessibility smoke, CLI install smoke,
+  hosted showcase route, source/license provenance, and harness ref compatibility.
+
+### Hosted, Package, Release, And Public Trust
+
+- [ ] Public Studio UI packages install from the accepted public package channel in clean
+  external projects.
+- [ ] `private: true` is removed only after package contents, provenance, source locks, and
+  install smokes pass.
+- [ ] Static registry deploy and hosted URL install smoke pass.
+- [ ] Package contents dry-run, trusted publishing or accepted provenance workflow, SBOM,
+  signing/attestation, release notes, changelog, public claims evidence, and post-publish
+  registry/package smoke pass.
+- [ ] Rollback, deprecation, unpublish, support, security, and incident runbooks are present
+  and match implemented routes.
+
+### Cross-Repo Harness Seams
+
+- [ ] Shared fixtures cover `runEvent`, `uiPayload`, `artifactView`, `actionRef`,
+  `themeRef`, `suiteRef`, `evidencePacket`, `memoryRecord`, `contextPack`, and
+  `capabilityManifest` in both repos.
+- [ ] Studio UI renders harness-originated artifacts, traces, memory/context, evidence
+  packets, and action refs without executing harness-owned side effects.
+- [ ] Denied, invalid, unsupported, stale, redacted, missing-source, expired, and replayed
+  states fail closed.
+- [ ] Policy, tool execution, provider execution, memory decisions, and artifact promotion
+  remain harness-owned.
 
 ## Locked Decisions
 
