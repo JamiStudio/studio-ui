@@ -42,6 +42,16 @@ function normalizeVariant(value, fallback, allowed) {
   return allowed.includes(value) ? value : fallback;
 }
 
+function isUnsafeProp(key, value) {
+  if (/^on[A-Za-z]/.test(key)) return true;
+  if (key === "dangerouslySetInnerHTML" || key === "__html") return true;
+  if ((key === "executable" || key === "canExecute") && value === true) return true;
+  if (/^(href|src|action|formAction)$/i.test(key) && typeof value === "string") {
+    return value.trim().toLowerCase().startsWith("javascript:");
+  }
+  return false;
+}
+
 function slug(value) {
   const normalized = text(value)
     .toLowerCase()
@@ -53,6 +63,7 @@ function slug(value) {
 function compactProps(props) {
   const out = {};
   for (const [key, value] of Object.entries(props)) {
+    if (isUnsafeProp(key, value)) continue;
     if (value !== undefined && value !== null && value !== false) out[key] = value;
   }
   return out;

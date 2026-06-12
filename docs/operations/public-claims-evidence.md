@@ -37,7 +37,7 @@ in this table with live evidence, it is not safe to make publicly.
 | The workbench meets structural a11y + contrast targets | a11y/visual smoke report | `node apps/workbench/smoke/a11y-visual-smoke.mjs` |
 | The full gate passes | aggregate verify | `pnpm verify` |
 
-## Latest Evidence Snapshot (2026-06-09)
+## Latest Evidence Snapshot (2026-06-12)
 
 - `pnpm verify` — pass (exit 0), all stages green, including `registry:publish:check`.
 - `pnpm registry:publish:check` — `ready-to-stage`; 45 items (45 publishable now,

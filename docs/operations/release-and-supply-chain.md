@@ -31,20 +31,23 @@ package or registry artifact has been published.
 
 ## SBOM Policy
 
-- **Current footprint.** The workspace has zero third-party runtime or dev
-  dependencies. `pnpm-lock.yaml` records a single importer (`.`) with no resolved
-  packages, and no package manifest declares `dependencies` or `devDependencies`.
-  Every package and script runs on Node.js built-ins only.
+- **Current footprint.** The local release, registry, CLI, renderer, and workbench
+  scripts still run on Node.js built-ins only. The `@jami-studio/ui` package now
+  declares the third-party dependencies required for the authored Radix/React wrapper
+  slice: `@radix-ui/react-label`, `@radix-ui/react-slot`, `react` as a peer/dev
+  dependency, and `react-dom` for server-rendered wrapper tests. These are local
+  wrapper/package dependencies, not runtime payload execution.
 - **Local SBOM.** `pnpm sbom:generate` writes
   `docs/generated/sbom.cdx.json`; `pnpm sbom:check` verifies it. The artifact is a
   deterministic CycloneDX 1.7 JSON BOM generated locally from root/package/app
   manifests, `pnpm-lock.yaml`, the Node engine declaration, and a hash manifest of
   `packages/registry/generated`. It intentionally does not use `npm sbom` or add a
   generator dependency.
-- **Consequence.** The current BOM is small: the first-party components are the
-  root workspace, `@jami-studio/*` packages, and the workbench app; the required
-  runtime platform is the Node.js engine (`>=24` declared in `engines`). There is
-  no transitive dependency tree to enumerate.
+- **Consequence.** The current BOM is still small: the first-party components are
+  the root workspace, `@jami-studio/*` packages, and the workbench app; the required
+  runtime platform is the Node.js engine (`>=24` declared in `engines`); and the
+  external package entries are the declared Radix/React wrapper dependencies. Lockfile
+  resolution must be reviewed before publish, as recorded in the generated SBOM.
 - **Before first publish.** Re-run `pnpm release:artifacts:generate`, review the
   SBOM, attach it to the release, and re-verify it carries no undeclared
   third-party component. Re-run the SBOM whenever a real dependency is added; a

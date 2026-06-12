@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 46
-- Typed fragments: 23
+- Total fragments: 47
+- Typed fragments: 24
 - Unclassified legacy fragments: 23
 
 ## Notes By Surface
@@ -85,6 +85,10 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 #### fix
 
 - `2026-06-09-radix-wrapper-missing-evidence.md` - Corrected Radix wrapper readiness metadata so per-component `missingEvidence` only reports unchecked evidence. The full required-evidence checklist still includes the completed source-lock record, but source-locked component records no longer list that completed row as missing.
+
+#### security
+
+- `2026-06-12-group-c-wrapper-prop-hardening.md` - Hardened the authored Radix/React wrapper slice so unsafe passthrough DOM props are stripped before rendering. The wrappers now drop event-handler props, `dangerouslySetInnerHTML`, forged executable flags, and `javascript:` URL props while preserving the local wrapper/package boundary: renderer payload execution, hosted runtime, backend persistence, backend registration, and harness action execution remain unclaimed.
 
 ### unclassified
 

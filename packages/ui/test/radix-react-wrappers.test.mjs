@@ -94,6 +94,24 @@ test("JamiButton uses Radix Slot for asChild composition without changing the re
   assertSafeStaticMarkup(html);
 });
 
+test("wrappers strip unsafe passthrough DOM props", () => {
+  const html = renderToStaticMarkup(
+    h(JamiButton, {
+      label: "Open",
+      onClick: "alert(1)",
+      onclick: "alert(1)",
+      dangerouslySetInnerHTML: { __html: "<script>alert(1)</script>" },
+      href: "javascript:alert(1)",
+      canExecute: true,
+      executable: true,
+    }),
+  );
+  assert.match(html, /^<button /);
+  assert.match(html, />Open<\/button>$/);
+  assert.doesNotMatch(html, /dangerouslySetInnerHTML|canExecute|executable|javascript:/);
+  assertSafeStaticMarkup(html);
+});
+
 test("JamiPanel renders a labelled low-radius region with tokenized classes", () => {
   assert.deepEqual(validateComponentProps("panel", { title: "Wrapper evidence", tone: "accent" }), []);
   const html = renderToStaticMarkup(
