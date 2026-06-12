@@ -1,7 +1,11 @@
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
+  JamiAgentPanel,
   JamiButton,
+  JamiDataList,
+  JamiDocsSourcePanel,
+  JamiMediaGrid,
   JamiPanel,
   JamiTextField,
 } from "./radix-react-wrappers.mjs";
@@ -52,6 +56,42 @@ export function renderRadixReactWrapperExamples() {
         label: "Search sources",
         placeholder: "Find a source",
         helperText: "Radix Label associates the label with the input.",
+      }),
+    ),
+    example(
+      "data-list",
+      "data-list-records",
+      h(JamiDataList, {
+        title: "Evidence queue",
+        columns: [{ key: "name", label: "Name" }],
+        rows: [{ name: "Wrapper provenance" }],
+      }),
+    ),
+    example(
+      "agent-panel",
+      "agent-panel-display-only",
+      h(JamiAgentPanel, {
+        title: "Review agent",
+        status: "needs_attention",
+        actionRefs: ["act_review_evidence"],
+        artifactViewRefs: ["artv_trace_review"],
+      }),
+    ),
+    example(
+      "docs-source-panel",
+      "docs-source-panel-redacted",
+      h(JamiDocsSourcePanel, {
+        title: "Sources",
+        redacted: true,
+        sources: [{ id: "src_foundation", title: "Foundation alignment" }],
+      }),
+    ),
+    example(
+      "media-grid",
+      "media-grid-artifacts",
+      h(JamiMediaGrid, {
+        title: "Artifacts",
+        items: [{ id: "art_wrapper", title: "Wrapper screenshot placeholder" }],
       }),
     ),
   ]);

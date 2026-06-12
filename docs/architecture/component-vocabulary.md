@@ -1,7 +1,7 @@
 # Component Vocabulary
 
 Status: Foundation vocabulary
-Last updated: 2026-06-09
+Last updated: 2026-06-12
 
 ## Purpose
 
@@ -9,8 +9,9 @@ Last updated: 2026-06-09
 vocabulary that Studio UI can reference from the renderer, registry, CLI, and
 workbench. It includes dependency-light metadata, tokenized styles,
 framework-neutral component factories, and a first Radix/React wrapper slice for
-the `button`, `panel`, and `text-field` primitives. It is not a full wrapper
-library for every resident component and not a suite shell set.
+the resident `button`, `panel`, `text-field`, `data-list`, `agent-panel`,
+`docs-source-panel`, and `media-grid` vocabulary. It is not a runtime React
+renderer and not a suite shell set.
 
 ## Source
 
@@ -58,10 +59,10 @@ Every vocabulary definition carries:
   responsive layout, disabled, loading, invalid, empty, error, and long-content
   behavior.
 - a source-locked Radix wrapper readiness record for each resident component.
-  The record claims only the implemented `button`, `panel`, and `text-field`
-  wrapper slice. The remaining resident components stay `do-not-claim` until
-  React/Radix dependency, wrapper source, prop-schema parity, tokenized-style,
-  browser smoke, registry install, and renderer non-execution evidence exists.
+  The record now claims local wrapper source for every current resident
+  component, while still keeping runtime React rendering, hosted runtime,
+  backend persistence, backend registration, and renderer payload execution
+  false.
 
 `packages/ui/src/styles.css` uses generated `--jami-*` token variables for
 component colors, focus ring, spacing, radius, shadow, and motion. The UI test
@@ -74,10 +75,11 @@ Each initial vocabulary item has a registry-addressable source fixture under
 `packages/registry/fixtures/valid`. Generated registry artifacts embed the real
 `packages/ui/src/vocabulary.mjs`, `packages/ui/src/primitive-descriptors.mjs`,
 `packages/ui/src/primitive-components.mjs`, and `packages/ui/src/styles.css`
-content with per-file SHA-256 hashes. The `button`, `panel`, and `text-field`
-items also embed `packages/ui/src/radix-react-wrappers.mjs` and declare the
-Radix Slot/Label npm dependencies needed to evaluate that installed source. The
-other resident components do not embed wrapper source yet.
+content with per-file SHA-256 hashes. Every current resident UI item embeds
+`packages/ui/src/radix-react-wrappers.mjs`; `button` declares the Radix Slot
+dependency, `text-field` declares the Radix Label dependency, and the composed
+display components carry no Radix package dependency because their wrappers are
+plain React display wrappers.
 
 The renderer allowlist now accepts the authored resident names in addition to
 the renderer's internal display-only components. It also imports the vocabulary
@@ -101,14 +103,14 @@ mounted React app runtime.
 
 ## Not Yet Claimed
 
-This pass does not ship wrappers for `data-list`, `agent-panel`,
-`docs-source-panel`, or `media-grid`; Storybook; visual regression tooling for
-every primitive; calendar/source-board shells; or full suite app shells. The
-React/Radix wrapper slice is install-time/package code only, not a runtime React
-renderer and not a suite application library. The foundation remains narrow:
-source-owned vocabulary metadata, prop schemas, descriptor metadata, component
-factories, a three-primitive wrapper slice, tokenized styles, registry items,
-generated suite implementation manifests, renderer allowlist/schema references,
-and tests that keep component colors, state metadata, handshake, prop schemas,
-inert child slots, non-executable factory output, wrapper subset claims, and
-renderer package-import rejection honest.
+This pass does not ship Storybook, visual regression tooling for every
+primitive, calendar/source-board shells, a runtime React renderer, hosted
+persistence, or full suite app shells. The React/Radix wrapper slice is
+install-time/package code only, not a runtime React renderer and not a suite
+application library. The foundation remains narrow: source-owned vocabulary
+metadata, prop schemas, descriptor metadata, component factories, local wrapper
+source, tokenized styles, registry items, generated suite implementation
+manifests, renderer allowlist/schema references, and tests that keep component
+colors, state metadata, handshake, prop schemas, inert child slots,
+non-executable factory output, wrapper claims, and renderer package-import
+rejection honest.

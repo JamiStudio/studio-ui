@@ -25,6 +25,10 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
       duplicateCount: Number.isInteger(seed.duplicateCount) ? seed.duplicateCount : 0,
       registeredArtifacts: Array.isArray(seed.registeredArtifacts) ? clone(seed.registeredArtifacts) : [],
       exportArtifact: seed.exportArtifact || null,
+      importArtifact: seed.importArtifact || null,
+      inspectorFocus: seed.inspectorFocus || null,
+      online: seed.online !== false,
+      conflict: seed.conflict || null,
       lastAction: seed.lastAction || 'ready'
     };
   }
@@ -68,7 +72,17 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
         lastAction: 'selected-brand-option'
       });
     }
-    if (event.type === 'save') return Object.assign({}, current, { saved: normalizeDraft(current.draft), lastAction: 'saved-local' });
+    if (event.type === 'save') return Object.assign({}, current, { saved: normalizeDraft(current.draft), conflict: null, lastAction: 'saved-local' });
+    if (event.type === 'discard') return Object.assign({}, current, { draft: normalizeDraft(current.saved), conflict: null, lastAction: 'discarded-local-draft' });
+    if (event.type === 'rename') {
+      return Object.assign({}, current, {
+        draft: Object.assign({}, current.draft, {
+          themeName: String(event.themeName || '').trim() || current.draft.themeName,
+          presetName: String(event.presetName || '').trim() || current.draft.presetName
+        }),
+        lastAction: 'renamed-local-draft'
+      });
+    }
     if (event.type === 'duplicate') {
       var duplicateCount = current.duplicateCount + 1;
       return Object.assign({}, current, {
@@ -83,6 +97,28 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
       return Object.assign({}, current, { registeredArtifacts: [registration].concat(current.registeredArtifacts).slice(0, 5), lastAction: 'registered-local-artifact' });
     }
     if (event.type === 'export') return Object.assign({}, current, { exportArtifact: makeArtifact(current, 'export'), lastAction: 'exported-local-artifact' });
+    if (event.type === 'import') {
+      var artifact = event.artifact && typeof event.artifact === 'object' ? event.artifact : null;
+      if (!artifact || artifact.schemaVersion !== ARTIFACT_VERSION || !artifact.controls) {
+        return Object.assign({}, current, {
+          conflict: { kind: 'invalid-import', expectedSchemaVersion: ARTIFACT_VERSION },
+          lastAction: 'import-rejected'
+        });
+      }
+      return Object.assign({}, current, {
+        draft: normalizeDraft({
+          target: artifact.target,
+          themeName: artifact.themeName,
+          presetName: artifact.presetName,
+          controls: artifact.controls
+        }),
+        importArtifact: artifact,
+        conflict: null,
+        lastAction: 'imported-local-artifact'
+      });
+    }
+    if (event.type === 'focus-inspector') return Object.assign({}, current, { inspectorFocus: event.target || null, lastAction: 'inspector-focused' });
+    if (event.type === 'set-online') return Object.assign({}, current, { online: event.online !== false, lastAction: event.online === false ? 'offline-local' : 'online-local' });
     return current;
   }
   function loadState() {
@@ -121,6 +157,8 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
   function renderArtifacts() {
     var exportNode = document.getElementById('ju-wb-export');
     if (exportNode) exportNode.value = state.exportArtifact ? JSON.stringify(state.exportArtifact, null, 2) : '';
+    var importNode = document.getElementById('ju-wb-import');
+    if (importNode && state.importArtifact && !importNode.value) importNode.value = JSON.stringify(state.importArtifact, null, 2);
     var list = document.getElementById('ju-wb-registered');
     if (list) {
       list.innerHTML = '';
@@ -137,7 +175,11 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
     setText('ju-wb-theme', state.draft.themeName + ' / ' + state.draft.presetName);
     setText('ju-wb-dirty', isDirty(state) ? 'dirty' : 'saved');
     setText('ju-wb-last-action', state.lastAction);
-    setText('ju-wb-storage', 'local draft');
+    setText('ju-wb-storage', state.online ? 'local draft / online host unsupported' : 'local draft / offline');
+    setText('ju-wb-inspector', state.inspectorFocus || 'none');
+    setText('ju-wb-conflict', state.conflict ? state.conflict.kind : 'none');
+    var renameNode = document.getElementById('ju-wb-rename');
+    if (renameNode && renameNode.value !== state.draft.themeName) renameNode.value = state.draft.themeName;
     applyDraft();
     renderArtifacts();
   }
@@ -148,7 +190,29 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
   }
   var state = loadState();
   document.querySelectorAll('[data-wb-action]').forEach(function (button) {
-    button.addEventListener('click', function () { dispatch({ type: button.getAttribute('data-wb-action') }); });
+    button.addEventListener('click', function () {
+      var action = button.getAttribute('data-wb-action');
+      if (action === 'import') {
+        var input = document.getElementById('ju-wb-import');
+        var artifact = null;
+        try { artifact = JSON.parse(input && input.value ? input.value : '{}'); } catch (error) { artifact = null; }
+        dispatch({ type: 'import', artifact: artifact });
+      } else if (action === 'rename') {
+        var rename = document.getElementById('ju-wb-rename');
+        dispatch({ type: 'rename', themeName: rename ? rename.value : '' });
+      } else if (action === 'offline') {
+        dispatch({ type: 'set-online', online: false });
+      } else if (action === 'online') {
+        dispatch({ type: 'set-online', online: true });
+      } else {
+        dispatch({ type: action });
+      }
+    });
+  });
+  document.querySelectorAll('[data-inspector-target]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      dispatch({ type: 'focus-inspector', target: button.getAttribute('data-inspector-target') });
+    });
   });
   document.querySelectorAll('[data-wb-control]').forEach(function (control) {
     control.addEventListener('input', function () { dispatch({ type: 'update-control', name: control.getAttribute('data-wb-control'), value: control.value }); });

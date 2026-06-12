@@ -1,7 +1,7 @@
 # Registry Install And CLI Lifecycle
 
 Status: Foundation contract
-Last updated: 2026-06-09
+Last updated: 2026-06-12
 
 ## Purpose
 
@@ -59,6 +59,7 @@ No hidden state is written.
 | `add <name>` | Resolve the item's `registryDependencies` graph and install it. `--dry-run` plans without writing; `--force` overwrites conflicts. |
 | `remove <name>` | Delete an installed item's files and lock entry. Refuses to delete locally modified files without `--force`. |
 | `update [name]` | Compare lock entries to the registry and reinstall outdated items. `--dry-run` plans; `--force` overrides pins and conflicts. |
+| `diff [name]` | Show planned install/update/file drift without writing files. For a missing but known registry item it reports the create plan; for installed items it reports clean, outdated, migration, orphaned, or file-drift states. |
 | `migrate [name]` | Report schema-version migrations from item `migrationNotes`; `--apply` records the migration and reinstalls content. |
 | `pin` / `unpin` | Pin or unpin an installed item version (`--version`). Pinned items are skipped by `update` unless `--force`. |
 | `lock` | Show lockfile status and on-disk drift. |
@@ -89,8 +90,8 @@ without an explicit `--force`.
 - `pnpm --filter @jami-studio/cli test` runs deterministic temp-project smoke
   tests under the OS temp dir covering init, list, install, brand-option
   descriptor install and provenance, suite-graph install with authored primitive/component
-  source, standalone suite page/block install and provenance, dry-run, conflict
-  refusal and forced overwrite, doctor drift detection, remove, update of
+  source, standalone suite page/block install and provenance, dry-run, diff
+  planning, conflict refusal and forced overwrite, doctor drift detection, remove, update of
   outdated entries, pin/update interaction, migrate report/apply, provenance
   verification, remote-registry unsupported state, and unknown-item failure.
 - The CLI test is part of `pnpm verify`.
@@ -103,6 +104,6 @@ surface, decide a final brand identity, or execute harness actions. Suite items 
 descriptor, and generated page/block descriptors. These are installable
 manifests, not full React page or block implementations. Resident UI items now
 ship framework-neutral component factory source with inert child-slot handling,
-and the first authored Radix/React wrapper slice for `button`, `panel`, and
-`text-field`. They do not ship a full resident wrapper library or a runtime React
-renderer.
+and authored Radix/React wrapper source for every current resident vocabulary
+item. They do not ship a runtime React renderer, hosted suite runtime, or
+backend registration.

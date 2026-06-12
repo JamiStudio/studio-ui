@@ -1,6 +1,14 @@
 export const RADIX_REACT_WRAPPER_VERSION = "2026-06-09.radix-react-wrapper-slice";
 
-export const implementedRadixReactWrapperNames = Object.freeze(["button", "panel", "text-field"]);
+export const implementedRadixReactWrapperNames = Object.freeze([
+  "button",
+  "panel",
+  "text-field",
+  "data-list",
+  "agent-panel",
+  "docs-source-panel",
+  "media-grid",
+]);
 
 export const radixReactWrapperPackageEvidence = Object.freeze({
   react: Object.freeze({
@@ -100,6 +108,38 @@ export const radixReactWrapperEvidence = Object.freeze({
     source: "packages/ui/src/radix-react-wrappers.mjs",
     radixPackages: ["@radix-ui/react-label@2.1.9"],
     wrapperRole: "Radix Label-backed labelled text input primitive",
+  }),
+  "data-list": wrapperEvidence({
+    component: "data-list",
+    registryItem: "@jami-studio/data-list",
+    exportName: "JamiDataList",
+    source: "packages/ui/src/radix-react-wrappers.mjs",
+    radixPackages: [],
+    wrapperRole: "React display component for dense table/list data with no runtime data execution",
+  }),
+  "agent-panel": wrapperEvidence({
+    component: "agent-panel",
+    registryItem: "@jami-studio/agent-panel",
+    exportName: "JamiAgentPanel",
+    source: "packages/ui/src/radix-react-wrappers.mjs",
+    radixPackages: [],
+    wrapperRole: "React display-only action and artifact reference panel",
+  }),
+  "docs-source-panel": wrapperEvidence({
+    component: "docs-source-panel",
+    registryItem: "@jami-studio/docs-source-panel",
+    exportName: "JamiDocsSourcePanel",
+    source: "packages/ui/src/radix-react-wrappers.mjs",
+    radixPackages: [],
+    wrapperRole: "React display-only source and citation panel with redaction state",
+  }),
+  "media-grid": wrapperEvidence({
+    component: "media-grid",
+    registryItem: "@jami-studio/media-grid",
+    exportName: "JamiMediaGrid",
+    source: "packages/ui/src/radix-react-wrappers.mjs",
+    radixPackages: [],
+    wrapperRole: "React display-only media and artifact gallery component",
   }),
 });
 

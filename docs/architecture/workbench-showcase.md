@@ -1,7 +1,7 @@
 # Workbench Showcase Surface
 
 Status: Foundation surface
-Last updated: 2026-06-09
+Last updated: 2026-06-12
 
 ## Purpose
 
@@ -65,16 +65,17 @@ no harness runtime, hosted persistence, or backend package registration.
   not mutate the factory token source or declare a final visual identity.
 - The always-live overlay is first-party static-app code, not a renderer payload.
   It exposes a compact status bar with target, theme/preset, dirty/storage state,
-  Save, Duplicate, Restore, Register, Export, and Close. Its docked panels cover
-  Theme, Color, Typography, Layout, Surfaces, Components, Charts, Motion, Assets,
-  and Registry. Panels are data-backed where current generated token, suite,
-  component, fixture, and registry data exists; Charts explicitly reports that no
-  chart registry item exists yet.
+  Save, Discard, Duplicate, Rename, Restore, Register, Export, Import, offline/
+  online local state, inspector focus, and Close. Its docked panels cover Theme,
+  Color, Typography, Layout, Surfaces, Components, Charts, Motion, Assets, and
+  Registry. Panels are data-backed where current generated token, suite,
+  component, fixture, and registry data exists; Charts explicitly reports that
+  no chart registry item exists yet.
 - `apps/workbench/src/workbench-state.mjs` owns deterministic state transitions.
   Draft state, close/open state, and saved state survive in `localStorage` in the
-  static runtime. Save, Duplicate, Restore, Register, and Export create local
-  state transitions and local artifacts only; exported/register artifacts include
-  `backendPersistence: false`.
+  static runtime. Save, Discard, Rename, Duplicate, Restore, Register, Export,
+  Import, inspector focus, and offline/online are local state transitions only;
+  exported/register artifacts include `backendPersistence: false`.
 
 ## What It Consumes (no duplicated data)
 
@@ -171,7 +172,7 @@ audit plus the rendered screenshots.
 
 This surface does not implement hosted/full React suite applications, hosted/persisted
 editing, backend package registration, a runtime React renderer, a remote
-registry fetch, a full resident Radix wrapper library, a provider runtime, or any
+registry fetch, a runtime React renderer, a provider runtime, or any
 harness execution. It renders, displays, and locally edits accepted, generated,
-authored-source, primitive-factory implementation, first wrapper-slice evidence,
+authored-source, primitive-factory implementation, resident wrapper evidence,
 and fixture data only.

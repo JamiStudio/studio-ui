@@ -321,6 +321,18 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   suite React apps, claim hosted registry URL smoke, publish npm/static registry
   artifacts, add backend persistence/registration, execute attestations, finalize
   brand canon, or weaken the data-only resident renderer.
+- 2026-06-12 Group C / Studio UI pass 1 expanded the local Radix/React wrapper
+  slice across the full current resident vocabulary: `button`, `panel`,
+  `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
+  `media-grid`. Generated resident UI registry items now embed the wrapper
+  source for all seven items, with Radix package dependencies declared only for
+  wrappers that actually use Radix Slot or Label. The workbench overlay added
+  local discard, rename, import, inspector-focus, offline/online state, and
+  conflict display flows. The CLI added `diff [name]` over the existing
+  hash-based planner for install/update/file-drift inspection. This remains
+  local/package source readiness only: no runtime React renderer, hosted
+  persistence/backend registration, hosted registry URL smoke, package publish,
+  mounted suite React apps, or harness runtime execution is claimed.
 
 - 2026-06-12 reorientation: this roadmap is now aligned to the registry-root
   end-to-end completion roadmap at
@@ -732,14 +744,14 @@ Implementation tasks:
   `panel`, `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
   `media-grid`, plus React-style primitive metadata and framework-neutral component
   factories, plus a source-locked Radix wrapper readiness contract and authored
-  Radix/React wrapper source for `button`, `panel`, and `text-field`; composed
-  component wrappers remain pending.)
+  Radix/React wrapper source for all current resident vocabulary items.)
 - [~] Add tokenized primitive implementations. (Initial authored CSS uses generated
   `--jami-*` variables for the resident vocabulary, and the component factories
   emit those classes without executable action handlers while treating caller
   children as inert display data; Radix/React wrappers exist for `button`, `panel`,
-  and `text-field`, while wrappers for `data-list`, `agent-panel`,
-  `docs-source-panel`, `media-grid`, and browser visual regression remain pending.)
+  `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
+  `media-grid`, while runtime React rendering and full browser visual regression
+  remain pending.)
 - [~] Add composed components for agent panel, data display, forms, calendar shell, docs shell, media grid, source board, and command/action surfaces. (`agent-panel`, `data-list`,
   `text-field`, `docs-source-panel`, `media-grid`, and `button` metadata/styles/factories exist;
   calendar shell and source-board composition remain pending.)
@@ -750,7 +762,7 @@ Implementation tasks:
   (`packages/ui/test/ui.test.mjs` checks ARIA/state metadata, tokenized CSS, importable
   non-executable component factories, inert child-slot handling, and invalid-prop
   fail-closed behavior; `packages/ui/test/radix-react-wrappers.test.mjs` checks the
-  first Radix/React wrapper slice through server-rendered React evidence; browser
+  resident Radix/React wrapper slice through server-rendered React evidence; browser
   visual regression for the primitives remains pending.)
 - [~] Add state fixtures for keyboard, focus visibility, ARIA names/states, contrast, reduced motion, responsive layout, disabled, loading, invalid, empty, error, and long-content behavior. (The state matrix is recorded and tested in vocabulary metadata; per-component browser fixtures remain pending.)
 - [x] Add per-component prop schemas for the resident vocabulary. (`packages/ui`
@@ -764,8 +776,8 @@ Exit criteria:
 
 - [~] Primitive and component vocabulary is tokenized and registry-addressable. (Initial
   metadata/styles, React-style descriptor metadata, framework-neutral component
-  factories, first Radix/React wrapper source, and registry items exist; the full
-  resident wrapper library remains pending.)
+  factories, local Radix/React wrapper source, and registry items exist; runtime
+  React rendering remains pending.)
 - [x] Component-local hardcoded colors are rejected by tests or lint rules.
 - [~] Critical primitives meet the shared accessibility/visual matrix before suite consumption.
   (Metadata, CSS guards, Radix wrapper readiness evidence, and server-rendered
@@ -809,8 +821,8 @@ Implementation tasks:
 - [~] Build collapsible docked panels for Theme, Color, Typography, Layout, Surfaces, Components, Charts, Motion, Assets, and Registry. (All requested panels exist in the static overlay; panels are data-backed where current token, suite, component, fixture, and registry data exists, while Charts honestly reports no chart registry item yet.)
 - [x] Preserve navigation while the overlay is active. (The overlay is fixed over the generated showcase and does not replace section navigation.)
 - [x] Preserve draft state across close/reopen. (`localStorage` stores the static-runtime draft and closed/open state.)
-- [~] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows. (Save, duplicate, restore-to-factory, local register artifact, local export artifact, and close/reopen are implemented as deterministic local transitions; discard/rename and backend persistence/registration remain pending.)
-- [ ] Add inspector focus if it can be done without destabilizing the first overlay.
+- [~] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows. (Save, discard, rename, duplicate, restore-to-factory, local import/register/export artifacts, offline/online state, conflict display, and close/reopen are implemented as deterministic local transitions; backend persistence/registration remain pending.)
+- [x] Add inspector focus if it can be done without destabilizing the first overlay. (Implemented as a local state target in the static overlay; no backend focus persistence is claimed.)
 - [x] Gate workbench expansion on an early vertical slice: one token family, one primitive, one registry item, one CLI temp install, one renderer payload, one harness-compatible action/error fixture, and one screenshot/accessibility check. (The `apps/workbench` static surface proves the token theme -> registry/suite descriptor -> resident renderer -> presentation seam loop end to end and now exposes the local always-live editing overlay over that same real page.)
 - [~] Add workbench visual/a11y fixtures across light, dark, factory theme, and suite-theme states. (The showcase builds `factory`/`light`/`dark` theme states with per-theme screenshots and a structural a11y + contrast smoke; dedicated persisted suite-theme state and full visual regression remain pending.)
 
@@ -905,7 +917,7 @@ Implementation tasks:
 
 - [x] Add CLI commands for init, add item, add suite, apply theme, list, inspect, doctor, update, remove, migrate, lock/pin, and provenance inspect. (Theme/suite apply is `add <item>`; all commands implemented in `packages/cli`.)
 - [~] Add configuration for app title, suite, theme, registry URL, package manager, and defaults. (Flag-driven `init` today; interactive prompts pending.)
-- [~] Add dry-run and diff behavior before writing files. (`--dry-run` reports the per-file action plan; per-line file diffs are pending.)
+- [~] Add dry-run and diff behavior before writing files. (`--dry-run` reports the per-file action plan; `diff [name]` reports install/update/file-drift actions without writing; per-line textual diffs remain pending.)
 - [x] Add rollback/restore guidance and conflict handling for locally modified installed files.
 - [x] Add install, update, remove, migrate, and provenance smoke tests in temporary projects.
 
@@ -913,7 +925,7 @@ Exit criteria:
 
 - [~] A clean project can install a sample theme, primitive, page, block, and suite. (Theme and resident vocabulary items install real embedded content, including component factory source; suites install generated manifests plus standalone page/block descriptors; full React suite/page/block implementations remain pending.)
 - [x] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
-- [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; remote registry is an explicit unsupported state; account/auth tooling integration is pending.)
+- [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; `diff` reports local drift without writing; remote registry is an explicit unsupported state; account/auth tooling integration is pending.)
 
 Suggested verification:
 

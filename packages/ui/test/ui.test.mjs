@@ -227,7 +227,7 @@ test("createJamiPrimitiveComponents adapts factories to an injected createElemen
 test("Radix wrapper readiness claims only the implemented primitive slice", () => {
   assert.deepEqual(Object.keys(radixWrapperReadiness), requiredNames);
   assert.equal(radixWrapperBoundary.implementationStatus, "partial-radix-react-wrapper-slice");
-  assert.deepEqual(radixWrapperBoundary.implementedComponents, ["button", "panel", "text-field"]);
+  assert.deepEqual(radixWrapperBoundary.implementedComponents, requiredNames);
   assert.equal(radixWrapperBoundary.radixDependencyDeclared, true);
   assert.equal(radixWrapperBoundary.reactDependencyDeclared, true);
   assert.equal(radixWrapperBoundary.runtimeReactRenderer, false);
@@ -241,8 +241,8 @@ test("Radix wrapper readiness claims only the implemented primitive slice", () =
   assert.ok(
     requiredRadixWrapperEvidence.includes("negative renderer fixture proving wrappers are not runtime payload execution"),
   );
-  assert.deepEqual(implementedRadixReactWrapperNames, ["button", "panel", "text-field"]);
-  assert.deepEqual(Object.keys(radixReactWrapperEvidence), ["button", "panel", "text-field"]);
+  assert.deepEqual(implementedRadixReactWrapperNames, requiredNames);
+  assert.deepEqual(Object.keys(radixReactWrapperEvidence), requiredNames);
   assert.equal(radixReactWrapperPackageEvidence.react.version, "19.2.7");
   assert.equal(radixReactWrapperPackageEvidence.radixSlot.version, "1.2.5");
   assert.equal(radixReactWrapperPackageEvidence.radixLabel.version, "2.1.9");
@@ -259,31 +259,18 @@ test("Radix wrapper readiness claims only the implemented primitive slice", () =
       readiness.missingEvidence.includes("repo-local official Radix and shadcn source-lock record"),
       false,
     );
-    if (implementedRadixReactWrapperNames.includes(name)) {
-      assert.equal(readiness.claimStatus, "implemented-slice-only");
-      assert.deepEqual(readiness.missingEvidence, []);
-      assert.equal(readiness.readiness.dependencyDeclared, true);
-      assert.equal(readiness.readiness.wrapperSourceFile, true);
-      assert.equal(readiness.readiness.propSchemaParityTest, true);
-      assert.equal(readiness.readiness.tokenizedStyleTest, true);
-      assert.equal(readiness.readiness.browserA11yVisualSmoke, true);
-      assert.equal(readiness.readiness.registryInstallContent, true);
-      assert.equal(readiness.readiness.rendererNonExecutionFixture, true);
-      assert.equal(readiness.boundary.reactWrapper, true);
-      assert.equal(readiness.boundary.radixWrapper, wrapperEvidence.radixPackages.length > 0);
-      assert.equal(readiness.implementationEvidence, wrapperEvidence);
-    } else {
-      assert.equal(readiness.claimStatus, "do-not-claim");
-      assert.ok(
-        readiness.missingEvidence.includes("pinned React and Radix dependency declarations with lockfile resolution"),
-      );
-      assert.equal(readiness.readiness.dependencyDeclared, false);
-      assert.equal(readiness.readiness.wrapperSourceFile, false);
-      assert.equal(readiness.readiness.browserA11yVisualSmoke, false);
-      assert.equal(readiness.boundary.reactWrapper, false);
-      assert.equal(readiness.boundary.radixWrapper, false);
-      assert.equal(readiness.implementationEvidence, null);
-    }
+    assert.equal(readiness.claimStatus, "implemented-slice-only");
+    assert.deepEqual(readiness.missingEvidence, []);
+    assert.equal(readiness.readiness.dependencyDeclared, true);
+    assert.equal(readiness.readiness.wrapperSourceFile, true);
+    assert.equal(readiness.readiness.propSchemaParityTest, true);
+    assert.equal(readiness.readiness.tokenizedStyleTest, true);
+    assert.equal(readiness.readiness.browserA11yVisualSmoke, true);
+    assert.equal(readiness.readiness.registryInstallContent, true);
+    assert.equal(readiness.readiness.rendererNonExecutionFixture, true);
+    assert.equal(readiness.boundary.reactWrapper, true);
+    assert.equal(readiness.boundary.radixWrapper, wrapperEvidence.radixPackages.length > 0);
+    assert.equal(readiness.implementationEvidence, wrapperEvidence);
     assert.equal(
       readiness.missingEvidence.length,
       Object.values(readiness.readiness).filter((value) => value !== true).length,
@@ -296,12 +283,11 @@ test("Radix wrapper readiness claims only the implemented primitive slice", () =
     assert.equal(readiness.boundary.backendRegistration, false);
   }
 
-  assert.equal(canClaimRadixWrappers(), false);
+  assert.equal(canClaimRadixWrappers(), true);
   assert.equal(canClaimRadixWrapperSlice(), true);
-  assert.deepEqual(claimableRadixWrapperNames, ["button", "panel", "text-field"]);
+  assert.deepEqual(claimableRadixWrapperNames, requiredNames);
   assert.equal(getRadixWrapperGaps().includes("button:dependencyDeclared"), false);
-  assert.ok(getRadixWrapperGaps().includes("data-list:dependencyDeclared"));
-  assert.ok(getRadixWrapperGaps().includes("media-grid:rendererNonExecutionFixture"));
+  assert.deepEqual(getRadixWrapperGaps(), []);
 });
 
 test("primitive component factories keep caller children inert", () => {

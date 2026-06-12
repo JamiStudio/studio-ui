@@ -43,6 +43,10 @@ export function createInitialWorkbenchState(seed = {}) {
     duplicateCount: Number.isInteger(seed.duplicateCount) ? seed.duplicateCount : 0,
     registeredArtifacts: Array.isArray(seed.registeredArtifacts) ? clone(seed.registeredArtifacts) : [],
     exportArtifact: seed.exportArtifact ?? null,
+    importArtifact: seed.importArtifact ?? null,
+    inspectorFocus: seed.inspectorFocus ?? null,
+    online: seed.online !== false,
+    conflict: seed.conflict ?? null,
     lastAction: seed.lastAction ?? "ready",
   };
 }
@@ -111,7 +115,25 @@ export function reduceWorkbenchState(state, event) {
       return {
         ...current,
         saved: normalizeDraft(current.draft),
+        conflict: null,
         lastAction: "saved-local",
+      };
+    case "discard":
+      return {
+        ...current,
+        draft: normalizeDraft(current.saved),
+        conflict: null,
+        lastAction: "discarded-local-draft",
+      };
+    case "rename":
+      return {
+        ...current,
+        draft: {
+          ...current.draft,
+          themeName: String(event.themeName ?? "").trim() || current.draft.themeName,
+          presetName: String(event.presetName ?? "").trim() || current.draft.presetName,
+        },
+        lastAction: "renamed-local-draft",
       };
     case "duplicate": {
       const duplicateCount = current.duplicateCount + 1;
@@ -144,6 +166,43 @@ export function reduceWorkbenchState(state, event) {
       const artifact = makeWorkbenchArtifact(current, "export");
       return { ...current, exportArtifact: artifact, lastAction: "exported-local-artifact" };
     }
+    case "import": {
+      const artifact = event.artifact && typeof event.artifact === "object" ? event.artifact : null;
+      if (!artifact || artifact.schemaVersion !== ARTIFACT_VERSION || !artifact.controls) {
+        return {
+          ...current,
+          conflict: {
+            kind: "invalid-import",
+            expectedSchemaVersion: ARTIFACT_VERSION,
+          },
+          lastAction: "import-rejected",
+        };
+      }
+      return {
+        ...current,
+        draft: normalizeDraft({
+          target: artifact.target,
+          themeName: artifact.themeName,
+          presetName: artifact.presetName,
+          controls: artifact.controls,
+        }),
+        importArtifact: artifact,
+        conflict: null,
+        lastAction: "imported-local-artifact",
+      };
+    }
+    case "focus-inspector":
+      return {
+        ...current,
+        inspectorFocus: event.target ?? null,
+        lastAction: "inspector-focused",
+      };
+    case "set-online":
+      return {
+        ...current,
+        online: event.online !== false,
+        lastAction: event.online === false ? "offline-local" : "online-local",
+      };
     default:
       return current;
   }

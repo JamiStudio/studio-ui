@@ -4,7 +4,11 @@ import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import {
+  JamiAgentPanel,
   JamiButton,
+  JamiDataList,
+  JamiDocsSourcePanel,
+  JamiMediaGrid,
   JamiPanel,
   JamiTextField,
 } from "../src/radix-react-wrappers.mjs";
@@ -26,8 +30,16 @@ function assertSafeStaticMarkup(html) {
   assert.equal(/(href|src)\s*=\s*["']?\s*javascript:/i.test(html), false, "wrapper markup must not emit javascript URLs");
 }
 
-test("wrapper evidence records the first implemented primitive slice only", () => {
-  assert.deepEqual(implementedRadixReactWrapperNames, ["button", "panel", "text-field"]);
+test("wrapper evidence records the implemented resident component slice", () => {
+  assert.deepEqual(implementedRadixReactWrapperNames, [
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel",
+    "docs-source-panel",
+    "media-grid",
+  ]);
   assert.equal(radixReactWrapperPackageEvidence.react.version, "19.2.7");
   assert.equal(radixReactWrapperPackageEvidence.radixSlot.version, "1.2.5");
   assert.equal(radixReactWrapperPackageEvidence.radixLabel.version, "2.1.9");
@@ -38,7 +50,15 @@ test("wrapper evidence records the first implemented primitive slice only", () =
   assert.deepEqual(getRadixReactWrapperEvidence("panel").radixPackages, []);
   assert.equal(getRadixReactWrapperEvidence("text-field").exportName, "JamiTextField");
   assert.deepEqual(getRadixReactWrapperEvidence("text-field").radixPackages, ["@radix-ui/react-label@2.1.9"]);
-  assert.equal(getRadixReactWrapperEvidence("data-list"), null, "composed components are still not claimed");
+  assert.equal(getRadixReactWrapperEvidence("data-list").exportName, "JamiDataList");
+  assert.equal(getRadixReactWrapperEvidence("agent-panel").exportName, "JamiAgentPanel");
+  assert.equal(getRadixReactWrapperEvidence("docs-source-panel").exportName, "JamiDocsSourcePanel");
+  assert.equal(getRadixReactWrapperEvidence("media-grid").exportName, "JamiMediaGrid");
+  for (const name of ["data-list", "agent-panel", "docs-source-panel", "media-grid"]) {
+    assert.deepEqual(getRadixReactWrapperEvidence(name).radixPackages, []);
+    assert.equal(getRadixReactWrapperEvidence(name).runtimeReactRenderer, false);
+    assert.equal(getRadixReactWrapperEvidence(name).rendererPayloadExecution, false);
+  }
 });
 
 test("JamiButton renders a tokenized React button aligned to the resident schema", () => {
@@ -107,17 +127,122 @@ test("JamiTextField uses Radix Label and emits a labelled native input", () => {
   assertSafeStaticMarkup(html);
 });
 
+test("JamiDataList renders labelled display-only table content", () => {
+  assert.deepEqual(
+    validateComponentProps("data-list", {
+      title: "Tasks",
+      columns: [{ key: "name", label: "Name" }],
+      rows: [{ name: "Review" }],
+    }),
+    [],
+  );
+  const html = renderToStaticMarkup(
+    h(JamiDataList, {
+      title: "Tasks",
+      columns: [{ key: "name", label: "Name" }],
+      rows: [{ name: "Review evidence" }],
+    }),
+  );
+  assert.match(html, /^<section /);
+  assert.match(html, /class="jami-data-list"/);
+  assert.match(html, /role="region"/);
+  assert.match(html, /<table class="jami-data-list-table">/);
+  assert.match(html, /<th scope="col">Name<\/th>/);
+  assert.match(html, /<td>Review evidence<\/td>/);
+  assertSafeStaticMarkup(html);
+});
+
+test("JamiAgentPanel renders action and artifact refs as inert data", () => {
+  assert.deepEqual(
+    validateComponentProps("agent-panel", {
+      title: "Review agent",
+      status: "needs_attention",
+      actionRefs: ["act_review"],
+      artifactViewRefs: ["artv_trace"],
+    }),
+    [],
+  );
+  const html = renderToStaticMarkup(
+    h(JamiAgentPanel, {
+      title: "Review agent",
+      status: "needs_attention",
+      actionRefs: ["act_review"],
+      artifactViewRefs: ["artv_trace"],
+    }),
+  );
+  assert.match(html, /^<section /);
+  assert.match(html, /class="jami-agent-panel"/);
+  assert.match(html, /data-status="needs_attention"/);
+  assert.match(html, /data-action-ref="act_review"/);
+  assert.match(html, /data-artifact-view-ref="artv_trace"/);
+  assertSafeStaticMarkup(html);
+});
+
+test("JamiDocsSourcePanel gates redacted source details", () => {
+  assert.deepEqual(
+    validateComponentProps("docs-source-panel", {
+      title: "Sources",
+      redacted: true,
+      sources: [{ id: "src_1", title: "Foundation alignment" }],
+    }),
+    [],
+  );
+  const html = renderToStaticMarkup(
+    h(JamiDocsSourcePanel, {
+      title: "Sources",
+      redacted: true,
+      sources: [{ id: "src_1", title: "Foundation alignment" }],
+    }),
+  );
+  assert.match(html, /^<aside /);
+  assert.match(html, /class="jami-docs-source-panel"/);
+  assert.match(html, /data-redacted="true"/);
+  assert.match(html, /Source details are redacted/);
+  assert.match(html, /data-source-id="src_1"/);
+  assertSafeStaticMarkup(html);
+});
+
+test("JamiMediaGrid renders artifact gallery items without executable state", () => {
+  assert.deepEqual(
+    validateComponentProps("media-grid", {
+      title: "Assets",
+      items: [{ id: "art_1", title: "Frame 01" }],
+    }),
+    [],
+  );
+  const html = renderToStaticMarkup(
+    h(JamiMediaGrid, {
+      title: "Assets",
+      items: [{ id: "art_1", title: "Frame 01" }],
+      selectedItemId: "art_1",
+    }),
+  );
+  assert.match(html, /^<section /);
+  assert.match(html, /class="jami-media-grid"/);
+  assert.match(html, /data-media-id="art_1"/);
+  assert.match(html, /aria-current="true"/);
+  assertSafeStaticMarkup(html);
+});
+
 test("server-rendered wrapper examples are real React output and stay inert", () => {
   const examples = renderRadixReactWrapperExamples();
-  assert.equal(examples.length, 4);
+  assert.equal(examples.length, 8);
   assert.deepEqual([...new Set(examples.map((example) => example.component))], [
     "button",
     "panel",
     "text-field",
+    "data-list",
+    "agent-panel",
+    "docs-source-panel",
+    "media-grid",
   ]);
   for (const example of examples) {
     assert.ok(example.evidence, `${example.id} carries wrapper evidence`);
-    assert.match(example.html, /jami-(button|panel|field)/, `${example.id} uses tokenized classes`);
+    assert.match(
+      example.html,
+      /jami-(button|panel|field|data-list|agent-panel|docs-source-panel|media-grid)/,
+      `${example.id} uses tokenized classes`,
+    );
     assertSafeStaticMarkup(example.html);
   }
 });

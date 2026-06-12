@@ -82,11 +82,11 @@ descriptor metadata, framework-neutral component factories with inert child-slot
 handling, and tokenized styles as real, hashed content. The four suite items ship complete, hashed
 suite manifests. The generated app/page/block items ship complete, hashed implementation
 and descriptor manifests derived from the authored suite shell sources and
-`packages/ui/src/primitive-components.mjs`. The `button`, `panel`, and
-`text-field` UI items also embed the first authored Radix/React wrapper source and
-Radix dependencies. "Publishable now" still does **not** assert a full resident
-Radix wrapper library, a runtime React renderer, hosted/full React suite runtime,
-final visual identity, or hosted registry availability.
+`packages/ui/src/primitive-components.mjs`. Resident UI items also embed authored
+Radix/React wrapper source; only wrappers that use Radix Slot or Label declare
+those package dependencies. "Publishable now" still does **not** assert a runtime
+React renderer, hosted/full React suite runtime, final visual identity, or
+hosted registry availability.
 
 ## Provenance And Hashes
 

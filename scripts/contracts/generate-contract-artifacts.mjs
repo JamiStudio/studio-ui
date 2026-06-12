@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  getRadixReactWrapperEvidence,
   implementedRadixReactWrapperNames,
   PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
   renderPrimitiveSpec,
@@ -205,7 +206,7 @@ function packageDependencies(item) {
   const dependencies = [...(item.dependencies ?? [])];
   const itemShortName = item.name.replace("@jami-studio/", "");
   if (implementedRadixReactWrapperNames.includes(itemShortName)) {
-    for (const dependency of ["@radix-ui/react-slot@1.2.5", "@radix-ui/react-label@2.1.9"]) {
+    for (const dependency of getRadixReactWrapperEvidence(itemShortName)?.radixPackages ?? []) {
       if (!dependencies.includes(dependency)) dependencies.push(dependency);
     }
   }

@@ -556,7 +556,9 @@ function workbenchOverlay(data) {
     <div class="ju-status-item"><span class="ju-status-label">State</span><span class="ju-status-value" id="ju-wb-dirty">saved</span></div>
     <div class="ju-status-item"><span class="ju-status-label">Store</span><span class="ju-status-value" id="ju-wb-storage">local draft</span></div>
     <button type="button" class="ju-tool-btn" data-primary="true" data-wb-action="save">Save</button>
+    <button type="button" class="ju-tool-btn" data-wb-action="discard">Discard</button>
     <button type="button" class="ju-tool-btn" data-wb-action="duplicate">Duplicate</button>
+    <button type="button" class="ju-tool-btn" data-wb-action="rename">Rename</button>
     <button type="button" class="ju-tool-btn" data-wb-action="restore">Restore</button>
     <button type="button" class="ju-tool-btn" data-wb-action="register">Register</button>
     <button type="button" class="ju-tool-btn" data-wb-action="export">Export</button>
@@ -568,7 +570,9 @@ function workbenchOverlay(data) {
         (name) => `<button type="button" class="ju-theme-btn" data-theme-value="${name}" aria-pressed="${name === "factory" ? "true" : "false"}">${escapeHtml(THEME_LABEL[name])}</button>`,
       ).join("")}</div></div>
       <div class="ju-control"><span>Brand options</span><div class="ju-chips">${brandOptions}</div></div>
+      <div class="ju-control"><label for="ju-wb-rename">Draft name</label><input id="ju-wb-rename" type="text" value="Jami factory" /></div>
       <div class="ju-control"><span>Last action</span><code id="ju-wb-last-action">ready</code></div>
+      <div class="ju-control"><span>Conflict</span><code id="ju-wb-conflict">none</code></div>
     </div></details>
     <details class="ju-dock-panel" open><summary>Color</summary><div class="ju-dock-body">${colorControls}</div></details>
     <details class="ju-dock-panel"><summary>Typography</summary><div class="ju-dock-body">
@@ -581,14 +585,14 @@ function workbenchOverlay(data) {
       <div class="ju-control"><label for="ju-wb-dockWidth">Dock width</label><input id="ju-wb-dockWidth" data-wb-control="dockWidth" type="range" min="240" max="420" step="20" value="320" /></div>
     </div></details>
     <details class="ju-dock-panel"><summary>Surfaces</summary><div class="ju-dock-body"><ul class="ju-mini-list">${suites}</ul></div></details>
-    <details class="ju-dock-panel"><summary>Components</summary><div class="ju-dock-body"><ul class="ju-mini-list">${components}</ul></div></details>
+    <details class="ju-dock-panel"><summary>Components</summary><div class="ju-dock-body"><ul class="ju-mini-list">${components}</ul><div class="ju-control"><span>Inspector</span><code id="ju-wb-inspector">none</code></div><div class="ju-chips"><button type="button" class="ju-theme-btn" data-inspector-target="registry:@jami-studio/button">Button</button><button type="button" class="ju-theme-btn" data-inspector-target="suite:solo">Solo suite</button></div></div></details>
     <details class="ju-dock-panel"><summary>Charts</summary><div class="ju-dock-body"><ul class="ju-mini-list"><li>no chart registry items in current generated registry</li></ul></div></details>
     <details class="ju-dock-panel"><summary>Motion</summary><div class="ju-dock-body">
       <div class="ju-control"><label for="ju-wb-motion">Fast motion</label><input id="ju-wb-motion" data-wb-control="motion" type="range" min="0" max="240" step="20" value="120" /></div>
       <div class="ju-control"><label for="ju-wb-density">Density</label><input id="ju-wb-density" data-wb-control="density" type="range" min="0.85" max="1.2" step="0.05" value="1" /></div>
     </div></details>
     <details class="ju-dock-panel"><summary>Assets</summary><div class="ju-dock-body"><ul class="ju-mini-list"><li>generated suite manifests: ${escapeHtml(data.suites.length)}</li><li>suite implementation manifests: ${escapeHtml(implementationCount)}</li><li>presentation fixtures: ${escapeHtml(data.presentationPanels.length)}</li></ul></div></details>
-    <details class="ju-dock-panel"><summary>Registry</summary><div class="ju-dock-body"><ul class="ju-mini-list">${registryItems}</ul><ul class="ju-mini-list" id="ju-wb-registered"></ul><div class="ju-control"><label for="ju-wb-export">Export artifact</label><textarea id="ju-wb-export" readonly></textarea></div></div></details>
+    <details class="ju-dock-panel"><summary>Registry</summary><div class="ju-dock-body"><ul class="ju-mini-list">${registryItems}</ul><ul class="ju-mini-list" id="ju-wb-registered"></ul><div class="ju-chips"><button type="button" class="ju-theme-btn" data-wb-action="offline">Offline</button><button type="button" class="ju-theme-btn" data-wb-action="online">Online</button><button type="button" class="ju-theme-btn" data-wb-action="import">Import</button></div><div class="ju-control"><label for="ju-wb-export">Export artifact</label><textarea id="ju-wb-export" readonly></textarea></div><div class="ju-control"><label for="ju-wb-import">Import artifact</label><textarea id="ju-wb-import"></textarea></div></div></details>
   </div>
 </aside>`;
 }
@@ -838,14 +842,14 @@ function radixWrappersSection(data) {
   return `
 <section class="ju-section" id="radix-wrappers" aria-labelledby="ju-radix-wrapper-h">
   <h2 id="ju-radix-wrapper-h">Radix/React wrapper slice</h2>
-  <p class="ju-lead">Server-rendered React output from the first implemented primitive wrapper slice. Button uses Radix Slot for <code>asChild</code>; text-field uses Radix Label; panel is a React ref-forwarding region wrapper. The remaining resident components stay pending and the renderer still rejects package imports.</p>
+  <p class="ju-lead">Server-rendered React output from the resident wrapper slice. Button uses Radix Slot for <code>asChild</code>; text-field uses Radix Label; composed display components are React wrappers over source-owned tokenized markup. The data-only renderer still rejects package imports.</p>
   <dl class="ju-kv-grid ju-card">
     <div class="ju-kv"><dt>implemented</dt><dd>${data.implementedRadixReactWrapperNames
       .map((name) => `<code>${escapeHtml(name)}</code>`)
       .join(" ")}</dd></div>
     <div class="ju-kv"><dt>source</dt><dd><code>packages/ui/src/radix-react-wrappers.mjs</code></dd></div>
-    <div class="ju-kv"><dt>full vocabulary</dt><dd><code>false</code> · this section claims only the primitive slice</dd></div>
-    <div class="ju-kv"><dt>pending wrappers</dt><dd>${pending}</dd></div>
+    <div class="ju-kv"><dt>resident vocabulary wrappers</dt><dd><code>${escapeHtml(pending ? "partial" : "complete-local-source")}</code></dd></div>
+    <div class="ju-kv"><dt>pending wrappers</dt><dd>${pending || '<span class="ju-chip">none in resident vocabulary</span>'}</dd></div>
   </dl>
   <div class="ju-grid" style="margin-top:16px">${data.radixReactWrapperExamples.map(wrapperExampleCard).join("")}</div>
 </section>`;

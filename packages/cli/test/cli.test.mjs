@@ -126,6 +126,12 @@ test("dry-run plans without writing", () => {
   assert.equal(r.result.status, "planned");
   assert.ok(!existsSync(join(dir, "studio-ui", "jami.css")), "no files written on dry run");
   assert.ok(!existsSync(join(dir, "studio-ui.lock.json")), "no lock written on dry run");
+
+  const diff = call("diff", "jami-theme");
+  assert.equal(diff.code, 0);
+  assert.equal(diff.result.status, "planned");
+  assert.equal(diff.result.data.items[0].state, "not-installed");
+  assert.ok(diff.result.data.items[0].fileActions.some((file) => file.action === "create"));
 });
 
 test("add resolves a suite graph and installs authored primitive source", () => {
@@ -263,8 +269,14 @@ test("doctor reports drift and clears after restore", () => {
   call("init");
   call("add", "jami-theme");
   assert.equal(call("doctor").code, 0);
+  assert.equal(call("diff", "jami-theme").result.status, "clean");
 
   appendFileSync(join(dir, "studio-ui", "jami.css"), "/* drift */");
+  const diffed = call("diff", "jami-theme");
+  assert.equal(diffed.code, 0);
+  assert.equal(diffed.result.status, "changes");
+  assert.equal(diffed.result.data.items[0].state, "file-drift");
+  assert.ok(diffed.result.data.items[0].fileActions.some((file) => file.action === "conflict"));
   const drifted = call("doctor");
   assert.equal(drifted.code, 1);
   assert.ok(drifted.result.notes.some((n) => n.code === "file" && n.level === "drift"));

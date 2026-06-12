@@ -413,6 +413,76 @@ export function update(project, registry, name, opts = {}) {
   });
 }
 
+// --- diff --------------------------------------------------------------------
+
+export function diff(project, registry, name) {
+  if (!registry.ok) return result("diff", "registry-unavailable", registry.reason, { ok: false });
+  const lock = project.readLock();
+  const requestedName = name ? shortName(name) : null;
+  const entries = lock.items ?? [];
+  const targets = requestedName
+    ? entries.filter((entry) => entry.name === requestedName)
+    : entries;
+  const notes = [];
+  const itemDiffs = [];
+
+  if (requestedName && targets.length === 0) {
+    const item = registry.items.get(requestedName);
+    if (!item) {
+      return result("diff", "missing", `No installed or registry item named ${requestedName}`, {
+        ok: false,
+        notes: [note("missing", "no-item", `Run "studio-ui list" to see available items.`)],
+      });
+    }
+    const installPlan = planItem(project, lock, item);
+    const fileActions = installPlan.files.map((file) => ({
+      target: file.target,
+      action: file.action,
+      newHash: file.newHash ?? null,
+      existingHash: file.existingHash ?? null,
+    }));
+    return result("diff", "planned", `${fileActions.length} file action(s) for ${requestedName}`, {
+      data: { items: [{ name: requestedName, state: "not-installed", fileActions }] },
+      notes: [note("pending", "not-installed", `${requestedName} is not installed; diff shows install actions.`)],
+    });
+  }
+
+  for (const entry of targets) {
+    const registryItem = registry.items.get(entry.name);
+    if (!registryItem) {
+      itemDiffs.push({ name: entry.name, state: "orphaned", fileActions: [] });
+      notes.push(note("missing", "orphaned", `${entry.name} is installed but no longer in the registry.`));
+      continue;
+    }
+    const plan = planItem(project, lock, registryItem);
+    const fileActions = plan.files.map((file) => ({
+      target: file.target,
+      action: file.action,
+      newHash: file.newHash ?? null,
+      existingHash: file.existingHash ?? null,
+    }));
+    const lifecycle = lifecycleOf(registryItem);
+    const state =
+      lifecycle.schemaVersion !== entry.itemSchemaVersion
+        ? "migration"
+        : lifecycle.version !== entry.version || lifecycle.sourceHash !== entry.sourceHash
+          ? "outdated"
+          : fileActions.some((file) => file.action !== "unchanged")
+            ? "file-drift"
+            : "clean";
+    if (state === "migration") notes.push(note("migration", "schema", `${entry.name} needs migration.`));
+    if (state === "outdated") notes.push(note("drift", "registry", `${entry.name} differs from the registry.`));
+    if (state === "file-drift") notes.push(note("drift", "file", `${entry.name} has local file drift.`));
+    itemDiffs.push({ name: entry.name, state, fileActions });
+  }
+
+  const changed = itemDiffs.filter((item) => item.state !== "clean");
+  return result("diff", changed.length ? "changes" : "clean", `${changed.length} changed item(s)`, {
+    data: { items: itemDiffs },
+    notes,
+  });
+}
+
 // --- migrate -----------------------------------------------------------------
 
 export function migrate(project, registry, name, opts = {}) {

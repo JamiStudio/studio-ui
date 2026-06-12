@@ -85,21 +85,36 @@ test("exposes source-owned vocabulary handshake and prop schemas", () => {
 });
 
 test("renders the scoped Radix/React wrapper implementation evidence", () => {
-  assert.deepEqual(data.implementedRadixReactWrapperNames, ["button", "panel", "text-field"]);
-  assert.equal(data.radixReactWrapperExamples.length, 4);
+  assert.deepEqual(data.implementedRadixReactWrapperNames, [
+    "button",
+    "panel",
+    "text-field",
+    "data-list",
+    "agent-panel",
+    "docs-source-panel",
+    "media-grid",
+  ]);
+  assert.equal(data.radixReactWrapperExamples.length, 8);
   assert.ok(page.includes('id="radix-wrappers"'), "wrapper evidence section rendered");
   assert.ok(page.includes("Radix/React wrapper slice"), "wrapper slice heading visible");
   assert.ok(page.includes("packages/ui/src/radix-react-wrappers.mjs"), "wrapper source surfaced");
   assert.ok(page.includes("JamiButton"), "button wrapper export surfaced");
   assert.ok(page.includes("JamiPanel"), "panel wrapper export surfaced");
   assert.ok(page.includes("JamiTextField"), "text-field wrapper export surfaced");
+  assert.ok(page.includes("JamiDataList"), "data-list wrapper export surfaced");
+  assert.ok(page.includes("JamiAgentPanel"), "agent-panel wrapper export surfaced");
+  assert.ok(page.includes("JamiDocsSourcePanel"), "docs-source-panel wrapper export surfaced");
+  assert.ok(page.includes("JamiMediaGrid"), "media-grid wrapper export surfaced");
   assert.ok(page.includes("@radix-ui/react-slot@1.2.5"), "Radix Slot dependency surfaced");
   assert.ok(page.includes("@radix-ui/react-label@2.1.9"), "Radix Label dependency surfaced");
   assert.ok(page.includes('class="jami-button"'), "server-rendered button wrapper markup visible");
   assert.ok(page.includes('class="jami-panel"'), "server-rendered panel wrapper markup visible");
   assert.ok(page.includes('class="jami-field"'), "server-rendered text-field wrapper markup visible");
-  assert.ok(page.includes("data-list wrapper pending"), "unimplemented wrapper gap remains labelled");
-  assert.ok(page.includes("media-grid wrapper pending"), "full wrapper vocabulary is not overclaimed");
+  assert.ok(page.includes('class="jami-data-list"'), "server-rendered data-list wrapper markup visible");
+  assert.ok(page.includes('class="jami-agent-panel"'), "server-rendered agent-panel wrapper markup visible");
+  assert.ok(page.includes('class="jami-docs-source-panel"'), "server-rendered docs-source-panel wrapper markup visible");
+  assert.ok(page.includes('class="jami-media-grid"'), "server-rendered media-grid wrapper markup visible");
+  assert.ok(page.includes("none in resident vocabulary"), "resident wrapper gaps are closed locally");
   for (const example of data.radixReactWrapperExamples) {
     assert.equal(/<script/i.test(example.html), false, `${example.id} has no script`);
     assert.equal(/<[^>]+\son[a-z]+\s*=/i.test(example.html), false, `${example.id} has no inline handler`);
@@ -159,7 +174,7 @@ test("output is inert: no inline event handlers, no javascript: URLs, one app-sh
 });
 
 test("always-live workbench overlay renders required status bar actions and panels", () => {
-  for (const label of ["Target", "Theme", "State", "Save", "Duplicate", "Restore", "Register", "Export", "Close"]) {
+  for (const label of ["Target", "Theme", "State", "Save", "Discard", "Duplicate", "Rename", "Restore", "Register", "Export", "Close"]) {
     assert.ok(page.includes(`>${label}<`) || page.includes(`${label}</span>`), `${label} surfaced`);
   }
   for (const panel of ["Theme", "Color", "Typography", "Layout", "Surfaces", "Components", "Charts", "Motion", "Assets", "Registry"]) {
@@ -168,6 +183,10 @@ test("always-live workbench overlay renders required status bar actions and pane
   assert.ok(page.includes("suite implementation manifests: 30"), "asset panel counts generated implementation manifests");
   assert.ok(page.includes('aria-label="Always-live workbench overlay"'), "overlay landmark labelled");
   assert.ok(page.includes('data-wb-action="save"'), "save action is first-party state transition");
+  assert.ok(page.includes('data-wb-action="discard"'), "discard action is first-party state transition");
+  assert.ok(page.includes('data-wb-action="rename"'), "rename action is first-party state transition");
+  assert.ok(page.includes('data-wb-action="import"'), "import action is first-party state transition");
+  assert.ok(page.includes('data-inspector-target="registry:@jami-studio/button"'), "inspector focus target is present");
   assert.ok(page.includes('data-wb-control="accent"'), "color control is data-backed");
   assert.ok(page.includes('data-wb-control="radius"'), "layout control is data-backed");
   assert.ok(page.includes('id="ju-wb-export" readonly'), "export artifact is local/read-only");
@@ -189,8 +208,16 @@ test("workbench state transitions are deterministic local draft/artifact flows",
   assert.equal(reopened.draft.controls.radius, "6", "draft survives close/reopen through local state");
   state = reduceWorkbenchState(reopened, { type: "save" });
   assert.equal(isDirty(state), false, "save persists the draft locally");
+  state = reduceWorkbenchState(state, { type: "update-control", name: "radius", value: "4" });
+  assert.equal(isDirty(state), true, "second edit marks draft dirty");
+  state = reduceWorkbenchState(state, { type: "discard" });
+  assert.equal(state.draft.controls.radius, "6", "discard returns to saved local draft");
+  assert.equal(isDirty(state), false, "discard clears dirty state");
+  state = reduceWorkbenchState(state, { type: "rename", themeName: "Evidence Theme", presetName: "evidence-theme" });
+  assert.equal(state.draft.themeName, "Evidence Theme");
+  assert.equal(state.draft.presetName, "evidence-theme");
   state = reduceWorkbenchState(state, { type: "duplicate" });
-  assert.equal(state.draft.themeName, "Jami factory copy 1");
+  assert.equal(state.draft.themeName, "Evidence Theme copy 1");
   assert.equal(isDirty(state), true, "duplicate creates a new unsaved draft");
   state = reduceWorkbenchState(state, { type: "register" });
   assert.equal(state.registeredArtifacts[0].schemaVersion, ARTIFACT_VERSION);
@@ -206,6 +233,26 @@ test("workbench state transitions are deterministic local draft/artifact flows",
   assert.equal(state.draft.presetName, "command-grid");
   assert.equal(state.draft.controls.accent, "#315C8E");
   assert.equal(state.lastAction, "selected-brand-option");
+  state = reduceWorkbenchState(state, { type: "focus-inspector", target: "registry:@jami-studio/button" });
+  assert.equal(state.inspectorFocus, "registry:@jami-studio/button");
+  state = reduceWorkbenchState(state, { type: "set-online", online: false });
+  assert.equal(state.online, false);
+  const rejected = reduceWorkbenchState(state, { type: "import", artifact: { schemaVersion: "bad" } });
+  assert.equal(rejected.lastAction, "import-rejected");
+  assert.equal(rejected.conflict.kind, "invalid-import");
+  const imported = reduceWorkbenchState(state, {
+    type: "import",
+    artifact: {
+      schemaVersion: ARTIFACT_VERSION,
+      target: "suite.solo",
+      themeName: "Imported",
+      presetName: "imported",
+      controls: { radius: "5", accent: "#315C8E" },
+    },
+  });
+  assert.equal(imported.draft.themeName, "Imported");
+  assert.equal(imported.draft.controls.radius, "5");
+  assert.equal(imported.conflict, null);
   state = reduceWorkbenchState(state, { type: "restore" });
   assert.deepEqual(state.draft, factoryDraft, "restore returns the draft to factory");
 });

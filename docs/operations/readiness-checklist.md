@@ -123,7 +123,7 @@ npm whoami
 - Additional repo-local source-lock records and drift checks for each newly adopted
   drift-prone dependency or copied/recomposed source surface, using the registry-root
   source-lock record as intake evidence. The current Radix Slot/Label and React
-  package evidence for the first wrapper slice is recorded in
+  package evidence for the resident wrapper slice is recorded in
   `docs/operations/source-lock-records.md`.
 - Harness-side compatibility fixture export or mirror for `uiPayload`, `artifactView`,
   `actionRef`, `themeRef`, `suiteRef`, unsupported renderer states, invalid payloads,

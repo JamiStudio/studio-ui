@@ -1,7 +1,7 @@
 # Release Notes
 
 Status: Foundation — unreleased
-Last updated: 2026-06-09
+Last updated: 2026-06-12
 
 These curated notes are backed by accepted `.changes/` fragments
 (`docs/operations/changelog.md`) and the generated rollup at
@@ -43,7 +43,9 @@ released. The "Not Yet Claimed" section is part of the notes, not an afterthough
   explicitly not final brand canon; seven resident vocabulary items (`button`, `panel`, `text-field`, `data-list`,
   `agent-panel`, `docs-source-panel`, `media-grid`) with authored metadata,
   framework-neutral component factories, inert child-slot handling, and tokenized
-  styles embedded as real install content; four suite install-graph
+  styles embedded as real install content; all seven now embed authored
+  Radix/React wrapper source as local install content, with Radix package
+  dependencies only on the wrappers that actually use them; four suite install-graph
   descriptors (`solo`, `business-ops`, `mixed-media`, `research-writing`); and
   four generated app implementation items, eight standalone page items, and
   eighteen standalone block items generated from authored suite-shell source
@@ -68,8 +70,8 @@ released. The "Not Yet Claimed" section is part of the notes, not an afterthough
 ### CLI
 
 - `@jami-studio/cli`: a dependency-free install/config lifecycle (`init`, `list`,
-  `inspect`, `add`, `remove`, `update`, `migrate`, `pin`/`unpin`, `lock`, `doctor`,
-  `provenance`) over an inspectable `studio-ui.config.json`/`studio-ui.lock.json`,
+  `inspect`, `add`, `remove`, `update`, `diff`, `migrate`, `pin`/`unpin`, `lock`,
+  `doctor`, `provenance`) over an inspectable `studio-ui.config.json`/`studio-ui.lock.json`,
   with hash-based non-destructive conflict handling, rollback guidance, and
   provenance verification. Remote registry fetch is an explicit unsupported state.
   18 temp-project smoke tests run against the real generated registry, including
@@ -83,7 +85,8 @@ released. The "Not Yet Claimed" section is part of the notes, not an afterthough
   implementation evidence, serializes renderer/presentation output as inert escaped
   HTML, drives `factory`/`light`/`dark` theme states from generated tokens, presents
   selectable non-canon default-kit brand/template options from generated registry items, and adds an always-live local overlay for
-  token edits, brand-option selection, save/duplicate/restore, local register/export artifacts, and
+  token edits, brand-option selection, save/discard/rename/duplicate/restore/import,
+  inspector focus, offline/online local state, local register/export artifacts, and
   close/reopen state. A `node --test` gate is wired into `pnpm verify`; a separate
   headless Edge/Chrome smoke captures per-theme/focus/responsive screenshots and a
   structural a11y + contrast report.
@@ -128,8 +131,8 @@ Microsoft Edge. This pass was verified on Node 24.16.0 via
   publish claim.
 - No release attestation has been executed. The SBOM is a checked local artifact,
   not an attached release asset.
-- No runtime React renderer, Radix wrapper library, hosted/persisted workbench
-  editing or backend package registration, and no hosted/full React suite runtime.
+- No runtime React renderer, hosted/persisted workbench editing or backend package
+  registration, and no hosted/full React suite runtime.
   Per-lane suite app/page/block implementation manifests are generated and installable,
   but mounted React applications are not built.
 - No final brand canon. The brand/template options are selectable registry

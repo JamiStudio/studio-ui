@@ -43,6 +43,7 @@ const USAGE = [
   "  add          Install an item and its graph (--dry-run --force)",
   "  remove       Remove an installed item (--force --dry-run)",
   "  update       Update installed items to the registry (--dry-run --force [name])",
+  "  diff         Show planned install/update/file drift without writing",
   "  migrate      Report or apply schema-version migrations (--apply --force [name])",
   "  pin/unpin    Pin or unpin an installed item version (--version)",
   "  lock         Show lockfile status and on-disk drift",
@@ -104,6 +105,9 @@ export function run(argv, { cwd = process.cwd() } = {}) {
       break;
     case "update":
       result = commands.update(project, registry, name, opts);
+      break;
+    case "diff":
+      result = commands.diff(project, registry, name);
       break;
     case "migrate":
       result = commands.migrate(project, registry, name, opts);

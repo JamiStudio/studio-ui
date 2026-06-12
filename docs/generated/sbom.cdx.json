@@ -424,7 +424,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "8f6ad844673df44b0033025a7ed11b030fa083c988ac700f4187b4157bbdbfde"
+          "content": "1219b4cd29705977a1480cc5ef5c16f39748fe88d0e9467e01dc1e5ed68614bf"
         }
       ],
       "properties": [
@@ -445,7 +445,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "2fba073548947245d75dba8638236f69d6f43320bbee95dbff9d2bb4e3d17da3"
+          "content": "91fc360745074f3a94978b7fe2bbc7dd304d956177db6ead8690338f5afc3930"
         }
       ]
     }

@@ -13,6 +13,7 @@ import {
   UI_VOCABULARY_SCHEMA_VERSION,
   PRIMITIVE_COMPONENT_IMPLEMENTATION_VERSION,
   componentVocabulary,
+  getRadixReactWrapperEvidence,
   implementedRadixReactWrapperNames,
   validateComponentProps,
   vocabularyHandshake,
@@ -913,11 +914,10 @@ function validateGeneratedRegistry() {
         if (typeof wrapperFile?.content !== "string" || !wrapperFile.hash?.startsWith("sha256:")) {
           localFailures.push(`${item.name} Radix/React wrapper source is not hash-embedded`);
         }
-        if (!item.dependencies?.includes("@radix-ui/react-slot@1.2.5")) {
-          localFailures.push(`${item.name} missing Radix Slot dependency`);
-        }
-        if (!item.dependencies?.includes("@radix-ui/react-label@2.1.9")) {
-          localFailures.push(`${item.name} missing Radix Label dependency`);
+        for (const dependency of getRadixReactWrapperEvidence(item.name)?.radixPackages ?? []) {
+          if (!item.dependencies?.includes(dependency)) {
+            localFailures.push(`${item.name} missing ${dependency} dependency`);
+          }
         }
       } else if (wrapperFile) {
         localFailures.push(`${item.name} must not embed wrapper source before wrapper evidence exists`);
