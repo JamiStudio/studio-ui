@@ -24,6 +24,8 @@ const root = process.cwd();
 const generatedDir = "packages/registry/generated";
 const itemsDir = join(generatedDir, "items");
 const suitesDir = join(generatedDir, "suites");
+const tokenSourcePath = "packages/tokens/fixtures/valid/jami-factory.tokens.json";
+const expectedTokenProvenanceOutputIds = ["cssVariables", "tailwindTheme", "typescriptTypes", "shadcnCssVars"];
 
 const args = process.argv.slice(2);
 const asJson = args.includes("--json");
@@ -154,11 +156,25 @@ for (const item of registry.items ?? []) {
         if (provenance.$schema !== "https://jami.studio/schemas/tokens/token-provenance.generated.json") {
           fail("invalid-token-provenance", "jami-theme: token provenance manifest schema drifted");
         }
+        if (provenance.generatedBy !== "scripts/contracts/generate-contract-artifacts.mjs") {
+          fail("invalid-token-provenance", "jami-theme: token provenance generator drifted");
+        }
+        if (provenance.generatedFrom?.path !== tokenSourcePath) {
+          fail("invalid-token-provenance", "jami-theme: token provenance source path drifted");
+        } else if (!existsSync(join(root, tokenSourcePath))) {
+          fail("invalid-token-provenance", `jami-theme: token provenance source is missing at ${tokenSourcePath}`);
+        } else if (provenance.generatedFrom?.sha256 !== sha256(readText(tokenSourcePath))) {
+          fail("token-provenance-source-drift", "jami-theme: token provenance source hash does not match token source");
+        }
         if (provenance.hostedRegistryClaimed !== false || provenance.packagePublishClaimed !== false) {
           fail(
             "token-provenance-overclaim",
             "jami-theme: token provenance manifest must not claim hosted registry or package publication",
           );
+        }
+        const outputIds = (provenance.outputs ?? []).map((output) => output.id).sort();
+        if (JSON.stringify(outputIds) !== JSON.stringify([...expectedTokenProvenanceOutputIds].sort())) {
+          fail("token-provenance-drift", "jami-theme: token provenance output ids drifted");
         }
         const outputHashes = new Map((provenance.outputs ?? []).map((output) => [output.path, output.sha256]));
         for (const tokenFile of files.filter(
@@ -166,6 +182,9 @@ for (const item of registry.items ?? []) {
             file.path?.startsWith("packages/tokens/generated/") &&
             file.path !== "packages/tokens/generated/jami-token-provenance.json",
         )) {
+          if (!expectedTokenProvenanceOutputIds.includes((provenance.outputs ?? []).find((output) => output.path === tokenFile.path)?.id)) {
+            fail("token-provenance-drift", `jami-theme: token provenance missing known output id for ${tokenFile.path}`);
+          }
           if (outputHashes.get(tokenFile.path) !== tokenFile.hash) {
             fail("token-provenance-drift", `jami-theme: token provenance hash drift for ${tokenFile.path}`);
           }
