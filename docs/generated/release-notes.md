@@ -12,9 +12,9 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 39
+- Total fragments: 40
 - Typed fragments: 21
-- Unclassified legacy fragments: 18
+- Unclassified legacy fragments: 19
 
 ## Notes By Surface
 
@@ -110,6 +110,7 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 - `2026-06-09-verify-script-direct-node.md` - Updated the root `pnpm verify` command to run the accepted Node-based checks directly, avoiding a recursive Windows pnpm shim failure while preserving the same docs, contract, publish dry-run, renderer, CLI, and workbench coverage.
 - `2026-06-09-vocabulary-prop-schema-handshake.md` - Added source-owned per-component prop schemas, a vocabulary handshake, and descriptor-only React-style primitive metadata under `packages/ui`.
 - `2026-06-09-workbench-overlay-pass-1.md` - Added the first always-live workbench overlay to `apps/workbench`: compact status bar, docked Theme/Color/Typography/Layout/Surfaces/Components/Charts/Motion/ Assets/Registry panels, immediate generated-token CSS variable updates, and local close/reopen draft state.
+- `2026-06-12-shared-seam-exact-state-hardening.md` - Hardened the Phase 2 shared-seam coverage gate so matrix-only `runEvent` samples must use exact harness event types and matrix-only `actionRef` samples must prove their named lifecycle, replay, missing-source, secret-bearing, and display-only states.
 - `stream-2-contract-artifacts.md` - Added deterministic token and registry artifact generation plus drift checks for the Stream 2 contract spine.
 
 ### workbench

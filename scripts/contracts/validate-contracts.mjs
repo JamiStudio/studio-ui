@@ -644,6 +644,22 @@ const sampleStatusSignals = new Map([
   ["missing-source", /missing|missing-source|missing-source-lock/i],
 ]);
 
+const requiredRunEventTypeByCase = new Map([
+  ["start", "run.started"],
+  ["progress", "run.progress"],
+  ["approval required", "approval.requested"],
+  ["tool running", "tool.running"],
+  ["artifact emitted", "artifact.emitted"],
+  ["checkpoint saved", "checkpoint.saved"],
+  ["retrying", "run.retrying"],
+  ["cancelling", "run.cancelling"],
+  ["cancelled", "run.cancelled"],
+  ["failed", "run.failed"],
+  ["recovered", "run.recovered"],
+  ["complete", "run.completed"],
+  ["redacted", "run.redacted"],
+]);
+
 function sampleSupportsExpectedStatus(item) {
   if (!isObject(item.sampleRef)) return false;
   const serialized = JSON.stringify(item.sampleRef);
@@ -653,6 +669,63 @@ function sampleSupportsExpectedStatus(item) {
     return false;
   }
   return true;
+}
+
+function validateMatrixOnlySharedSample(item, key) {
+  if (!isObject(item.sampleRef)) return [`${key}: cases without fixturePath must carry sampleRef`];
+
+  const errors = [];
+  const serialized = JSON.stringify(item.sampleRef);
+  if (!sampleSupportsExpectedStatus(item)) {
+    errors.push(`${key}: sampleRef must carry machine-readable evidence for expectedStatus ${item.expectedStatus}`);
+  }
+
+  if (item.seam === "runEvent") {
+    const event = Array.isArray(item.sampleRef.events) ? item.sampleRef.events[0] : item.sampleRef;
+    const expectedEventType = requiredRunEventTypeByCase.get(item.case);
+    if (!event || event.eventType !== expectedEventType) {
+      errors.push(`${key}: sampleRef eventType must be ${expectedEventType}`);
+    }
+    if (item.case === "redacted" && item.expectedStatus !== "redacted") {
+      errors.push(`${key}: redacted run events must declare expectedStatus redacted`);
+    }
+  }
+
+  if (item.seam === "actionRef") {
+    const sample = item.sampleRef;
+    if (item.displayOnly !== true) {
+      errors.push(`${key}: actionRef cases must be marked displayOnly true`);
+    }
+    if (sample.execution?.canExecute !== undefined) {
+      errors.push(`${key}: actionRef sampleRef must not carry executable UI state`);
+    }
+    if (item.case === "approved" && sample.state !== "executed") {
+      errors.push(`${key}: approved actionRef sampleRef state must be executed`);
+    }
+    if (item.case === "expired" && sample.state !== "expired") {
+      errors.push(`${key}: expired actionRef sampleRef state must be expired`);
+    }
+    if (item.case === "replayed" && (sample.state !== "replayed" || !sample.replayRef)) {
+      errors.push(`${key}: replayed actionRef sampleRef must carry state replayed and replayRef`);
+    }
+    if (item.case === "missing actor" && sample.actorRef) {
+      errors.push(`${key}: missing actor actionRef sampleRef must omit actorRef`);
+    }
+    if (item.case === "missing scope" && sample.policyScope) {
+      errors.push(`${key}: missing scope actionRef sampleRef must omit policyScope`);
+    }
+    if (item.case === "missing audit" && sample.auditRef) {
+      errors.push(`${key}: missing audit actionRef sampleRef must omit auditRef`);
+    }
+    if (item.case === "secret-bearing input" && !/secret|token|credential|password|apiKey/i.test(serialized)) {
+      errors.push(`${key}: secret-bearing actionRef sampleRef must contain only secret-shaped metadata`);
+    }
+    if (item.case === "display-only UI state" && sample.state !== "display_only") {
+      errors.push(`${key}: display-only actionRef sampleRef state must be display_only`);
+    }
+  }
+
+  return errors;
 }
 
 function validatePresentationFixture(path) {
@@ -745,10 +818,8 @@ function validateSharedSeamCoverage() {
       if (fixture?.expectedPresentationStatus && fixture.expectedPresentationStatus !== item.expectedStatus) {
         localFailures.push(`${key}: fixture expectedPresentationStatus differs from coverage`);
       }
-    } else if (!isObject(item.sampleRef)) {
-      localFailures.push(`${key}: cases without fixturePath must carry sampleRef`);
-    } else if (!sampleSupportsExpectedStatus(item)) {
-      localFailures.push(`${key}: sampleRef must carry machine-readable evidence for expectedStatus ${item.expectedStatus}`);
+    } else {
+      localFailures.push(...validateMatrixOnlySharedSample(item, key));
     }
     if (item.seam === "actionRef" && item.displayOnly !== true) {
       localFailures.push(`${key}: actionRef cases must be marked displayOnly true`);
