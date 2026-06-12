@@ -25,7 +25,14 @@ const generatedDir = "packages/registry/generated";
 const itemsDir = join(generatedDir, "items");
 const suitesDir = join(generatedDir, "suites");
 const tokenSourcePath = "packages/tokens/fixtures/valid/jami-factory.tokens.json";
-const expectedTokenProvenanceOutputIds = ["cssVariables", "tailwindTheme", "typescriptTypes", "shadcnCssVars"];
+const expectedTokenProvenanceOutputs = {
+  cssVariables: "packages/tokens/generated/jami.css",
+  tailwindTheme: "packages/tokens/generated/jami.tailwind.css",
+  typescriptTypes: "packages/tokens/generated/jami-tokens.ts",
+  shadcnCssVars: "packages/tokens/generated/jami.shadcn.json",
+};
+const expectedTokenProvenanceOutputIds = Object.keys(expectedTokenProvenanceOutputs);
+const expectedTokenProvenanceOutputPaths = Object.values(expectedTokenProvenanceOutputs);
 
 const args = process.argv.slice(2);
 const asJson = args.includes("--json");
@@ -176,18 +183,48 @@ for (const item of registry.items ?? []) {
         if (JSON.stringify(outputIds) !== JSON.stringify([...expectedTokenProvenanceOutputIds].sort())) {
           fail("token-provenance-drift", "jami-theme: token provenance output ids drifted");
         }
+        const outputsById = new Map((provenance.outputs ?? []).map((output) => [output.id, output]));
         const outputHashes = new Map((provenance.outputs ?? []).map((output) => [output.path, output.sha256]));
+        const itemFilesByPath = new Map(files.map((file) => [file.path, file]));
+        for (const [outputId, outputPath] of Object.entries(expectedTokenProvenanceOutputs)) {
+          const output = outputsById.get(outputId);
+          if (output?.path !== outputPath) {
+            fail("token-provenance-drift", `jami-theme: token provenance path drift for ${outputId}`);
+            continue;
+          }
+          const tokenFile = itemFilesByPath.get(outputPath);
+          if (!tokenFile || typeof tokenFile.content !== "string" || typeof tokenFile.hash !== "string") {
+            fail("token-provenance-drift", `jami-theme: missing embedded generated output ${outputPath}`);
+            continue;
+          }
+          if (output.sha256 !== tokenFile.hash) {
+            fail("token-provenance-drift", `jami-theme: token provenance hash drift for ${outputPath}`);
+          }
+          if (!existsSync(join(root, outputPath))) {
+            fail("token-provenance-drift", `jami-theme: generated output is missing at ${outputPath}`);
+          } else if (output.sha256 !== sha256(readText(outputPath))) {
+            fail("token-provenance-drift", `jami-theme: token provenance hash does not match generated output ${outputPath}`);
+          }
+        }
         for (const tokenFile of files.filter(
           (file) =>
             file.path?.startsWith("packages/tokens/generated/") &&
             file.path !== "packages/tokens/generated/jami-token-provenance.json",
         )) {
-          if (!expectedTokenProvenanceOutputIds.includes((provenance.outputs ?? []).find((output) => output.path === tokenFile.path)?.id)) {
+          const output = (provenance.outputs ?? []).find((candidate) => candidate.path === tokenFile.path);
+          if (!output || expectedTokenProvenanceOutputs[output.id] !== tokenFile.path) {
             fail("token-provenance-drift", `jami-theme: token provenance missing known output id for ${tokenFile.path}`);
           }
           if (outputHashes.get(tokenFile.path) !== tokenFile.hash) {
             fail("token-provenance-drift", `jami-theme: token provenance hash drift for ${tokenFile.path}`);
           }
+        }
+        const embeddedGeneratedPaths = files
+          .filter((file) => file.path?.startsWith("packages/tokens/generated/") && file.path !== provenanceFile.path)
+          .map((file) => file.path)
+          .sort();
+        if (JSON.stringify(embeddedGeneratedPaths) !== JSON.stringify([...expectedTokenProvenanceOutputPaths].sort())) {
+          fail("token-provenance-drift", "jami-theme: embedded generated token output paths drifted");
         }
       }
     }
