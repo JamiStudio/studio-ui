@@ -53,6 +53,15 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   non-execution checks, renderer-error run-event mirrors, and malformed-reference negative coverage.
   This remains consumer-side contract validation only; Studio UI still does not import harness
   implementation internals or claim harness runtime execution.
+- 2026-06-12 Phase 2 / Group A pass 1 added a Studio UI shared seam coverage
+  matrix at `packages/renderer/fixtures/shared-seams/phase-2-shared-seam-coverage.json`.
+  `pnpm contracts:check` now requires every root-roadmap seam family and case for
+  `runEvent`, `uiPayload`, `artifactView`, `actionRef`, `themeRef`, `suiteRef`,
+  `evidencePacket`, `memoryRecord`, `contextPack`, and `capabilityManifest`,
+  checks referenced renderer/presentation fixtures for status drift, rejects unsafe
+  sample refs, and verifies generated registry metadata points at the matrix. This
+  is mirrored consumer-side fixture coverage only; it does not claim hosted
+  registry, package release, harness runtime execution, or capability support.
 - 2026-06-09 Stream 2 pass 4 added deterministic contract artifact generation for token CSS,
   Tailwind `@theme`, TypeScript token-name exports, shadcn `cssVars`, and local shadcn-shaped
   registry output under `packages/*/generated`. `pnpm contracts:check` now drift-checks those

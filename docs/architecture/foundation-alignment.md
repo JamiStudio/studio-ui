@@ -67,6 +67,8 @@ static registry hosting, renderer safety guidance, or release attestation toolin
 
 Initial shared contract families:
 
+- `runEvent`: harness execution timeline states displayed by Studio UI traces
+  without owning runtime state.
 - `uiPayload`: component name, props, children, action refs, vocabulary generation, and
   fallback metadata.
 - `artifactView`: artifact id, kind, provenance, promoted state, available renderers, and
@@ -76,6 +78,13 @@ Initial shared contract families:
   restore target.
 - `suiteRef`: suite lane, installed item graph, app shell id, route map, and optional
   harness capabilities.
+- `evidencePacket`: source repo, commit, command, result, timestamp, freshness,
+  accepted-contract, generated-output, and unsupported external-check evidence.
+- `memoryRecord` and `contextPack`: harness-owned memory/context refs surfaced
+  with permission, redaction, freshness, citation, empty, missing, denied, and
+  replay states.
+- `capabilityManifest`: harness-owned support states mirrored for UI display
+  and registry metadata without claiming harness execution.
 
 Studio UI's first machine-readable mirror for these families lives under
 `packages/renderer/fixtures/compatibility/` and is checked by `pnpm contracts:check`.
@@ -97,6 +106,17 @@ gap is now closed: the harness models memory and context as the `memoryRecord`
 and `contextPack` contracts (harness commit `8b5d76c`), and the seam mirrors both
 behind the `memoryContext` panel kind. Scope, retention, redaction, freshness,
 and inclusion remain harness-owned; the seam only displays them.
+
+The Phase 2 Group A coverage matrix at
+`packages/renderer/fixtures/shared-seams/phase-2-shared-seam-coverage.json`
+now enumerates every root-roadmap shared seam case for `runEvent`, `uiPayload`,
+`artifactView`, `actionRef`, `themeRef`, `suiteRef`, `evidencePacket`,
+`memoryRecord`, `contextPack`, and `capabilityManifest`. `pnpm contracts:check`
+fails on missing cases, drifted fixture paths, unsafe sample refs, executable
+action-state claims, or generated registry metadata that no longer points at
+the coverage manifest. This remains Studio UI consumer-side validation only; it
+does not import harness runtime implementation or make hosted/package/release
+claims.
 
 ## Integration Direction
 

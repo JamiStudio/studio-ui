@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jami.studio/schemas/renderer/shared-seam-coverage.schema.json",
+  "title": "Studio UI shared seam coverage manifest",
+  "type": "object",
+  "required": [
+    "$schema",
+    "coverageId",
+    "schemaVersion",
+    "registryMetadata",
+    "ownershipBoundary",
+    "cases"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "const": "https://jami.studio/schemas/renderer/shared-seam-coverage.schema.json" },
+    "coverageId": { "type": "string", "pattern": "^[a-z0-9._-]+$" },
+    "schemaVersion": { "type": "string" },
+    "generatedFor": { "type": "string" },
+    "registryMetadata": {
+      "type": "object",
+      "required": ["surface", "field", "expectedCoverageId"],
+      "additionalProperties": false,
+      "properties": {
+        "surface": { "type": "string" },
+        "field": { "const": "meta.sharedContractFixtureCoverage" },
+        "expectedCoverageId": { "type": "string" }
+      }
+    },
+    "ownershipBoundary": {
+      "type": "object",
+      "required": ["studioUiOwns", "harnessOwns", "importsHarnessRuntime"],
+      "additionalProperties": false,
+      "properties": {
+        "studioUiOwns": { "type": "array", "items": { "type": "string" } },
+        "harnessOwns": { "type": "array", "items": { "type": "string" } },
+        "importsHarnessRuntime": { "const": false }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["seam", "case", "harnessSchemaId", "surface", "expectedStatus"],
+        "additionalProperties": false,
+        "properties": {
+          "seam": {
+            "enum": [
+              "runEvent",
+              "uiPayload",
+              "artifactView",
+              "actionRef",
+              "themeRef",
+              "suiteRef",
+              "evidencePacket",
+              "memoryRecord",
+              "contextPack",
+              "capabilityManifest"
+            ]
+          },
+          "case": { "type": "string" },
+          "harnessSchemaId": { "type": "string" },
+          "surface": { "enum": ["renderer", "presentation", "registry"] },
+          "expectedStatus": {
+            "enum": [
+              "renderable",
+              "display-only",
+              "denied",
+              "unsupported",
+              "invalid",
+              "error",
+              "ready",
+              "empty",
+              "loading",
+              "redacted",
+              "stale",
+              "missing-source"
+            ]
+          },
+          "fixturePath": { "type": "string" },
+          "sampleRef": { "type": "object" },
+          "displayOnly": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

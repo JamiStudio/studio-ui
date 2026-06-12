@@ -878,6 +878,16 @@ function generateRegistryArtifacts({ check }) {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "@jami-studio/registry",
     homepage: "https://registry.jami.studio",
+    meta: {
+      sharedContractFixtureCoverage: {
+        coverageId: "studio-ui.phase-2.group-a.shared-seams.pass-1",
+        path: "packages/renderer/fixtures/shared-seams/phase-2-shared-seam-coverage.json",
+        schemaVersion: "2026-06-12.phase-2-shared-seams",
+        ownershipBoundary:
+          "Studio UI validates and displays shared seam data only; harness runtime, policy, tool execution, memory writes, and capability truth stay in Jami Harness.",
+        importsHarnessRuntime: false,
+      },
+    },
     items: generatedItems,
   };
   failures.push(

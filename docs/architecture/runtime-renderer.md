@@ -21,18 +21,30 @@ React renderer, a browser surface, or a workbench app.
 
 The fixture set covers:
 
+- `runEvent` trace states for start, progress, approval, tool, artifact,
+  checkpoint, retry, cancel, failure, recovery, completion, and redaction
+  display.
 - `uiPayload` for resident allowlisted component rendering.
 - `artifactView` display metadata with harness evidence references.
 - `actionRef` denied-action display state.
 - `actionRef` non-executable approval display state (`pending_approval`).
 - `themeRef` factory theme reference.
 - `suiteRef` suite item graph reference.
+- `evidencePacket`, `memoryRecord`, `contextPack`, and `capabilityManifest`
+  display/registry states through the Phase 2 shared seam matrix.
 - unsupported component display state.
 - invalid payload rejection across event-handler props, `dangerouslySetInnerHTML`,
   `javascript:` URLs, foreign component namespaces, serialized React elements,
   inline secret-bearing props, HTML-like strings, package imports, and malformed
   harness reference IDs.
 - renderer error state.
+
+The Phase 2 matrix lives at
+`packages/renderer/fixtures/shared-seams/phase-2-shared-seam-coverage.json`.
+`pnpm contracts:check` verifies that every root-roadmap shared seam case is
+present, that referenced renderer/presentation fixtures agree with the matrix,
+that safe sample refs do not carry executable or secret-shaped values, and that
+generated registry metadata points back to the matrix.
 
 The allowed resident vocabulary for this foundation check is deliberately small
 and source-owned. Internal display components are `action-slot`, `artifact-card`,
@@ -139,6 +151,13 @@ single `memoryContext` panel kind (discriminating on `memoryId` vs
 identifiers do not validate. `pnpm contracts:check` runs the presentation
 fixtures (`packages/renderer/fixtures/presentation/`) through the seam. See
 `docs/architecture/workbench-presentation.md`.
+
+The shared seam matrix adds machine-readable coverage for states that are not yet
+dedicated renderer or presentation fixture files, including expired/replayed
+action refs, denied/redacted/stale artifact and memory/context states, and
+capability manifest support states. Those entries are display or registry
+compatibility records only; harness capability truth and execution stay outside
+Studio UI.
 
 ## Ownership Boundary
 

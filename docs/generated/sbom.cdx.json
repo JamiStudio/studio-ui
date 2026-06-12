@@ -22,7 +22,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "7b35286bcb457c1b59ab9bc1e1cb1c48869d5d125a78b1dafc487d5574574c88"
+          "content": "27cdea821845723e23e96571d10d2f288d99ad7ec73c8e5ebc364c1b61242974"
         }
       ],
       "properties": [
@@ -224,7 +224,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "0e1245858133f2358c2090e4b0053e140dfed9c82e0ecd64e97ce2f63fa37f1f"
+          "content": "6adc7c2bab4f83c4171abfa0c6fc1e53dfe1100036e79a4422dc4a4c44b4ec64"
         }
       ],
       "properties": [
@@ -238,7 +238,7 @@
         },
         {
           "name": "studio-ui:declared-dependency-count",
-          "value": "0"
+          "value": "5"
         }
       ]
     },
@@ -279,6 +279,111 @@
       ]
     },
     {
+      "type": "library",
+      "bom-ref": "studio-ui:external:@radix-ui/react-label@2.1.9",
+      "name": "@radix-ui/react-label",
+      "version": "2.1.9",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "studio-ui:declared-range",
+          "value": "2.1.9"
+        },
+        {
+          "name": "studio-ui:dependency-field",
+          "value": "dependencies"
+        },
+        {
+          "name": "studio-ui:resolution-posture",
+          "value": "declared-only; lockfile resolution must be reviewed before publish"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:external:@radix-ui/react-slot@1.2.5",
+      "name": "@radix-ui/react-slot",
+      "version": "1.2.5",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "studio-ui:declared-range",
+          "value": "1.2.5"
+        },
+        {
+          "name": "studio-ui:dependency-field",
+          "value": "dependencies"
+        },
+        {
+          "name": "studio-ui:resolution-posture",
+          "value": "declared-only; lockfile resolution must be reviewed before publish"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:external:react-dom@19.2.7",
+      "name": "react-dom",
+      "version": "19.2.7",
+      "scope": "excluded",
+      "properties": [
+        {
+          "name": "studio-ui:declared-range",
+          "value": "19.2.7"
+        },
+        {
+          "name": "studio-ui:dependency-field",
+          "value": "devDependencies"
+        },
+        {
+          "name": "studio-ui:resolution-posture",
+          "value": "declared-only; lockfile resolution must be reviewed before publish"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:external:react@>=19 <20",
+      "name": "react",
+      "version": ">=19 <20",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "studio-ui:declared-range",
+          "value": ">=19 <20"
+        },
+        {
+          "name": "studio-ui:dependency-field",
+          "value": "peerDependencies"
+        },
+        {
+          "name": "studio-ui:resolution-posture",
+          "value": "declared-only; lockfile resolution must be reviewed before publish"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "studio-ui:external:react@19.2.7",
+      "name": "react",
+      "version": "19.2.7",
+      "scope": "excluded",
+      "properties": [
+        {
+          "name": "studio-ui:declared-range",
+          "value": "19.2.7"
+        },
+        {
+          "name": "studio-ui:dependency-field",
+          "value": "devDependencies"
+        },
+        {
+          "name": "studio-ui:resolution-posture",
+          "value": "declared-only; lockfile resolution must be reviewed before publish"
+        }
+      ]
+    },
+    {
       "type": "platform",
       "bom-ref": "studio-ui:runtime:node",
       "name": "Node.js",
@@ -298,7 +403,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "17c814b167307942d3609c7b9d916ceddb85839573ab39baa114e30edb132a1a"
+          "content": "887a41d3a08ba543173301da25b56e58d43ba509f0aed666b3403743cb5991e2"
         }
       ],
       "properties": [
@@ -308,7 +413,7 @@
         },
         {
           "name": "studio-ui:resolved-third-party-package-count",
-          "value": "0"
+          "value": "5"
         }
       ]
     },
@@ -319,7 +424,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "8aabbc46a64991a16a832af8d77747f010733fea256b9d0e2fceab25e7669956"
+          "content": "329b045df2be1e59dbacdc9e472b10af18cfe98aa03caa74f4e5f37ac666f3e8"
         }
       ],
       "properties": [
@@ -340,7 +445,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "d1cee9e98213182b60fbbd9c65e56eddae094683a07df96021c52e288985bdd6"
+          "content": "9fd96d6b60e9dd4ce6b62c7676caed8467a57cba460663e0c6ee0e42c0e0cb93"
         }
       ]
     }
@@ -388,6 +493,11 @@
     {
       "ref": "studio-ui:workspace:@jami-studio/ui",
       "dependsOn": [
+        "studio-ui:external:@radix-ui/react-label@2.1.9",
+        "studio-ui:external:@radix-ui/react-slot@1.2.5",
+        "studio-ui:external:react-dom@19.2.7",
+        "studio-ui:external:react@19.2.7",
+        "studio-ui:external:react@>=19 <20",
         "studio-ui:runtime:node"
       ]
     },
@@ -396,6 +506,26 @@
       "dependsOn": [
         "studio-ui:runtime:node"
       ]
+    },
+    {
+      "ref": "studio-ui:external:@radix-ui/react-label@2.1.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "studio-ui:external:@radix-ui/react-slot@1.2.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "studio-ui:external:react-dom@19.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "studio-ui:external:react@>=19 <20",
+      "dependsOn": []
+    },
+    {
+      "ref": "studio-ui:external:react@19.2.7",
+      "dependsOn": []
     },
     {
       "ref": "studio-ui:runtime:node",
@@ -443,7 +573,7 @@
     },
     {
       "name": "studio-ui:third-party-package-count",
-      "value": "0"
+      "value": "5"
     }
   ]
 }

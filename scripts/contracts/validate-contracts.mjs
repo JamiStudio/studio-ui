@@ -470,6 +470,165 @@ const presentationHarnessSchemaIds = new Map([
   ["actionRef", ["https://jami.studio/schemas/harness/action-ref.schema.json"]],
 ]);
 
+const sharedSeamCoveragePath = "packages/renderer/fixtures/shared-seams/phase-2-shared-seam-coverage.json";
+const sharedSeamCoverageSchemaPath = "packages/renderer/schemas/shared-seam-coverage.schema.json";
+const sharedSeamSchemaIds = new Map([
+  ["runEvent", "https://jami.studio/schemas/harness/run-event.schema.json"],
+  ["uiPayload", "https://jami.studio/schemas/harness/ui-payload.schema.json"],
+  ["artifactView", "https://jami.studio/schemas/harness/artifact-view.schema.json"],
+  ["actionRef", "https://jami.studio/schemas/harness/action-ref.schema.json"],
+  ["themeRef", "https://jami.studio/schemas/harness/theme-ref.schema.json"],
+  ["suiteRef", "https://jami.studio/schemas/harness/suite-ref.schema.json"],
+  ["evidencePacket", "https://jami.studio/schemas/harness/evidence-packet.schema.json"],
+  ["memoryRecord", "https://jami.studio/schemas/harness/memory-record.schema.json"],
+  ["contextPack", "https://jami.studio/schemas/harness/context-pack.schema.json"],
+  ["capabilityManifest", "https://jami.studio/schemas/harness/capability-manifest.schema.json"],
+]);
+
+const requiredSharedSeamCases = new Map(
+  Object.entries({
+    runEvent: [
+      "start",
+      "progress",
+      "approval required",
+      "tool running",
+      "artifact emitted",
+      "checkpoint saved",
+      "retrying",
+      "cancelling",
+      "cancelled",
+      "failed",
+      "recovered",
+      "complete",
+      "redacted",
+    ],
+    uiPayload: [
+      "valid primitive tree",
+      "nested children",
+      "empty state",
+      "long content",
+      "invalid props",
+      "unsafe values",
+      "stale vocabulary",
+      "unknown component",
+      "package import",
+      "serialized React marker",
+      "HTML/script",
+      "handler props",
+      "secret-shaped values",
+    ],
+    artifactView: [
+      "docs",
+      "trace",
+      "evidence",
+      "system map",
+      "changelog",
+      "media",
+      "unsupported kind",
+      "missing artifact",
+      "stale artifact",
+      "redacted artifact",
+      "denied artifact",
+    ],
+    actionRef: [
+      "pending approval",
+      "approved",
+      "denied",
+      "expired",
+      "replayed",
+      "missing actor",
+      "missing scope",
+      "missing audit",
+      "secret-bearing input",
+      "display-only UI state",
+    ],
+    themeRef: [
+      "default",
+      "custom",
+      "deprecated",
+      "missing token",
+      "invalid alias",
+      "contrast failure",
+      "migration needed",
+      "unsupported family",
+    ],
+    suiteRef: [
+      "suite root",
+      "page",
+      "block",
+      "primitive dependency",
+      "harness capability",
+      "missing dependency",
+      "unsupported suite version",
+      "stale registry item",
+    ],
+    evidencePacket: [
+      "source repo",
+      "commit",
+      "command",
+      "result",
+      "timestamp",
+      "freshness",
+      "accepted contract",
+      "generated outputs",
+      "unsupported external checks",
+    ],
+    memoryRecord: [
+      "public",
+      "private",
+      "redacted",
+      "stale",
+      "empty",
+      "missing",
+      "denied",
+      "permission-filtered",
+      "cited",
+      "replayed",
+    ],
+    contextPack: [
+      "public",
+      "private",
+      "redacted",
+      "stale",
+      "empty",
+      "missing",
+      "denied",
+      "permission-filtered",
+      "cited",
+      "replayed",
+    ],
+    capabilityManifest: [
+      "supported",
+      "unsupported",
+      "missing-source-lock",
+      "local-only",
+      "hosted",
+      "auth-required",
+      "streaming",
+      "cancellation",
+      "persistence",
+      "package",
+      "release",
+      "evidence states",
+    ],
+  }),
+);
+
+const allowedSharedStatuses = new Set([
+  "renderable",
+  "display-only",
+  "denied",
+  "unsupported",
+  "invalid",
+  "error",
+  "ready",
+  "empty",
+  "loading",
+  "redacted",
+  "stale",
+  "missing-source",
+]);
+
 function validatePresentationFixture(path) {
   const fixture = readJson(path);
   if (!fixture) return;
@@ -505,10 +664,92 @@ function validatePresentationFixture(path) {
   if (localFailures.length > 0) fail(path, localFailures.join("; "));
 }
 
+function validateSharedSeamCoverage() {
+  const schema = readJson(sharedSeamCoverageSchemaPath);
+  const coverage = readJson(sharedSeamCoveragePath);
+  if (!coverage) return;
+  const localFailures = [];
+  if (schema?.$id !== "https://jami.studio/schemas/renderer/shared-seam-coverage.schema.json") {
+    localFailures.push("shared seam coverage schema file has wrong $id");
+  }
+  if (coverage.$schema !== "https://jami.studio/schemas/renderer/shared-seam-coverage.schema.json") {
+    localFailures.push("missing Studio UI shared seam coverage schema URL");
+  }
+  if (coverage.coverageId !== "studio-ui.phase-2.group-a.shared-seams.pass-1") {
+    localFailures.push("coverageId must identify the Phase 2 Group A pass");
+  }
+  if (coverage.registryMetadata?.field !== "meta.sharedContractFixtureCoverage") {
+    localFailures.push("coverage must declare the generated registry metadata field");
+  }
+  if (coverage.ownershipBoundary?.importsHarnessRuntime !== false) {
+    localFailures.push("coverage must explicitly keep harness runtime imports disabled");
+  }
+  const cases = Array.isArray(coverage.cases) ? coverage.cases : [];
+  if (cases.length === 0) localFailures.push("coverage must list shared seam cases");
+  const seen = new Set();
+  const bySeam = new Map();
+  for (const item of cases) {
+    const key = `${item?.seam ?? ""}:${item?.case ?? ""}`;
+    if (seen.has(key)) localFailures.push(`duplicate shared seam case ${key}`);
+    seen.add(key);
+    if (!sharedSeamSchemaIds.has(item?.seam)) {
+      localFailures.push(`${key}: unsupported shared seam family`);
+      continue;
+    }
+    const expectedSchemaId = sharedSeamSchemaIds.get(item.seam);
+    if (item.harnessSchemaId !== expectedSchemaId) {
+      localFailures.push(`${key}: harnessSchemaId must be ${expectedSchemaId}`);
+    }
+    if (!allowedSharedStatuses.has(item.expectedStatus)) {
+      localFailures.push(`${key}: unsupported expectedStatus ${item.expectedStatus}`);
+    }
+    if (!["renderer", "presentation", "registry"].includes(item.surface)) {
+      localFailures.push(`${key}: surface must be renderer, presentation, or registry`);
+    }
+    if (item.fixturePath) {
+      const fixture = readJson(item.fixturePath);
+      if (!fixture) {
+        localFailures.push(`${key}: fixturePath could not be read`);
+      } else if (fixture.harnessSchemaId && fixture.harnessSchemaId !== item.harnessSchemaId) {
+        localFailures.push(`${key}: fixturePath harness schema differs from coverage`);
+      }
+      if (fixture?.expectedRendererState && fixture.expectedRendererState !== item.expectedStatus) {
+        localFailures.push(`${key}: fixture expectedRendererState differs from coverage`);
+      }
+      if (fixture?.expectedPresentationStatus && fixture.expectedPresentationStatus !== item.expectedStatus) {
+        localFailures.push(`${key}: fixture expectedPresentationStatus differs from coverage`);
+      }
+    } else if (!isObject(item.sampleRef)) {
+      localFailures.push(`${key}: cases without fixturePath must carry sampleRef`);
+    }
+    if (item.seam === "actionRef" && item.displayOnly !== true) {
+      localFailures.push(`${key}: actionRef cases must be marked displayOnly true`);
+    }
+    for (const unsafe of scanUnsafePayload(item.sampleRef ?? {})) {
+      localFailures.push(`${key}: sampleRef leaked unsafe value: ${unsafe}`);
+    }
+    if (!bySeam.has(item.seam)) bySeam.set(item.seam, new Set());
+    bySeam.get(item.seam).add(item.case);
+  }
+  for (const [seam, requiredCases] of requiredSharedSeamCases) {
+    const actual = bySeam.get(seam) ?? new Set();
+    for (const requiredCase of requiredCases) {
+      if (!actual.has(requiredCase)) localFailures.push(`${seam}: missing required case ${requiredCase}`);
+    }
+  }
+  if (localFailures.length > 0) fail(sharedSeamCoveragePath, localFailures.join("; "));
+}
+
 function validateGeneratedRegistry() {
   const registry = readJson("packages/registry/generated/registry.json");
   if (!registry) return;
   const localFailures = [];
+  if (registry.meta?.sharedContractFixtureCoverage?.coverageId !== "studio-ui.phase-2.group-a.shared-seams.pass-1") {
+    localFailures.push("missing shared contract fixture coverage registry metadata");
+  }
+  if (registry.meta?.sharedContractFixtureCoverage?.path !== sharedSeamCoveragePath) {
+    localFailures.push("shared contract fixture coverage registry metadata path drifted");
+  }
   const items = registry.items ?? [];
   const byName = new Map(items.map((item) => [item.name, item]));
   const appItems = items.filter((item) => item.type === "registry:app");
@@ -681,6 +922,7 @@ for (const path of listJson("packages/renderer/fixtures/compatibility/invalid"))
 for (const path of listJson("packages/renderer/fixtures/presentation")) validatePresentationFixture(path);
 
 validateUiVocabulary();
+validateSharedSeamCoverage();
 for (const failure of generateAllArtifacts({ check: true })) failures.push(failure);
 validateGeneratedRegistry();
 

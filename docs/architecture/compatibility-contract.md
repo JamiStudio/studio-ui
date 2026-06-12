@@ -15,6 +15,9 @@ runtime policy ownership into Studio UI.
 - `packages/renderer/fixtures/compatibility/valid/`
 - `packages/renderer/fixtures/compatibility/invalid/`
 - `packages/renderer/schemas/compatibility-fixture.schema.json`
+- `packages/renderer/fixtures/presentation/`
+- `packages/renderer/fixtures/shared-seams/phase-2-shared-seam-coverage.json`
+- `packages/renderer/schemas/shared-seam-coverage.schema.json`
 - `pnpm contracts:check`
 
 Studio UI fixtures carry a renderer fixture envelope plus a `harnessSchemaId`
@@ -26,13 +29,29 @@ import harness implementation code.
 ## Covered Families
 
 - `uiPayload`
+- `runEvent`
 - `artifactView`
-- `actionRef` denied display
+- `actionRef` denied, approval, expired, replayed, missing-source, secret-bearing,
+  and display-only states
 - `themeRef`
 - `suiteRef`
+- `evidencePacket`
+- `memoryRecord`
+- `contextPack`
+- `capabilityManifest`
 - unsupported component
 - invalid payload
 - renderer error
+
+The Phase 2 shared seam coverage manifest is the machine-readable matrix for the
+root roadmap cases. It records the required positive, denied, unsupported,
+malformed or invalid, missing-source, stale, redacted, expired, and replayed cases
+for every shared seam family, maps existing renderer or presentation fixtures
+where they exist, and carries safe sample refs for matrix-only cases. The
+contract gate fails when a required family/case is missing, when a referenced
+fixture drifts from the matrix status, when a sample contains unsafe or
+secret-shaped values, or when the generated registry metadata no longer points
+at the manifest.
 
 ## Expected Harness Handshake
 
@@ -45,6 +64,8 @@ for the same family names and should preserve these ownership rules:
   metadata references, and renderer fallback behavior.
 - Neither side accepts arbitrary React, HTML, scripts, package imports, or model
   executable UI code as a shared contract.
+- Capability manifest cases are mirrored as display/registry compatibility
+  states only; the harness remains the source of truth for capability support.
 
 The first cross-repo gate should compare fixture family names, schema versions,
 schema IDs, reference ID patterns, negative cases, and expected display/denial
