@@ -11,10 +11,10 @@ setup before specific workstreams begin. It is an operations map, not a product 
 ## Ready Now
 
 - Git repository initialized on `main`.
-- Remote configured: `https://github.com/JamiStudio/studio-ui.git`.
+- Remote configured: `https://github.com/studio-jami/studio-ui.git`.
 - `main` pushed and tracking `origin/main`.
 - Path-lock checked on 2026-06-09: `studio-ui` and sibling `jami-harness` are separate
-  registry-root Git worktrees with remotes `https://github.com/JamiStudio/studio-ui.git`
+  registry-root Git worktrees with remotes `https://github.com/studio-jami/studio-ui.git`
   and `https://github.com/JamiStudio/jami-harness.git`.
 - Root source-lock record checked on 2026-06-09:
   `C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`.

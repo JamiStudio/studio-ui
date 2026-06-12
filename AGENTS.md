@@ -6,7 +6,7 @@ Studio UI is the Jami.Studio primitive registry, token system, workbench overlay
 CLI install surface, runtime renderer, and installable suite-pack foundation. Read this
 before editing.
 
-Canonical repo identity: `studio-ui` at `https://github.com/JamiStudio/studio-ui.git`.
+Canonical repo identity: `studio-ui` at `https://github.com/studio-jami/studio-ui.git`.
 
 ## Source of truth
 
