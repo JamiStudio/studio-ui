@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 41
-- Typed fragments: 22
+- Total fragments: 42
+- Typed fragments: 23
 - Unclassified legacy fragments: 19
 
 ## Notes By Surface
@@ -23,6 +23,12 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 #### feature
 
 - `2026-06-09-cli-lifecycle-foundation.md` - Add `@jami-studio/cli` (`packages/cli`), the Studio UI install/config CLI, and make the registry install path real. The dependency-free CLI installs and maintains registry distribution artifacts in a target project with an inspectable `studio-ui.config.json` and `studio-ui.lock.json`, hash-based conflict detection, and provenance verification. It covers the full lifecycle: `init`, `list`, `inspect`, `add`, `remove`, `update`, `migrate`, `pin`/`unpin`, `lock`, `doctor`, and `provenance`. Policy, approvals, and runtime execution stay harness-owned; the CLI only distributes and inspects UI artifacts.
+
+### contracts
+
+#### patch
+
+- `2026-06-12-token-provenance-bridge-audit.md` - Harden the generated token provenance bridge so contract validation checks the embedded `jami-theme` manifest schema, generator, source hash, exact output ids, output hashes, and hosted/package false claims, and the registry publish dry-run fails closed if served token provenance overclaims hosted registry or package publication.
 
 ### docs
 

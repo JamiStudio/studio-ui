@@ -139,6 +139,40 @@ for (const item of registry.items ?? []) {
       fail("hash-mismatch", `${name} -> ${file.target}: embedded hash does not match content`);
     }
   }
+  if (name === "jami-theme") {
+    const provenanceFile = files.find((file) => file.path === "packages/tokens/generated/jami-token-provenance.json");
+    if (!provenanceFile || typeof provenanceFile.content !== "string") {
+      fail("missing-token-provenance", "jami-theme: missing embedded token provenance manifest");
+    } else {
+      let provenance;
+      try {
+        provenance = JSON.parse(provenanceFile.content);
+      } catch (error) {
+        fail("invalid-token-provenance", `jami-theme: token provenance manifest is not valid JSON (${error.message})`);
+      }
+      if (provenance) {
+        if (provenance.$schema !== "https://jami.studio/schemas/tokens/token-provenance.generated.json") {
+          fail("invalid-token-provenance", "jami-theme: token provenance manifest schema drifted");
+        }
+        if (provenance.hostedRegistryClaimed !== false || provenance.packagePublishClaimed !== false) {
+          fail(
+            "token-provenance-overclaim",
+            "jami-theme: token provenance manifest must not claim hosted registry or package publication",
+          );
+        }
+        const outputHashes = new Map((provenance.outputs ?? []).map((output) => [output.path, output.sha256]));
+        for (const tokenFile of files.filter(
+          (file) =>
+            file.path?.startsWith("packages/tokens/generated/") &&
+            file.path !== "packages/tokens/generated/jami-token-provenance.json",
+        )) {
+          if (outputHashes.get(tokenFile.path) !== tokenFile.hash) {
+            fail("token-provenance-drift", `jami-theme: token provenance hash drift for ${tokenFile.path}`);
+          }
+        }
+      }
+    }
+  }
 
   // Every item must have a generated per-item artifact; suites must have a manifest.
   const itemFile = `${name}.registry-item.json`;

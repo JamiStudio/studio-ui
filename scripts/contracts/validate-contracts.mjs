@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { generateAllArtifacts, registrySourceHash } from "./generate-contract-artifacts.mjs";
@@ -30,6 +31,14 @@ function readJson(path) {
     failures.push(`${path}: invalid JSON: ${error.message}`);
     return undefined;
   }
+}
+
+function readText(path) {
+  return readFileSync(join(root, path), "utf8");
+}
+
+function sha256(text) {
+  return `sha256:${createHash("sha256").update(text).digest("hex")}`;
 }
 
 function listJson(dir) {
@@ -843,6 +852,12 @@ function validateGeneratedRegistry() {
   const registry = readJson("packages/registry/generated/registry.json");
   if (!registry) return;
   const localFailures = [];
+  const expectedTokenProvenance = {
+    $schema: "https://jami.studio/schemas/tokens/token-provenance.generated.json",
+    generatedBy: "scripts/contracts/generate-contract-artifacts.mjs",
+    sourcePath: "packages/tokens/fixtures/valid/jami-factory.tokens.json",
+    outputIds: ["cssVariables", "tailwindTheme", "typescriptTypes", "shadcnCssVars"],
+  };
   if (registry.meta?.sharedContractFixtureCoverage?.coverageId !== "studio-ui.phase-2.group-a.shared-seams.pass-1") {
     localFailures.push("missing shared contract fixture coverage registry metadata");
   }
@@ -911,10 +926,30 @@ function validateGeneratedRegistry() {
         localFailures.push("jami-theme missing generated token provenance manifest hash");
       } else {
         const provenance = JSON.parse(provenanceFile.content ?? "{}");
+        if (provenanceFile.hash !== sha256(provenanceFile.content ?? "")) {
+          localFailures.push("jami-theme token provenance manifest hash does not match embedded content");
+        }
+        if (provenance.$schema !== expectedTokenProvenance.$schema) {
+          localFailures.push("jami-theme token provenance manifest schema drifted");
+        }
+        if (provenance.generatedBy !== expectedTokenProvenance.generatedBy) {
+          localFailures.push("jami-theme token provenance generator drifted");
+        }
+        if (provenance.generatedFrom?.path !== expectedTokenProvenance.sourcePath) {
+          localFailures.push("jami-theme token provenance source path drifted");
+        }
+        if (provenance.generatedFrom?.sha256 !== sha256(readText(expectedTokenProvenance.sourcePath))) {
+          localFailures.push("jami-theme token provenance source hash drifted");
+        }
         if (provenance.hostedRegistryClaimed !== false || provenance.packagePublishClaimed !== false) {
           localFailures.push("jami-theme token provenance manifest must keep hosted/package claims false");
         }
-        const generatedPaths = new Map((provenance.outputs ?? []).map((output) => [output.path, output.sha256]));
+        const outputs = Array.isArray(provenance.outputs) ? provenance.outputs : [];
+        const outputIds = outputs.map((output) => output.id).sort();
+        if (JSON.stringify(outputIds) !== JSON.stringify([...expectedTokenProvenance.outputIds].sort())) {
+          localFailures.push("jami-theme token provenance manifest output ids drifted");
+        }
+        const generatedPaths = new Map(outputs.map((output) => [output.path, output.sha256]));
         for (const file of item.files ?? []) {
           if (file.path?.startsWith("packages/tokens/generated/") && file.path !== provenanceFile.path) {
             if (generatedPaths.get(file.path) !== file.hash) {
