@@ -4,6 +4,11 @@
   "version": "0.0.0",
   "description": "Studio UI registry item metadata and package graph contract fixtures.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/studio-jami/studio-ui.git",
+    "directory": "packages/registry"
+  },
   "type": "module",
   "scripts": {
     "generate": "pnpm --dir ../.. contracts:generate",

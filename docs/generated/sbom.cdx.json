@@ -22,7 +22,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "4550f710d3c2a441bfefcbb1e5f04ac5ef95fffaa60b5a3c2b7614e477b1b0b7"
+          "content": "aeb00038f702d48fe738313c0e73e23e1bab5f090aca6f66c72e6b32634a23ab"
         }
       ],
       "properties": [
@@ -33,6 +33,14 @@
         {
           "name": "studio-ui:private",
           "value": "true"
+        },
+        {
+          "name": "studio-ui:repository",
+          "value": "git+https://github.com/studio-jami/studio-ui.git"
+        },
+        {
+          "name": "studio-ui:repository-directory",
+          "value": "."
         },
         {
           "name": "studio-ui:declared-dependency-count",
@@ -80,7 +88,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "44002d647e5f8db4d67642e8cde821b3e02e27cda26a987fc9df1f9d945cebfb"
+          "content": "241353c5e64a7c047e45009dca1bc6ac26ce12eb18f77c2f59d42df352308011"
         }
       ],
       "properties": [
@@ -91,6 +99,14 @@
         {
           "name": "studio-ui:private",
           "value": "true"
+        },
+        {
+          "name": "studio-ui:repository",
+          "value": "git+https://github.com/studio-jami/studio-ui.git"
+        },
+        {
+          "name": "studio-ui:repository-directory",
+          "value": "packages/cli"
         },
         {
           "name": "studio-ui:declared-dependency-count",
@@ -116,7 +132,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "5ba31608991f95e737a4c05577dc6d15283ed1a37dd1d1bc2315e0b7936a5074"
+          "content": "3570c542e796eafc9d422fa0f94e6c3f0409995c597b661743668bc991e70e80"
         }
       ],
       "properties": [
@@ -127,6 +143,14 @@
         {
           "name": "studio-ui:private",
           "value": "true"
+        },
+        {
+          "name": "studio-ui:repository",
+          "value": "git+https://github.com/studio-jami/studio-ui.git"
+        },
+        {
+          "name": "studio-ui:repository-directory",
+          "value": "packages/registry"
         },
         {
           "name": "studio-ui:declared-dependency-count",
@@ -152,7 +176,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "1bc1afc0131dea1510d3d1c9f9889651780b1fbd60e82ad95eb8daf094df5a62"
+          "content": "7e9b22acac34a4db705fdbc36194eefb6dafd31e87adf700f0c67d8491a6f3fc"
         }
       ],
       "properties": [
@@ -163,6 +187,14 @@
         {
           "name": "studio-ui:private",
           "value": "true"
+        },
+        {
+          "name": "studio-ui:repository",
+          "value": "git+https://github.com/studio-jami/studio-ui.git"
+        },
+        {
+          "name": "studio-ui:repository-directory",
+          "value": "packages/renderer"
         },
         {
           "name": "studio-ui:declared-dependency-count",
@@ -188,7 +220,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "026b86928f83960594acaa960074917338a3da5157b42500ce5dd00009a2f5fa"
+          "content": "57f0ca3a774ae8ea5095e63a3dc287e41866988e9675bb56eacdb02a9a5886ab"
         }
       ],
       "properties": [
@@ -199,6 +231,14 @@
         {
           "name": "studio-ui:private",
           "value": "true"
+        },
+        {
+          "name": "studio-ui:repository",
+          "value": "git+https://github.com/studio-jami/studio-ui.git"
+        },
+        {
+          "name": "studio-ui:repository-directory",
+          "value": "packages/tokens"
         },
         {
           "name": "studio-ui:declared-dependency-count",
@@ -224,7 +264,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "f2deaacaf103678c9b046a9b0df83c21c0475247efaa7bd35566118339ac4a2b"
+          "content": "5cafa36074497361347346914d37fe2361efa022837008a41b5b0b0b9ac0d5ee"
         }
       ],
       "properties": [
@@ -234,7 +274,15 @@
         },
         {
           "name": "studio-ui:private",
-          "value": "false"
+          "value": "true"
+        },
+        {
+          "name": "studio-ui:repository",
+          "value": "git+https://github.com/studio-jami/studio-ui.git"
+        },
+        {
+          "name": "studio-ui:repository-directory",
+          "value": "packages/ui"
         },
         {
           "name": "studio-ui:declared-dependency-count",
@@ -260,7 +308,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "f064dd367a13d37fc310ef561985fbc320ddcc4bec1bf9a1641b9693e5ad13a8"
+          "content": "f12b6d9f319deeb71ef1208bd63e5106830121f16942c8ee2730b8ed7990b058"
         }
       ],
       "properties": [
@@ -271,6 +319,14 @@
         {
           "name": "studio-ui:private",
           "value": "true"
+        },
+        {
+          "name": "studio-ui:repository",
+          "value": "git+https://github.com/studio-jami/studio-ui.git"
+        },
+        {
+          "name": "studio-ui:repository-directory",
+          "value": "apps/workbench"
         },
         {
           "name": "studio-ui:declared-dependency-count",

@@ -21,6 +21,8 @@ const artifactTargets = [
   },
 ];
 
+const CANONICAL_REPOSITORY_URL = "git+https://github.com/studio-jami/studio-ui.git";
+
 if (only && !artifactTargets.some((target) => target.id === only)) {
   console.error(`unknown --only target: ${only}`);
   console.error(`supported targets: ${artifactTargets.map((target) => target.id).join(", ")}`);
@@ -79,6 +81,27 @@ function workspaceManifestPaths() {
   ].filter((path) => existsSync(join(root, path)));
 }
 
+function validateWorkspaceReleasePosture(manifests) {
+  const failures = [];
+  for (const { path, manifest } of manifests) {
+    if (manifest.private !== true) {
+      failures.push(`${path}: workspace packages must remain private:true until Group E release gates close`);
+    }
+    if (manifest.repository?.type !== "git" || manifest.repository?.url !== CANONICAL_REPOSITORY_URL) {
+      failures.push(`${path}: repository must point at ${CANONICAL_REPOSITORY_URL}`);
+    }
+    if (path !== "package.json") {
+      const expectedDirectory = path.replace(/\/package\.json$/, "");
+      if (manifest.repository?.directory !== expectedDirectory) {
+        failures.push(`${path}: repository.directory must be ${expectedDirectory}`);
+      }
+    }
+  }
+  if (failures.length > 0) {
+    throw new Error(`release package metadata drift:\n- ${failures.join("\n- ")}`);
+  }
+}
+
 function collectDeclaredDependencies(manifest) {
   const fields = ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"];
   const out = [];
@@ -125,6 +148,8 @@ function buildWorkspaceComponents(paths) {
       properties: [
         { name: "studio-ui:workspace-path", value: path.replace(/\/?package\.json$/, "") || "." },
         { name: "studio-ui:private", value: String(manifest.private === true) },
+        { name: "studio-ui:repository", value: manifest.repository?.url ?? "" },
+        { name: "studio-ui:repository-directory", value: manifest.repository?.directory ?? "." },
         { name: "studio-ui:declared-dependency-count", value: String(deps.length) },
       ],
     };
@@ -179,6 +204,7 @@ function registryBundleEvidence() {
 function generateSbom() {
   const paths = workspaceManifestPaths();
   const manifests = paths.map((path) => ({ path, manifest: readJson(path) }));
+  validateWorkspaceReleasePosture(manifests);
   const workspaceNames = new Set(manifests.map(({ manifest }) => manifest.name));
   const workspaceComponents = buildWorkspaceComponents(paths);
   const externalComponents = externalDependencyComponents(paths, workspaceNames);

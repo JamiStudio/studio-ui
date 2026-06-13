@@ -4,6 +4,11 @@
   "version": "0.0.0",
   "description": "DTCG-compatible Studio UI token contract fixtures and validation foundations.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/studio-jami/studio-ui.git",
+    "directory": "packages/tokens"
+  },
   "type": "module",
   "scripts": {
     "generate": "pnpm --dir ../.. contracts:generate",

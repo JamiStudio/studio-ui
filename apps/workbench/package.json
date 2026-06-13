@@ -4,6 +4,11 @@
   "version": "0.0.0",
   "description": "Studio UI workbench showcase: a dependency-free static browser surface over the generated token theme, registry/suite descriptors, resident renderer, and workbench presentation seam.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/studio-jami/studio-ui.git",
+    "directory": "apps/workbench"
+  },
   "type": "module",
   "scripts": {
     "build": "node build.mjs",

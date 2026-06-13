@@ -4,6 +4,11 @@
   "version": "0.0.0",
   "description": "Studio UI install/config CLI: registry-driven lifecycle for themes, primitives, and suite descriptors.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/studio-jami/studio-ui.git",
+    "directory": "packages/cli"
+  },
   "type": "module",
   "bin": {
     "studio-ui": "./bin/studio-ui.mjs"

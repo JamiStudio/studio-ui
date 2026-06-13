@@ -4,6 +4,10 @@
   "version": "0.0.0",
   "description": "Jami.Studio UI foundation: token system, primitive registry, workbench overlay, CLI, renderer, and suite packs.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/studio-jami/studio-ui.git"
+  },
   "packageManager": "pnpm@10.33.2",
   "type": "module",
   "scripts": {

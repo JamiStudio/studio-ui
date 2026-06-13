@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 53
-- Typed fragments: 26
+- Total fragments: 54
+- Typed fragments: 27
 - Unclassified legacy fragments: 27
 
 ## Notes By Surface
@@ -51,6 +51,12 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 #### feature
 
 - `2026-06-09-brand-template-options.md` - Added three authored, CLI-installable brand/template option descriptors (`studio-console`, `editorial-studio`, `command-grid`) as generated registry theme items, surfaced them in the workbench default-kit option gallery and always-live overlay, and added contract/CLI/workbench tests proving selectable token deltas, provenance, and no final-brand-canon claim.
+
+### release
+
+#### fix
+
+- `2026-06-12-group-d-package-metadata-posture.md` - Keep Studio UI package metadata aligned with the canonical `studio-jami/studio-ui` repository and the current non-publishing posture. Release artifact generation now fails if a workspace manifest drops `private: true` or points at a non-canonical repository before the Group E package release gates close.
 
 ### renderer
 

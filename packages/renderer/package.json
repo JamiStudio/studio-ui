@@ -4,6 +4,11 @@
   "version": "0.0.0",
   "description": "Studio UI minimal resident renderer and compatibility fixture foundations.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/studio-jami/studio-ui.git",
+    "directory": "packages/renderer"
+  },
   "type": "module",
   "main": "./src/index.mjs",
   "exports": {
