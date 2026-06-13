@@ -1,18 +1,18 @@
 {
   "$schema": "https://jami.studio/schemas/studio-ui/hosted-live-smoke.generated.json",
   "generatedBy": "scripts/release/live-hosted-smoke.mjs",
-  "checkedAt": "2026-06-13T16:21:23.386Z",
+  "checkedAt": "2026-06-13T16:43:04.435Z",
   "ok": true,
   "baseUrl": "https://registry.jami.studio",
   "cloudflareProject": "jami-registry",
   "cloudflareDeploymentId": null,
   "publicCustomDomainClaimed": true,
-  "hostedWorkbenchClaimed": false,
-  "hostedSuiteRoutesClaimed": false,
+  "hostedWorkbenchClaimed": true,
+  "hostedSuiteRoutesClaimed": true,
   "hostedPersistenceClaimed": false,
   "backendRegistrationClaimed": false,
   "registryItems": 45,
-  "routeCount": 3,
+  "routeCount": 6,
   "fetched": [
     {
       "url": "https://registry.jami.studio/registry.json",
@@ -25,8 +25,8 @@
       "url": "https://registry.jami.studio/docs",
       "routeId": "docs-index",
       "routeKind": "docs",
-      "bytes": 273577,
-      "hash": "sha256:425f7bdf98bccc6cec324a0076382082463cb248dcbe566c9cecde90680129b0",
+      "bytes": 289064,
+      "hash": "sha256:cc4382ad9f8989659f87803b1b2a7ec1f8c80cf38e74d310e103c51fbafac930",
       "contentType": "text/html; charset=utf-8",
       "cacheControl": "public, max-age=0, must-revalidate"
     },
@@ -34,8 +34,8 @@
       "url": "https://registry.jami.studio/docs/quickstart",
       "routeId": "docs-quickstart",
       "routeKind": "docs",
-      "bytes": 363861,
-      "hash": "sha256:29a82200f1378bf1a29793aa48df45698d4bab013e4ad7ccce3ca488ccce03fa",
+      "bytes": 379444,
+      "hash": "sha256:bf523f2fbe168d4a1ceb59827273813f1e30224bca760b2c03499820e40ee4ba",
       "contentType": "text/html; charset=utf-8",
       "cacheControl": "public, max-age=0, must-revalidate"
     },
@@ -43,32 +43,40 @@
       "url": "https://registry.jami.studio/docs/registry",
       "routeId": "docs-registry",
       "routeKind": "docs",
-      "bytes": 385329,
-      "hash": "sha256:dc0b38cba62f3efbd5bd873c28fc7336d5fc2fcb89dc803671bc6cda1259eb9c",
+      "bytes": 400860,
+      "hash": "sha256:2c34a439dc754870b4e9b299f37b08f86b6cf01fbe626ab864589bb0404b312d",
       "contentType": "text/html; charset=utf-8",
       "cacheControl": "public, max-age=0, must-revalidate"
-    }
-  ],
-  "unavailableRoutes": [
-    {
-      "id": "workbench-showcase",
-      "kind": "workbench-showcase",
-      "path": "/",
-      "reason": "https://registry.jami.studio/: HTTP 404 Not Found"
     },
     {
-      "id": "docs-workbench",
-      "kind": "docs",
-      "path": "docs/workbench",
-      "reason": "https://registry.jami.studio/docs/workbench: HTTP 404 Not Found"
+      "url": "https://registry.jami.studio/",
+      "routeId": "workbench-showcase",
+      "routeKind": "workbench-showcase",
+      "bytes": 176067,
+      "hash": "sha256:5164328baa759939c19be3311d62a5524894f14aaaf3ddb581f0a48c6fd3615e",
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "public, max-age=0, must-revalidate"
     },
     {
-      "id": "solo-suite-app",
-      "kind": "suite-app",
-      "path": "suites/solo/",
-      "reason": "https://registry.jami.studio/suites/solo/: HTTP 404 Not Found"
+      "url": "https://registry.jami.studio/docs/workbench",
+      "routeId": "docs-workbench",
+      "routeKind": "docs",
+      "bytes": 21314,
+      "hash": "sha256:16402d25b4976f103c87c91bce5d21e10f95385010dba98d8ffe666fc55face8",
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "url": "https://registry.jami.studio/suites/solo/",
+      "routeId": "solo-suite-app",
+      "routeKind": "suite-app",
+      "bytes": 28171,
+      "hash": "sha256:db03cfc9c9fcfec1c3ce6db521fae430aae37bf4c3e5a5ee5be60bcbd2403156",
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "public, max-age=300"
     }
   ],
+  "unavailableRoutes": [],
   "cliInstall": {
     "ok": true,
     "installedItems": 42,
@@ -113,7 +121,7 @@
       "block",
       "suite"
     ],
-    "lockHash": "sha256:cdc39658c71060ecfb9282cff35e34e80125af5d6eab423caba5039d02e2ce61"
+    "lockHash": "sha256:ea6d216a779c3f2b5fd68abbc94d3c587f0edfcfd1cba8fd094302308c1b878f"
   },
   "failures": []
 }
