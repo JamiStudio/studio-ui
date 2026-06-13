@@ -33,9 +33,9 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   and first real product foundations under `packages/tokens`, `packages/registry`,
   `packages/renderer`, `packages/cli`, and `apps/workbench`. Full product acceptance
   remains open where the checklist still shows unchecked or partial items.
-- 2026-06-09 path-lock evidence confirms `studio-ui` and `jami-harness` are separate registry-root Git
-  worktrees with canonical `JamiStudio` remotes; the sibling harness worktree had an unrelated dirty
-  deletion during this Studio UI pass and was not edited here.
+- 2026-06-12 path-lock evidence confirms `studio-ui` and `jami-harness` are separate registry-root Git
+  worktrees with canonical `studio-jami/*` remotes; package metadata, generated evidence, and current
+  status docs must preserve that identity.
 - Registry-root source-lock evidence is current at
   `C:\Users\james\dev\orgs\oss\registry\docs\operations\source-lock-evidence.md`; Studio UI
   implementation work still needs repo-local source-lock records before code depends on those sources.
