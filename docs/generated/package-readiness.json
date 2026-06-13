@@ -1,0 +1,60 @@
+{
+  "$schema": "https://jami.studio/schemas/studio-ui/package-readiness.generated.json",
+  "generatedBy": "scripts/release/package-readiness.mjs",
+  "checkedAt": "2026-06-13T02:37:21.129Z",
+  "ok": true,
+  "packagePublishClaimed": false,
+  "trustedPublisherConfigured": false,
+  "packages": [
+    {
+      "name": "@jami-studio/tokens",
+      "version": "0.0.0",
+      "private": true,
+      "fileCount": 9,
+      "unpackedSize": 12281,
+      "integrity": "sha512-GgIxjVg2B7/SZLdyJAErbsfXU97f+8gXJXkqzy04xmS59m3NmtNosDw7BM93ph2GvJS0dut6boNvwBIsNEoD6Q==",
+      "packageJsonHash": "sha256:52dafc7e6f0e58baf60a98742fc6613ab2ca831ef781e6432756f2e894e9ca04"
+    },
+    {
+      "name": "@jami-studio/registry",
+      "version": "0.0.0",
+      "private": true,
+      "fileCount": 123,
+      "unpackedSize": 1553120,
+      "integrity": "sha512-zlUdxAv4kWNF68ybyVBoVUY9d4UQDtMyGWGAOCTD4NE2KAL6nadIXaYPuMxzvbTpnhrjnFlBib+cVtYMPUDo1w==",
+      "packageJsonHash": "sha256:f2c0cfc9ac87d2bbbb9e27173dd36082784f5c37f92bb098049f76558c6c26a3"
+    },
+    {
+      "name": "@jami-studio/renderer",
+      "version": "0.0.0",
+      "private": true,
+      "fileCount": 8,
+      "unpackedSize": 48919,
+      "integrity": "sha512-qBhnNNKwoW/QQqwxCN4VC4eEnR7Si3qrYCsCB7L7k09PIfmr/5USOjL9y5FKa3nloKlSCvyXwdsiqUV8kfJxvA==",
+      "packageJsonHash": "sha256:ca2a74281558029719aea7f8191eee0c533855810535a9bb04f32b16718fbb45"
+    },
+    {
+      "name": "@jami-studio/cli",
+      "version": "0.0.0",
+      "private": true,
+      "fileCount": 9,
+      "unpackedSize": 46001,
+      "integrity": "sha512-z8kwRQHTlmahaapgghKY0E1K+mAT+prhktIr0Fofj4l3TLs3acAOh3XORzywu/406s+Pzg8cIkdnQdPZi/fFOA==",
+      "packageJsonHash": "sha256:7e3ac76ff0c0a02e2263e5070e016851b96911822a336a4870a6f7d91dee10be"
+    },
+    {
+      "name": "@jami-studio/ui",
+      "version": "0.0.0",
+      "private": true,
+      "fileCount": 11,
+      "unpackedSize": 70162,
+      "integrity": "sha512-IOlTDdMFLwtrbmvZazkYG64P6JGQr9wZbytb69YD5b7GQzO+ItgeF5s0dL7BPhXYSLrC/RKNMAmJjeZ1dYpy4A==",
+      "packageJsonHash": "sha256:5b6bbd96801d1a055b8f7d92ec7a3e9528008ad1f37c1998e713aa3b0c540240"
+    }
+  ],
+  "cleanLocalInstallSmoke": {
+    "ok": true,
+    "packageSource": "locally packed tarballs from npm pack"
+  },
+  "failures": []
+}
