@@ -54,5 +54,5 @@ jobs:
           for pkg in packages/tokens packages/registry packages/renderer packages/cli packages/ui; do
             name=$(node -p "require('./$pkg/package.json').name.replace('@', '').replace('/', '-')")
             version=$(node -p "require('./$pkg/package.json').version")
-            npm publish "release-packs/${name}-${version}.tgz" --provenance --access public
+            npm publish "./release-packs/${name}-${version}.tgz" --provenance --access public
           done
