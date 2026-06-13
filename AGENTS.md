@@ -18,7 +18,7 @@ Canonical repo identity: `studio-ui` at `https://github.com/studio-jami/studio-u
 4. **Source reports** (`docs/research/`) explain dated research and feasibility findings.
    The current foundation report is `docs/research/studio-ui-feasibility-report.md`.
 5. **Foundation alignment** (`docs/architecture/foundation-alignment.md`) records the
-   sibling boundary with `C:\Users\james\dev\orgs\oss\registry\jami-harness`.
+   sibling boundary with `C:\Users\james\dev\orgs\oss\jami-harness`.
 6. **Development workflow** (`docs/operations/development-workflow.md`) owns local-first
    verification, manual CI posture, source-registry expectations, changelog, diagramming,
    and no-stub escalation rules.

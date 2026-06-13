@@ -5,7 +5,7 @@ Status: Active end-to-end implementation; local foundation only
 Source reports: `docs/research/studio-ui-feasibility-report.md`; crossflow adversarial review at `C:\Users\james\dev\orgs\oss\registry\docs\research\2026-06-08-harness-ui-plan-adversarial-review.md`
 Owner: Jamie / Jami.Studio
 Surface: Jami.Studio Studio UI foundation: registry, token system, workbench overlay, CLI, suite packs, and runtime renderer
-Sibling foundation: `C:\Users\james\dev\orgs\oss\registry\jami-harness`
+Sibling foundation: `C:\Users\james\dev\orgs\oss\jami-harness`
 
 ## Purpose
 
@@ -581,8 +581,8 @@ shared contract docs when integration decisions change.
 These gates convert the crossflow adversarial review into execution criteria. They are part of the
 active plan, not optional research notes.
 
-- `path-lock`: active plans and boundary docs must point to `C:\Users\james\dev\orgs\oss\registry\studio-ui`
-  and `C:\Users\james\dev\orgs\oss\registry\jami-harness`, with package names kept distinct from repo
+- `path-lock`: active plans and boundary docs must point to `C:\Users\james\dev\orgs\oss\studio-ui`
+  and `C:\Users\james\dev\orgs\oss\jami-harness`, with package names kept distinct from repo
   folder names; closure requires search/readback or equivalent path-lock evidence.
 - `source-lock`: shadcn, Tailwind, DTCG, Radix/Base UI, Agent-Native references, package publishing,
   static registry hosting, and lifted third-party source need current-source, license, and provenance

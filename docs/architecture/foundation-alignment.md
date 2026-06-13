@@ -12,14 +12,14 @@ deliberate contract surface under the `@jami-studio/*` family.
 
 ## Sibling Repositories
 
-- `studio-ui`: source at `C:\Users\james\dev\orgs\oss\registry\studio-ui`.
-- `jami-harness`: source at `C:\Users\james\dev\orgs\oss\registry\jami-harness`.
+- `studio-ui`: source at `C:\Users\james\dev\orgs\oss\studio-ui`.
+- `jami-harness`: source at `C:\Users\james\dev\orgs\oss\jami-harness`.
 
 Path-lock evidence checked on 2026-06-09:
 
-- `studio-ui` is a Git worktree at `C:\Users\james\dev\orgs\oss\registry\studio-ui`
+- `studio-ui` is a Git worktree at `C:\Users\james\dev\orgs\oss\studio-ui`
   with `origin` set to `https://github.com/studio-jami/studio-ui.git`.
-- `jami-harness` is a Git worktree at `C:\Users\james\dev\orgs\oss\registry\jami-harness`
+- `jami-harness` is a Git worktree at `C:\Users\james\dev\orgs\oss\jami-harness`
   with `origin` set to `https://github.com/studio-jami/jami-harness.git`.
 - Active Studio UI boundary docs and roadmaps use these registry-root sibling paths.
 
@@ -146,6 +146,6 @@ The first integration should be contract-first:
 ## Cross-Links
 
 - Studio UI roadmap: `docs/roadmaps/2026-06-07-studio-ui-production-shape-plan.md`
-- Harness roadmap: `C:\Users\james\dev\orgs\oss\registry\jami-harness\docs\roadmaps\2026-06-07-jami-harness-production-plan.md`
+- Harness roadmap: `C:\Users\james\dev\orgs\oss\jami-harness\docs\roadmaps\2026-06-07-jami-harness-production-plan.md`
 - Studio UI product shape: `docs/architecture/studio-ui-product-shape.md`
-- Harness product architecture: `C:\Users\james\dev\orgs\oss\registry\jami-harness\docs\architecture\product-architecture.md`
+- Harness product architecture: `C:\Users\james\dev\orgs\oss\jami-harness\docs\architecture\product-architecture.md`

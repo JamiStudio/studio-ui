@@ -2,7 +2,7 @@
 
 Working from: `docs/roadmaps/2026-06-07-studio-ui-production-shape-plan.md`
 
-Sibling foundation context: `C:\Users\james\dev\orgs\oss\registry\jami-harness` and
+Sibling foundation context: `C:\Users\james\dev\orgs\oss\jami-harness` and
 `docs/architecture/foundation-alignment.md`.
 
 ## Your Role: The Orchestrator
