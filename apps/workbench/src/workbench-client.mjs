@@ -1,13 +1,36 @@
 import { ARTIFACT_VERSION, STORAGE_KEY, factoryDraft } from "./workbench-state.mjs";
+import { REGISTRATION_CONTRACT_VERSION } from "./workbench-registration.mjs";
 
-export function buildWorkbenchClientScript(brandOptionMap = {}) {
+export function buildWorkbenchClientScript(brandOptionMap = {}, backendConfig = {}) {
   return `
 (function () {
   var STORAGE_KEY = ${JSON.stringify(STORAGE_KEY)};
   var ARTIFACT_VERSION = ${JSON.stringify(ARTIFACT_VERSION)};
+  var REGISTRATION_CONTRACT_VERSION = ${JSON.stringify(REGISTRATION_CONTRACT_VERSION)};
   var factoryDraft = ${JSON.stringify(factoryDraft)};
   var brandOptions = ${JSON.stringify(brandOptionMap)};
+  var backendConfig = ${JSON.stringify(backendConfig)};
+  var BACKEND_STATE = { CONFIG_MISSING: 'config-missing', HOSTED_UNAVAILABLE: 'hosted-unavailable', CONFLICT: 'conflict', AVAILABLE: 'available' };
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
+  function makeBackendStatus(status, detail) {
+    detail = detail && typeof detail === 'object' ? detail : {};
+    return {
+      contractVersion: REGISTRATION_CONTRACT_VERSION,
+      status: status,
+      backendPersistence: status === BACKEND_STATE.AVAILABLE,
+      packageRegistration: status === BACKEND_STATE.AVAILABLE,
+      localFallback: status !== BACKEND_STATE.AVAILABLE,
+      reason: detail.reason || null,
+      endpointConfigured: detail.endpointConfigured === true,
+      operation: detail.operation || null,
+      remoteId: detail.remoteId || null,
+      revision: detail.revision || null,
+      conflict: detail.conflict || null
+    };
+  }
+  function defaultBackendStatus() {
+    return makeBackendStatus(BACKEND_STATE.CONFIG_MISSING, { reason: 'No workbench backend endpoint is configured in the static artifact.' });
+  }
   function normalizeDraft(input) {
     var draft = input && typeof input === 'object' ? input : {};
     return Object.assign({}, clone(factoryDraft), draft, {
@@ -28,12 +51,48 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
       importArtifact: seed.importArtifact || null,
       inspectorFocus: seed.inspectorFocus || null,
       online: seed.online !== false,
+      backend: seed.backend && typeof seed.backend === 'object' ? seed.backend : defaultBackendStatus(),
       conflict: seed.conflict || null,
       lastAction: seed.lastAction || 'ready'
     };
   }
   function isDirty(state) {
     return JSON.stringify(normalizeDraft(state.draft)) !== JSON.stringify(normalizeDraft(state.saved));
+  }
+  function sanitizeControls(controls) {
+    var out = {};
+    Object.keys(controls && typeof controls === 'object' ? controls : {}).forEach(function (key) {
+      if (/(secret|token|api[_-]?key|password|authorization|cookie|private[_-]?key|connection[_-]?string)/i.test(key)) return;
+      if (/^on[A-Z]|^on[a-z]|^(handler|callback|function|script|dangerouslySetInnerHTML)$/i.test(key)) return;
+      var value = controls[key];
+      if (['string', 'number', 'boolean'].indexOf(typeof value) !== -1) out[key] = String(value);
+    });
+    return out;
+  }
+  function makeRegistrationRequest(state, operation) {
+    var draft = normalizeDraft(state.draft);
+    return {
+      schemaVersion: REGISTRATION_CONTRACT_VERSION,
+      operation: operation,
+      idempotencyKey: draft.target + ':' + draft.presetName + ':' + operation,
+      workbench: {
+        target: draft.target,
+        themeName: draft.themeName,
+        presetName: draft.presetName,
+        controls: sanitizeControls(draft.controls)
+      },
+      artifact: operation === 'export' && state.exportArtifact ? clone(state.exportArtifact) : operation === 'import' && state.importArtifact ? clone(state.importArtifact) : null,
+      client: {
+        surface: 'apps/workbench',
+        storageFallback: 'localStorage',
+        hostedPersistenceClaimed: false,
+        backendRegistrationClaimed: false
+      },
+      safety: {
+        executableHandlersIncluded: false,
+        secretsIncluded: false
+      }
+    };
   }
   function makeArtifact(state, action) {
     var draft = normalizeDraft(state.draft);
@@ -44,9 +103,11 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
       themeName: draft.themeName,
       presetName: draft.presetName,
       dirty: isDirty(state),
-      controls: draft.controls,
+      controls: sanitizeControls(draft.controls),
       backendPersistence: false,
       localOnly: true,
+      registrationContract: makeRegistrationRequest(state, action),
+      backend: state.backend || defaultBackendStatus(),
       createdAt: 'static-runtime-local-state'
     };
   }
@@ -119,7 +180,56 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
     }
     if (event.type === 'focus-inspector') return Object.assign({}, current, { inspectorFocus: event.target || null, lastAction: 'inspector-focused' });
     if (event.type === 'set-online') return Object.assign({}, current, { online: event.online !== false, lastAction: event.online === false ? 'offline-local' : 'online-local' });
+    if (event.type === 'backend-status') {
+      var backend = event.backend && typeof event.backend === 'object' ? event.backend : defaultBackendStatus();
+      return Object.assign({}, current, {
+        backend: backend,
+        conflict: backend.status === BACKEND_STATE.CONFLICT ? { kind: 'backend-conflict', detail: backend.conflict } : current.conflict,
+        lastAction: (backend.operation || 'backend') + '-' + backend.status
+      });
+    }
     return current;
+  }
+  function normalizeBackendConfig(config) {
+    var endpoint = config && typeof config.endpoint === 'string' ? config.endpoint.trim() : '';
+    if (!endpoint) return { status: BACKEND_STATE.CONFIG_MISSING, endpoint: null, reason: 'missing-endpoint' };
+    try {
+      var url = new URL(endpoint, window.location.origin);
+      if (url.protocol !== 'https:' && url.protocol !== 'http:') return { status: BACKEND_STATE.CONFIG_MISSING, endpoint: null, reason: 'unsupported-endpoint-protocol' };
+      return { status: BACKEND_STATE.AVAILABLE, endpoint: url.toString(), reason: null };
+    } catch (error) {
+      return { status: BACKEND_STATE.CONFIG_MISSING, endpoint: null, reason: 'invalid-endpoint-url' };
+    }
+  }
+  function reportBackend(operation) {
+    var normalized = normalizeBackendConfig(backendConfig);
+    if (normalized.status !== BACKEND_STATE.AVAILABLE) {
+      dispatch({ type: 'backend-status', backend: makeBackendStatus(BACKEND_STATE.CONFIG_MISSING, { reason: normalized.reason, operation: operation }) }, true);
+      return;
+    }
+    if (typeof window.fetch !== 'function') {
+      dispatch({ type: 'backend-status', backend: makeBackendStatus(BACKEND_STATE.HOSTED_UNAVAILABLE, { reason: 'fetch-unavailable', endpointConfigured: true, operation: operation }) }, true);
+      return;
+    }
+    window.fetch(normalized.endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify(makeRegistrationRequest(state, operation))
+    }).then(function (response) {
+      return response.text().then(function (text) {
+        var body = null;
+        try { body = text ? JSON.parse(text) : null; } catch (error) { body = null; }
+        if (response.status === 409) {
+          dispatch({ type: 'backend-status', backend: makeBackendStatus(BACKEND_STATE.CONFLICT, { reason: 'remote-conflict', endpointConfigured: true, operation: operation, conflict: body && body.conflict ? body.conflict : { status: 409 } }) }, true);
+        } else if (!response.ok) {
+          dispatch({ type: 'backend-status', backend: makeBackendStatus(BACKEND_STATE.HOSTED_UNAVAILABLE, { reason: 'http-' + response.status, endpointConfigured: true, operation: operation }) }, true);
+        } else {
+          dispatch({ type: 'backend-status', backend: makeBackendStatus(BACKEND_STATE.AVAILABLE, { endpointConfigured: true, operation: operation, remoteId: body && (body.id || body.remoteId) || null, revision: body && body.revision || null }) }, true);
+        }
+      });
+    }).catch(function (error) {
+      dispatch({ type: 'backend-status', backend: makeBackendStatus(BACKEND_STATE.HOSTED_UNAVAILABLE, { reason: error && error.name ? error.name : 'request-failed', endpointConfigured: true, operation: operation }) }, true);
+    });
   }
   function loadState() {
     try { return createInitialWorkbenchState(JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '{}')); }
@@ -164,7 +274,7 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
       list.innerHTML = '';
       state.registeredArtifacts.forEach(function (artifact) {
         var li = document.createElement('li');
-        li.textContent = artifact.themeName + ' / ' + artifact.schemaVersion + ' / local artifact';
+        li.textContent = artifact.themeName + ' / ' + artifact.schemaVersion + ' / ' + (artifact.backend && artifact.backend.status ? artifact.backend.status : 'local artifact');
         list.appendChild(li);
       });
     }
@@ -175,7 +285,8 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
     setText('ju-wb-theme', state.draft.themeName + ' / ' + state.draft.presetName);
     setText('ju-wb-dirty', isDirty(state) ? 'dirty' : 'saved');
     setText('ju-wb-last-action', state.lastAction);
-    setText('ju-wb-storage', state.online ? 'local draft / online host unsupported' : 'local draft / offline');
+    setText('ju-wb-storage', state.online ? 'local draft / ' + state.backend.status : 'local draft / offline');
+    setText('ju-wb-backend', state.backend.status + (state.backend.reason ? ' / ' + state.backend.reason : ''));
     setText('ju-wb-inspector', state.inspectorFocus || 'none');
     setText('ju-wb-conflict', state.conflict ? state.conflict.kind : 'none');
     var renameNode = document.getElementById('ju-wb-rename');
@@ -183,10 +294,11 @@ export function buildWorkbenchClientScript(brandOptionMap = {}) {
     applyDraft();
     renderArtifacts();
   }
-  function dispatch(event) {
+  function dispatch(event, skipBackend) {
     state = reduce(state, event);
     persist();
     renderState();
+    if (!skipBackend && ['save', 'restore', 'register', 'export', 'import'].indexOf(event.type) !== -1) reportBackend(event.type);
   }
   var state = loadState();
   document.querySelectorAll('[data-wb-action]').forEach(function (button) {

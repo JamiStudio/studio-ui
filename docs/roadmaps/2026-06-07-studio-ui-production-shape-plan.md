@@ -361,6 +361,16 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `--registry` flag. Hosted persistence/backend registration, hosted suite
   runtime, harness execution, final brand canon, and final acceptance remain
   open and unclaimed.
+- 2026-06-13 Workstream 5 backend-registration seam pass added
+  `apps/workbench/src/workbench-registration.mjs` plus client/reducer wiring for
+  deterministic save/restore/register/export/import backend requests. The static
+  workbench now records typed `config-missing`, `hosted-unavailable`, and
+  `conflict` states, carries the registration contract inside local artifacts,
+  strips unsafe control keys, and tests that no secret-like or executable handler
+  fields leak into generated artifacts. No live workbench endpoint is configured:
+  the sanitized `STUDIO_UI_WORKBENCH_BACKEND_URL` path is absent by default, so
+  hosted persistence/backend package registration remain unclaimed evidence, not
+  a runtime claim.
 
 - 2026-06-12 reorientation: this roadmap is now aligned to the registry-root
   end-to-end completion roadmap at
@@ -429,16 +439,21 @@ end state.
 
 ### Workbench
 
-- [ ] Workbench supports save, discard, rename, duplicate, restore, register, export,
+- [~] Workbench supports save, discard, rename, duplicate, restore, register, export,
   import, inspector focus, persisted backend registration, package
   registration, offline/online state, conflict recovery, and hosted state.
+  (Local save/restore/register/export/import plus the typed backend seam,
+  config-missing/hosted-unavailable/conflict statuses, and secret/executable
+  artifact guards are tested; no hosted endpoint is configured.)
 - [ ] Hosted workbench/showcase deploys and passes browser, accessibility, visual,
   responsive, keyboard, focus, reduced-motion, long-content, empty, error, disabled,
   loading, denied, and redacted-state evidence.
 - [ ] Workbench evidence panels display registry hashes, release artifacts, SBOM, hosted
   status, public claims, and harness compatibility fixtures.
-- [ ] Workbench Save, Duplicate, Restore, Register, Export, Close, reopen, persisted draft,
+- [~] Workbench Save, Duplicate, Restore, Register, Export, Close, reopen, persisted draft,
   and backend registration routes have tests and browser evidence.
+  (Node tests cover the backend contract and local state routes; browser evidence
+  for a live backend endpoint remains absent because no endpoint is configured.)
 
 ### CLI
 
@@ -860,7 +875,7 @@ Implementation tasks:
 - [~] Build collapsible docked panels for Theme, Color, Typography, Layout, Surfaces, Components, Charts, Motion, Assets, and Registry. (All requested panels exist in the static overlay; panels are data-backed where current token, suite, component, fixture, and registry data exists, while Charts honestly reports no chart registry item yet.)
 - [x] Preserve navigation while the overlay is active. (The overlay is fixed over the generated showcase and does not replace section navigation.)
 - [x] Preserve draft state across close/reopen. (`localStorage` stores the static-runtime draft and closed/open state.)
-- [~] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows. (Save, discard, rename, duplicate, restore-to-factory, local import/register/export artifacts, offline/online state, conflict display, and close/reopen are implemented as deterministic local transitions; backend persistence/registration remain pending.)
+- [~] Add explicit save, discard, duplicate, rename, restore-to-factory, register, and export flows. (Save, discard, rename, duplicate, restore-to-factory, local import/register/export artifacts, offline/online state, conflict display, and close/reopen are implemented as deterministic local transitions. The backend-registration seam now builds typed save/restore/register/export/import requests and fail-closed statuses; hosted persistence/registration remain unclaimed because no endpoint is configured.)
 - [x] Add inspector focus if it can be done without destabilizing the first overlay. (Implemented as a local state target in the static overlay; no backend focus persistence is claimed.)
 - [x] Gate workbench expansion on an early vertical slice: one token family, one primitive, one registry item, one CLI temp install, one renderer payload, one harness-compatible action/error fixture, and one screenshot/accessibility check. (The `apps/workbench` static surface proves the token theme -> registry/suite descriptor -> resident renderer -> presentation seam loop end to end and now exposes the local always-live editing overlay over that same real page.)
 - [~] Add workbench visual/a11y fixtures across light, dark, factory theme, and suite-theme states. (The showcase builds `factory`/`light`/`dark` theme states with per-theme screenshots and a structural a11y + contrast smoke; dedicated persisted suite-theme state and full visual regression remain pending.)
@@ -868,7 +883,7 @@ Implementation tasks:
 Exit criteria:
 
 - [x] Token changes update the real page immediately. (Overlay controls update CSS variables on the generated workbench page as the draft changes.)
-- [~] Save persists; close hides overlay without losing the draft; restore returns to factory. (Implemented for static-runtime local state through `localStorage`; hosted persistence remains unclaimed.)
+- [~] Save persists; close hides overlay without losing the draft; restore returns to factory. (Implemented for static-runtime local state through `localStorage`; the backend seam reports config-missing by default, so hosted persistence remains unclaimed.)
 - [x] No configuration controls are scattered across product pages.
 - [x] Workbench controls do not outpace the proven registry -> CLI -> renderer -> harness compatibility loop. (Controls are limited to generated token, suite, component, fixture, and registry data plus explicit no-chart state.)
 

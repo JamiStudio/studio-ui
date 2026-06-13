@@ -1,3 +1,11 @@
+import {
+  BACKEND_STATE,
+  defaultBackendStatus,
+  makeBackendStatus,
+  makeRegistrationRequest,
+  sanitizeDraftForRegistration,
+} from "./workbench-registration.mjs";
+
 export const STORAGE_KEY = "jami-studio.workbench.overlay.v1";
 export const ARTIFACT_VERSION = "2026-06-09.workbench-local";
 
@@ -46,6 +54,7 @@ export function createInitialWorkbenchState(seed = {}) {
     importArtifact: seed.importArtifact ?? null,
     inspectorFocus: seed.inspectorFocus ?? null,
     online: seed.online !== false,
+    backend: seed.backend && typeof seed.backend === "object" ? seed.backend : defaultBackendStatus(),
     conflict: seed.conflict ?? null,
     lastAction: seed.lastAction ?? "ready",
   };
@@ -57,6 +66,7 @@ export function isDirty(state) {
 
 export function makeWorkbenchArtifact(state, action) {
   const draft = normalizeDraft(state.draft);
+  const registration = makeRegistrationRequest({ ...state, draft }, action);
   return {
     schemaVersion: ARTIFACT_VERSION,
     action,
@@ -64,9 +74,11 @@ export function makeWorkbenchArtifact(state, action) {
     themeName: draft.themeName,
     presetName: draft.presetName,
     dirty: isDirty(state),
-    controls: draft.controls,
+    controls: sanitizeDraftForRegistration(draft).controls,
     backendPersistence: false,
     localOnly: true,
+    registrationContract: registration.ok ? registration.request : null,
+    backend: state.backend ?? defaultBackendStatus(),
     createdAt: "static-runtime-local-state",
   };
 }
@@ -203,6 +215,21 @@ export function reduceWorkbenchState(state, event) {
         online: event.online !== false,
         lastAction: event.online === false ? "offline-local" : "online-local",
       };
+    case "backend-status": {
+      const backend = event.backend && typeof event.backend === "object" ? event.backend : defaultBackendStatus();
+      return {
+        ...current,
+        backend,
+        conflict:
+          backend.status === BACKEND_STATE.CONFLICT
+            ? { kind: "backend-conflict", detail: backend.conflict }
+            : current.conflict,
+        lastAction:
+          backend.status === BACKEND_STATE.AVAILABLE
+            ? `${backend.operation ?? "backend"}-hosted`
+            : `${backend.operation ?? "backend"}-${backend.status}`,
+      };
+    }
     default:
       return current;
   }

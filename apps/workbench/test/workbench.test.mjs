@@ -23,6 +23,14 @@ import {
   reduceWorkbenchState,
   serializeWorkbenchState,
 } from "../src/workbench-state.mjs";
+import {
+  BACKEND_STATE,
+  REGISTRATION_CONTRACT_VERSION,
+  makeRegistrationRequest,
+  normalizeBackendConfig,
+  scanRegistrationValue,
+  submitRegistrationOperation,
+} from "../src/workbench-registration.mjs";
 import { build } from "../build.mjs";
 
 const data = loadShowcaseData();
@@ -204,6 +212,8 @@ test("always-live workbench overlay renders required status bar actions and pane
   assert.ok(page.includes('data-wb-control="accent"'), "color control is data-backed");
   assert.ok(page.includes('data-wb-control="radius"'), "layout control is data-backed");
   assert.ok(page.includes('id="ju-wb-export" readonly'), "export artifact is local/read-only");
+  assert.ok(page.includes('id="ju-wb-backend"'), "backend status evidence is visible");
+  assert.ok(page.includes("STUDIO_UI_WORKBENCH_BACKEND_URL is not set"), "missing backend config is explicit");
   for (const option of ["studio-console", "editorial-studio", "command-grid"]) {
     assert.ok(page.includes(`data-brand-option="${option}"`), `${option} selectable in overlay/page`);
   }
@@ -236,8 +246,11 @@ test("workbench state transitions are deterministic local draft/artifact flows",
   state = reduceWorkbenchState(state, { type: "register" });
   assert.equal(state.registeredArtifacts[0].schemaVersion, ARTIFACT_VERSION);
   assert.equal(state.registeredArtifacts[0].backendPersistence, false);
+  assert.equal(state.registeredArtifacts[0].registrationContract.schemaVersion, REGISTRATION_CONTRACT_VERSION);
+  assert.equal(state.registeredArtifacts[0].registrationContract.safety.secretsIncluded, false);
   state = reduceWorkbenchState(state, { type: "export" });
   assert.equal(state.exportArtifact.localOnly, true);
+  assert.equal(state.exportArtifact.backend.status, BACKEND_STATE.CONFIG_MISSING);
   state = reduceWorkbenchState(state, {
     type: "select-brand-option",
     presetName: "command-grid",
@@ -269,6 +282,91 @@ test("workbench state transitions are deterministic local draft/artifact flows",
   assert.equal(imported.conflict, null);
   state = reduceWorkbenchState(state, { type: "restore" });
   assert.deepEqual(state.draft, factoryDraft, "restore returns the draft to factory");
+});
+
+test("workbench backend registration contract covers save restore register export import and fail-closed states", async () => {
+  let state = createInitialWorkbenchState();
+  state = reduceWorkbenchState(state, { type: "update-control", name: "radius", value: "6" });
+  for (const operation of ["save", "restore", "register", "export", "import"]) {
+    const built = makeRegistrationRequest(state, operation);
+    assert.equal(built.ok, true, `${operation} request is safe`);
+    assert.equal(built.request.schemaVersion, REGISTRATION_CONTRACT_VERSION);
+    assert.equal(built.request.operation, operation);
+    assert.equal(built.request.client.hostedPersistenceClaimed, false);
+    assert.equal(built.request.client.backendRegistrationClaimed, false);
+    assert.equal(built.request.safety.executableHandlersIncluded, false);
+    assert.equal(built.request.safety.secretsIncluded, false);
+  }
+
+  assert.equal(normalizeBackendConfig({}).status, BACKEND_STATE.CONFIG_MISSING);
+  const missing = await submitRegistrationOperation({ state, operation: "save", config: {} });
+  assert.equal(missing.status, BACKEND_STATE.CONFIG_MISSING);
+  assert.equal(missing.backendPersistence, false);
+  assert.equal(missing.packageRegistration, false);
+
+  const unavailable = await submitRegistrationOperation({
+    state,
+    operation: "register",
+    config: { endpoint: "https://registry.jami.studio/api/workbench/register" },
+    fetchImpl: async () => ({ ok: false, status: 503, json: async () => ({}) }),
+  });
+  assert.equal(unavailable.status, BACKEND_STATE.HOSTED_UNAVAILABLE);
+  assert.equal(unavailable.reason, "http-503");
+
+  const conflict = await submitRegistrationOperation({
+    state,
+    operation: "save",
+    config: { endpoint: "https://registry.jami.studio/api/workbench/register" },
+    fetchImpl: async () => ({
+      ok: false,
+      status: 409,
+      json: async () => ({ conflict: { remoteRevision: "rev-remote" } }),
+    }),
+  });
+  assert.equal(conflict.status, BACKEND_STATE.CONFLICT);
+  assert.equal(conflict.conflict.remoteRevision, "rev-remote");
+  const conflictState = reduceWorkbenchState(state, { type: "backend-status", backend: conflict });
+  assert.equal(conflictState.conflict.kind, "backend-conflict");
+
+  const saved = await submitRegistrationOperation({
+    state,
+    operation: "save",
+    config: { endpoint: "https://registry.jami.studio/api/workbench/register" },
+    fetchImpl: async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({ id: "wb_123", revision: "rev_1" }),
+    }),
+  });
+  assert.equal(saved.status, BACKEND_STATE.AVAILABLE);
+  assert.equal(saved.backendPersistence, true);
+  assert.equal(saved.packageRegistration, true);
+  assert.equal(saved.remoteId, "wb_123");
+});
+
+test("workbench registration artifacts reject secret and executable leakage", () => {
+  const state = createInitialWorkbenchState({
+    draft: {
+      controls: {
+        ...factoryDraft.controls,
+        apiKey: "should-not-export",
+        onClick: "alert(1)",
+        handler: "run",
+      },
+    },
+  });
+  const built = makeRegistrationRequest(state, "export");
+  assert.equal(built.ok, true);
+  assert.equal(Object.hasOwn(built.request.workbench.controls, "apiKey"), false);
+  assert.equal(Object.hasOwn(built.request.workbench.controls, "onClick"), false);
+  assert.equal(Object.hasOwn(built.request.workbench.controls, "handler"), false);
+  assert.deepEqual(scanRegistrationValue(built.request), []);
+  assert.deepEqual(scanRegistrationValue({ props: { onClick: "run" } }), [
+    { path: "$.props.onClick", kind: "executable-key" },
+  ]);
+  assert.deepEqual(scanRegistrationValue({ credentials: { apiKey: "secret" } }), [
+    { path: "$.credentials.apiKey", kind: "secret-key" },
+  ]);
 });
 
 test("renders the resident renderer fixtures, including fail-closed states", () => {

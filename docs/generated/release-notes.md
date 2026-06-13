@@ -12,9 +12,9 @@ Public npm packages, the hosted registry/docs routes, hosted static workbench/su
 
 ## Summary
 
-- Total fragments: 56
+- Total fragments: 57
 - Typed fragments: 28
-- Unclassified legacy fragments: 28
+- Unclassified legacy fragments: 29
 
 ## Notes By Surface
 
@@ -148,6 +148,7 @@ Public npm packages, the hosted registry/docs routes, hosted static workbench/su
 - `2026-06-12-publish-provenance-source-gate.md` - Hardened the registry publish dry-run so embedded token provenance must match the token source hash, generator identity, and exact generated output set.
 - `2026-06-12-shared-seam-exact-state-hardening.md` - Hardened the Phase 2 shared-seam coverage gate so matrix-only `runEvent` samples must use exact harness event types and matrix-only `actionRef` samples must prove their named lifecycle, replay, missing-source, secret-bearing, and display-only states.
 - `2026-06-13-public-release-hosted-smoke.md` - Public release and hosted registry evidence
+- `2026-06-13-workbench-backend-registration-seam.md` - Added the executable workbench backend-registration contract/client seam with typed local fallback, config-missing, hosted-unavailable, and conflict states. No hosted persistence endpoint is configured or claimed.
 - `stream-2-contract-artifacts.md` - Added deterministic token and registry artifact generation plus drift checks for the Stream 2 contract spine.
 
 ### workbench

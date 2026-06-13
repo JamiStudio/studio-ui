@@ -79,6 +79,14 @@ hosted persistence, or backend package registration.
   static runtime. Save, Discard, Rename, Duplicate, Restore, Register, Export,
   Import, inspector focus, and offline/online are local state transitions only;
   exported/register artifacts include `backendPersistence: false`.
+- `apps/workbench/src/workbench-registration.mjs` owns the executable backend
+  registration seam for save/restore/register/export/import. It builds a
+  deterministic POST contract, strips unsafe control keys, rejects secret-like
+  or executable payload fields, and returns typed `config-missing`,
+  `hosted-unavailable`, `conflict`, or `available` status. The static client only
+  calls a backend when a sanitized `STUDIO_UI_WORKBENCH_BACKEND_URL` is supplied;
+  the default generated artifact records `config-missing` and keeps
+  `localStorage` fallback.
 
 ## What It Consumes (no duplicated data)
 
@@ -110,10 +118,13 @@ checked fixture corpus. Nothing is hand-authored into the page:
   provider runtime, or harness execution happens. Redaction, freshness, and
   policy denial are displayed from the harness ref, never decided here. A
   redacted memory record's gated content is never echoed.
-- **Local artifacts only.** The overlay's register/export flows serialize a
-  deterministic local workbench artifact for inspection. They do not publish,
-  register a package, write a hosted record, call a backend, or persist outside
-  the browser's local state.
+- **Typed backend seam, local default.** The overlay's register/export flows
+  serialize a deterministic local workbench artifact for inspection and include
+  the backend-registration contract payload. With no configured endpoint they do
+  not publish, register a package, write a hosted record, call a backend, or
+  persist outside the browser's local state. If an endpoint is configured, the
+  static client POSTs the typed contract and reports hosted-unavailable or
+  conflict without discarding local state.
 - **Honest states.** Authored suite shell descriptors are labelled as generated
   shell routes, registry member installability is read from generated content,
   app/page/block implementation manifests are labelled as local mounted React
@@ -143,7 +154,10 @@ checked fixture corpus. Nothing is hand-authored into the page:
   responsive and reduced-motion affordances, long-content wrapping,
   redacted-content gating, always-live overlay controls/panels, local draft state
   transitions, and that the displayed WCAG contrast ratios recompute correctly
-  and meet their targets. It also asserts that generated suite implementation
+  and meet their targets. It also asserts save/restore/register/export/import
+  backend-contract generation, invalid-import rejection, missing-config,
+  hosted-unavailable, HTTP 409 conflict, and no secret/executable leakage in
+  generated workbench artifacts. It also asserts that generated suite implementation
   manifests are loaded from registry item content, carry mounted React route
   evidence from `packages/ui/src/suites.mjs`, keep hosted/harness runtime claims
   false, and that the vocabulary handshake, prop-schema version,
@@ -183,7 +197,10 @@ audit plus the rendered screenshots.
 ## Not Yet Claimed
 
 This surface does not implement external hosted suite applications, hosted/
-persisted editing, backend package registration, a remote registry fetch, a
-provider runtime, or any harness execution. It renders, displays, and locally
-edits accepted, generated, authored-source, mounted React route, primitive-
-factory implementation, resident wrapper evidence, and fixture data only.
+persisted editing, a configured backend package-registration endpoint, a remote
+registry fetch, a provider runtime, or any harness execution. It renders,
+displays, and locally edits accepted, generated, authored-source, mounted React
+route, primitive-factory implementation, resident wrapper evidence, and fixture
+data only. The backend registration seam is executable and typed, but the
+default build evidence is `config-missing` because no public workbench
+persistence endpoint is configured.

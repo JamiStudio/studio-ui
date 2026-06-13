@@ -137,6 +137,12 @@ export function build() {
     publicSuiteRoutesClaimed: true,
     hostedPersistenceClaimed: false,
     backendRegistrationClaimed: false,
+    workbenchBackend: {
+      status: data.workbenchBackendConfig.status,
+      configured: data.workbenchBackendConfig.configured,
+      reason: data.workbenchBackendConfig.reason,
+      endpoint: data.workbenchBackendConfig.configured ? data.workbenchBackendConfig.endpoint : null,
+    },
     targetHost: "registry.jami.studio",
     sourceLocks: HOSTED_ROUTE_SOURCE_LOCKS,
     routes: [
@@ -204,6 +210,11 @@ export function build() {
       compatibilityFixtures: data.compatFixtures.length,
       presentationPanels: data.presentationPanels.length,
       colorTokens: data.tokens.filter((t) => /^#[0-9a-fA-F]{6}$/.test(t.value)).length,
+    },
+    workbenchBackend: {
+      status: data.workbenchBackendConfig.status,
+      configured: data.workbenchBackendConfig.configured,
+      reason: data.workbenchBackendConfig.reason,
     },
     sources: [
       "packages/tokens/generated/jami.css",

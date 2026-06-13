@@ -75,6 +75,51 @@ function loadFixtureDir(relativeDir) {
 
 const SUITE_LANES = ["solo", "business-ops", "mixed-media", "research-writing"];
 
+function workbenchBackendConfigFromEnv() {
+  const endpoint = process.env.STUDIO_UI_WORKBENCH_BACKEND_URL?.trim();
+  if (!endpoint) {
+    return {
+      endpoint: null,
+      configured: false,
+      status: "config-missing",
+      reason: "STUDIO_UI_WORKBENCH_BACKEND_URL is not set",
+    };
+  }
+  let parsed;
+  try {
+    parsed = new URL(endpoint);
+  } catch {
+    return {
+      endpoint: null,
+      configured: false,
+      status: "config-missing",
+      reason: "STUDIO_UI_WORKBENCH_BACKEND_URL is not a valid URL",
+    };
+  }
+  if (parsed.username || parsed.password || parsed.search || parsed.hash) {
+    return {
+      endpoint: null,
+      configured: false,
+      status: "config-missing",
+      reason: "STUDIO_UI_WORKBENCH_BACKEND_URL must not contain credentials, query strings, or fragments",
+    };
+  }
+  if (parsed.protocol !== "https:" && parsed.hostname !== "localhost" && parsed.hostname !== "127.0.0.1") {
+    return {
+      endpoint: null,
+      configured: false,
+      status: "config-missing",
+      reason: "STUDIO_UI_WORKBENCH_BACKEND_URL must be HTTPS unless it targets localhost",
+    };
+  }
+  return {
+    endpoint: parsed.toString(),
+    configured: true,
+    status: "endpoint-configured-unverified",
+    reason: null,
+  };
+}
+
 function brandOptionFromItem(item) {
   const descriptorFile = (item.files ?? []).find((file) => file.target?.includes("/branding/"));
   if (!descriptorFile?.content) return null;
@@ -205,5 +250,6 @@ export function loadShowcaseData() {
     primitiveComponentImplementations,
     primitiveDescriptors,
     vocabularyHandshake,
+    workbenchBackendConfig: workbenchBackendConfigFromEnv(),
   };
 }
