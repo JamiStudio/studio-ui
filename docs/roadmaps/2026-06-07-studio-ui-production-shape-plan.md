@@ -176,10 +176,12 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   registry hashes, package provenance, attestation policy), `release-notes.md`
   (foundation notes compiled from `.changes/` fragments with an explicit Not-Yet-Claimed
   section), and `public-claims-evidence.md` (claim -> reproducible-evidence register).
-  Verification gates were strengthened, not weakened: nothing is published, no hosted
-  registry or npm publish is claimed, package-scope/trusted-publish setup and the
-  static host remain pending human actions, and the workbench a11y/visual smoke was re-run (14/14 structural a11y, 4/4
-  contrast, 5/5 screenshots on Microsoft Edge).
+  Verification gates were strengthened, not weakened: at that checkpoint nothing
+  was published, no hosted registry or npm publish was claimed, and the workbench
+  a11y/visual smoke was re-run (14/14 structural a11y, 4/4 contrast, 5/5 screenshots
+  on Microsoft Edge). Later 2026-06-13 public execution closed public npm,
+  `registry.jami.studio` registry/docs routing, and GitHub release evidence as
+  recorded below. Hosted workbench/showcase and suite routes remain open.
 - 2026-06-09 fresh Studio UI audit confirmed the root crossflow Stream 1-6 foundation
   claims are proven for the surfaces that exist: `pnpm verify`, `pnpm docs:check`,
   `pnpm contracts:check`, `pnpm registry:publish:check`, and
@@ -188,7 +190,11 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   full resident-vocabulary Radix/React `packages/ui` implementations, hosted/persisted workbench
   editing and backend registration, full suite app shells/full React page-block implementations,
   hosted registry URL install smoke, automated release-note generation, SBOM/attestation
-  execution at publish time, and npm/static-host publish actions.
+  execution at publish time, and npm/static-host publish actions. Later 2026-06-13
+  evidence closed the hosted registry URL install smoke, release-note/SBOM checks,
+  public npm publish, static host, and GitHub release portions; hosted persistence,
+  backend registration, hosted suite runtime, final brand canon, and final
+  acceptance remain open.
 - 2026-06-09 Workstream 4 pass 1 added a real but narrow `packages/ui` vocabulary
   foundation: authored dependency-light metadata and tokenized CSS for `button`, `panel`,
   `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and `media-grid`;
@@ -279,9 +285,10 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   suite manifests point at those implementation files, the CLI installs them in
   temp projects, the workbench surfaces the evidence, and
   `registry:publish:check` now reports 45 publishable items and 106 served files.
-  Full hosted React suite runtime, Radix wrappers, hosted registry, hosted
-  persistence/backend registration, final brand canon, npm/static-host publish,
-  and harness runtime execution remain open.
+  Full hosted React suite runtime, hosted persistence/backend registration,
+  final brand canon, npm/static-host publish, and harness runtime execution
+  remained open at that checkpoint; later passes added Radix wrappers, and
+  2026-06-13 public execution closed npm/static-host publish evidence.
 - 2026-06-09 Workstream 9 release-artifacts pass 1 added dependency-light local
   release artifact generation and checks without claiming any publish action. The
   new `scripts/release/generate-release-artifacts.mjs` writes/checks
@@ -290,16 +297,19 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   hash manifest) and `docs/generated/release-notes.md` (deterministic `.changes`
   rollup with legacy unclassified fragments preserved). `pnpm verify` now includes
   `pnpm release:artifacts:check`; targeted `pnpm sbom:check` and
-  `pnpm release:notes:check` are available. This still does not attach a release
-  SBOM, execute attestations, publish npm packages, publish the static registry,
+  `pnpm release:notes:check` are available. This did not yet attach release
+  artifacts, execute attestations, publish npm packages, publish the static registry,
   claim a hosted registry URL, or claim hosted persistence/backend registration.
+  The public release lane later closed npm publish/provenance metadata, GitHub
+  release assets, and the hosted registry URL; hosted persistence/backend
+  registration remains unsupported.
 - 2026-06-09 Workstream 9 release-artifacts audit pass 2 corrected stale release-lane
-  auth/count wording without broadening scope: local `npm whoami` returns
-  `jamesnavinhill`, but package publishing still needs `@jami-studio` scope
-  confirmation and a trusted CI provenance workflow; generated release-note source
-  fragments now avoid obsolete registry item/file counts, while current counts stay
-  owned by `pnpm registry:publish:check`, `docs/operations/registry-publishing.md`,
-  and `docs/operations/public-claims-evidence.md`.
+  auth/count wording without broadening scope: package publishing still needed
+  `@jami-studio` scope confirmation and a trusted CI provenance workflow at that
+  point; generated release-note source fragments now avoid obsolete registry
+  item/file counts, while current counts stay owned by `pnpm registry:publish:check`,
+  `docs/operations/registry-publishing.md`, and
+  `docs/operations/public-claims-evidence.md`.
 - 2026-06-09 Radix wrapper readiness pass 1 added a source-locked, machine-readable
   readiness contract for future Radix/React wrappers under `packages/ui`. Official
   Radix and shadcn registry sources are recorded in `docs/operations/source-lock-records.md`;
@@ -320,7 +330,8 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   `docs-source-panel`, or `media-grid`, enable a runtime React renderer, claim full
   suite React apps, claim hosted registry URL smoke, publish npm/static registry
   artifacts, add backend persistence/registration, execute attestations, finalize
-  brand canon, or weaken the data-only resident renderer.
+  brand canon, or weaken the data-only resident renderer. Later public execution
+  closed hosted registry URL smoke and npm/static registry artifacts.
 - 2026-06-12 Group C / Studio UI pass 1 expanded the local Radix/React wrapper
   slice across the full current resident vocabulary: `button`, `panel`,
   `text-field`, `data-list`, `agent-panel`, `docs-source-panel`, and
@@ -332,7 +343,22 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   hash-based planner for install/update/file-drift inspection. This remains
   local/package source readiness only: no runtime React renderer, hosted
   persistence/backend registration, hosted registry URL smoke, package publish,
-  mounted suite React apps, or harness runtime execution is claimed.
+  mounted suite React apps, or harness runtime execution was claimed in that pass.
+  Later public execution closed hosted registry URL smoke and package publish;
+  hosted persistence/backend registration and hosted runtime remain open.
+
+- 2026-06-13 public release and hosted-smoke parity pass: all five Studio UI npm
+  packages are public at `0.1.0` with npm integrity and SLSA provenance metadata;
+  GitHub release `studio-jami/studio-ui@v0.1.0` exists with archive/checksum
+  assets; `https://registry.jami.studio/registry.json` returns HTTP 200 with JSON
+  content type and public cache headers; `pnpm hosted:live:check -- --base-url
+  https://registry.jami.studio` fetches hosted registry/docs routes and installs
+  a theme, primitive, page, block, and all four suite roots through the remote
+  CLI. The same evidence records current 404s for workbench/showcase and suite
+  route URLs. The CLI also accepts `--registry-url` as an alias for the documented
+  `--registry` flag. Hosted workbench/showcase routing, hosted
+  persistence/backend registration, hosted suite runtime, harness execution,
+  final brand canon, and final acceptance remain open and unclaimed.
 
 - 2026-06-12 reorientation: this roadmap is now aligned to the registry-root
   end-to-end completion roadmap at
@@ -934,9 +960,9 @@ Implementation tasks:
 
 Exit criteria:
 
-- [~] A clean project can install a sample theme, primitive, page, block, and suite. (Theme and resident vocabulary items install real embedded content, including component factory source; suites install generated manifests plus standalone page/block descriptors; full React suite/page/block implementations remain pending.)
+- [x] A clean project can install a sample theme, primitive, page, block, and suite. (Local CLI temp smokes and the hosted `registry.jami.studio` smoke install `jami-theme`, `button`, `solo-today-page`, a standalone block, and all four suite roots from real embedded content. Hosted suite runtime remains pending.)
 - [x] A previously installed project can inspect, update, remove, migrate, and verify provenance for installed items.
-- [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; `diff` reports local drift without writing; remote registry is an explicit unsupported state; account/auth tooling integration is pending.)
+- [~] CLI reports missing tooling with exact next commands. (`doctor` reports next commands; `diff` reports local drift without writing; HTTPS remote registry is supported, non-HTTPS remote registry fails closed, and package-manager scaffolding remains out of scope.)
 
 Suggested verification:
 
@@ -1055,15 +1081,15 @@ Implementation tasks:
   rollup from `.changes/` fragments lives at `docs/generated/release-notes.md`
   and is enforced by `pnpm release:notes:check` / `pnpm verify`.)
 - [x] Add registry publishing runbook. (`docs/operations/registry-publishing.md` + `pnpm registry:publish:check`.)
-- [~] Add package publishing runbook after package-scope and trusted publish workflow are confirmed. (Policy + steps in `release-and-supply-chain.md`; local npm auth exists, but scoped access and trusted CI provenance remain pending.)
-- [~] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution. (Documented in `release-and-supply-chain.md`; local SBOM generation/check now exists at `docs/generated/sbom.cdx.json` and `pnpm sbom:check`. Release attachment, npm provenance, and attestation execution remain pending publish workflow/account setup. No third-party source is currently lifted.)
+- [x] Add package publishing runbook after package-scope and trusted publish workflow are confirmed. (Policy + steps live in `release-and-supply-chain.md`; all five public packages are published at `0.1.0`, and `pnpm release:packages:check` verifies public npm tarballs, integrity, and provenance metadata.)
+- [~] Add source/license audit, SBOM policy, registry item hashes, package provenance, and attestation guidance for lifted third-party source before redistribution. (Documented in `release-and-supply-chain.md`; local SBOM generation/check exists at `docs/generated/sbom.cdx.json` and `pnpm sbom:check`; npm provenance metadata and GitHub release assets exist for `0.1.0`; no third-party source is currently lifted. Specific shadcn/Tailwind compatibility claims remain source-lock gated.)
 
 Exit criteria:
 
 - [x] Full verification passes. (`pnpm verify` exit 0, including `registry:publish:check`.)
-- [~] Registry publish path is documented and smoke-tested. (Documented + a read-only publish dry-run passes against the generated bundle; a hosted-URL install smoke is pending host provisioning.)
+- [x] Registry publish path is documented and smoke-tested. (Documented + a read-only publish dry-run passes against the generated bundle; `pnpm hosted:live:check -- --base-url https://registry.jami.studio` fetches the custom-domain routes and installs theme/primitive/page/block/suite items remotely.)
 - [x] Changelog fragments and release notes are generated from the same source. (`docs/generated/release-notes.md` is generated from `.changes/` fragments and checked by `pnpm release:notes:check`; curated release posture remains in `docs/operations/release-notes.md`.)
-- [~] Public registry/package claims map to source, license, generated output, and verification evidence. (`docs/operations/public-claims-evidence.md` maps every current claim to a reproducible command/artifact.)
+- [x] Public registry/package claims map to source, license, generated output, and verification evidence. (`docs/operations/public-claims-evidence.md` maps public npm, GitHub release, hosted registry/docs, local release artifacts, and unsupported workbench/suite/persistence/runtime claims to reproducible commands/artifacts.)
 
 Suggested verification:
 

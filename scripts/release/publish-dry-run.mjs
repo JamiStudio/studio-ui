@@ -289,11 +289,11 @@ const pending = items.filter((i) => i.sourceState !== "installable");
 
 // Actions a script cannot verify or perform; surfaced as honest reminders.
 const humanActions = [
-  "Confirm current npm auth with `npm whoami` and use a trusted CI provenance workflow before any package publish.",
-  "Confirm `@jami-studio` package scope/access policy.",
-  "Provision the static host for `registry.jami.studio` (preferred: Cloudflare Pages under the `jami-studio` account) and its DNS.",
+  "Deploy and smoke the hosted workbench/showcase and suite route artifacts before claiming hosted UI route acceptance.",
+  "Implement hosted persistence/backend package registration before claiming cross-session save/register behavior.",
+  "Define the revisioned-item URL policy for long-lived registry artifacts.",
   "Add the shadcn/Tailwind source-lock record before any public generated-source compatibility claim.",
-  "Validate generated output against the official shadcn registry schema URL before the first real publish.",
+  "Validate generated output against the official shadcn registry schema URL before making a specific shadcn-version compatibility claim.",
 ];
 
 const ok = failures.length === 0;

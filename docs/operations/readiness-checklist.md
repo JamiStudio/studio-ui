@@ -42,10 +42,14 @@ setup before specific workstreams begin. It is an operations map, not a product 
   app/page routes. It publishes nothing, claims no external hosting, and records
   remaining Cloudflare/DNS/live-smoke actions in `hosted-route-manifest.json`.
 - `pnpm release:packages:check` exists and validates package manifests, npm pack
-  dry-runs, and a clean local tarball install without publishing.
+  dry-runs, a clean local tarball install, and public npm metadata for the five
+  `@jami-studio/*@0.1.0` packages.
 - `pnpm hosted:live:check` exists and has passed against
-  `https://studio-ui-registry.pages.dev` for Cloudflare Pages deployment
-  `42662c6b-b615-41cb-add7-7569ce5a8bb1`.
+  `https://registry.jami.studio`, including remote CLI install of a theme,
+  primitive, page, block, and all four suite roots. The generated evidence records
+  current 404s for the workbench/showcase and suite route URLs.
+- GitHub release `studio-jami/studio-ui@v0.1.0` exists with
+  `studio-ui-v0.1.0.tgz` and checksum assets.
 - `pnpm sbom:check` and `pnpm release:notes:check` exist for targeted checks.
 - `packages/ui/src/radix-react-wrappers.mjs` implements the local Radix/React
   wrapper slice for all current resident vocabulary items: `button`, `panel`,
@@ -73,52 +77,46 @@ setup before specific workstreams begin. It is an operations map, not a product 
 - Root branding intake exists under `C:\Users\james\dev\orgs\oss\registry\docs\branding\README.md`
   and treats early logo files as exploratory source material, not production brand canon.
 
-## Missing Before Package Publishing
+## Package Publishing State
 
-- Local npm auth exists (`npm whoami` returns `jamesnavinhill`), but package
-  publish readiness still needs a trusted publish/provenance path.
-- `npm org ls jami-studio --json` confirms `jamesnavinhill` as owner, but
-  `npm trust github ... --yes --json` fails with npm `E403` for the five
-  publishable packages, so package publication and provenance claims remain blocked.
-- The package publishing + provenance/attestation policy is documented in
-  `docs/operations/release-and-supply-chain.md`; scoped access and a trusted CI
-  publish workflow are still required before it can run.
-- Re-run and review the local machine-readable SBOM before release. Current
+- Public npm packages are live at `0.1.0` for `@jami-studio/tokens`,
+  `@jami-studio/registry`, `@jami-studio/renderer`, `@jami-studio/cli`, and
+  `@jami-studio/ui`.
+- `pnpm release:packages:check` validates local package contents and public npm
+  metadata, including tarballs, `sha512` integrity, and SLSA provenance metadata.
+- Keep the GitHub Actions release workflow as the future package publish path.
+- Re-run and review the local machine-readable SBOM before each release. Current
   package graph includes the authored Radix/React wrapper dependencies; see
   `docs/generated/sbom.cdx.json` and `release-and-supply-chain.md`.
 
-Commands:
-
-```powershell
-npm adduser
-npm whoami
-```
-
-## Missing Before Hosted Registry Publishing
+## Hosted Registry State
 
 - The registry publishing runbook exists (`docs/operations/registry-publishing.md`)
-  and the publish dry-run plus local hosted-route preview smoke pass; the
-  remaining work is host/account-level.
-- Cloudflare Pages project `studio-ui-registry` is deployed at
-  `https://studio-ui-registry.pages.dev`; attach and validate DNS for
-  `registry.jami.studio`.
+  and the publish dry-run, local hosted-route artifact smoke, and custom-domain
+  live smoke pass.
+- `https://registry.jami.studio/registry.json` returns HTTP 200 with JSON content
+  and public cache headers.
 - Validate the generated output against the official shadcn registry schema URL
-  before the first real publish.
+  before making a specific shadcn-version compatibility claim.
 - Add a repo-local shadcn/Tailwind source-lock record before public generated-source
   compatibility claims.
-- Add cache/revision policy to the registry lifecycle doc.
+- Add revisioned-item URL policy to the registry lifecycle doc.
 - Keep the clean install smoke against the hosted registry URL current whenever
   hosted artifacts change.
 - Keep the repo-local Cloudflare/static-host source-lock row in
   `docs/operations/source-lock-records.md` current before changing hosted route
   generation or route smoke behavior.
 
-## Missing Before App Deployment
+## Missing Before Hosted Persistence/Backend Registration
 
 - A dependency-free static workbench exists under `apps/workbench`, with local
-  build, unit, and headless browser smoke coverage.
-- No hosted app deployment target is provisioned or linked in this repo.
-- Add app deployment runbook before any hosted workbench claim.
+  build, unit, and headless browser smoke coverage. It is not yet deployed at
+  `https://registry.jami.studio/`; that URL currently returns 404.
+- No hosted persistence or backend package-registration target is provisioned or
+  linked in this repo.
+- Deploy and smoke hosted workbench/showcase plus suite routes before claiming
+  hosted UI route acceptance.
+- Add backend deployment runbook before any persisted save/register claim.
 - Add deployment env templates after hosted runtime requirements exist.
 
 ## Ready Contract Foundations
@@ -165,9 +163,9 @@ npm whoami
 
 ## Current External Setup Gaps
 
-- npm publishing auth.
-- package scope/access confirmation for `@jami-studio`.
-- workbench deployment target decision after app scaffold.
+- Hosted persistence/backend registration target and secrets.
+- Revisioned registry item URL policy.
+- Final brand canon.
 
 ## Not Needed Yet
 

@@ -1,14 +1,15 @@
 # Release And Supply Chain
 
-Status: Foundation policy
+Status: Public package release live
 Last updated: 2026-06-13
 
 ## Purpose
 
 Define the release flow and the supply-chain posture (SBOM, source/license
-provenance, registry item hashes, package provenance, and attestation) that must be
-satisfied before any public package or registry publish. This is the policy and the
-current honest state; nothing has been published.
+provenance, registry item hashes, package provenance, and attestation) for the
+public Studio UI packages and static registry. The `0.1.0` public package release,
+custom-domain registry, and GitHub release are live; hosted persistence/backend
+registration and hosted runtime behavior remain unsupported.
 
 ## Release Flow
 
@@ -22,17 +23,19 @@ current honest state; nothing has been published.
    they have not drifted. `pnpm release:packages:check` verifies publishable package
    manifests, npm pack dry-runs, and a clean local tarball install. `pnpm verify`
    includes these checks.
-4. Before any publish, satisfy the supply-chain gates below and the human/account
-   actions in `docs/operations/registry-publishing.md`.
+4. Before any future publish, satisfy the supply-chain gates below and the
+   remaining human/account actions in `docs/operations/registry-publishing.md`.
 5. Tag and publish only after the dry-run is `ready-to-stage`, the hosting/auth
    actions are resolved, and public claims map to evidence
    (`docs/operations/public-claims-evidence.md`).
 
-Versions are `0.0.0` across the workspace. The five publishable `@jami-studio/*`
-package manifests have `files` allowlists and public npm `publishConfig`, but
-npm trusted-publisher setup failed closed with `E403`
-(`POST https://registry.npmjs.org/-/package/@jami-studio%2f*/trust`). No npm
-package artifact has been published.
+Versions are `0.1.0` across the five publishable `@jami-studio/*` packages:
+`@jami-studio/tokens`, `@jami-studio/registry`, `@jami-studio/renderer`,
+`@jami-studio/cli`, and `@jami-studio/ui`. `pnpm release:packages:check`
+verifies local package contents and confirms public npm metadata for each
+`0.1.0` package, including tarball URL, `sha512` integrity, and SLSA provenance
+metadata. GitHub release `studio-jami/studio-ui@v0.1.0` has the package archive
+and checksum assets.
 
 ## SBOM Policy
 
@@ -85,7 +88,7 @@ package artifact has been published.
 
 ## Package Provenance And Attestation
 
-Policy target for the first real package publish (none performed yet):
+Policy target for public package publish and future releases:
 
 - Publish from a trusted CI runner using npm provenance (`npm publish --provenance`
   via OIDC) so each package carries a verifiable build attestation, rather than
@@ -94,17 +97,14 @@ Policy target for the first real package publish (none performed yet):
 - For the static registry, treat the per-file `sha256` hashes as the integrity
   attestation; document any host-level signing if the static host adds it.
 
-These require package-publish setup that is not done:
+Current package state:
 
-- Local npm auth currently returns `jamesnavinhill`; that is operator access, not
-  package publishing readiness.
-- `npm org ls jami-studio --json` returns `jamesnavinhill: owner` and
-  `jamienavin: developer`, but `npm trust github ... --yes --json` fails with
-  npm `E403` for all five `@jami-studio/*` packages. Public package claims remain
-  blocked until that provider gate succeeds.
+- Public npm metadata exists for all five `@jami-studio/*@0.1.0` packages.
+- npm metadata exposes `dist.attestations.provenance.predicateType` as the SLSA
+  provenance predicate for the package publish.
 - A manual GitHub Actions publish/attestation workflow exists at
-  `.github/workflows/release-packages.yml`, but the publish input remains
-  fail-closed until npm trust succeeds.
+  `.github/workflows/release-packages.yml` and should remain the release path for
+  future package publishes.
 
 Store any npm automation token in a host secret store, never in tracked files.
 
@@ -119,8 +119,10 @@ Store any npm automation token in a host secret store, never in tracked files.
 - Policy, approval, tool execution, memory writes, traces, and artifact provenance
   are owned by Jami Harness, not Studio UI; denied/pending states are display-only
   here (`docs/architecture/foundation-alignment.md`).
+- Hosted/persisted workbench editing, backend package registration, hosted suite
+  runtime, and harness execution are not claimed by the package release.
 - There is no funded support commitment, SLA, or formal vulnerability-disclosure
-  channel yet. This is foundation-stage software (`0.0.0`); treat it accordingly.
+  channel yet. This is an early public release (`0.1.0`); treat it accordingly.
 
 ## Cross-Links
 

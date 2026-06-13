@@ -18,6 +18,25 @@ const baseUrl = valueFor("--base-url");
 const cloudflareProject = valueFor("--cloudflare-project");
 const cloudflareDeploymentId = valueFor("--cloudflare-deployment-id");
 const writeEvidence = valueFor("--write-evidence");
+const PUBLIC_CUSTOM_DOMAIN = "registry.jami.studio";
+const INSTALL_SMOKE_ITEMS = [
+  { name: "jami-theme", kind: "theme" },
+  { name: "button", kind: "primitive" },
+  { name: "solo-today-page", kind: "page" },
+  { name: "solo-task-queue-block", kind: "block" },
+  { name: "solo-suite", kind: "suite" },
+  { name: "business-ops-suite", kind: "suite" },
+  { name: "mixed-media-suite", kind: "suite" },
+  { name: "research-writing-suite", kind: "suite" },
+];
+const PUBLIC_ROUTE_CHECKS = [
+  { id: "docs-index", path: "docs", kind: "docs", required: true },
+  { id: "docs-quickstart", path: "docs/quickstart", kind: "docs", required: true },
+  { id: "docs-registry", path: "docs/registry", kind: "docs", required: true },
+  { id: "workbench-showcase", path: "", kind: "workbench-showcase", required: false },
+  { id: "docs-workbench", path: "docs/workbench", kind: "docs", required: false },
+  { id: "solo-suite-app", path: "suites/solo/", kind: "suite-app", required: false },
+];
 
 function fail(message) {
   failures.push(message);
@@ -72,6 +91,8 @@ async function fetchText(path) {
   scanSecrets(url, text);
   return {
     url,
+    cacheControl: response.headers.get("cache-control"),
+    contentType: response.headers.get("content-type"),
     bytes: Buffer.byteLength(text, "utf8"),
     hash: sha256(text),
     text,
@@ -79,15 +100,29 @@ async function fetchText(path) {
 }
 
 const base = normalizeBaseUrl(baseUrl);
+const baseHost = base ? new URL(base).hostname : null;
+const publicCustomDomainClaimed = baseHost === PUBLIC_CUSTOM_DOMAIN;
 const fetched = [];
+const unavailableRoutes = [];
 let registry;
-let manifest;
 let cliInstall = null;
 
 if (base) {
   try {
     const registryFetch = await fetchText("registry.json");
-    fetched.push({ url: registryFetch.url, bytes: registryFetch.bytes, hash: registryFetch.hash });
+    fetched.push({
+      url: registryFetch.url,
+      bytes: registryFetch.bytes,
+      hash: registryFetch.hash,
+      contentType: registryFetch.contentType,
+      cacheControl: registryFetch.cacheControl,
+    });
+    if (!registryFetch.contentType?.includes("application/json")) {
+      fail(`hosted registry content-type drifted: ${registryFetch.contentType ?? "(missing)"}`);
+    }
+    if (!/public/i.test(registryFetch.cacheControl ?? "") || !/max-age=\d+/i.test(registryFetch.cacheControl ?? "")) {
+      fail(`hosted registry cache-control missing public max-age: ${registryFetch.cacheControl ?? "(missing)"}`);
+    }
     registry = JSON.parse(registryFetch.text);
     if (registry.$schema !== "https://ui.shadcn.com/schema/registry.json") fail("hosted registry schema drifted");
     if (!Array.isArray(registry.items) || registry.items.length !== 45) {
@@ -97,17 +132,23 @@ if (base) {
     fail(`hosted registry fetch failed: ${error.message}`);
   }
 
-  try {
-    const manifestFetch = await fetchText("hosted-route-manifest.json");
-    fetched.push({ url: manifestFetch.url, bytes: manifestFetch.bytes, hash: manifestFetch.hash });
-    manifest = JSON.parse(manifestFetch.text);
-    if (manifest.targetHost !== "registry.jami.studio") fail("hosted manifest target host drifted");
-    for (const route of manifest.routes ?? []) {
-      const routeFetch = await fetchText(route.localArtifact);
-      fetched.push({ url: routeFetch.url, bytes: routeFetch.bytes, hash: routeFetch.hash });
+  for (const route of PUBLIC_ROUTE_CHECKS) {
+    try {
+      const routeFetch = await fetchText(route.path);
+      fetched.push({
+        url: routeFetch.url,
+        routeId: route.id,
+        routeKind: route.kind,
+        bytes: routeFetch.bytes,
+        hash: routeFetch.hash,
+        contentType: routeFetch.contentType,
+        cacheControl: routeFetch.cacheControl,
+      });
+    } catch (error) {
+      const record = { id: route.id, kind: route.kind, path: route.path || "/", reason: error.message };
+      unavailableRoutes.push(record);
+      if (route.required) fail(`required hosted route failed: ${route.id}: ${error.message}`);
     }
-  } catch (error) {
-    fail(`hosted route fetch failed: ${error.message}`);
   }
 
   if (failures.length === 0) {
@@ -115,17 +156,23 @@ if (base) {
     try {
       const init = run(["init", "--registry", base], { cwd: tempDir });
       if (init.code !== 0) fail(`remote init failed: ${init.result?.summary ?? init.lines.join(" ")}`);
-      for (const item of ["jami-theme", "button", "solo-suite", "business-ops-suite", "mixed-media-suite", "research-writing-suite"]) {
-        const result = run(["add", item, "--registry", base], { cwd: tempDir });
-        if (result.code !== 0) fail(`remote add ${item} failed: ${result.result?.summary ?? result.lines.join(" ")}`);
+      for (const item of INSTALL_SMOKE_ITEMS) {
+        const result = run(["add", item.name, "--registry", base], { cwd: tempDir });
+        if (result.code !== 0) fail(`remote add ${item.name} failed: ${result.result?.summary ?? result.lines.join(" ")}`);
       }
       const provenance = run(["provenance", "jami-theme", "--registry", base], { cwd: tempDir });
       if (provenance.code !== 0) fail(`remote provenance failed: ${provenance.result?.summary ?? provenance.lines.join(" ")}`);
       const lockText = readFileSync(join(tempDir, "studio-ui.lock.json"), "utf8");
+      const lockItems = JSON.parse(lockText).items;
+      const lockNames = new Set(lockItems.map((item) => item.name));
+      for (const item of INSTALL_SMOKE_ITEMS) {
+        if (!lockNames.has(item.name)) fail(`remote install lock missing requested ${item.kind} ${item.name}`);
+      }
       cliInstall = {
         ok: failures.length === 0,
-        installedItems: JSON.parse(lockText).items.length,
-        suites: ["solo-suite", "business-ops-suite", "mixed-media-suite", "research-writing-suite"],
+        installedItems: lockItems.length,
+        requestedItems: INSTALL_SMOKE_ITEMS,
+        installKinds: [...new Set(INSTALL_SMOKE_ITEMS.map((item) => item.kind))],
         lockHash: sha256(lockText),
       };
     } catch (error) {
@@ -145,10 +192,15 @@ const evidence = {
   baseUrl: baseUrl ?? null,
   cloudflareProject: cloudflareProject ?? null,
   cloudflareDeploymentId: cloudflareDeploymentId ?? null,
-  publicCustomDomainClaimed: false,
+  publicCustomDomainClaimed,
+  hostedWorkbenchClaimed: false,
+  hostedSuiteRoutesClaimed: false,
+  hostedPersistenceClaimed: false,
+  backendRegistrationClaimed: false,
   registryItems: registry?.items?.length ?? null,
-  routeCount: manifest?.routes?.length ?? null,
+  routeCount: fetched.filter((entry) => entry.routeId).length,
   fetched,
+  unavailableRoutes,
   cliInstall,
   failures,
 };
@@ -167,6 +219,7 @@ if (!ok) {
 
 console.log("hosted:live:check passed");
 console.log(`  base URL: ${base}`);
-console.log(`  routes: ${manifest?.routes?.length ?? 0}`);
+console.log(`  hosted routes fetched: ${fetched.filter((entry) => entry.routeId).length}`);
 console.log(`  CLI installed items: ${cliInstall?.installedItems ?? 0}`);
-console.log("  public custom domain claimed: false");
+console.log(`  public custom domain claimed: ${publicCustomDomainClaimed}`);
+console.log("  hosted workbench/suite routes claimed: false");

@@ -912,7 +912,7 @@ function mountedSuiteRoutesSection(data) {
   return `
 <section class="ju-section" id="mounted-suites" aria-labelledby="ju-mounted-suites-h">
   <h2 id="ju-mounted-suites-h">Mounted React suite routes</h2>
-  <p class="ju-lead">Server-rendered React app/page/block routes from <code>packages/ui/src/suites.mjs</code>. These local preview artifacts use the resident wrappers and generated suite manifests; external hosting is still not claimed.</p>
+  <p class="ju-lead">Server-rendered React app/page/block routes from <code>packages/ui/src/suites.mjs</code>. These local preview artifacts use the resident wrappers and generated suite manifests; hosted suite routes, hosted runtime state, persistence, backend registration, and harness execution are not claimed.</p>
   <div class="ju-grid">${cards}</div>
 </section>`;
 }

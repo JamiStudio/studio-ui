@@ -226,11 +226,47 @@ function smokeInstallTarballs(tarballs) {
   }
 }
 
+function verifyPublicNpmPackage(manifest) {
+  let metadata;
+  try {
+    metadata = runNpm(
+      ["view", `${manifest.name}@${manifest.version}`, "version", "dist.tarball", "dist.integrity", "dist.attestations.provenance.predicateType", "--json"],
+      root,
+      { json: true },
+    );
+  } catch (error) {
+    fail(`${manifest.name}@${manifest.version}: public npm metadata lookup failed: ${error.message}`);
+    return null;
+  }
+  if (metadata?.version !== manifest.version) {
+    fail(`${manifest.name}@${manifest.version}: public npm version missing or drifted`);
+  }
+  if (!metadata?.["dist.tarball"]?.startsWith(`https://registry.npmjs.org/${manifest.name}/-/`)) {
+    fail(`${manifest.name}@${manifest.version}: public npm tarball URL missing or drifted`);
+  }
+  if (!metadata?.["dist.integrity"]?.startsWith("sha512-")) {
+    fail(`${manifest.name}@${manifest.version}: public npm integrity missing`);
+  }
+  if (metadata?.["dist.attestations.provenance.predicateType"] !== "https://slsa.dev/provenance/v1") {
+    fail(`${manifest.name}@${manifest.version}: public npm provenance metadata missing`);
+  }
+  return {
+    name: manifest.name,
+    version: metadata?.version ?? null,
+    tarball: metadata?.["dist.tarball"] ?? null,
+    integrity: metadata?.["dist.integrity"] ?? null,
+    provenancePredicateType: metadata?.["dist.attestations.provenance.predicateType"] ?? null,
+  };
+}
+
 const packages = [];
+const publicNpmPackages = [];
 for (const packageDir of publishablePackageDirs) {
   const manifest = readJson(`${packageDir}/package.json`);
   validateManifest(packageDir, manifest);
   const pack = packDryRun(packageDir, manifest);
+  const publicMetadata = verifyPublicNpmPackage(manifest);
+  if (publicMetadata) publicNpmPackages.push(publicMetadata);
   if (pack) {
     packages.push({
       name: manifest.name,
@@ -268,6 +304,7 @@ if (failures.length > 0) {
           checkedAt: new Date().toISOString(),
           ok: false,
           packages,
+          publicNpmPackages,
           failures,
         },
         null,
@@ -291,8 +328,10 @@ if (writeEvidence) {
         generatedBy: "scripts/release/package-readiness.mjs",
         checkedAt: new Date().toISOString(),
         ok: true,
-        packagePublishClaimed: false,
-        trustedPublisherConfigured: false,
+        packagePublishClaimed: true,
+        trustedPublisherConfigured: true,
+        publicNpmPublished: true,
+        publicNpmPackages,
         packages,
         cleanLocalInstallSmoke: {
           ok: true,
@@ -311,3 +350,4 @@ for (const pkg of packages) {
   console.log(`  ${pkg.name}@${pkg.version}: ${pkg.fileCount} file(s), integrity ${pkg.integrity}`);
 }
 console.log("  clean local install smoke: passed");
+console.log(`  public npm packages verified: ${publicNpmPackages.length}`);

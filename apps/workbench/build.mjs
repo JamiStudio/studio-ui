@@ -101,7 +101,7 @@ export function build() {
       title: "Studio UI Registry Preview",
       heading: "Registry Preview Route",
       body:
-        '<p>Static registry route preview. Source bundle: <code>packages/registry/generated</code>. Cloudflare Pages preview deployment can serve these artifacts, but the custom domain <code>registry.jami.studio</code> is not claimed until DNS is attached and smoked.</p>',
+        '<p>Static registry route preview. Source bundle: <code>packages/registry/generated</code>. The public custom domain <code>registry.jami.studio</code> serves the registry JSON and docs routes; this local workbench/showcase artifact is not yet deployed there.</p>',
     }),
   );
   emit(
@@ -110,7 +110,7 @@ export function build() {
       title: "Studio UI Workbench Preview",
       heading: "Workbench Preview Route",
       body:
-        '<p>Local preview of the hosted workbench/showcase route. It uses generated tokens, registry data, suite React route artifacts, resident renderer fixtures, and local overlay state. Hosted persistence is not claimed.</p>',
+        '<p>Local preview of the future hosted workbench/showcase route. It uses generated tokens, registry data, suite React route artifacts, resident renderer fixtures, and local overlay state. Hosted workbench routing, persistence, and backend registration are not claimed.</p>',
     }),
   );
   emit(
@@ -119,21 +119,25 @@ export function build() {
       title: "Studio UI Suite Routes Preview",
       heading: "Suite Routes Preview",
       body:
-        '<p>Local preview index for mounted React suite app/page/block routes. The route files are server-rendered static artifacts from <code>packages/ui/src/suites.mjs</code>.</p>',
+        '<p>Local preview index for mounted React suite app/page/block routes. The route files are server-rendered static artifacts from <code>packages/ui/src/suites.mjs</code>; hosted suite routes and hosted runtime state are not claimed.</p>',
     }),
   );
 
   const humanActions = [
-    "Attach and validate the registry.jami.studio Cloudflare Pages custom domain.",
-    "Configure cache headers and revision policy for registry JSON artifacts.",
-    "Run a clean-project install smoke against the live hosted registry URL after deployment.",
-    "Decide and provision the hosted workbench/showcase app route before claiming public hosting.",
+    "Deploy and smoke the hosted workbench/showcase and suite route artifacts.",
+    "Define revisioned-item URL policy for long-lived registry artifacts.",
+    "Implement hosted persistence and backend package registration before claiming save/register across sessions.",
   ];
   const hostedRouteManifest = {
     $schema: "https://jami.studio/schemas/studio-ui/hosted-route-readiness.generated.json",
     generatedBy: "apps/workbench/build.mjs",
-    status: "preview-artifacts-only",
-    externalHostingClaimed: false,
+    status: "public-registry-docs-live-workbench-preview",
+    publicRegistryClaimed: true,
+    publicDocsClaimed: true,
+    publicWorkbenchClaimed: false,
+    publicSuiteRoutesClaimed: false,
+    hostedPersistenceClaimed: false,
+    backendRegistrationClaimed: false,
     targetHost: "registry.jami.studio",
     sourceLocks: HOSTED_ROUTE_SOURCE_LOCKS,
     routes: [
@@ -142,14 +146,14 @@ export function build() {
         kind: "registry",
         targetUrl: "https://registry.jami.studio/registry.json",
         localArtifact: "registry.json",
-        deployed: false,
+        deployed: true,
       },
       {
         id: "docs-registry",
         kind: "docs",
         targetUrl: "https://registry.jami.studio/docs/registry",
         localArtifact: "docs/registry.html",
-        deployed: false,
+        deployed: true,
       },
       {
         id: "docs-workbench",
@@ -164,6 +168,8 @@ export function build() {
         targetUrl: "https://registry.jami.studio/",
         localArtifact: "index.html",
         deployed: false,
+        hostedPersistence: false,
+        backendRegistration: false,
       },
       ...data.mountedSuiteRoutes.flatMap((suite) => [
         {
@@ -172,6 +178,7 @@ export function build() {
           targetUrl: `https://registry.jami.studio/suites/${suite.lane}/`,
           localArtifact: suite.app.file,
           deployed: false,
+          hostedRuntime: false,
         },
         ...suite.pages.map((page) => ({
           id: `${suite.lane}-${page.path.replace(/^\/+/, "").replace(/[^a-z0-9]+/g, "-")}`,
@@ -180,6 +187,7 @@ export function build() {
           localArtifact: page.file,
           sourceRoute: page.path,
           deployed: false,
+          hostedRuntime: false,
         })),
       ]),
     ],

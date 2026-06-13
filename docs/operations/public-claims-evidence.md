@@ -36,8 +36,9 @@ in this table with live evidence, it is not safe to make publicly.
 | The workbench supports always-live local token edits, discard/rename/import/inspector state, offline/online local status, and deterministic local artifacts | local overlay state reducer + `node --test` gate | `pnpm --filter @jami-studio/workbench test` |
 | The workbench meets structural a11y + contrast targets | a11y/visual smoke report | `node apps/workbench/smoke/a11y-visual-smoke.mjs` |
 | The full gate passes | aggregate verify | `pnpm verify` |
-| Package contents are npm-pack ready but not published | package manifest gate, npm pack dry-runs, clean external tarball install | `pnpm release:packages:check` |
-| The static registry is live on the Cloudflare Pages preview hostname and supports remote CLI install | Pages deployment evidence and remote install smoke | `pnpm hosted:live:check -- --base-url https://studio-ui-registry.pages.dev --cloudflare-project studio-ui-registry --cloudflare-deployment-id 42662c6b-b615-41cb-add7-7569ce5a8bb1 --write-evidence docs/generated/hosted-live-smoke.json` |
+| Package contents are npm-pack ready and published as public npm packages with provenance metadata | package manifest gate, npm pack dry-runs, clean local tarball install, public npm metadata lookup | `pnpm release:packages:check` |
+| The static registry is live at the `registry.jami.studio` custom domain and supports remote CLI install for theme, primitive, page, block, and suites | hosted custom-domain registry/docs route fetches, cache/header check, remote install smoke | `pnpm hosted:live:check -- --base-url https://registry.jami.studio --cloudflare-project jami-registry --write-evidence docs/generated/hosted-live-smoke.json` |
+| The Studio UI GitHub release exists with downloadable release assets | GitHub release metadata and asset checksums | `gh release view v0.1.0 --repo studio-jami/studio-ui --json tagName,isDraft,isPrerelease,publishedAt,assets` |
 
 ## Latest Evidence Snapshot (2026-06-13)
 
@@ -51,12 +52,18 @@ in this table with live evidence, it is not safe to make publicly.
   `.changes` rollup are in sync with source inputs. It publishes nothing and
   executes no attestation.
 - `pnpm release:packages:check` — pass (exit 0); five package dry-runs record
-  `sha512` npm pack integrities and the clean local tarball install smoke passed.
-- `pnpm hosted:live:check -- --base-url https://studio-ui-registry.pages.dev ...`
-  — pass (exit 0); Cloudflare Pages deployment
-  `42662c6b-b615-41cb-add7-7569ce5a8bb1`, 16 hosted routes fetched, 42 remote
-  CLI install graph items installed. `registry.jami.studio` custom domain remains
-  unclaimed.
+  `sha512` npm pack integrities, the clean local tarball install smoke passed,
+  and public npm metadata for all five `@jami-studio/*@0.1.0` packages includes
+  tarballs, integrity, and SLSA provenance metadata.
+- `pnpm hosted:live:check -- --base-url https://registry.jami.studio --cloudflare-project jami-registry --write-evidence docs/generated/hosted-live-smoke.json`
+  — pass (exit 0); required registry/docs routes fetched from the custom domain,
+  registry `Content-Type` and `Cache-Control: public, max-age=300` checked, and
+  the remote CLI installed a theme, primitive, page, block, and all four suite
+  roots from the hosted registry URL. The same evidence records current 404s for
+  the workbench/showcase and suite route URLs instead of claiming them.
+- `gh release view v0.1.0 --repo studio-jami/studio-ui --json tagName,isDraft,isPrerelease,publishedAt,assets`
+  — pass (exit 0); release `v0.1.0` is public and has `studio-ui-v0.1.0.tgz`
+  plus `studio-ui-v0.1.0.tgz.sha256` assets.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
   `apps/workbench/output/`.
@@ -67,14 +74,10 @@ in this table with live evidence, it is not safe to make publicly.
 These must not be stated as fact publicly until evidence exists (see
 `docs/operations/release-notes.md` "Not Yet Claimed"):
 
-- A live hosted registry at the `registry.jami.studio` custom domain.
-- Any published npm package. `npm trust github ... --yes --json` currently fails
-  with `E403` for all five `@jami-studio/*` packages.
-- A runtime React renderer, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests, local mounted React suite route artifacts, and local resident wrapper source exist, but no public hosted or full runtime suite application is deployed.
+- A runtime React renderer, hosted workbench/showcase route, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests, local mounted React suite route artifacts, and local resident wrapper source exist, but no public hosted workbench or suite runtime route is deployed.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
-- A release-attached SBOM, SLSA/npm provenance, or any executed release
-  attestation. The current SBOM is local and checked only.
+- Hosted workbench save/register persistence or backend package registration.
 - Harness runtime behavior (owned by Jami Harness, only displayed here).
 - Any final branding or visual-identity canon claim. Selectable brand/template option descriptors exist,
   but they are exploratory choices only.

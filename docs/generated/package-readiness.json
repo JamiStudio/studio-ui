@@ -1,50 +1,88 @@
 {
   "$schema": "https://jami.studio/schemas/studio-ui/package-readiness.generated.json",
   "generatedBy": "scripts/release/package-readiness.mjs",
-  "checkedAt": "2026-06-13T03:06:11.383Z",
+  "checkedAt": "2026-06-13T16:21:17.575Z",
   "ok": true,
-  "packagePublishClaimed": false,
-  "trustedPublisherConfigured": false,
-  "packages": [
+  "packagePublishClaimed": true,
+  "trustedPublisherConfigured": true,
+  "publicNpmPublished": true,
+  "publicNpmPackages": [
     {
       "name": "@jami-studio/tokens",
-      "version": "0.0.0",
-      "fileCount": 9,
-      "unpackedSize": 12262,
-      "integrity": "sha512-IdN7VGtZcdPA8refJECeqEsQ8Pp+0ULUEiYPrG63HFn9G3ZWsd09o9lgwrjMso0sakpSpEaLogppVpQwMl3tFQ==",
-      "packageJsonHash": "sha256:4e906b9866a144cc4666991a64b2c198b6a32ff979b3a8bc802659708aa643f3"
+      "version": "0.1.0",
+      "tarball": "https://registry.npmjs.org/@jami-studio/tokens/-/tokens-0.1.0.tgz",
+      "integrity": "sha512-NLo31OI3DET7zTlouU260pIwulDCp88APe/r4bOnrlfx3GIsLUKt7ZoqcDFM//uC0CpvJCLV/whPZVYb954V1Q==",
+      "provenancePredicateType": "https://slsa.dev/provenance/v1"
     },
     {
       "name": "@jami-studio/registry",
-      "version": "0.0.0",
-      "fileCount": 123,
-      "unpackedSize": 1553101,
-      "integrity": "sha512-cHNQ50I2TsJbhqz/StSrckgf9jtC4vqbRPTJmio5uTQOpQ7bEjbjZnBWtIgGj7LX/nvsk6BwMvhE455Qg7C58w==",
-      "packageJsonHash": "sha256:59b32c92809f3c4aa49f505bf6a0c194eded52b71b5840b7dc8c2877ad25a183"
+      "version": "0.1.0",
+      "tarball": "https://registry.npmjs.org/@jami-studio/registry/-/registry-0.1.0.tgz",
+      "integrity": "sha512-4FGXPmc3Es2inPOQGZ1yRRRY4DqIFCSuDRvMirSOEGhagoD4MP3UYx4lfMLo2AYuka9YXn1U9yzTN6t2S99CQQ==",
+      "provenancePredicateType": "https://slsa.dev/provenance/v1"
     },
     {
       "name": "@jami-studio/renderer",
-      "version": "0.0.0",
-      "fileCount": 8,
-      "unpackedSize": 48900,
-      "integrity": "sha512-3zQTa5ow0hXBYFaavEGwXlEQeayWuBHyjs2R+Xi528OXsccUNDRxj42si76KXKU8lqMOLyH9ttbJPHpwTyhRqQ==",
-      "packageJsonHash": "sha256:cd7dee321f502a33a1f4e03c59c7377ba15cb3c2ca0aafd92735fdc5bde1a3d9"
+      "version": "0.1.0",
+      "tarball": "https://registry.npmjs.org/@jami-studio/renderer/-/renderer-0.1.0.tgz",
+      "integrity": "sha512-3BlcypG0eW2HuSYlQjugg2jlNuQbdqW0O+/CynVDYjAt2tLfrvz743YurplK0+gTyUmGMR7pnDPjou4hU7gb7Q==",
+      "provenancePredicateType": "https://slsa.dev/provenance/v1"
     },
     {
       "name": "@jami-studio/cli",
-      "version": "0.0.0",
-      "fileCount": 9,
-      "unpackedSize": 46284,
-      "integrity": "sha512-+/oj/n8/wu0W5nkCzoWmJA/dTD3Ac6PBLkedaltckoC0nzzXGpXDwSY4Jy8G/M3jktckJm4lAnJ997mnyMjzQw==",
-      "packageJsonHash": "sha256:d8d55c4165d4e6eed9fdb30533c40740a7bc5c925bc13b94003e326cdc636cd1"
+      "version": "0.1.0",
+      "tarball": "https://registry.npmjs.org/@jami-studio/cli/-/cli-0.1.0.tgz",
+      "integrity": "sha512-ZKUTsswgHAwerq35DRv2+bIULI17irppMb0Gwiv99wlqwIPpCLoNIBgKaapmQ0scvylv343DZiFJSrYh3Z2ywA==",
+      "provenancePredicateType": "https://slsa.dev/provenance/v1"
     },
     {
       "name": "@jami-studio/ui",
-      "version": "0.0.0",
+      "version": "0.1.0",
+      "tarball": "https://registry.npmjs.org/@jami-studio/ui/-/ui-0.1.0.tgz",
+      "integrity": "sha512-vVj+x0K5GpIyygwjbU2ITuKyrmZ0uOWak0DLbr6vSrGWcmd89nuGzUwfdQymNEAIgMsQMSyQ2UooiIUavxKo4w==",
+      "provenancePredicateType": "https://slsa.dev/provenance/v1"
+    }
+  ],
+  "packages": [
+    {
+      "name": "@jami-studio/tokens",
+      "version": "0.1.0",
+      "fileCount": 9,
+      "unpackedSize": 12262,
+      "integrity": "sha512-vdBOd3XAfKARGsp1maKvyj8e/vyngyPl+ZaJxC8PQTNG3o8nlhs3WfYa0eh83ea4/GQhdFjL0gYTLJfwMrIu+w==",
+      "packageJsonHash": "sha256:51f4df9fdf74b0427e8d6ba313158ae5d145bc5c36d6f71db1139d31b8db073d"
+    },
+    {
+      "name": "@jami-studio/registry",
+      "version": "0.1.0",
+      "fileCount": 123,
+      "unpackedSize": 1553101,
+      "integrity": "sha512-VhyOTd8NxzyX0rsttN4VPcmBDL/IEmp4wiqFZQwFp3SEBRJghzt7+FC52ozy5pnG9QCGmsHXpoX39849SJMSsw==",
+      "packageJsonHash": "sha256:a4668f1f9f49faab2f302ec5ccc419c2412e7c080a5582777a1a0acf496d7268"
+    },
+    {
+      "name": "@jami-studio/renderer",
+      "version": "0.1.0",
+      "fileCount": 8,
+      "unpackedSize": 48900,
+      "integrity": "sha512-b3WHMi3C1K7D8eBhkNRgWpczDCXtWXxAgc9dj3UyUdRTOKZ0MmKc6DGbspfeYA+1WNtgfdLAOS/3LICzTdNoYg==",
+      "packageJsonHash": "sha256:2585a1940f6d6e063d350d6de88f2758f07725ff43b4182c4132c627f76e970d"
+    },
+    {
+      "name": "@jami-studio/cli",
+      "version": "0.1.0",
+      "fileCount": 9,
+      "unpackedSize": 46474,
+      "integrity": "sha512-k02Hr6WuOazUZ3mv8fWWl9pWxyzF1UpTc8aJ7neTcLJwwrGEDiuAGlr+cwePrAsMSz2EB4YPqTcmBgDNXIRb/A==",
+      "packageJsonHash": "sha256:2fc148a0f6740bc0ae81640f0b578bd5edca99a014045c12d7d561dfe4b5fac3"
+    },
+    {
+      "name": "@jami-studio/ui",
+      "version": "0.1.0",
       "fileCount": 11,
       "unpackedSize": 70143,
-      "integrity": "sha512-zoaxjY9PYH8Oh9z7Z2bQw9DYFLw/NMfXh+BKhYWtETCfMRnIT7GHSgb6fRdzTLPu96bysnUmlM7ZO31qQLDlGQ==",
-      "packageJsonHash": "sha256:c2a6bff169033022393b882d479b75dcd806f070aefce6f97ac32e823bb453ef"
+      "integrity": "sha512-xj70Zo/8RwjpXlA01OMLNt1b/oEjNw+mkgx8XiNjDtJMIkuXTpetsJHk4PrGv6rQ/Kr6BBmZ9C/iIEgd6NEkUg==",
+      "packageJsonHash": "sha256:6dec9ebfacadb61d73b35ad8c73b1a94b8a75745562f96cfead054377e9652a5"
     }
   ],
   "cleanLocalInstallSmoke": {

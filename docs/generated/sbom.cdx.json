@@ -613,19 +613,31 @@
     },
     {
       "name": "studio-ui:hosted-registry-claimed",
-      "value": "pages-dev-preview-only"
+      "value": "registry-docs-custom-domain-live"
     },
     {
       "name": "studio-ui:custom-registry-domain-claimed",
+      "value": "true"
+    },
+    {
+      "name": "studio-ui:hosted-workbench-claimed",
+      "value": "false"
+    },
+    {
+      "name": "studio-ui:hosted-suite-routes-claimed",
       "value": "false"
     },
     {
       "name": "studio-ui:npm-package-publish-claimed",
-      "value": "false"
+      "value": "true"
     },
     {
-      "name": "studio-ui:attestation-executed",
-      "value": "false"
+      "name": "studio-ui:npm-provenance-metadata-claimed",
+      "value": "true"
+    },
+    {
+      "name": "studio-ui:release-attestation-executed",
+      "value": "github-release-assets-and-npm-provenance-metadata-only"
     },
     {
       "name": "studio-ui:workspace-package-count",

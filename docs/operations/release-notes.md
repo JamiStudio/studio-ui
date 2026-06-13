@@ -1,16 +1,17 @@
 # Release Notes
 
-Status: Foundation — unreleased
-Last updated: 2026-06-12
+Status: Public release
+Last updated: 2026-06-13
 
 These curated notes are backed by accepted `.changes/` fragments
 (`docs/operations/changelog.md`) and the generated rollup at
 `docs/generated/release-notes.md` (`pnpm release:notes:check`). They describe
-shipped, verified foundation behavior. Nothing has been published: all packages
-are `private: true` at version `0.0.0`, and no registry or npm artifact has been
-released. The "Not Yet Claimed" section is part of the notes, not an afterthought.
+shipped, verified public `0.1.0` behavior. Public npm packages, the
+`registry.jami.studio` static registry/docs routes, and the GitHub release are
+live. Hosted workbench/showcase and suite routes remain open. The "Not Yet
+Claimed" section is part of the notes, not an afterthought.
 
-## Foundation (0.0.0, unreleased)
+## Foundation (0.1.0)
 
 ### Repo, docs, and boundary
 
@@ -73,7 +74,9 @@ released. The "Not Yet Claimed" section is part of the notes, not an afterthough
   `inspect`, `add`, `remove`, `update`, `diff`, `migrate`, `pin`/`unpin`, `lock`,
   `doctor`, `provenance`) over an inspectable `studio-ui.config.json`/`studio-ui.lock.json`,
   with hash-based non-destructive conflict handling, rollback guidance, and
-  provenance verification. Remote registry fetch is an explicit unsupported state.
+  provenance verification. The hosted `https://registry.jami.studio` registry is
+  supported through the documented `--registry` flag; `--registry-url` is accepted
+  as an alias. Non-HTTPS remote registries fail closed.
   18 temp-project smoke tests run against the real generated registry, including
   standalone suite app/page/block implementation install and provenance.
 
@@ -91,7 +94,7 @@ released. The "Not Yet Claimed" section is part of the notes, not an afterthough
   headless Edge/Chrome smoke captures per-theme/focus/responsive screenshots and a
   structural a11y + contrast report.
 
-### Release and supply-chain readiness (this pass)
+### Release and supply chain
 
 - Root MIT `LICENSE` added; root and every package declare `license: "MIT"` to match
   item provenance (all items `source: authored`, `copiedSource: false`).
@@ -109,7 +112,26 @@ released. The "Not Yet Claimed" section is part of the notes, not an afterthough
   generated registry bundle hash manifest) and `docs/generated/release-notes.md`
   (deterministic rollup from `.changes/` fragments, with legacy unclassified
   fragments preserved rather than silently dropped). These artifacts are checked
-  by `pnpm verify` and publish nothing.
+  by `pnpm verify`.
+- `pnpm release:packages:check` verifies local package manifests, npm pack
+  dry-runs, clean local tarball install, and public npm metadata for all five
+  `@jami-studio/*@0.1.0` packages, including tarball URL, `sha512` integrity,
+  and SLSA provenance metadata.
+- GitHub release `studio-jami/studio-ui@v0.1.0` has the release archive and
+  checksum assets.
+
+### Hosted Registry And Docs
+
+- `https://registry.jami.studio/registry.json` serves the static generated
+  registry with JSON content type and public cache headers.
+- `pnpm hosted:live:check -- --base-url https://registry.jami.studio` fetches
+  the registry and required docs routes, scans served bytes for secret-shaped
+  content, and installs a theme, primitive, page, block, and all four suite roots
+  through the remote CLI path. It records the current 404s for workbench/showcase
+  and suite route URLs.
+- The workbench/showcase remains a local static surface. Hosted workbench routing,
+  hosted persistence, backend package registration, hosted suite runtime, and
+  harness execution are not claimed.
 
 ## Verification
 
@@ -123,25 +145,16 @@ Microsoft Edge. This pass was verified on Node 24.16.0 via
 
 ## Not Yet Claimed
 
-- No hosted registry: `registry.jami.studio` is a declared target, not a live
-  endpoint. The CLI does not fetch a remote registry, run a package manager, or
-  install from a hosted URL.
-- No published npm packages; `@jami-studio` scope access and the trusted
-  publish/provenance workflow are unconfirmed. Local npm auth alone is not a
-  publish claim.
-- No release attestation has been executed. The SBOM is a checked local artifact,
-  not an attached release asset.
-- No runtime React renderer, hosted/persisted workbench editing or backend package
-  registration, and no hosted/full React suite runtime.
+- No runtime React renderer, hosted workbench/showcase route, hosted/persisted
+  workbench editing, backend package registration, and no hosted/full React suite runtime.
   Per-lane suite app/page/block implementation manifests are generated and installable,
-  but mounted React applications are not built.
+  and local mounted React route artifacts exist; hosted runtime state is still not
+  implemented.
 - No final brand canon. The brand/template options are selectable registry
   descriptors for comparison only; the exploratory logo seed files remain outside
   production token, registry, and package branding canon.
 - No harness runtime in this repo: agent execution, policy, tools, memory, and
   traces are owned by Jami Harness and only displayed here.
-- No branding canon: current logo material is exploratory only; branding work is
-  deferred until the release/shared-seam foundation is accepted.
 - Public generated-source compatibility with specific shadcn/Tailwind versions is
   gated on a repo-local source-lock record.
 

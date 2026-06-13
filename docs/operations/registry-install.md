@@ -1,7 +1,7 @@
 # Registry Install And CLI Lifecycle
 
-Status: Foundation contract
-Last updated: 2026-06-12
+Status: Active public install contract
+Last updated: 2026-06-13
 
 ## Purpose
 
@@ -20,9 +20,8 @@ artifacts.
 The CLI reads a generated, shadcn-shaped registry directory containing
 `registry.json` whose items carry install `files` with embedded `content` and a
 `hash`. The default source is this repo's `packages/registry/generated`. A remote
-`https://registry.jami.studio` source is **not fetched yet**: a remote spec
-resolves to an explicit `registry-unavailable` state with the local-path
-workaround, never a silent empty registry.
+HTTPS registry source is supported; `https://registry.jami.studio` is the public
+hosted registry and is covered by live smoke evidence.
 
 Installable vs source-pending:
 
@@ -53,7 +52,7 @@ No hidden state is written.
 
 | Command | Behavior |
 | --- | --- |
-| `init` | Write `studio-ui.config.json` (`--title`, `--suite`, `--theme`, `--package-manager`, `--registry`, `--force`). Refuses to overwrite without `--force`. |
+| `init` | Write `studio-ui.config.json` (`--title`, `--suite`, `--theme`, `--package-manager`, `--registry`, `--registry-url`, `--force`). Refuses to overwrite without `--force`. |
 | `list` | List registry items with type, version, suite, and source state. |
 | `inspect <name>` | Show lifecycle, provenance, compatibility, token requirements, install files, the resolved dependency graph, brand-option metadata when present, and any planned (pending) surfaces. |
 | `add <name>` | Resolve the item's `registryDependencies` graph and install it. `--dry-run` plans without writing; `--force` overwrites conflicts. |
@@ -66,8 +65,9 @@ No hidden state is written.
 | `doctor` | Diagnose config, registry reachability, provenance integrity, schema/version drift, missing files, on-disk drift, pending source, and pins, with the next command to run. |
 | `provenance <name>` | Verify registry content hashes against embedded content and on-disk installs, and surface license/source-lock posture. |
 
-Global options: `--cwd <dir>` (target project) and `--registry <dir>` (registry
-source). `--json` prints the structured result.
+Global options: `--cwd <dir>` (target project) and `--registry <dir|url>`
+(registry source). `--registry-url <url>` is accepted as an ergonomic alias for
+the same value. `--json` prints the structured result.
 
 ## Conflict Handling And Rollback
 
@@ -93,14 +93,15 @@ without an explicit `--force`.
   source, standalone suite page/block install and provenance, dry-run, diff
   planning, conflict refusal and forced overwrite, doctor drift detection, remove, update of
   outdated entries, pin/update interaction, migrate report/apply, provenance
-  verification, remote-registry unsupported state, and unknown-item failure.
+  verification, HTTPS remote-registry guardrails, `--registry-url` alias behavior,
+  and unknown-item failure.
 - The CLI test is part of `pnpm verify`.
 
 ## Not Yet Claimed
 
 The CLI installs UI distribution artifacts only. It does not fetch a remote
-registry, run a package manager, scaffold an app shell, render a browser
-surface, decide a final brand identity, or execute harness actions. Suite items install their theme, suite
+registry through non-HTTPS URLs, run a package manager, scaffold an app shell,
+render a browser surface, decide a final brand identity, or execute harness actions. Suite items install their theme, suite
 descriptor, and generated page/block descriptors. These are installable
 manifests, not full React page or block implementations. Resident UI items now
 ship framework-neutral component factory source with inert child-slot handling,

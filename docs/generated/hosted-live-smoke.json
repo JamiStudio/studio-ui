@@ -1,116 +1,119 @@
 {
   "$schema": "https://jami.studio/schemas/studio-ui/hosted-live-smoke.generated.json",
   "generatedBy": "scripts/release/live-hosted-smoke.mjs",
-  "checkedAt": "2026-06-13T03:04:57.545Z",
+  "checkedAt": "2026-06-13T16:21:23.386Z",
   "ok": true,
-  "baseUrl": "https://studio-ui-registry.pages.dev",
-  "cloudflareProject": "studio-ui-registry",
-  "cloudflareDeploymentId": "42662c6b-b615-41cb-add7-7569ce5a8bb1",
-  "publicCustomDomainClaimed": false,
+  "baseUrl": "https://registry.jami.studio",
+  "cloudflareProject": "jami-registry",
+  "cloudflareDeploymentId": null,
+  "publicCustomDomainClaimed": true,
+  "hostedWorkbenchClaimed": false,
+  "hostedSuiteRoutesClaimed": false,
+  "hostedPersistenceClaimed": false,
+  "backendRegistrationClaimed": false,
   "registryItems": 45,
-  "routeCount": 16,
+  "routeCount": 3,
   "fetched": [
     {
-      "url": "https://studio-ui-registry.pages.dev/registry.json",
+      "url": "https://registry.jami.studio/registry.json",
       "bytes": 664292,
-      "hash": "sha256:6e0e8422b92479ef39dc63ee3ecafcf19a7b290a4c2abe7fdf2dbe8031f6a33b"
+      "hash": "sha256:6e0e8422b92479ef39dc63ee3ecafcf19a7b290a4c2abe7fdf2dbe8031f6a33b",
+      "contentType": "application/json; charset=utf-8",
+      "cacheControl": "public, max-age=300"
     },
     {
-      "url": "https://studio-ui-registry.pages.dev/hosted-route-manifest.json",
-      "bytes": 5817,
-      "hash": "sha256:4d415fd26b8ca014f5f1740ce8e46b528f7d4bf53df290ea73c43194b30022ab"
+      "url": "https://registry.jami.studio/docs",
+      "routeId": "docs-index",
+      "routeKind": "docs",
+      "bytes": 273577,
+      "hash": "sha256:425f7bdf98bccc6cec324a0076382082463cb248dcbe566c9cecde90680129b0",
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "public, max-age=0, must-revalidate"
     },
     {
-      "url": "https://studio-ui-registry.pages.dev/registry.json",
-      "bytes": 664292,
-      "hash": "sha256:6e0e8422b92479ef39dc63ee3ecafcf19a7b290a4c2abe7fdf2dbe8031f6a33b"
+      "url": "https://registry.jami.studio/docs/quickstart",
+      "routeId": "docs-quickstart",
+      "routeKind": "docs",
+      "bytes": 363861,
+      "hash": "sha256:29a82200f1378bf1a29793aa48df45698d4bab013e4ad7ccce3ca488ccce03fa",
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "public, max-age=0, must-revalidate"
     },
     {
-      "url": "https://studio-ui-registry.pages.dev/docs/registry.html",
-      "bytes": 21303,
-      "hash": "sha256:c8bbfa0379a2a2738359f73657b5df2fb52115b03ef9f554596cf346177a947c"
+      "url": "https://registry.jami.studio/docs/registry",
+      "routeId": "docs-registry",
+      "routeKind": "docs",
+      "bytes": 385329,
+      "hash": "sha256:dc0b38cba62f3efbd5bd873c28fc7336d5fc2fcb89dc803671bc6cda1259eb9c",
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    }
+  ],
+  "unavailableRoutes": [
+    {
+      "id": "workbench-showcase",
+      "kind": "workbench-showcase",
+      "path": "/",
+      "reason": "https://registry.jami.studio/: HTTP 404 Not Found"
     },
     {
-      "url": "https://studio-ui-registry.pages.dev/docs/workbench.html",
-      "bytes": 21261,
-      "hash": "sha256:374ebfc04d6c07aef05858f72f2ce763ba9f1cd28a9453e69a7fcdc1af0a7374"
+      "id": "docs-workbench",
+      "kind": "docs",
+      "path": "docs/workbench",
+      "reason": "https://registry.jami.studio/docs/workbench: HTTP 404 Not Found"
     },
     {
-      "url": "https://studio-ui-registry.pages.dev/index.html",
-      "bytes": 175989,
-      "hash": "sha256:fa60b4e92a243991b401f7d1bfb02ef642dce36925cb862ab41931fc99870a71"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/solo/index.html",
-      "bytes": 28171,
-      "hash": "sha256:db03cfc9c9fcfec1c3ce6db521fae430aae37bf4c3e5a5ee5be60bcbd2403156"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/solo/solo-today.html",
-      "bytes": 24974,
-      "hash": "sha256:fed17eb8c2ad044824c30f2f8fd4e77e5051e8bc927ce126debaa87a48d452b8"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/solo/solo-docs.html",
-      "bytes": 24094,
-      "hash": "sha256:0a969332f41234add908346c252705e7317abd48d70f668321d0d40402460ee9"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/business-ops/index.html",
-      "bytes": 29084,
-      "hash": "sha256:ad95189ae108436423d5f42ba5fafb440cd6b1a78892570690d22b04584516b7"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/business-ops/business-ops-dashboard.html",
-      "bytes": 25649,
-      "hash": "sha256:8c922d1ecef57c0ec7cd18df06c1336cf37b99fa603148b7870dc579d0dbb454"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/business-ops/business-ops-staff.html",
-      "bytes": 24325,
-      "hash": "sha256:6fe0d0d9f4a600240bc0213c01b53986b881007692439053b26396ef53526eec"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/mixed-media/index.html",
-      "bytes": 27554,
-      "hash": "sha256:e1e7af9e1a902972bb0022b843e11bae7131649bc5b9c6ae170da00b3bae75d2"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/mixed-media/mixed-media-library.html",
-      "bytes": 24112,
-      "hash": "sha256:8a3d9e11e39caa973c987e0f89358af9c330fb472e262741193c5c9dd1b79a0c"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/mixed-media/mixed-media-pipeline.html",
-      "bytes": 24356,
-      "hash": "sha256:bcc0d84c88ba6b8cb815f71f2c27d019d526d6b6e88435a0064608da3e0b845b"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/research-writing/index.html",
-      "bytes": 27666,
-      "hash": "sha256:049b335fa9105e37cb65b357ccf57abdc4cc40bec9bac4e0c462747bfde1c6b9"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/research-writing/research-writing-sources.html",
-      "bytes": 23754,
-      "hash": "sha256:d0308d7384bce6cc73d5f40617a5c0de0f976e44c36fb791d21a39ec508a8b82"
-    },
-    {
-      "url": "https://studio-ui-registry.pages.dev/suites/research-writing/research-writing-brief.html",
-      "bytes": 24808,
-      "hash": "sha256:bf084eac26a0e1f228dd51e3ff9ffa3f8157a5cb95b4552cd4d0a440179bd8ef"
+      "id": "solo-suite-app",
+      "kind": "suite-app",
+      "path": "suites/solo/",
+      "reason": "https://registry.jami.studio/suites/solo/: HTTP 404 Not Found"
     }
   ],
   "cliInstall": {
     "ok": true,
     "installedItems": 42,
-    "suites": [
-      "solo-suite",
-      "business-ops-suite",
-      "mixed-media-suite",
-      "research-writing-suite"
+    "requestedItems": [
+      {
+        "name": "jami-theme",
+        "kind": "theme"
+      },
+      {
+        "name": "button",
+        "kind": "primitive"
+      },
+      {
+        "name": "solo-today-page",
+        "kind": "page"
+      },
+      {
+        "name": "solo-task-queue-block",
+        "kind": "block"
+      },
+      {
+        "name": "solo-suite",
+        "kind": "suite"
+      },
+      {
+        "name": "business-ops-suite",
+        "kind": "suite"
+      },
+      {
+        "name": "mixed-media-suite",
+        "kind": "suite"
+      },
+      {
+        "name": "research-writing-suite",
+        "kind": "suite"
+      }
     ],
-    "lockHash": "sha256:7154bc965f03383a6bbbcdd40cced33b0d09669a519d8cad16cd8f93dda66004"
+    "installKinds": [
+      "theme",
+      "primitive",
+      "page",
+      "block",
+      "suite"
+    ],
+    "lockHash": "sha256:cdc39658c71060ecfb9282cff35e34e80125af5d6eab423caba5039d02e2ce61"
   },
   "failures": []
 }

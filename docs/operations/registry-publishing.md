@@ -1,19 +1,18 @@
 # Registry Publishing Readiness And Runbook
 
-Status: Foundation runbook
+Status: Public static registry live
 Last updated: 2026-06-13
 
 ## Purpose
 
-Document the static registry publishing path for Studio UI: what would be served,
-how its integrity is checked before staging, what is publishable now versus
-source-pending, and the human/account actions a script cannot perform. No real
-publish has happened. This runbook describes the readiness state and the steps,
-not a completed release.
+Document the static registry publishing path for Studio UI: what is served, how
+its integrity is checked, what is publishable, and which hosted behavior remains
+unsupported. The public custom domain `https://registry.jami.studio` serves the
+registry JSON and docs routes and is covered by hosted smoke evidence.
 
 ## What Gets Published
 
-The registry distribution is **static generated JSON** served from the planned
+The registry distribution is **static generated JSON** served from the
 `registry.jami.studio` endpoint. Nothing is rendered or executed server-side. The
 publish source is the tracked, generated, shadcn-shaped bundle:
 
@@ -56,12 +55,12 @@ the local CycloneDX SBOM (`docs/generated/sbom.cdx.json`) and generated
 `.changes` rollup (`docs/generated/release-notes.md`) have not drifted. It also is
 part of `pnpm verify`. It does not publish, upload, attach, or attest anything.
 
-`pnpm hosted:routes:check` builds `apps/workbench/dist/` and verifies local
-preview-hosted artifacts for the registry JSON route, docs pages, workbench/
-showcase page, and mounted suite app/page routes. It also validates
+`pnpm hosted:routes:check` builds `apps/workbench/dist/` and verifies the local
+source artifacts for the registry JSON route, docs pages, workbench/showcase
+page, and mounted suite app/page routes. It also validates
 `hosted-route-manifest.json`, scans served bytes for secret-shaped content, and
-fails if any route is marked externally deployed before Cloudflare/DNS work is
-actually complete. It is a preview-deployable artifact check, not public hosting.
+fails if the manifest claims hosted workbench/suite routes, hosted persistence,
+backend registration, or hosted runtime before those public URLs are live.
 
 ### Current dry-run status (2026-06-13)
 
@@ -110,38 +109,39 @@ external hosted runtime, final visual identity, or hosted registry availability.
 
 ## Hosting Target And Human/Account Actions
 
-Current hosted preview target: Cloudflare Pages project `studio-ui-registry` under
-the `jami-studio` account.
+Current hosted target: Cloudflare Pages custom domain `https://registry.jami.studio`
+under the `jami-studio` account.
 
-- Canonical pages.dev URL: `https://studio-ui-registry.pages.dev`
-- Latest deployment URL: `https://42662c6b.studio-ui-registry.pages.dev`
-- Deployment ID: `42662c6b-b615-41cb-add7-7569ce5a8bb1`
-- Live smoke: `pnpm hosted:live:check -- --base-url https://studio-ui-registry.pages.dev --cloudflare-project studio-ui-registry --cloudflare-deployment-id 42662c6b-b615-41cb-add7-7569ce5a8bb1 --write-evidence docs/generated/hosted-live-smoke.json`
+- Canonical custom-domain URL: `https://registry.jami.studio`
+- Registry index: `https://registry.jami.studio/registry.json`
+- Live smoke: `pnpm hosted:live:check -- --base-url https://registry.jami.studio --cloudflare-project jami-registry --write-evidence docs/generated/hosted-live-smoke.json`
 
 The following actions are **not** done:
 
-- [ ] Attach and validate DNS for `registry.jami.studio`.
 - [ ] Validate the generated output against the official shadcn registry schema URL
-      before the first real publish.
+      before making a specific shadcn-version compatibility claim.
 - [ ] Add a repo-local shadcn/Tailwind source-lock record before any public
       generated-source compatibility claim (`docs/operations/source-lock-records.md`).
-- [ ] Define the cache-header and revisioned-item-URL policy in the registry
-      lifecycle doc once publishing starts.
+- [ ] Define the revisioned-item-URL policy in the registry lifecycle doc.
+- [ ] Deploy and smoke the hosted workbench/showcase and suite route artifacts.
+- [ ] Implement hosted persistence/backend package registration before claiming
+      cross-session workbench save/register behavior.
 - [x] Add a clean-project install smoke against the live hosted URL. The live smoke
-      fetched 16 routes and installed 42 registry graph items through the remote
-      CLI path.
-- [x] Deploy the preview artifacts checked by `pnpm hosted:routes:check` and smoke
-      the live pages.dev URLs.
-- [ ] Re-run `pnpm release:artifacts:check`, review the SBOM and generated release
-      notes, and attach them only inside an actual release workflow.
+      fetched required registry/docs routes and installed a theme, primitive,
+      page, block, and all four suite roots through the remote CLI path.
+- [x] Deploy the registry/docs artifacts and smoke the `registry.jami.studio`
+      custom-domain URLs.
+- [x] Re-run `pnpm release:artifacts:check`, review the SBOM and generated release
+      notes, and attach release artifacts through the accepted release workflow.
 
 Do not write Cloudflare, npm, or DNS tokens into tracked files.
 
 ## Not Yet Claimed
 
-The custom domain `registry.jami.studio` is not attached or claimed. No
-cache/revision policy is finalized. Public generated-source compatibility with
-specific shadcn/Tailwind versions stays gated on source-lock records.
+Hosted workbench/showcase routes, hosted persistence, backend registration, and
+hosted suite runtime are not claimed. No revisioned-item URL policy is finalized.
+Public generated-source compatibility with specific shadcn/Tailwind versions
+stays gated on source-lock records.
 
 ## Cross-Links
 

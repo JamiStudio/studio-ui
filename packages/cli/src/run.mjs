@@ -9,7 +9,8 @@ import * as commands from "./commands.mjs";
 import { formatInspect, formatList, formatProvenance, formatResult } from "./format.mjs";
 
 const BOOLEAN_FLAGS = new Set(["dry-run", "force", "apply", "json", "help"]);
-const VALUE_FLAGS = new Set(["cwd", "registry", "title", "suite", "theme", "package-manager", "pm", "version"]);
+const FLAG_ALIASES = new Map([["registry-url", "registry"]]);
+const VALUE_FLAGS = new Set(["cwd", "registry", "registry-url", "title", "suite", "theme", "package-manager", "pm", "version"]);
 
 export function parseArgs(argv) {
   const positionals = [];
@@ -17,10 +18,11 @@ export function parseArgs(argv) {
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg.startsWith("--")) {
-      const key = arg.slice(2);
+      const rawKey = arg.slice(2);
+      const key = FLAG_ALIASES.get(rawKey) ?? rawKey;
       if (BOOLEAN_FLAGS.has(key)) {
         flags[key] = true;
-      } else if (VALUE_FLAGS.has(key)) {
+      } else if (VALUE_FLAGS.has(rawKey) || VALUE_FLAGS.has(key)) {
         flags[key] = argv[i + 1];
         i += 1;
       } else {
@@ -50,7 +52,7 @@ const USAGE = [
   "  doctor       Diagnose config, registry, provenance, and file drift",
   "  provenance   Verify an item's source/content provenance",
   "",
-  "Global options: --cwd <dir> --registry <dir>",
+  "Global options: --cwd <dir> --registry <dir|url> (alias: --registry-url)",
 ].join("\n");
 
 function resolveRegistrySpec(flags, project) {

@@ -1,6 +1,6 @@
 // Local hosted-route readiness smoke.
 //
-// Builds the preview-hosted workbench output and verifies the route manifest,
+// Builds the hosted workbench output and verifies the route manifest,
 // mounted suite route files, registry JSON route copies, docs preview pages,
 // and overclaim guards. It does not deploy, fetch, or mutate remote services.
 
@@ -67,11 +67,16 @@ if (!existsSync(join(root, sourceLockPath))) {
 
 const manifest = existsSync(join(root, manifestPath)) ? readJson(manifestPath) : null;
 if (manifest) {
-  if (manifest.status !== "preview-artifacts-only") fail("hosted manifest must stay preview-artifacts-only");
-  if (manifest.externalHostingClaimed !== false) fail("hosted manifest must not claim external hosting");
+  if (manifest.status !== "public-registry-docs-live-workbench-preview") fail("hosted manifest status drifted");
+  if (manifest.publicRegistryClaimed !== true) fail("hosted manifest must claim the public registry route after external smoke");
+  if (manifest.publicDocsClaimed !== true) fail("hosted manifest must claim public docs routes after external smoke");
+  if (manifest.publicWorkbenchClaimed !== false) fail("hosted manifest must not claim public workbench route");
+  if (manifest.publicSuiteRoutesClaimed !== false) fail("hosted manifest must not claim public suite routes");
+  if (manifest.hostedPersistenceClaimed !== false) fail("hosted manifest must not claim hosted persistence");
+  if (manifest.backendRegistrationClaimed !== false) fail("hosted manifest must not claim backend registration");
   if (manifest.targetHost !== "registry.jami.studio") fail("hosted manifest target host drifted");
-  if (!Array.isArray(manifest.missingHumanActions) || manifest.missingHumanActions.length < 4) {
-    fail("hosted manifest must record remaining human/account/DNS actions");
+  if (!Array.isArray(manifest.missingHumanActions) || manifest.missingHumanActions.length < 3) {
+    fail("hosted manifest must record remaining workbench/suite/persistence/revision-policy actions");
   }
   if (!Array.isArray(manifest.sourceLocks)) fail("hosted manifest missing sourceLocks");
   for (const url of REQUIRED_SOURCE_LOCK_URLS) {
@@ -92,7 +97,10 @@ if (manifest) {
   if (suitePages.length !== 8) fail(`expected 8 suite page routes, got ${suitePages.length}`);
 
   for (const route of routes) {
-    if (route.deployed !== false) fail(`${route.id} must not be marked deployed`);
+    const shouldBeDeployed = route.kind === "registry" || route.id === "docs-registry";
+    if (route.deployed !== shouldBeDeployed) {
+      fail(`${route.id} deployed state drifted; expected ${shouldBeDeployed}`);
+    }
     if (!route.localArtifact) fail(`${route.id} missing localArtifact`);
     const artifactPath = `apps/workbench/dist/${route.localArtifact}`;
     if (!existsSync(join(root, artifactPath))) {
@@ -108,6 +116,7 @@ if (manifest) {
       if (!text.includes("hosted runtime</dt><dd><code>false</code>")) {
         fail(`${route.id} must record hosted runtime false`);
       }
+      if (route.hostedRuntime !== false) fail(`${route.id} must keep hostedRuntime false in the manifest`);
       if (/<[^>]+\son[a-z]+\s*=/i.test(text)) fail(`${route.id} leaked inline event handler`);
       if (/(href|src)\s*=\s*["']?\s*javascript:/i.test(text)) fail(`${route.id} leaked javascript URL`);
     }
@@ -151,4 +160,5 @@ if (failures.length > 0) {
 console.log("hosted-route-smoke: preview artifacts passed");
 console.log(`  routes: ${manifest?.routes?.length ?? 0}`);
 console.log(`  missing external actions: ${manifest?.missingHumanActions?.length ?? 0}`);
-console.log("  external hosting claimed: false");
+console.log("  public registry/docs claimed: true");
+console.log("  public workbench/suite routes claimed: false");

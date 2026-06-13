@@ -41,6 +41,16 @@ test("init writes an inspectable config", () => {
   assert.ok(config.registry, "config records the registry source");
 });
 
+test("registry-url aliases the documented registry option", () => {
+  const r = call("init", "--registry-url", "https://registry.jami.studio", "--force");
+  assert.equal(r.code, 0);
+  assert.equal(readJson("studio-ui.config.json").registry, "https://registry.jami.studio");
+
+  const help = call("--help");
+  assert.equal(help.code, 0);
+  assert.ok(help.lines.some((line) => line.includes("--registry-url")));
+});
+
 test("init refuses to overwrite without --force", () => {
   call("init");
   const second = call("init");
