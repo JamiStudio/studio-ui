@@ -307,7 +307,8 @@ function generateSbom() {
     properties: [
       { name: "studio-ui:source-posture", value: "local deterministic generator over manifests, lockfile, and generated registry artifacts" },
       { name: "studio-ui:cyclonedx-predicate-type", value: "https://cyclonedx.org/bom" },
-      { name: "studio-ui:hosted-registry-claimed", value: "false" },
+      { name: "studio-ui:hosted-registry-claimed", value: "pages-dev-preview-only" },
+      { name: "studio-ui:custom-registry-domain-claimed", value: "false" },
       { name: "studio-ui:npm-package-publish-claimed", value: "false" },
       { name: "studio-ui:attestation-executed", value: "false" },
       { name: "studio-ui:workspace-package-count", value: String(workspaceComponents.length) },
@@ -440,9 +441,9 @@ function generateReleaseNotes() {
   lines.push(
     "## Not Yet Claimed",
     "",
-    "- No live hosted registry or remote CLI install.",
+    "- No `registry.jami.studio` custom-domain registry endpoint.",
     "- No published npm packages or confirmed package-scope release.",
-    "- No static-host publish action or DNS validation.",
+    "- No package publish attestation or DNS validation for the custom registry domain.",
     "- No release attestation execution.",
     "- No hosted persistence, backend package registration, or harness runtime behavior in this repo.",
     "- No final brand canon.",

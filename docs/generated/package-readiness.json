@@ -1,60 +1,55 @@
 {
   "$schema": "https://jami.studio/schemas/studio-ui/package-readiness.generated.json",
   "generatedBy": "scripts/release/package-readiness.mjs",
-  "checkedAt": "2026-06-13T02:37:21.129Z",
-  "ok": true,
-  "packagePublishClaimed": false,
-  "trustedPublisherConfigured": false,
+  "checkedAt": "2026-06-13T03:00:37.649Z",
+  "ok": false,
   "packages": [
     {
       "name": "@jami-studio/tokens",
       "version": "0.0.0",
-      "private": true,
       "fileCount": 9,
-      "unpackedSize": 12281,
-      "integrity": "sha512-GgIxjVg2B7/SZLdyJAErbsfXU97f+8gXJXkqzy04xmS59m3NmtNosDw7BM93ph2GvJS0dut6boNvwBIsNEoD6Q==",
-      "packageJsonHash": "sha256:52dafc7e6f0e58baf60a98742fc6613ab2ca831ef781e6432756f2e894e9ca04"
+      "unpackedSize": 12262,
+      "integrity": "sha512-IdN7VGtZcdPA8refJECeqEsQ8Pp+0ULUEiYPrG63HFn9G3ZWsd09o9lgwrjMso0sakpSpEaLogppVpQwMl3tFQ==",
+      "packageJsonHash": "sha256:4e906b9866a144cc4666991a64b2c198b6a32ff979b3a8bc802659708aa643f3"
     },
     {
       "name": "@jami-studio/registry",
       "version": "0.0.0",
-      "private": true,
       "fileCount": 123,
-      "unpackedSize": 1553120,
-      "integrity": "sha512-zlUdxAv4kWNF68ybyVBoVUY9d4UQDtMyGWGAOCTD4NE2KAL6nadIXaYPuMxzvbTpnhrjnFlBib+cVtYMPUDo1w==",
-      "packageJsonHash": "sha256:f2c0cfc9ac87d2bbbb9e27173dd36082784f5c37f92bb098049f76558c6c26a3"
+      "unpackedSize": 1553101,
+      "integrity": "sha512-cHNQ50I2TsJbhqz/StSrckgf9jtC4vqbRPTJmio5uTQOpQ7bEjbjZnBWtIgGj7LX/nvsk6BwMvhE455Qg7C58w==",
+      "packageJsonHash": "sha256:59b32c92809f3c4aa49f505bf6a0c194eded52b71b5840b7dc8c2877ad25a183"
     },
     {
       "name": "@jami-studio/renderer",
       "version": "0.0.0",
-      "private": true,
       "fileCount": 8,
-      "unpackedSize": 48919,
-      "integrity": "sha512-qBhnNNKwoW/QQqwxCN4VC4eEnR7Si3qrYCsCB7L7k09PIfmr/5USOjL9y5FKa3nloKlSCvyXwdsiqUV8kfJxvA==",
-      "packageJsonHash": "sha256:ca2a74281558029719aea7f8191eee0c533855810535a9bb04f32b16718fbb45"
+      "unpackedSize": 48900,
+      "integrity": "sha512-3zQTa5ow0hXBYFaavEGwXlEQeayWuBHyjs2R+Xi528OXsccUNDRxj42si76KXKU8lqMOLyH9ttbJPHpwTyhRqQ==",
+      "packageJsonHash": "sha256:cd7dee321f502a33a1f4e03c59c7377ba15cb3c2ca0aafd92735fdc5bde1a3d9"
     },
     {
       "name": "@jami-studio/cli",
       "version": "0.0.0",
-      "private": true,
       "fileCount": 9,
-      "unpackedSize": 46001,
-      "integrity": "sha512-z8kwRQHTlmahaapgghKY0E1K+mAT+prhktIr0Fofj4l3TLs3acAOh3XORzywu/406s+Pzg8cIkdnQdPZi/fFOA==",
-      "packageJsonHash": "sha256:7e3ac76ff0c0a02e2263e5070e016851b96911822a336a4870a6f7d91dee10be"
+      "unpackedSize": 46284,
+      "integrity": "sha512-+/oj/n8/wu0W5nkCzoWmJA/dTD3Ac6PBLkedaltckoC0nzzXGpXDwSY4Jy8G/M3jktckJm4lAnJ997mnyMjzQw==",
+      "packageJsonHash": "sha256:d8d55c4165d4e6eed9fdb30533c40740a7bc5c925bc13b94003e326cdc636cd1"
     },
     {
       "name": "@jami-studio/ui",
       "version": "0.0.0",
-      "private": true,
       "fileCount": 11,
-      "unpackedSize": 70162,
-      "integrity": "sha512-IOlTDdMFLwtrbmvZazkYG64P6JGQr9wZbytb69YD5b7GQzO+ItgeF5s0dL7BPhXYSLrC/RKNMAmJjeZ1dYpy4A==",
-      "packageJsonHash": "sha256:5b6bbd96801d1a055b8f7d92ec7a3e9528008ad1f37c1998e713aa3b0c540240"
+      "unpackedSize": 70143,
+      "integrity": "sha512-zoaxjY9PYH8Oh9z7Z2bQw9DYFLw/NMfXh+BKhYWtETCfMRnIT7GHSgb6fRdzTLPu96bysnUmlM7ZO31qQLDlGQ==",
+      "packageJsonHash": "sha256:c2a6bff169033022393b882d479b75dcd806f070aefce6f97ac32e823bb453ef"
     }
   ],
-  "cleanLocalInstallSmoke": {
-    "ok": true,
-    "packageSource": "locally packed tarballs from npm pack"
-  },
-  "failures": []
+  "failures": [
+    "packages/tokens: private:true must remain until npm trust/publish gates close",
+    "packages/registry: private:true must remain until npm trust/publish gates close",
+    "packages/renderer: private:true must remain until npm trust/publish gates close",
+    "packages/cli: private:true must remain until npm trust/publish gates close",
+    "packages/ui: private:true must remain until npm trust/publish gates close"
+  ]
 }

@@ -53,6 +53,7 @@ const REQUIRED_SOURCE_LOCK_URLS = [
   "https://developers.cloudflare.com/pages/get-started/direct-upload/",
   "https://developers.cloudflare.com/pages/configuration/headers/",
   "https://developers.cloudflare.com/pages/configuration/serving-pages/",
+  "https://developers.cloudflare.com/pages/configuration/custom-domains/",
 ];
 
 if (!existsSync(join(root, sourceLockPath))) {
@@ -116,6 +117,7 @@ if (manifest) {
 const requiredFiles = [
   "index.html",
   "hosted-route-manifest.json",
+  "registry.json",
   "registry/registry.json",
   "docs/registry.html",
   "docs/workbench.html",

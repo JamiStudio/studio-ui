@@ -12,8 +12,8 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Summary
 
-- Total fragments: 54
-- Typed fragments: 27
+- Total fragments: 55
+- Typed fragments: 28
 - Unclassified legacy fragments: 27
 
 ## Notes By Surface
@@ -53,6 +53,10 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 - `2026-06-09-brand-template-options.md` - Added three authored, CLI-installable brand/template option descriptors (`studio-console`, `editorial-studio`, `command-grid`) as generated registry theme items, surfaced them in the workbench default-kit option gallery and always-live overlay, and added contract/CLI/workbench tests proving selectable token deltas, provenance, and no final-brand-canon claim.
 
 ### release
+
+#### changed
+
+- `2026-06-13-group-e-package-hosted-readiness.md` - Added package-content readiness, clean local package install, hosted Pages live smoke, and fail-closed package/registry publication evidence for Group E release work.
 
 #### fix
 

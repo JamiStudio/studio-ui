@@ -117,7 +117,9 @@ function scanPackedFiles(packageDir, manifest, pack) {
 
 function validateManifest(packageDir, manifest) {
   if (!manifest.name?.startsWith("@jami-studio/")) fail(`${packageDir}: package name must use @jami-studio scope`);
-  // private flag removed for the 5 publishable packages after evidence (contents dry-run, smoke, secret scan); relaxed to allow publishable state (the source package.json no longer have the key).
+  if (manifest.private !== true) {
+    fail(`${packageDir}: private:true must remain until npm trust/publish gates close`);
+  }
   if (manifest.version !== "0.0.0") fail(`${packageDir}: expected unreleased version 0.0.0`);
   if (manifest.license !== "MIT") fail(`${packageDir}: expected MIT license`);
   if (manifest.repository?.url !== expectedRepository) fail(`${packageDir}: repository URL drifted`);
