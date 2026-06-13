@@ -1,0 +1,54 @@
+name: Release artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, for example v0.1.0"
+        required: true
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.16.0"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.33.2"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify
+      - run: pnpm release:packages:check
+      - name: Build release bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-packs release-artifacts
+          for pkg in packages/tokens packages/registry packages/renderer packages/cli packages/ui; do
+            pnpm --dir "$pkg" pack --pack-destination "$GITHUB_WORKSPACE/release-packs"
+          done
+          cp docs/generated/sbom.cdx.json release-artifacts/studio-ui-sbom.cdx.json
+          cp docs/generated/release-notes.md release-artifacts/studio-ui-release-notes.md
+          cp docs/generated/package-readiness.json release-artifacts/studio-ui-package-readiness.json
+          tar -czf "studio-ui-${{ inputs.version }}.tgz" release-packs release-artifacts
+          sha256sum "studio-ui-${{ inputs.version }}.tgz" > "studio-ui-${{ inputs.version }}.tgz.sha256"
+      - name: Attest release bundle
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: "studio-ui-${{ inputs.version }}.tgz"
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ inputs.version }}" \
+            --title "Studio UI ${{ inputs.version }}" \
+            --notes "Studio UI release artifacts for ${{ inputs.version }}. Includes package tarballs, SBOM, package readiness evidence, and generated release notes." \
+            "studio-ui-${{ inputs.version }}.tgz" \
+            "studio-ui-${{ inputs.version }}.tgz.sha256"
