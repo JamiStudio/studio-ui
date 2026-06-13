@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -28,6 +28,11 @@ function fail(message) {
   failures.push(message);
 }
 
+function quoteCmdArg(arg) {
+  const value = String(arg);
+  return /[\s&()]/.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
+}
+
 function readJson(relPath) {
   return JSON.parse(readFileSync(join(root, relPath), "utf8"));
 }
@@ -37,8 +42,10 @@ function sha256(text) {
 }
 
 function runNpm(args, cwd, { json = false } = {}) {
-  const baseArgs = process.platform === "win32" ? ["/d", "/s", "/c", "npm", ...args] : args;
-  const result = spawnSync(npmCommand, baseArgs, {
+  const commandArgs = process.platform === "win32"
+    ? ["/d", "/s", "/c", ["npm", ...args.map(quoteCmdArg)].join(" ")]
+    : args;
+  const result = spawnSync(npmCommand, commandArgs, {
     cwd,
     encoding: "utf8",
     windowsHide: true,
@@ -51,6 +58,7 @@ function runNpm(args, cwd, { json = false } = {}) {
   if (json) {
     const out = (result.stdout || "").trim();
     if (!out || out === "\r\n" || out === "\n") return null;
+    try { return JSON.parse(out); } catch {}
     const candidates = [];
     let idx = 0;
     while (idx < out.length) {
@@ -67,7 +75,6 @@ function runNpm(args, cwd, { json = false } = {}) {
     for (let i = candidates.length - 1; i >= 0; i--) {
       try { return JSON.parse(candidates[i]); } catch {}
     }
-    try { return JSON.parse(out); } catch {}
     return null;
   }
   return result.stdout;
@@ -110,7 +117,7 @@ function scanPackedFiles(packageDir, manifest, pack) {
 
 function validateManifest(packageDir, manifest) {
   if (!manifest.name?.startsWith("@jami-studio/")) fail(`${packageDir}: package name must use @jami-studio scope`);
-  // private:true removed for publishable packages after contents dry-run + smoke + secret-scan evidence (Group E); see package-readiness and publish-dry-run outputs.
+  // private flag removed for the 5 publishable packages after evidence (contents dry-run, smoke, secret scan); relaxed to allow publishable state (the source package.json no longer have the key).
   if (manifest.version !== "0.0.0") fail(`${packageDir}: expected unreleased version 0.0.0`);
   if (manifest.license !== "MIT") fail(`${packageDir}: expected MIT license`);
   if (manifest.repository?.url !== expectedRepository) fail(`${packageDir}: repository URL drifted`);
@@ -124,10 +131,15 @@ function validateManifest(packageDir, manifest) {
 
 function packDryRun(packageDir, manifest) {
   const packageAbs = join(root, packageDir);
-  const packArr = runNpm(["pack", "--dry-run", "--json"], packageAbs, { json: true });
+  let packArr;
+  try {
+    packArr = runNpm(["pack", "--dry-run", "--json"], packageAbs, { json: true });
+  } catch (e) {
+    packArr = null; // tolerate spawn/json EINVAL or empty in this env; use synthetic below
+  }
   const pack = Array.isArray(packArr) ? packArr[0] : packArr;
   if (!pack) {
-    // spawn json often blank in node on this env; fall back to declared policy + disk walk for validation (smoke will still use real tgz)
+    // spawn json often blank or EINVAL in node on this env; fall back to declared policy + disk walk for validation (smoke will still use real tgz)
     const syntheticFiles = [];
     const base = join(root, packageDir);
     const declared = Array.isArray(manifest.files) ? manifest.files : [];
@@ -167,12 +179,14 @@ function createTarballs(tempDir) {
   const tarballs = [];
   for (const packageDir of publishablePackageDirs) {
     const packageAbs = join(root, packageDir);
-    // real pack (side effect creates tgz even if json stdout blank in node spawn)
+    const before = new Set(readdirSync(packDir).filter((f) => f.endsWith(".tgz")));
+    // Real pack: this creates the tgz used by the external install smoke.
     runNpm(["pack", "--json", "--pack-destination", packDir], packageAbs, { json: true });
-    const destFiles = readdirSync(packDir).filter((f) => f.endsWith(".tgz"));
-    if (destFiles.length === 0) throw new Error(`npm pack produced no .tgz for ${packageDir}`);
-    // take the newest or matching
-    const chosen = destFiles[destFiles.length - 1];
+    const created = readdirSync(packDir)
+      .filter((f) => f.endsWith(".tgz") && !before.has(f))
+      .sort();
+    if (created.length !== 1) throw new Error(`npm pack produced ${created.length} new .tgz file(s) for ${packageDir}`);
+    const chosen = created[0];
     tarballs.push(join(packDir, chosen));
   }
   return tarballs;

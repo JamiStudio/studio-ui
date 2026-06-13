@@ -1,0 +1,75 @@
+{
+  "schema": "studio-package-readiness-post-private",
+  "generatedAt": "2026-06-13T02:46:07.494Z",
+  "packages": [
+    {
+      "path": "packages/tokens/package.json",
+      "name": "@jami-studio/tokens",
+      "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "files": [
+        "fixtures",
+        "generated",
+        "package.json"
+      ],
+      "version": "0.0.0"
+    },
+    {
+      "path": "packages/registry/package.json",
+      "name": "@jami-studio/registry",
+      "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "files": [
+        "fixtures",
+        "generated",
+        "package.json"
+      ],
+      "version": "0.0.0"
+    },
+    {
+      "path": "packages/renderer/package.json",
+      "name": "@jami-studio/renderer",
+      "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "files": [
+        "src",
+        "schemas",
+        "package.json"
+      ],
+      "version": "0.0.0"
+    },
+    {
+      "path": "packages/cli/package.json",
+      "name": "@jami-studio/cli",
+      "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "files": [
+        "bin",
+        "src",
+        "package.json"
+      ],
+      "version": "0.0.0"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "name": "@jami-studio/ui",
+      "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "files": [
+        "src",
+        "package.json"
+      ],
+      "version": "0.0.0"
+    }
+  ]
+}
