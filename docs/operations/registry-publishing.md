@@ -1,7 +1,7 @@
 # Registry Publishing Readiness And Runbook
 
 Status: Foundation runbook
-Last updated: 2026-06-09
+Last updated: 2026-06-13
 
 ## Purpose
 
@@ -25,9 +25,9 @@ These are produced deterministically by `pnpm contracts:generate` from the sourc
 token fixture and registry source items, and drift-checked by
 `pnpm contracts:artifacts:check`. They are regenerated, never hand-edited.
 
-The served URL layout (for example `/registry.json`, `/items/<name>.json`,
-`/suites/<lane>.json`) is a publishing-time decision finalized when the host is
-provisioned; the dry-run validates the generated source bundle, not a URL scheme.
+The served URL layout is now generated for static hosting: `/registry.json`,
+`/registry/items/<name>.registry-item.json`, `/registry/suites/<lane>.suite.json`,
+docs preview pages, suite route pages, and the workbench/showcase preview.
 
 ## Dry-Run Check
 
@@ -63,7 +63,7 @@ showcase page, and mounted suite app/page routes. It also validates
 fails if any route is marked externally deployed before Cloudflare/DNS work is
 actually complete. It is a preview-deployable artifact check, not public hosting.
 
-### Current dry-run status (2026-06-09)
+### Current dry-run status (2026-06-13)
 
 ```
 publish dry-run: ready-to-stage
@@ -110,23 +110,28 @@ external hosted runtime, final visual identity, or hosted registry availability.
 
 ## Hosting Target And Human/Account Actions
 
-Preferred first target: Cloudflare Pages or equivalent Cloudflare static hosting
-under the existing `jami-studio` account (see
-`docs/operations/account-and-env-lanes.md`). The following actions are **not** done
-and cannot be performed or verified by the dry-run:
+Current hosted preview target: Cloudflare Pages project `studio-ui-registry` under
+the `jami-studio` account.
 
-- [ ] Provision the static host and DNS for `registry.jami.studio`.
+- Canonical pages.dev URL: `https://studio-ui-registry.pages.dev`
+- Latest deployment URL: `https://42662c6b.studio-ui-registry.pages.dev`
+- Deployment ID: `42662c6b-b615-41cb-add7-7569ce5a8bb1`
+- Live smoke: `pnpm hosted:live:check -- --base-url https://studio-ui-registry.pages.dev --cloudflare-project studio-ui-registry --cloudflare-deployment-id 42662c6b-b615-41cb-add7-7569ce5a8bb1 --write-evidence docs/generated/hosted-live-smoke.json`
+
+The following actions are **not** done:
+
+- [ ] Attach and validate DNS for `registry.jami.studio`.
 - [ ] Validate the generated output against the official shadcn registry schema URL
       before the first real publish.
 - [ ] Add a repo-local shadcn/Tailwind source-lock record before any public
       generated-source compatibility claim (`docs/operations/source-lock-records.md`).
 - [ ] Define the cache-header and revisioned-item-URL policy in the registry
       lifecycle doc once publishing starts.
-- [ ] Add a clean-project install smoke against the live hosted URL (today the CLI
-      smoke runs against the local generated directory; remote fetch resolves to an
-      explicit `registry-unavailable` state).
-- [ ] Deploy the preview artifacts checked by `pnpm hosted:routes:check` and smoke
-      the live URLs before claiming hosted registry/docs/workbench/showcase routes.
+- [x] Add a clean-project install smoke against the live hosted URL. The live smoke
+      fetched 16 routes and installed 42 registry graph items through the remote
+      CLI path.
+- [x] Deploy the preview artifacts checked by `pnpm hosted:routes:check` and smoke
+      the live pages.dev URLs.
 - [ ] Re-run `pnpm release:artifacts:check`, review the SBOM and generated release
       notes, and attach them only inside an actual release workflow.
 
@@ -134,10 +139,9 @@ Do not write Cloudflare, npm, or DNS tokens into tracked files.
 
 ## Not Yet Claimed
 
-No registry files are hosted. The CLI does not fetch a remote registry. No
-cache/revision policy is finalized. The `registry.jami.studio` homepage is a
-declared target in `registry.json`, not a live endpoint. Public generated-source
-compatibility with shadcn/Tailwind versions stays gated on the source-lock record.
+The custom domain `registry.jami.studio` is not attached or claimed. No
+cache/revision policy is finalized. Public generated-source compatibility with
+specific shadcn/Tailwind versions stays gated on source-lock records.
 
 ## Cross-Links
 

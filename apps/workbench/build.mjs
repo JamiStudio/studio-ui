@@ -38,6 +38,12 @@ const HOSTED_ROUTE_SOURCE_LOCKS = [
     url: "https://developers.cloudflare.com/pages/configuration/serving-pages/",
     checkedOn: "2026-06-12",
   },
+  {
+    id: "cloudflare-pages-custom-domains",
+    title: "Cloudflare Pages custom domains",
+    url: "https://developers.cloudflare.com/pages/configuration/custom-domains/",
+    checkedOn: "2026-06-13",
+  },
 ];
 
 export function build() {
@@ -84,6 +90,7 @@ export function build() {
     }
   }
 
+  copyGeneratedJson("packages/registry/generated/registry.json", "registry.json");
   copyGeneratedJson("packages/registry/generated/registry.json", "registry/registry.json");
   copyGeneratedJsonTree("packages/registry/generated/items", "registry/items");
   copyGeneratedJsonTree("packages/registry/generated/suites", "registry/suites");
@@ -94,7 +101,7 @@ export function build() {
       title: "Studio UI Registry Preview",
       heading: "Registry Preview Route",
       body:
-        '<p>Local preview of the static registry route. Source bundle: <code>packages/registry/generated</code>. External hosting at <code>registry.jami.studio</code> is still pending Cloudflare Pages and DNS setup.</p>',
+        '<p>Static registry route preview. Source bundle: <code>packages/registry/generated</code>. Cloudflare Pages preview deployment can serve these artifacts, but the custom domain <code>registry.jami.studio</code> is not claimed until DNS is attached and smoked.</p>',
     }),
   );
   emit(
@@ -117,8 +124,7 @@ export function build() {
   );
 
   const humanActions = [
-    "Provision Cloudflare Pages or equivalent Cloudflare static hosting for registry.jami.studio.",
-    "Create and validate DNS records for registry.jami.studio.",
+    "Attach and validate the registry.jami.studio Cloudflare Pages custom domain.",
     "Configure cache headers and revision policy for registry JSON artifacts.",
     "Run a clean-project install smoke against the live hosted registry URL after deployment.",
     "Decide and provision the hosted workbench/showcase app route before claiming public hosting.",
@@ -135,7 +141,7 @@ export function build() {
         id: "registry-index",
         kind: "registry",
         targetUrl: "https://registry.jami.studio/registry.json",
-        localArtifact: "registry/registry.json",
+        localArtifact: "registry.json",
         deployed: false,
       },
       {

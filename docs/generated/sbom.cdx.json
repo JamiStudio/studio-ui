@@ -88,7 +88,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "7e3ac76ff0c0a02e2263e5070e016851b96911822a336a4870a6f7d91dee10be"
+          "content": "d8d55c4165d4e6eed9fdb30533c40740a7bc5c925bc13b94003e326cdc636cd1"
         }
       ],
       "properties": [
@@ -98,7 +98,7 @@
         },
         {
           "name": "studio-ui:private",
-          "value": "true"
+          "value": "false"
         },
         {
           "name": "studio-ui:repository",
@@ -132,7 +132,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "f2c0cfc9ac87d2bbbb9e27173dd36082784f5c37f92bb098049f76558c6c26a3"
+          "content": "59b32c92809f3c4aa49f505bf6a0c194eded52b71b5840b7dc8c2877ad25a183"
         }
       ],
       "properties": [
@@ -142,7 +142,7 @@
         },
         {
           "name": "studio-ui:private",
-          "value": "true"
+          "value": "false"
         },
         {
           "name": "studio-ui:repository",
@@ -176,7 +176,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "ca2a74281558029719aea7f8191eee0c533855810535a9bb04f32b16718fbb45"
+          "content": "cd7dee321f502a33a1f4e03c59c7377ba15cb3c2ca0aafd92735fdc5bde1a3d9"
         }
       ],
       "properties": [
@@ -186,7 +186,7 @@
         },
         {
           "name": "studio-ui:private",
-          "value": "true"
+          "value": "false"
         },
         {
           "name": "studio-ui:repository",
@@ -220,7 +220,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "52dafc7e6f0e58baf60a98742fc6613ab2ca831ef781e6432756f2e894e9ca04"
+          "content": "4e906b9866a144cc4666991a64b2c198b6a32ff979b3a8bc802659708aa643f3"
         }
       ],
       "properties": [
@@ -230,7 +230,7 @@
         },
         {
           "name": "studio-ui:private",
-          "value": "true"
+          "value": "false"
         },
         {
           "name": "studio-ui:repository",
@@ -264,7 +264,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "6ef5057be77aeb449302ac842f42a1284e759f0f7b0df763acf7544677dcd2bc"
+          "content": "c2a6bff169033022393b882d479b75dcd806f070aefce6f97ac32e823bb453ef"
         }
       ],
       "properties": [
@@ -274,7 +274,7 @@
         },
         {
           "name": "studio-ui:private",
-          "value": "true"
+          "value": "false"
         },
         {
           "name": "studio-ui:repository",
@@ -613,6 +613,10 @@
     },
     {
       "name": "studio-ui:hosted-registry-claimed",
+      "value": "pages-dev-preview-only"
+    },
+    {
+      "name": "studio-ui:custom-registry-domain-claimed",
       "value": "false"
     },
     {

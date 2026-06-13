@@ -1,7 +1,7 @@
 # Release And Supply Chain
 
 Status: Foundation policy
-Last updated: 2026-06-09
+Last updated: 2026-06-13
 
 ## Purpose
 
@@ -19,15 +19,20 @@ current honest state; nothing has been published.
 3. Regenerate/check release artifacts from accepted source inputs:
    `pnpm release:artifacts:generate` writes `docs/generated/sbom.cdx.json` and
    `docs/generated/release-notes.md`; `pnpm release:artifacts:check` verifies
-   they have not drifted. `pnpm verify` includes the check.
+   they have not drifted. `pnpm release:packages:check` verifies publishable package
+   manifests, npm pack dry-runs, and a clean local tarball install. `pnpm verify`
+   includes these checks.
 4. Before any publish, satisfy the supply-chain gates below and the human/account
    actions in `docs/operations/registry-publishing.md`.
 5. Tag and publish only after the dry-run is `ready-to-stage`, the hosting/auth
    actions are resolved, and public claims map to evidence
    (`docs/operations/public-claims-evidence.md`).
 
-Versions are `0.0.0` across the workspace and all packages are `private: true`. No
-package or registry artifact has been published.
+Versions are `0.0.0` across the workspace. The five publishable `@jami-studio/*`
+package manifests have `files` allowlists and public npm `publishConfig`, but
+npm trusted-publisher setup failed closed with `E403`
+(`POST https://registry.npmjs.org/-/package/@jami-studio%2f*/trust`). No npm
+package artifact has been published.
 
 ## SBOM Policy
 
@@ -93,9 +98,13 @@ These require package-publish setup that is not done:
 
 - Local npm auth currently returns `jamesnavinhill`; that is operator access, not
   package publishing readiness.
-- The `@jami-studio` package scope/access policy is unconfirmed.
-- No trusted CI publish workflow exists; CI is manual `workflow_dispatch` fallback
-  only (`docs/operations/development-workflow.md`).
+- `npm org ls jami-studio --json` returns `jamesnavinhill: owner` and
+  `jamienavin: developer`, but `npm trust github ... --yes --json` fails with
+  npm `E403` for all five `@jami-studio/*` packages. Public package claims remain
+  blocked until that provider gate succeeds.
+- A manual GitHub Actions publish/attestation workflow exists at
+  `.github/workflows/release-packages.yml`, but the publish input remains
+  fail-closed until npm trust succeeds.
 
 Store any npm automation token in a host secret store, never in tracked files.
 

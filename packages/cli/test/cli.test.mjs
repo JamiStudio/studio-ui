@@ -370,11 +370,12 @@ test("provenance verifies installable theme and primitive content", () => {
   assert.ok(button.result.data.files.every((f) => f.state === "verified"));
 });
 
-test("remote registry is reported as unsupported, never silently empty", () => {
+test("non-https remote registry is rejected, never silently empty", () => {
   call("init");
-  const r = call("list", "--registry", "https://registry.jami.studio");
+  const r = call("list", "--registry", "http://registry.jami.studio");
   assert.equal(r.code, 1);
   assert.equal(r.result.status, "registry-unavailable");
+  assert.match(r.result.summary, /https/);
 });
 
 test("unknown item fails closed", () => {

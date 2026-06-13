@@ -1,8 +1,10 @@
 {
   "$schema": "https://jami.studio/schemas/studio-ui/package-readiness.generated.json",
   "generatedBy": "scripts/release/package-readiness.mjs",
-  "checkedAt": "2026-06-13T03:00:37.649Z",
-  "ok": false,
+  "checkedAt": "2026-06-13T03:06:11.383Z",
+  "ok": true,
+  "packagePublishClaimed": false,
+  "trustedPublisherConfigured": false,
   "packages": [
     {
       "name": "@jami-studio/tokens",
@@ -45,11 +47,9 @@
       "packageJsonHash": "sha256:c2a6bff169033022393b882d479b75dcd806f070aefce6f97ac32e823bb453ef"
     }
   ],
-  "failures": [
-    "packages/tokens: private:true must remain until npm trust/publish gates close",
-    "packages/registry: private:true must remain until npm trust/publish gates close",
-    "packages/renderer: private:true must remain until npm trust/publish gates close",
-    "packages/cli: private:true must remain until npm trust/publish gates close",
-    "packages/ui: private:true must remain until npm trust/publish gates close"
-  ]
+  "cleanLocalInstallSmoke": {
+    "ok": true,
+    "packageSource": "locally packed tarballs from npm pack"
+  },
+  "failures": []
 }

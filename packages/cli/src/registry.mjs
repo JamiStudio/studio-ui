@@ -5,10 +5,11 @@
 // default the CLI points at this repo's `packages/registry/generated` output, so
 // the install path operates on the real generated artifacts rather than a mock.
 //
-// Remote (`https://registry.jami.studio`) sources are NOT fetched here: there is
-// no network adapter yet. A remote spec resolves to an explicit unsupported
-// state with the exact local-path workaround, never a silent empty registry.
+// Remote (`https://...`) sources are fetched synchronously through a tiny Node
+// helper so the public CLI API can stay sync while hosted registry smokes still
+// exercise the real network path. Non-HTTPS registries fail closed.
 
+import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -23,21 +24,72 @@ function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
+function remoteRegistryUrl(location) {
+  let parsed;
+  try {
+    parsed = new URL(location);
+  } catch {
+    return { ok: false, reason: `Remote registry source is not a valid URL: ${location}` };
+  }
+  if (parsed.protocol !== "https:") {
+    return { ok: false, reason: "Remote registry sources must use https:// URLs." };
+  }
+  if (!parsed.pathname || parsed.pathname === "/") {
+    parsed.pathname = "/registry.json";
+  } else if (!parsed.pathname.endsWith(".json")) {
+    parsed.pathname = `${parsed.pathname.replace(/\/+$/, "")}/registry.json`;
+  }
+  parsed.search = "";
+  parsed.hash = "";
+  return { ok: true, url: parsed.toString() };
+}
+
+function fetchRemoteRegistry(location) {
+  const resolved = remoteRegistryUrl(location);
+  if (!resolved.ok) {
+    return {
+      ok: false,
+      kind: "remote",
+      location,
+      supported: false,
+      reason: resolved.reason,
+      items: new Map(),
+    };
+  }
+  const script = `
+    const response = await fetch(process.argv[1], { redirect: "follow" });
+    if (!response.ok) throw new Error(\`HTTP \${response.status} \${response.statusText}\`);
+    process.stdout.write(await response.text());
+  `;
+  let registry;
+  try {
+    registry = JSON.parse(execFileSync(process.execPath, ["--input-type=module", "-e", script, resolved.url], {
+      encoding: "utf8",
+      maxBuffer: 20 * 1024 * 1024,
+      windowsHide: true,
+    }));
+  } catch (error) {
+    return {
+      ok: false,
+      kind: "remote",
+      location,
+      supported: true,
+      reason: `Remote registry fetch failed for ${resolved.url}: ${error.message}`,
+      items: new Map(),
+    };
+  }
+  const items = new Map();
+  for (const item of registry.items ?? []) items.set(shortName(item.name), item);
+  return { ok: true, kind: "remote", location, supported: true, registry, items };
+}
+
 // Resolve a registry spec to a usable catalog or an explicit unsupported/error
 // state. Never throws for an expected-bad spec; the caller surfaces the state.
 export function loadRegistry(spec = defaultRegistrySpec) {
   const location = spec ?? defaultRegistrySpec;
 
   if (isRemoteRegistry(location)) {
-    return {
-      ok: false,
-      kind: "remote",
-      location,
-      supported: false,
-      reason:
-        "Remote registry fetch is not implemented yet. Point --registry at a local generated registry directory.",
-      items: new Map(),
-    };
+    return fetchRemoteRegistry(location);
   }
 
   const dir = isAbsolute(location) ? location : resolve(process.cwd(), location);

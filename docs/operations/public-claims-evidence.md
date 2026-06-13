@@ -1,7 +1,7 @@
 # Public Claims Evidence Map
 
 Status: Active
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 ## Purpose
 
@@ -36,8 +36,10 @@ in this table with live evidence, it is not safe to make publicly.
 | The workbench supports always-live local token edits, discard/rename/import/inspector state, offline/online local status, and deterministic local artifacts | local overlay state reducer + `node --test` gate | `pnpm --filter @jami-studio/workbench test` |
 | The workbench meets structural a11y + contrast targets | a11y/visual smoke report | `node apps/workbench/smoke/a11y-visual-smoke.mjs` |
 | The full gate passes | aggregate verify | `pnpm verify` |
+| Package contents are npm-pack ready but not published | package manifest gate, npm pack dry-runs, clean external tarball install | `pnpm release:packages:check` |
+| The static registry is live on the Cloudflare Pages preview hostname and supports remote CLI install | Pages deployment evidence and remote install smoke | `pnpm hosted:live:check -- --base-url https://studio-ui-registry.pages.dev --cloudflare-project studio-ui-registry --cloudflare-deployment-id 42662c6b-b615-41cb-add7-7569ce5a8bb1 --write-evidence docs/generated/hosted-live-smoke.json` |
 
-## Latest Evidence Snapshot (2026-06-12)
+## Latest Evidence Snapshot (2026-06-13)
 
 - `pnpm verify` — pass (exit 0), all stages green, including `registry:publish:check`.
 - `pnpm registry:publish:check` — `ready-to-stage`; 45 items (45 publishable now,
@@ -48,6 +50,13 @@ in this table with live evidence, it is not safe to make publicly.
 - `pnpm release:artifacts:check` — pass (exit 0); local SBOM and generated
   `.changes` rollup are in sync with source inputs. It publishes nothing and
   executes no attestation.
+- `pnpm release:packages:check` — pass (exit 0); five package dry-runs record
+  `sha512` npm pack integrities and the clean local tarball install smoke passed.
+- `pnpm hosted:live:check -- --base-url https://studio-ui-registry.pages.dev ...`
+  — pass (exit 0); Cloudflare Pages deployment
+  `42662c6b-b615-41cb-add7-7569ce5a8bb1`, 16 hosted routes fetched, 42 remote
+  CLI install graph items installed. `registry.jami.studio` custom domain remains
+  unclaimed.
 - `node apps/workbench/smoke/a11y-visual-smoke.mjs` — 14/14 structural a11y, 4/4
   contrast, 5/5 screenshots (Microsoft Edge). Output is gitignored under
   `apps/workbench/output/`.
@@ -58,8 +67,9 @@ in this table with live evidence, it is not safe to make publicly.
 These must not be stated as fact publicly until evidence exists (see
 `docs/operations/release-notes.md` "Not Yet Claimed"):
 
-- A live hosted registry at `registry.jami.studio` or any remote CLI install.
-- Any published npm package, or `@jami-studio` scope availability.
+- A live hosted registry at the `registry.jami.studio` custom domain.
+- Any published npm package. `npm trust github ... --yes --json` currently fails
+  with `E403` for all five `@jami-studio/*` packages.
 - A runtime React renderer, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests, local mounted React suite route artifacts, and local resident wrapper source exist, but no public hosted or full runtime suite application is deployed.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).

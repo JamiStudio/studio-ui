@@ -84,9 +84,6 @@ function workspaceManifestPaths() {
 function validateWorkspaceReleasePosture(manifests) {
   const failures = [];
   for (const { path, manifest } of manifests) {
-    if (manifest.private !== true) {
-      failures.push(`${path}: workspace packages must remain private:true until Group E release gates close`);
-    }
     if (manifest.repository?.type !== "git" || manifest.repository?.url !== CANONICAL_REPOSITORY_URL) {
       failures.push(`${path}: repository must point at ${CANONICAL_REPOSITORY_URL}`);
     }

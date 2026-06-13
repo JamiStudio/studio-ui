@@ -157,9 +157,9 @@ Nothing has been published. The generated notes do not claim a hosted registry, 
 
 ## Not Yet Claimed
 
-- No live hosted registry or remote CLI install.
+- No `registry.jami.studio` custom-domain registry endpoint.
 - No published npm packages or confirmed package-scope release.
-- No static-host publish action or DNS validation.
+- No package publish attestation or DNS validation for the custom registry domain.
 - No release attestation execution.
 - No hosted persistence, backend package registration, or harness runtime behavior in this repo.
 - No final brand canon.
