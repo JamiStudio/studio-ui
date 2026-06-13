@@ -1,6 +1,5 @@
 {
   "name": "@jami-studio/renderer",
-  "private": true,
   "version": "0.0.0",
   "description": "Studio UI minimal resident renderer and compatibility fixture foundations.",
   "license": "MIT",
@@ -14,6 +13,15 @@
   "exports": {
     ".": "./src/index.mjs",
     "./safe-payload": "./src/safe-payload.mjs"
+  },
+  "files": [
+    "src",
+    "schemas",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "test": "node --test test/render.test.mjs test/presentation.test.mjs",

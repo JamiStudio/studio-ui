@@ -1,6 +1,5 @@
 {
   "name": "@jami-studio/cli",
-  "private": true,
   "version": "0.0.0",
   "description": "Studio UI install/config CLI: registry-driven lifecycle for themes, primitives, and suite descriptors.",
   "license": "MIT",
@@ -16,6 +15,15 @@
   "main": "./src/index.mjs",
   "exports": {
     ".": "./src/index.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "test": "node --test test/cli.test.mjs"

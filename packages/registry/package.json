@@ -1,6 +1,5 @@
 {
   "name": "@jami-studio/registry",
-  "private": true,
   "version": "0.0.0",
   "description": "Studio UI registry item metadata and package graph contract fixtures.",
   "license": "MIT",
@@ -10,6 +9,19 @@
     "directory": "packages/registry"
   },
   "type": "module",
+  "exports": {
+    "./generated/*": "./generated/*",
+    "./fixtures/*": "./fixtures/*"
+  },
+  "files": [
+    "fixtures",
+    "generated",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "generate": "pnpm --dir ../.. contracts:generate",
     "test": "pnpm --dir ../.. contracts:check"

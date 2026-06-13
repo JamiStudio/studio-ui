@@ -1,7 +1,6 @@
 {
   "name": "@jami-studio/ui",
   "version": "0.0.0",
-  "private": true,
   "description": "Authored resident Studio UI primitive and component vocabulary.",
   "license": "MIT",
   "repository": {
@@ -19,6 +18,14 @@
     "./suites": "./src/suites.mjs",
     "./vocabulary": "./src/vocabulary.mjs",
     "./styles.css": "./src/styles.css"
+  },
+  "files": [
+    "src",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "test": "node --test test/ui.test.mjs test/radix-react-wrappers.test.mjs test/suites.test.mjs"

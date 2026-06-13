@@ -1,6 +1,5 @@
 {
   "name": "@jami-studio/tokens",
-  "private": true,
   "version": "0.0.0",
   "description": "DTCG-compatible Studio UI token contract fixtures and validation foundations.",
   "license": "MIT",
@@ -10,6 +9,19 @@
     "directory": "packages/tokens"
   },
   "type": "module",
+  "exports": {
+    "./generated/*": "./generated/*",
+    "./fixtures/*": "./fixtures/*"
+  },
+  "files": [
+    "fixtures",
+    "generated",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "generate": "pnpm --dir ../.. contracts:generate",
     "test": "pnpm --dir ../.. contracts:check"
