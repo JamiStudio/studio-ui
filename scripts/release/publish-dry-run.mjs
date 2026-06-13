@@ -289,7 +289,7 @@ const pending = items.filter((i) => i.sourceState !== "installable");
 
 // Actions a script cannot verify or perform; surfaced as honest reminders.
 const humanActions = [
-  "Deploy and smoke the hosted workbench/showcase and suite route artifacts before claiming hosted UI route acceptance.",
+  "Keep hosted workbench/showcase and suite preview route smoke current before changing hosted UI route claims.",
   "Implement hosted persistence/backend package registration before claiming cross-session save/register behavior.",
   "Define the revisioned-item URL policy for long-lived registry artifacts.",
   "Add the shadcn/Tailwind source-lock record before any public generated-source compatibility claim.",

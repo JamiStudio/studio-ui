@@ -127,10 +127,10 @@ Claimed" section is part of the notes, not an afterthought.
 - `pnpm hosted:live:check -- --base-url https://registry.jami.studio` fetches
   the registry and required docs routes, scans served bytes for secret-shaped
   content, and installs a theme, primitive, page, block, and all four suite roots
-  through the remote CLI path. It records the current 404s for workbench/showcase
-  and suite route URLs.
-- The workbench/showcase remains a local static surface. Hosted workbench routing,
-  hosted persistence, backend package registration, hosted suite runtime, and
+  through the remote CLI path. It also requires the hosted static
+  workbench/showcase route and a hosted suite preview route.
+- The workbench/showcase and generated suite previews are static hosted routes.
+  Hosted persistence, backend package registration, hosted suite runtime, and
   harness execution are not claimed.
 
 ## Verification
@@ -145,8 +145,8 @@ Microsoft Edge. This pass was verified on Node 24.16.0 via
 
 ## Not Yet Claimed
 
-- No runtime React renderer, hosted workbench/showcase route, hosted/persisted
-  workbench editing, backend package registration, and no hosted/full React suite runtime.
+- No runtime React renderer, hosted/persisted workbench editing, backend package
+  registration, and no hosted/full React suite runtime.
   Per-lane suite app/page/block implementation manifests are generated and installable,
   and local mounted React route artifacts exist; hosted runtime state is still not
   implemented.

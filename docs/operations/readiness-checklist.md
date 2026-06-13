@@ -46,8 +46,8 @@ setup before specific workstreams begin. It is an operations map, not a product 
   `@jami-studio/*@0.1.0` packages.
 - `pnpm hosted:live:check` exists and has passed against
   `https://registry.jami.studio`, including remote CLI install of a theme,
-  primitive, page, block, and all four suite roots. The generated evidence records
-  current 404s for the workbench/showcase and suite route URLs.
+  primitive, page, block, and all four suite roots. The same gate now requires
+  the hosted static workbench/showcase route and a hosted suite preview route.
 - GitHub release `studio-jami/studio-ui@v0.1.0` exists with
   `studio-ui-v0.1.0.tgz` and checksum assets.
 - `pnpm sbom:check` and `pnpm release:notes:check` exist for targeted checks.
@@ -110,12 +110,10 @@ setup before specific workstreams begin. It is an operations map, not a product 
 ## Missing Before Hosted Persistence/Backend Registration
 
 - A dependency-free static workbench exists under `apps/workbench`, with local
-  build, unit, and headless browser smoke coverage. It is not yet deployed at
-  `https://registry.jami.studio/`; that URL currently returns 404.
+  build, unit, headless browser smoke coverage, and a generated static route
+  deployed at `https://registry.jami.studio/`.
 - No hosted persistence or backend package-registration target is provisioned or
   linked in this repo.
-- Deploy and smoke hosted workbench/showcase plus suite routes before claiming
-  hosted UI route acceptance.
 - Add backend deployment runbook before any persisted save/register claim.
 - Add deployment env templates after hosted runtime requirements exist.
 

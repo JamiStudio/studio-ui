@@ -59,8 +59,8 @@ in this table with live evidence, it is not safe to make publicly.
   — pass (exit 0); required registry/docs routes fetched from the custom domain,
   registry `Content-Type` and `Cache-Control: public, max-age=300` checked, and
   the remote CLI installed a theme, primitive, page, block, and all four suite
-  roots from the hosted registry URL. The same evidence records current 404s for
-  the workbench/showcase and suite route URLs instead of claiming them.
+  roots from the hosted registry URL. The same evidence requires the hosted
+  static workbench/showcase route and a hosted suite preview route.
 - `gh release view v0.1.0 --repo studio-jami/studio-ui --json tagName,isDraft,isPrerelease,publishedAt,assets`
   — pass (exit 0); release `v0.1.0` is public and has `studio-ui-v0.1.0.tgz`
   plus `studio-ui-v0.1.0.tgz.sha256` assets.
@@ -74,7 +74,7 @@ in this table with live evidence, it is not safe to make publicly.
 These must not be stated as fact publicly until evidence exists (see
 `docs/operations/release-notes.md` "Not Yet Claimed"):
 
-- A runtime React renderer, hosted workbench/showcase route, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests, local mounted React suite route artifacts, and local resident wrapper source exist, but no public hosted workbench or suite runtime route is deployed.
+- A runtime React renderer, hosted/persisted workbench editing, backend package registration, or hosted/full React suite runtime. Generated app/page/block implementation manifests, local mounted React suite route artifacts, hosted static workbench/suite preview routes, and local resident wrapper source exist, but no hosted suite runtime or persisted backend is deployed.
 - Specific shadcn/Tailwind version compatibility of the generated source (gated on a
   source-lock record).
 - Hosted workbench save/register persistence or backend package registration.

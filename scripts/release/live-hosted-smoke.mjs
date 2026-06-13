@@ -33,9 +33,9 @@ const PUBLIC_ROUTE_CHECKS = [
   { id: "docs-index", path: "docs", kind: "docs", required: true },
   { id: "docs-quickstart", path: "docs/quickstart", kind: "docs", required: true },
   { id: "docs-registry", path: "docs/registry", kind: "docs", required: true },
-  { id: "workbench-showcase", path: "", kind: "workbench-showcase", required: false },
-  { id: "docs-workbench", path: "docs/workbench", kind: "docs", required: false },
-  { id: "solo-suite-app", path: "suites/solo/", kind: "suite-app", required: false },
+  { id: "workbench-showcase", path: "", kind: "workbench-showcase", required: true },
+  { id: "docs-workbench", path: "docs/workbench", kind: "docs", required: true },
+  { id: "solo-suite-app", path: "suites/solo/", kind: "suite-app", required: true },
 ];
 
 function fail(message) {
@@ -193,8 +193,8 @@ const evidence = {
   cloudflareProject: cloudflareProject ?? null,
   cloudflareDeploymentId: cloudflareDeploymentId ?? null,
   publicCustomDomainClaimed,
-  hostedWorkbenchClaimed: false,
-  hostedSuiteRoutesClaimed: false,
+  hostedWorkbenchClaimed: true,
+  hostedSuiteRoutesClaimed: true,
   hostedPersistenceClaimed: false,
   backendRegistrationClaimed: false,
   registryItems: registry?.items?.length ?? null,
@@ -222,4 +222,4 @@ console.log(`  base URL: ${base}`);
 console.log(`  hosted routes fetched: ${fetched.filter((entry) => entry.routeId).length}`);
 console.log(`  CLI installed items: ${cliInstall?.installedItems ?? 0}`);
 console.log(`  public custom domain claimed: ${publicCustomDomainClaimed}`);
-console.log("  hosted workbench/suite routes claimed: false");
+console.log("  hosted workbench/suite routes claimed: true");

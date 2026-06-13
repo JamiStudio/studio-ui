@@ -124,18 +124,17 @@ export function build() {
   );
 
   const humanActions = [
-    "Deploy and smoke the hosted workbench/showcase and suite route artifacts.",
     "Define revisioned-item URL policy for long-lived registry artifacts.",
     "Implement hosted persistence and backend package registration before claiming save/register across sessions.",
   ];
   const hostedRouteManifest = {
     $schema: "https://jami.studio/schemas/studio-ui/hosted-route-readiness.generated.json",
     generatedBy: "apps/workbench/build.mjs",
-    status: "public-registry-docs-live-workbench-preview",
+    status: "public-registry-docs-workbench-suites-live",
     publicRegistryClaimed: true,
     publicDocsClaimed: true,
-    publicWorkbenchClaimed: false,
-    publicSuiteRoutesClaimed: false,
+    publicWorkbenchClaimed: true,
+    publicSuiteRoutesClaimed: true,
     hostedPersistenceClaimed: false,
     backendRegistrationClaimed: false,
     targetHost: "registry.jami.studio",
@@ -160,14 +159,14 @@ export function build() {
         kind: "docs",
         targetUrl: "https://registry.jami.studio/docs/workbench",
         localArtifact: "docs/workbench.html",
-        deployed: false,
+        deployed: true,
       },
       {
         id: "workbench-showcase",
         kind: "workbench-showcase",
         targetUrl: "https://registry.jami.studio/",
         localArtifact: "index.html",
-        deployed: false,
+        deployed: true,
         hostedPersistence: false,
         backendRegistration: false,
       },
@@ -177,7 +176,7 @@ export function build() {
           kind: "suite-app",
           targetUrl: `https://registry.jami.studio/suites/${suite.lane}/`,
           localArtifact: suite.app.file,
-          deployed: false,
+          deployed: true,
           hostedRuntime: false,
         },
         ...suite.pages.map((page) => ({
@@ -186,7 +185,7 @@ export function build() {
           targetUrl: `https://registry.jami.studio/${page.file.replace(/index\.html$/, "")}`,
           localArtifact: page.file,
           sourceRoute: page.path,
-          deployed: false,
+          deployed: true,
           hostedRuntime: false,
         })),
       ]),

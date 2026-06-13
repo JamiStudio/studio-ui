@@ -354,11 +354,13 @@ Build the full Jami.Studio Studio UI foundation: an owned shadcn-compatible regi
   content type and public cache headers; `pnpm hosted:live:check -- --base-url
   https://registry.jami.studio` fetches hosted registry/docs routes and installs
   a theme, primitive, page, block, and all four suite roots through the remote
-  CLI. The same evidence records current 404s for workbench/showcase and suite
-  route URLs. The CLI also accepts `--registry-url` as an alias for the documented
-  `--registry` flag. Hosted workbench/showcase routing, hosted
-  persistence/backend registration, hosted suite runtime, harness execution,
-  final brand canon, and final acceptance remain open and unclaimed.
+  CLI. The public Cloudflare Pages route now also hosts the static
+  workbench/showcase route and generated suite preview routes at
+  `https://registry.jami.studio/` and `https://registry.jami.studio/suites/*`.
+  The CLI also accepts `--registry-url` as an alias for the documented
+  `--registry` flag. Hosted persistence/backend registration, hosted suite
+  runtime, harness execution, final brand canon, and final acceptance remain
+  open and unclaimed.
 
 - 2026-06-12 reorientation: this roadmap is now aligned to the registry-root
   end-to-end completion roadmap at

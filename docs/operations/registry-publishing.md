@@ -123,7 +123,7 @@ The following actions are **not** done:
 - [ ] Add a repo-local shadcn/Tailwind source-lock record before any public
       generated-source compatibility claim (`docs/operations/source-lock-records.md`).
 - [ ] Define the revisioned-item-URL policy in the registry lifecycle doc.
-- [ ] Deploy and smoke the hosted workbench/showcase and suite route artifacts.
+- [x] Deploy and smoke the hosted workbench/showcase and suite preview route artifacts.
 - [ ] Implement hosted persistence/backend package registration before claiming
       cross-session workbench save/register behavior.
 - [x] Add a clean-project install smoke against the live hosted URL. The live smoke
@@ -138,8 +138,9 @@ Do not write Cloudflare, npm, or DNS tokens into tracked files.
 
 ## Not Yet Claimed
 
-Hosted workbench/showcase routes, hosted persistence, backend registration, and
-hosted suite runtime are not claimed. No revisioned-item URL policy is finalized.
+Hosted static workbench/showcase and suite preview routes are claimed. Hosted
+persistence, backend registration, and hosted suite runtime are not claimed. No
+revisioned-item URL policy is finalized.
 Public generated-source compatibility with specific shadcn/Tailwind versions
 stays gated on source-lock records.
 
