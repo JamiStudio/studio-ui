@@ -1,7 +1,7 @@
 {
   "name": "@jami-studio/workbench",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Studio UI workbench showcase: a dependency-free static browser surface over the generated token theme, registry/suite descriptors, resident renderer, and workbench presentation seam.",
   "license": "MIT",
   "repository": {

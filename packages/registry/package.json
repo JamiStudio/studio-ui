@@ -1,6 +1,6 @@
 {
   "name": "@jami-studio/registry",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Studio UI registry item metadata and package graph contract fixtures.",
   "license": "MIT",
   "repository": {

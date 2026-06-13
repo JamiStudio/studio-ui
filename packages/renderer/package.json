@@ -1,6 +1,6 @@
 {
   "name": "@jami-studio/renderer",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Studio UI minimal resident renderer and compatibility fixture foundations.",
   "license": "MIT",
   "repository": {

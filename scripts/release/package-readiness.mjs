@@ -17,6 +17,7 @@ const publishablePackageDirs = [
 ];
 
 const expectedRepository = "git+https://github.com/studio-jami/studio-ui.git";
+const expectedPackageVersion = "0.1.0";
 const failures = [];
 
 function valueFor(flag) {
@@ -117,7 +118,7 @@ function scanPackedFiles(packageDir, manifest, pack) {
 
 function validateManifest(packageDir, manifest) {
   if (!manifest.name?.startsWith("@jami-studio/")) fail(`${packageDir}: package name must use @jami-studio scope`);
-  if (manifest.version !== "0.0.0") fail(`${packageDir}: expected unreleased version 0.0.0`);
+  if (manifest.version !== expectedPackageVersion) fail(`${packageDir}: expected release version ${expectedPackageVersion}`);
   if (manifest.license !== "MIT") fail(`${packageDir}: expected MIT license`);
   if (manifest.repository?.url !== expectedRepository) fail(`${packageDir}: repository URL drifted`);
   if (manifest.repository?.directory !== packageDir) fail(`${packageDir}: repository.directory must be ${packageDir}`);

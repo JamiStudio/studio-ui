@@ -8,10 +8,10 @@
       "type": "application",
       "bom-ref": "studio-ui:workspace:root",
       "name": "studio-ui",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "Jami.Studio UI foundation: token system, primitive registry, workbench overlay, CLI, renderer, and suite packs.",
       "scope": "required",
-      "purl": "pkg:npm/studio-ui@0.0.0",
+      "purl": "pkg:npm/studio-ui@0.1.0",
       "licenses": [
         {
           "license": {
@@ -22,7 +22,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "ea852d6926db611569171c9cd520abec7d15a8a62e0c08cdf3d5c35c2b9922fb"
+          "content": "05c51e80252513de26c06b04d7ba10c5f629e825a3c872aa7993fb0b865f0bfc"
         }
       ],
       "properties": [
@@ -74,10 +74,10 @@
       "type": "library",
       "bom-ref": "studio-ui:workspace:@jami-studio/cli",
       "name": "@jami-studio/cli",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "Studio UI install/config CLI: registry-driven lifecycle for themes, primitives, and suite descriptors.",
       "scope": "required",
-      "purl": "pkg:npm/%40jami-studio/cli@0.0.0",
+      "purl": "pkg:npm/%40jami-studio/cli@0.1.0",
       "licenses": [
         {
           "license": {
@@ -88,7 +88,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "d8d55c4165d4e6eed9fdb30533c40740a7bc5c925bc13b94003e326cdc636cd1"
+          "content": "2fc148a0f6740bc0ae81640f0b578bd5edca99a014045c12d7d561dfe4b5fac3"
         }
       ],
       "properties": [
@@ -118,10 +118,10 @@
       "type": "library",
       "bom-ref": "studio-ui:workspace:@jami-studio/registry",
       "name": "@jami-studio/registry",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "Studio UI registry item metadata and package graph contract fixtures.",
       "scope": "required",
-      "purl": "pkg:npm/%40jami-studio/registry@0.0.0",
+      "purl": "pkg:npm/%40jami-studio/registry@0.1.0",
       "licenses": [
         {
           "license": {
@@ -132,7 +132,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "59b32c92809f3c4aa49f505bf6a0c194eded52b71b5840b7dc8c2877ad25a183"
+          "content": "a4668f1f9f49faab2f302ec5ccc419c2412e7c080a5582777a1a0acf496d7268"
         }
       ],
       "properties": [
@@ -162,10 +162,10 @@
       "type": "library",
       "bom-ref": "studio-ui:workspace:@jami-studio/renderer",
       "name": "@jami-studio/renderer",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "Studio UI minimal resident renderer and compatibility fixture foundations.",
       "scope": "required",
-      "purl": "pkg:npm/%40jami-studio/renderer@0.0.0",
+      "purl": "pkg:npm/%40jami-studio/renderer@0.1.0",
       "licenses": [
         {
           "license": {
@@ -176,7 +176,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "cd7dee321f502a33a1f4e03c59c7377ba15cb3c2ca0aafd92735fdc5bde1a3d9"
+          "content": "2585a1940f6d6e063d350d6de88f2758f07725ff43b4182c4132c627f76e970d"
         }
       ],
       "properties": [
@@ -206,10 +206,10 @@
       "type": "library",
       "bom-ref": "studio-ui:workspace:@jami-studio/tokens",
       "name": "@jami-studio/tokens",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "DTCG-compatible Studio UI token contract fixtures and validation foundations.",
       "scope": "required",
-      "purl": "pkg:npm/%40jami-studio/tokens@0.0.0",
+      "purl": "pkg:npm/%40jami-studio/tokens@0.1.0",
       "licenses": [
         {
           "license": {
@@ -220,7 +220,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "4e906b9866a144cc4666991a64b2c198b6a32ff979b3a8bc802659708aa643f3"
+          "content": "51f4df9fdf74b0427e8d6ba313158ae5d145bc5c36d6f71db1139d31b8db073d"
         }
       ],
       "properties": [
@@ -250,10 +250,10 @@
       "type": "library",
       "bom-ref": "studio-ui:workspace:@jami-studio/ui",
       "name": "@jami-studio/ui",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "Authored resident Studio UI primitive and component vocabulary.",
       "scope": "required",
-      "purl": "pkg:npm/%40jami-studio/ui@0.0.0",
+      "purl": "pkg:npm/%40jami-studio/ui@0.1.0",
       "licenses": [
         {
           "license": {
@@ -264,7 +264,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "c2a6bff169033022393b882d479b75dcd806f070aefce6f97ac32e823bb453ef"
+          "content": "6dec9ebfacadb61d73b35ad8c73b1a94b8a75745562f96cfead054377e9652a5"
         }
       ],
       "properties": [
@@ -294,10 +294,10 @@
       "type": "application",
       "bom-ref": "studio-ui:workspace:@jami-studio/workbench",
       "name": "@jami-studio/workbench",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "Studio UI workbench showcase: a dependency-free static browser surface over the generated token theme, registry/suite descriptors, resident renderer, and workbench presentation seam.",
       "scope": "required",
-      "purl": "pkg:npm/%40jami-studio/workbench@0.0.0",
+      "purl": "pkg:npm/%40jami-studio/workbench@0.1.0",
       "licenses": [
         {
           "license": {
@@ -308,7 +308,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "f12b6d9f319deeb71ef1208bd63e5106830121f16942c8ee2730b8ed7990b058"
+          "content": "8fdb3e0011fe35c4df1e410fbce65d30ae4fed9edfc911d7b818a42cea2a3fac"
         }
       ],
       "properties": [

@@ -1,7 +1,7 @@
 {
   "name": "studio-ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Jami.Studio UI foundation: token system, primitive registry, workbench overlay, CLI, renderer, and suite packs.",
   "license": "MIT",
   "repository": {
